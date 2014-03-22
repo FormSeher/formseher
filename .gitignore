@@ -1,4 +1,8 @@
-/Debug
-/.project
-/.cproject
-/.settings
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+formseher
+*.sublime-project
+*.sublime-workspace
+vendor/gtest
