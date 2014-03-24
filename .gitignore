@@ -10,3 +10,5 @@ formseher
 *.sublime-project
 *.sublime-workspace
 vendor/gtest
+bin/
+lib/
