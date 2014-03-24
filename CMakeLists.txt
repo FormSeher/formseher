@@ -3,6 +3,9 @@ project(formseher)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS "-std=c++11 -g")
 
+set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(BINARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+
 # include(ExternalProject)
 # ExternalProject_Add(
 # 	gtest_EXTERNAL_PROJECT
@@ -14,8 +17,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11 -g")
 # 	LOG_INSTALL 0
 # )
 
-# include_directories( ./vendor/gtest/src/gtest_EXTERNAL_PROJECT/include )
-# link_directories( ${PROJECT_SOURE_DIR}/vendor/gtest/src/gtest_EXTERNAL_PROJECT-build )
+add_subdirectory( ./vendor/lsd )
 
 find_package( OpenCV REQUIRED )
 
@@ -24,8 +26,10 @@ set(
 	src/main.cpp
 )
 
-include_directories( ./include )
-
+include_directories(./include)
+include_directories(./vendor/lsd/include)
+link_directories(${LIBRARY_OUTPUT_PATH})
 
 add_executable(formseher ${SOURCES})
-target_link_libraries(formseher gtest pthread ${OpenCV_LIBS})
+add_dependencies(formseher lsd)
+target_link_libraries(formseher lsd gtest pthread ${OpenCV_LIBS})
