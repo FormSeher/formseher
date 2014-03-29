@@ -32,4 +32,4 @@ link_directories(${LIBRARY_OUTPUT_PATH})
 
 add_executable(formseher ${SOURCES})
 add_dependencies(formseher lsd)
-target_link_libraries(formseher lsd gtest pthread ${OpenCV_LIBS})
+target_link_libraries(formseher lsd pthread ${OpenCV_LIBS})
