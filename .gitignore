@@ -13,3 +13,4 @@ vendor/gtest
 bin/
 lib/
 doc/html
+*.pro.user*
