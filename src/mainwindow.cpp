@@ -12,3 +12,14 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+bool MainWindow::addAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog *dialog)
+{
+    if(algorithmConfigDialogs.find(id) == algorithmConfigDialogs.end())
+    {
+        return false;
+    }
+
+    algorithmConfigDialogs[id] = dialog;
+    return true;
+}
