@@ -29,6 +29,11 @@ std::vector<Line*>& Algorithm::getResult()
     return result;
 }
 
+double Algorithm::getCoputationTime()
+{
+    return computationTime;
+}
+
 void Algorithm::setInput(std::string filePath)
 {
     inputFilePath = filePath;
@@ -37,4 +42,9 @@ void Algorithm::setInput(std::string filePath)
 void Algorithm::changedConfig()
 {
     configChanged = true;
+}
+
+void Algorithm::setComputationTime(double computationTime)
+{
+    this->computationTime = computationTime;
 }

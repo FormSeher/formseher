@@ -53,6 +53,12 @@ public:
     std::vector<Line*>& getResult();
 
     /**
+     * @brief Get the time the algorithm took to compute its result.
+     * @return The elapsed time.
+     */
+    double getCoputationTime();
+
+    /**
      * @brief Set the path to a file which is processed by calculate().
      * @param filePath Filepath of an image file.
      */
@@ -68,12 +74,19 @@ protected:
      */
     void changedConfig();
 
+    /**
+     * @brief Set the time the algorithm took to compute its result.
+     */
+    void setComputationTime(double computationTime);
+
 private:
     bool configChanged;
 
     std::vector<Line*> result;
 
     std::string inputFilePath;
+
+    double computationTime;
 };
 
 #endif // ALGORITHM_H
