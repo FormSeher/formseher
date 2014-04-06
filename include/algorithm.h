@@ -2,6 +2,7 @@
 #define ALGORITHM_H
 
 #include <vector>
+#include <string>
 
 class Line;
 
@@ -17,6 +18,8 @@ public:
 
     std::vector<Line*>& getResult();
 
+    void setInput(std::string filePath);
+
 protected:
     void changedConfig();
 
@@ -24,6 +27,8 @@ private:
     bool configChanged;
 
     std::vector<Line*> result;
+
+    std::string inputFilePath;
 };
 
 #endif // ALGORITHM_H

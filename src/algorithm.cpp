@@ -29,6 +29,11 @@ std::vector<Line*>& Algorithm::getResult()
     return result;
 }
 
+void Algorithm::setInput(std::string filePath)
+{
+    inputFilePath = filePath;
+}
+
 void Algorithm::changedConfig()
 {
     configChanged = true;
