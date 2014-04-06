@@ -19,11 +19,21 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    /**
+     * @brief Adds an AlgorithmConfigDialog to the MainWindow.
+     * @param id Id which can be used to identify the algorithm inside the MainWindow.
+     * @param dialog Pointer to an AlgorithmConfigDialog.
+     * @return True if algorithm was added, false if there is already an algorithm
+     * registered with the given id.
+     */
     bool addAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog* dialog);
 
 private:
     Ui::MainWindow *ui;
 
+    /**
+     * @brief Holds ID -> AlgorithmConfigDialog-Pointer pairs.
+     */
     std::map<std::string, AlgorithmConfigDialog*> algorithmConfigDialogs;
 };
 
