@@ -20,3 +20,7 @@ SOURCES += src/main.cpp\
 HEADERS  += include/mainwindow.h
 
 FORMS    += form/mainwindow.ui
+
+LIBS += -lopencv_core\
+     -lopencv_imgproc\
+     -lopencv_highgui
