@@ -15,9 +15,11 @@ INCLUDEPATH += ./include
 
 
 SOURCES += src/main.cpp\
-        src/mainwindow.cpp
+        src/mainwindow.cpp \
+        src/algorithmconfigdialog.cpp
 
-HEADERS  += include/mainwindow.h
+HEADERS  += include/mainwindow.h \
+        include/algorithmconfigdialog.h
 
 FORMS    += form/mainwindow.ui
 
