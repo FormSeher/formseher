@@ -15,6 +15,11 @@ public:
     bool startThreaded();
     void run();
 
+    std::vector<Line*>& getResult();
+
+protected:
+    void changedConfig();
+
 private:
     bool configChanged;
 
