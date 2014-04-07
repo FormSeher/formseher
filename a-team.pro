@@ -25,7 +25,7 @@ TARGET = a-team
 #INCLUDEPATH += ./include braucht man noch?!?!?!
 
 #include projekt subdirs
-SUBDIRS += src test include
+SUBDIRS += src test include form
 
 #add project sources
 SOURCES += main.cpp line.cpp algorithm.cpp mainwindow.cpp algorithmconfigdialog.cpp
@@ -34,7 +34,7 @@ SOURCES += main.cpp line.cpp algorithm.cpp mainwindow.cpp algorithmconfigdialog.
 HEADERS  += mainwindow.h line.h algorithm.h algorithmconfigdialog.h
 
 #add projekt form
-FORMS    += form/mainwindow.ui
+FORMS    += mainwindow.ui
 
 #add opencv paths
 INCLUDEPATH += OPENCV_DIR_INCLUDE
