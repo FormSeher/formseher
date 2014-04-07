@@ -36,6 +36,7 @@ HEADERS  += mainwindow.h line.h algorithm.h algorithmconfigdialog.h
 #add projekt form
 FORMS    += mainwindow.ui
 
+#bartosch can you read thisss!!!!
 #add opencv paths
 INCLUDEPATH += $(OPENCV_DIR_INCLUDE)
 LIBS += -L$(OPENCV_DIR_LIB)
