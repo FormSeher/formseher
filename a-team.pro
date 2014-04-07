@@ -37,8 +37,8 @@ HEADERS  += mainwindow.h line.h algorithm.h algorithmconfigdialog.h
 FORMS    += mainwindow.ui
 
 #add opencv paths
-INCLUDEPATH += OPENCV_DIR_INCLUDE
-LIBS += -LOPENCV_DIR_LIB
+INCLUDEPATH += $(OPENCV_DIR_INCLUDE)
+LIBS += -L$(OPENCV_DIR_LIB)
 
 #make debug available
 CONFIG += debug
