@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <thread>
 
 class Line;
 
@@ -18,6 +19,11 @@ public:
      * @brief Standard ctor
      */
     Algorithm();
+
+    /**
+     * @brief Standard dtor
+     */
+    virtual ~Algorithm();
 
     /**
      * @brief Run the algorithm once.
@@ -36,6 +42,12 @@ public:
      * @return True when thread creation was successful, false otherwise.
      */
     bool startThreaded();
+
+    /**
+     * @brief Stops the thread.
+     * Stop the thread and wait until it is finished. Destroys the thread afterwards.
+     */
+    void stopThreaded();
 
     /**
      * @brief Runs the algorithm in a loop.
@@ -87,6 +99,9 @@ private:
     std::string inputFilePath;
 
     double computationTime;
+
+    std::thread* thread;
+    bool stopThread;
 };
 
 #endif // ALGORITHM_H

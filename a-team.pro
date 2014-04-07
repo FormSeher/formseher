@@ -11,6 +11,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+QMAKE_CXXFLAGS += -std=c++11
+
 TEMPLATE = app
 TARGET = formseher
 DESTDIR = bin
@@ -65,6 +67,6 @@ test {
     SOURCES -= src/main.cpp
 
     SOURCES += test/main.cpp
-    HEADERS += test/mytest.h\
+    HEADERS += test/algorithmtest.h\
             test/mysecondtest.h
 }

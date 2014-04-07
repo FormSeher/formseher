@@ -2,20 +2,49 @@
 
 #include "line.h"
 
+#include <iostream>
+
 Algorithm::Algorithm()
-    : configChanged(true)
+    : configChanged(true),
+      thread(0),
+      stopThread(false)
 {
+}
+
+Algorithm::~Algorithm()
+{
+    stopThreaded();
 }
 
 bool Algorithm::startThreaded()
 {
+    if(thread != 0)
+    {
+        return false;
+    }
+
+    stopThread = false;
+    thread = new std::thread(&Algorithm::run, this);
     return true;
+}
+
+void Algorithm::stopThreaded()
+{
+    if(thread == 0)
+    {
+        return;
+    }
+
+    stopThread = true;
+    thread->join();
+    delete thread;
+    thread = 0;
 }
 
 void Algorithm::run()
 {
     // TODO: Stub implementation only. Improve wait condition!
-    while(true)
+    while(!stopThread)
     {
         if(configChanged)
         {
