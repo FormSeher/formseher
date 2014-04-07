@@ -18,7 +18,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #lets build an app instead of a "lib"
 TEMPLATE = app
 
-#specify the target filename and dir
+#specify the target filename
 TARGET = a-team
 
 #include the path from the project
