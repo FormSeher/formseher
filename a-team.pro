@@ -63,7 +63,7 @@ LIBS += -lopencv_core\
 #-----------------------------------------------
 test {
     QT += testlib
-    TARGET = bin/test
+    TARGET = test
     CONFIG += testcase
     SOURCES -= src/main.cpp
 
