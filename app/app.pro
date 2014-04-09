@@ -16,7 +16,7 @@ TARGET = formseher
 DESTDIR = bin
 
 SOURCES += $${APP_SRC_DIR}/main.cpp \
-        $${APP_SRC_DIR}/mainwindow.cpp
+           $${APP_SRC_DIR}/mainwindow.cpp
 
 HEADERS  += $${APP_INCL_DIR}/mainwindow.h
 

@@ -15,3 +15,4 @@ TEMPLATE = app
 
 SOURCES += tst_testtest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
+
