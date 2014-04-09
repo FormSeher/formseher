@@ -15,9 +15,11 @@ LIBS += -L$(OPENCV_DIR_LIB)
 
 DEFINES += ALGORITHMS_LIBRARY
 
-SOURCES += $${ALG_SRC_DIR}/algorithms.cpp
+SOURCES += $${ALG_SRC_DIR}/algorithms.cpp \
+    pictureprepare.cpp
 
-HEADERS += $${ALG_INCL_DIR}/algorithms.h
+HEADERS += $${ALG_INCL_DIR}/algorithms.h \
+    pictureprepare.h
 
 INCLUDEPATH += $${ALG_INCL_DIR} $(OPENCV_DIR_INCLUDE)
 message($$INCLUDEPATH)
