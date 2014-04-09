@@ -1,27 +1,11 @@
-#ifndef PICTUREPREPARE_H
-#define PICTUREPREPARE_H
+#ifndef ALGORITHMS_H
+#define ALGORITHMS_H
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <iostream>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <stdlib.h>
-#include <stdio.h>
-
-using namespace cv;
-using namespace std;
-
-class PicturePrepare
+class Algorithms
 {
 public:
-    PicturePrepare();
-    PicturePrepare(Mat src);
-
-    Mat startPreparePicture();
-
-private:
-    Mat m_srcPic;
-
+    Algorithms();
 };
 
-#endif // PICTUREPREPARE_H
+#endif // ALGORITHMS_H
+
