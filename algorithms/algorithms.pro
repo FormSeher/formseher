@@ -22,14 +22,14 @@ HEADERS += $${ALG_INCL_DIR}/algorithms.h \
     $${ALG_INCL_DIR}/picprepare.h
 
 INCLUDEPATH += $${ALG_INCL_DIR}
-INCLUDEPATH += $(OPENCV_DIR_INCLUDE)
 
-LIBS += -L$(OPENCV_DIR_LIB)
 
 #-------------------------------------------------
 #               win32 specifics
 #-------------------------------------------------
 win32{
+INCLUDEPATH += $(OPENCV_DIR_INCLUDE)
+LIBS += -L$(OPENCV_DIR_LIB)
 LIBS += -llibopencv_core248 -llibopencv_imgproc248
 }
 #-------------------------------------------------
