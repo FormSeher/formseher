@@ -6,7 +6,7 @@
 
 
 #-------------------------------------------------
-# General Qmake settings
+#               General Qmake settings
 #-------------------------------------------------
 include(../global.pri)
 QT       += core gui
@@ -22,14 +22,16 @@ HEADERS  += $${APP_INCL_DIR}/mainwindow.h
 
 FORMS    += $${APP_FORM_DIR}/mainwindow.ui
 
+INCLUDEPATH += $${APP_INCL_DIR}
+
 #-------------------------------------------------
-# win32 specifics
+#               win32 specifics
 #-------------------------------------------------
 win32{
 }
 
 #-------------------------------------------------
-# Linux/Unix specifics
+#               Linux/Unix specifics
 #-------------------------------------------------
 unix{
 }

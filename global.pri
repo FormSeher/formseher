@@ -13,7 +13,7 @@ ALG_INCL_DIR = $${ALG_DIR}/include
 APP_INCL_DIR = $${APP_DIR}/include
 
 #form dir
-$$(APP_FORM_DIR) = $${APP_DIR}/form
+APP_FORM_DIR = $${APP_DIR}/form
 
 
 #LIB_DIR = $${ROOT_DIRECTORY}/lib

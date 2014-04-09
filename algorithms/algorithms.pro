@@ -6,7 +6,7 @@
 include(../global.pri)
 QT       -= core gui
 
-TARGET = algorithms
+TARGET = algorithms01
 TEMPLATE = lib
 VERSION = 0.1
 
@@ -17,7 +17,7 @@ SOURCES += $${ALG_SRC_DIR}/algorithms.cpp
 HEADERS += $${ALG_INCL_DIR}/algorithms.h \
         $${ALG_INCL_DIR}/algorithms_global.h
 
-INCLUDEPATH += $(OPENCV_DIR_INCLUDE)
+INCLUDEPATH += $(OPENCV_DIR_INCLUDE) $${ALG_INCL_DIR}
 LIBS += -L$(OPENCV_DIR_LIB)
 
 #-------------------------------------------------
