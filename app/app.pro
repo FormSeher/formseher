@@ -16,9 +16,11 @@ TARGET = formseher
 DESTDIR = bin
 
 SOURCES += $${APP_SRC_DIR}/main.cpp \
-           $${APP_SRC_DIR}/mainwindow.cpp
+           $${APP_SRC_DIR}/mainwindow.cpp \
+           $${APP_SRC_DIR}/algorithmconfigdialog.cpp
 
-HEADERS  += $${APP_INCL_DIR}/mainwindow.h
+HEADERS  += $${APP_INCL_DIR}/mainwindow.h \
+            $${APP_INCL_DIR}/algorithmconfigdialog.h
 
 FORMS    += $${APP_FORM_DIR}/mainwindow.ui
 
