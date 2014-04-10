@@ -18,6 +18,9 @@ ALG_INCL_DIR = $${ALG_DIR}/include
 APP_INCL_DIR = $${APP_DIR}/include
 TEST_INCL_DIR = $${TEST_DIR}/include
 
+# output path for algorithms library
+ALG_BIN_DIR = $${ALG_DIR}/lib
+
 #form dir directories
 APP_FORM_DIR = $${APP_DIR}/form
 

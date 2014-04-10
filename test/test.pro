@@ -9,6 +9,7 @@ QT       += widgets testlib
 TARGET = test
 CONFIG   += console
 CONFIG   -= app_bundle
+DESTDIR = bin
 
 TEMPLATE = app
 
@@ -21,5 +22,5 @@ HEADERS += $${TEST_INCL_DIR}/algorithmtest.h
 INCLUDEPATH += $${TEST_INCL_DIR} \
                $${ALG_INCL_DIR}
 
-LIBS += -L ../algorithms -lalgorithms01
+LIBS += -L $${ALG_BIN_DIR} -lalgorithms01
 
