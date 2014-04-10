@@ -14,12 +14,10 @@ TEMPLATE = app
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-SOURCES += \
-    src/main.cpp
+SOURCES += $${TEST_SRC_DIR}/main.cpp
 
-HEADERS += \
-    include/algorithmtest.h
+HEADERS += $${TEST_INCL_DIR}/algorithmtest.h
 
-INCLUDEPATH += include \
+INCLUDEPATH += $${TEST_INCL_DIR} \
                $${ALG_INCL_DIR}
 
