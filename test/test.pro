@@ -21,3 +21,5 @@ HEADERS += $${TEST_INCL_DIR}/algorithmtest.h
 INCLUDEPATH += $${TEST_INCL_DIR} \
                $${ALG_INCL_DIR}
 
+LIBS += -L ../algorithms -lalgorithms01
+

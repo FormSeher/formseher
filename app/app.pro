@@ -26,6 +26,8 @@ FORMS    += $${APP_FORM_DIR}/mainwindow.ui
 
 INCLUDEPATH += $${APP_INCL_DIR}
 
+LIBS += -L ../algorithms -lalgorithms01
+
 #-------------------------------------------------
 #               win32 specifics
 #-------------------------------------------------
