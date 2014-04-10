@@ -23,22 +23,22 @@ class AlgorithmTest : public QObject
 private slots:
     void initTestCase()
     {
-//        algorithm = new AlgorithmStub();
+        algorithm = new AlgorithmStub();
     }
 
     void startThreadedTest()
     {
-//        QVERIFY(true == algorithm->startThreaded());
+        QVERIFY(true == algorithm->startThreaded());
     }
 
     void stopThreadedTest()
     {
-//        algorithm->stopThreaded();
+        algorithm->stopThreaded();
     }
 
     void cleanupTestCase()
     {
-//        delete algorithm;
+        delete algorithm;
     }
 
 private:
