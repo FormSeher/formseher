@@ -96,11 +96,14 @@ void Algorithm::setResult(std::vector<Line*>* result, double computationTime)
     resultMutex.lock();
 
     // Delete the old result
-    for(auto iterator : *this->result)
+    if(this->result != 0)
     {
-        delete iterator;
+        for(auto iterator : *this->result)
+        {
+            delete iterator;
+        }
+        delete this->result;
     }
-    delete this->result;
 
     this->result = result;
     this->computationTime = computationTime;
