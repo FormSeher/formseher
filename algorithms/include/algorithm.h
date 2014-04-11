@@ -88,14 +88,17 @@ protected:
      */
     void setResult(std::vector<Line*>* result, double computationTime);
 
-    std::mutex configChangedMutex;
     std::mutex configVariablesMutex;
+
+
+private:
     std::mutex resultMutex;
+
+    std::mutex configChangedMutex;
 
     std::condition_variable configChangedCondition;
     std::mutex configConditionMutex;
 
-private:
     bool configChanged;
 
     std::vector<Line*>* result;
