@@ -81,7 +81,10 @@ double Algorithm::getComputationTime()
 
 void Algorithm::setInput(std::string filePath)
 {
+    configVariablesMutex.lock();
     inputFilePath = filePath;
+    setConfigChanged(true);
+    configVariablesMutex.unlock();
 }
 
 void Algorithm::setConfigChanged(bool configChanged)
