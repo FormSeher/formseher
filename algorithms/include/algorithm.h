@@ -79,14 +79,7 @@ public:
     void setInput(std::string filePath);
 
 protected:
-    /**
-     * @brief Notify the algorithm that configuration changed.
-     *
-     * Call this method after an attribute changed which (e.g. via setter). This
-     * makes the run() method to notify the change and re-execute calculate() when
-     * the algorithm is executed via run().
-     */
-    void changedConfig();
+    void setConfigChanged(bool configChanged);
 
     /**
      * @brief Set the time the algorithm took to compute its result.

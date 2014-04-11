@@ -73,9 +73,11 @@ void Algorithm::setInput(std::string filePath)
     inputFilePath = filePath;
 }
 
-void Algorithm::changedConfig()
+void Algorithm::setConfigChanged(bool configChanged)
 {
-    configChanged = true;
+    configChangedMutex.lock();
+    this->configChanged = configChanged;
+    configChangedMutex.unlock();
 }
 
 void Algorithm::setComputationTime(double computationTime)
