@@ -64,7 +64,7 @@ public:
      * @brief Get the result of the last calculate() execution.
      * @return Result of last calculate() execution.
      */
-    std::vector<Line*>& getResult();
+    std::vector<Line*>* getResult();
 
     /**
      * @brief Get the time the algorithm took to compute its result.
@@ -98,7 +98,7 @@ protected:
 private:
     bool configChanged;
 
-    std::vector<Line*> result;
+    std::vector<Line*>* result;
 
     std::string inputFilePath;
 

@@ -58,9 +58,20 @@ void Algorithm::run()
     }
 }
 
-std::vector<Line*>& Algorithm::getResult()
+std::vector<Line*>* Algorithm::getResult()
 {
-    return result;
+    resultMutex.lock();
+
+    // Create a copy of the result
+    std::vector<Line*>* resultCopy = new std::vector<Line*>;
+    for(auto line : *result)
+    {
+        resultCopy->push_back(new Line(*line));
+    }
+
+    resultMutex.unlock();
+
+    return resultCopy;
 }
 
 double Algorithm::getCoputationTime()
@@ -80,14 +91,14 @@ void Algorithm::setConfigChanged(bool configChanged)
     configChangedMutex.unlock();
 }
 
-void Algorithm::setResult(std::vector<Line*> result, double computationTime)
+void Algorithm::setResult(std::vector<Line*>* result, double computationTime)
 {
     resultMutex.lock();
 
     // Delete the old result
-    for(auto iterator : this->result)
+    for(auto iterator : *this->result)
     {
-        delete *iterator;
+        delete iterator;
     }
     delete this->result;
 
