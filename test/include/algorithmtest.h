@@ -94,8 +94,8 @@ private slots:
     {
         // Set a result
         std::vector<Line*>* result = new std::vector<Line*>;
-        result->push_back(new Line());
-        result->push_back(new Line());
+        result->push_back(new Line(1.0, 1.0, 1.0, 1.0));
+        result->push_back(new Line(1.0, 1.0, 1.0, 1.0));
 
         algorithm->setResult(result, 12.5);
 
@@ -111,7 +111,8 @@ private slots:
     void getResultTest()
     {
         std::vector<Line*> result;
-        Line* line = new Line();
+
+        Line* line = new Line(1.0, 1.0, 1.0, 1.0);
         result.push_back(line);
 
         algorithm->result = &result;
