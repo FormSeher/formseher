@@ -74,7 +74,7 @@ std::vector<Line*>* Algorithm::getResult()
     return resultCopy;
 }
 
-double Algorithm::getCoputationTime()
+double Algorithm::getComputationTime()
 {
     return computationTime;
 }

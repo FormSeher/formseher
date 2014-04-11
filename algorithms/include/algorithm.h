@@ -70,7 +70,7 @@ public:
      * @brief Get the time the algorithm took to compute its result.
      * @return The elapsed time.
      */
-    double getCoputationTime();
+    double getComputationTime();
 
     /**
      * @brief Set the path to a file which is processed by calculate().
