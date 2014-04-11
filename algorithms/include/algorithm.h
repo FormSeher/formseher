@@ -79,6 +79,10 @@ public:
     void setInput(std::string filePath);
 
 protected:
+    /**
+     * @brief Sets the configChanged attribute to the given value (threadsafe).
+     * @param configChanged New value for configChanged.
+     */
     void setConfigChanged(bool configChanged);
 
     /**
@@ -88,26 +92,39 @@ protected:
      */
     void setResult(std::vector<Line*>* result, double computationTime);
 
+    /**
+     * @brief Mutex used to secure access on algorithm variables.
+     * Use this to ensure thread save access when set / get attributes of
+     * the algorithm implementation.
+     */
     std::mutex configVariablesMutex;
 
-
 private:
+    // Mutex to secure access when changing the result.
     std::mutex resultMutex;
 
+    // Mutex to secure access on the configChanged attribute.
     std::mutex configChangedMutex;
 
+    // Condition to notify a waiting algorithm thread that the configuration changed.
     std::condition_variable configChangedCondition;
+    // Mutex used by the configChangedCondition.
     std::mutex configConditionMutex;
 
+    // True if the config was changed.
     bool configChanged;
 
+    // The result of the algorithm.
     std::vector<Line*>* result;
-
-    std::string inputFilePath;
-
+    // The time the algorithm needed to calculate the result
     double computationTime;
 
+    // The path to the image file that should be processes by the algorithm.
+    std::string inputFilePath;
+
+    // The thread in which the algorithm runs after callling startThreaded().
     std::thread* thread;
+    // Used to stop the thread.
     bool stopThread;
 };
 
