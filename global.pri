@@ -1,5 +1,5 @@
-# set compiler flags needed by all sub projects
-QMAKE_CXXFLAGS += -std=c++11
+# set config needed by all subprojects
+CONFIG += c++11
 
 #projekt root directories
 ROOT_DIR = $$PWD
