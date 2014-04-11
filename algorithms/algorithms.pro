@@ -18,11 +18,13 @@ DEFINES += ALGORITHMS_LIBRARY
 
 SOURCES += $${ALG_SRC_DIR}/algorithm.cpp \
     $${ALG_SRC_DIR}/picprepare.cpp \
-    $${ALG_SRC_DIR}/line.cpp
+    $${ALG_SRC_DIR}/line.cpp \
+    $${ALG_SRC_DIR}/edl/edl.cpp
 
 HEADERS += $${ALG_INCL_DIR}/algorithm.h \
     $${ALG_INCL_DIR}/picprepare.h \
-    $${ALG_INCL_DIR}/line.h
+    $${ALG_INCL_DIR}/line.h \
+    $${ALG_INCL_DIR}/edl/edl.h
 
 INCLUDEPATH += $${ALG_INCL_DIR}
 
