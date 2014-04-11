@@ -43,13 +43,18 @@ void Algorithm::stopThreaded()
 
 void Algorithm::run()
 {
-    // TODO: Stub implementation only. Improve wait condition!
+    std::unique_lock<std::mutex> lock(configConditionMutex);
+
     while(!stopThread)
     {
-        if(configChanged)
-        {
-            calculate();
+        configChangedMutex.lock();
+        if(!configChanged) {
+            configChangedMutex.unlock();
+            configChangedCondition.wait(lock);
         }
+        configChangedMutex.unlock();
+
+        calculate();
     }
 }
 

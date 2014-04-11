@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <mutex>
+#include <condition_variable>
 
 class Line;
 
@@ -89,7 +91,14 @@ protected:
     /**
      * @brief Set the time the algorithm took to compute its result.
      */
-    void setComputationTime(double computationTime);
+    void setResult(double computationTime);
+
+    std::mutex configChangedMutex;
+    std::mutex configVariablesMutex;
+    std::mutex resultMutex;
+
+    std::condition_variable configChangedCondition;
+    std::mutex configConditionMutex;
 
 private:
     bool configChanged;
