@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <mutex>
+#include <condition_variable>
 
 class Line;
 
@@ -62,13 +64,13 @@ public:
      * @brief Get the result of the last calculate() execution.
      * @return Result of last calculate() execution.
      */
-    std::vector<Line*>& getResult();
+    std::vector<Line*>* getResult();
 
     /**
      * @brief Get the time the algorithm took to compute its result.
      * @return The elapsed time.
      */
-    double getCoputationTime();
+    double getComputationTime();
 
     /**
      * @brief Set the path to a file which is processed by calculate().
@@ -78,29 +80,51 @@ public:
 
 protected:
     /**
-     * @brief Notify the algorithm that configuration changed.
-     *
-     * Call this method after an attribute changed which (e.g. via setter). This
-     * makes the run() method to notify the change and re-execute calculate() when
-     * the algorithm is executed via run().
+     * @brief Sets the configChanged attribute to the given value (threadsafe).
+     * @param configChanged New value for configChanged.
      */
-    void changedConfig();
+    void setConfigChanged(bool configChanged);
 
     /**
-     * @brief Set the time the algorithm took to compute its result.
+     * @brief Set the outcome and computation time of the algorithm.
+     * @param result Vector which holds the Lines found by the algorithm
+     * @param computationTime The time the alrogithm spend to compute the result in seconds.
      */
-    void setComputationTime(double computationTime);
+    void setResult(std::vector<Line*>* result, double computationTime);
+
+    /**
+     * @brief Mutex used to secure access on algorithm variables.
+     * Use this to ensure thread save access when set / get attributes of
+     * the algorithm implementation.
+     */
+    std::mutex configVariablesMutex;
 
 private:
+    // Mutex to secure access when changing the result.
+    std::mutex resultMutex;
+
+    // Mutex to secure access on the configChanged attribute.
+    std::mutex configChangedMutex;
+
+    // Condition to notify a waiting algorithm thread that the configuration changed.
+    std::condition_variable configChangedCondition;
+    // Mutex used by the configChangedCondition.
+    std::mutex configConditionMutex;
+
+    // True if the config was changed.
     bool configChanged;
 
-    std::vector<Line*> result;
-
-    std::string inputFilePath;
-
+    // The result of the algorithm.
+    std::vector<Line*>* result;
+    // The time the algorithm needed to calculate the result
     double computationTime;
 
+    // The path to the image file that should be processes by the algorithm.
+    std::string inputFilePath;
+
+    // The thread in which the algorithm runs after callling startThreaded().
     std::thread* thread;
+    // Used to stop the thread.
     bool stopThread;
 };
 

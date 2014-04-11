@@ -43,37 +43,73 @@ void Algorithm::stopThreaded()
 
 void Algorithm::run()
 {
-    // TODO: Stub implementation only. Improve wait condition!
+    std::unique_lock<std::mutex> lock(configConditionMutex);
+
     while(!stopThread)
     {
-        if(configChanged)
-        {
-            calculate();
+        configChangedMutex.lock();
+        if(!configChanged) {
+            configChangedMutex.unlock();
+            configChangedCondition.wait(lock);
         }
+        configChangedMutex.unlock();
+
+        calculate();
     }
 }
 
-std::vector<Line*>& Algorithm::getResult()
+std::vector<Line*>* Algorithm::getResult()
 {
-    return result;
+    resultMutex.lock();
+
+    // Create a copy of the result
+    std::vector<Line*>* resultCopy = new std::vector<Line*>;
+    for(auto line : *result)
+    {
+        resultCopy->push_back(new Line(*line));
+    }
+
+    resultMutex.unlock();
+
+    return resultCopy;
 }
 
-double Algorithm::getCoputationTime()
+double Algorithm::getComputationTime()
 {
     return computationTime;
 }
 
 void Algorithm::setInput(std::string filePath)
 {
+    configVariablesMutex.lock();
     inputFilePath = filePath;
+    setConfigChanged(true);
+    configVariablesMutex.unlock();
 }
 
-void Algorithm::changedConfig()
+void Algorithm::setConfigChanged(bool configChanged)
 {
-    configChanged = true;
+    configChangedMutex.lock();
+    this->configChanged = configChanged;
+    configChangedMutex.unlock();
 }
 
-void Algorithm::setComputationTime(double computationTime)
+void Algorithm::setResult(std::vector<Line*>* result, double computationTime)
 {
+    resultMutex.lock();
+
+    // Delete the old result
+    if(this->result != 0)
+    {
+        for(auto iterator : *this->result)
+        {
+            delete iterator;
+        }
+        delete this->result;
+    }
+
+    this->result = result;
     this->computationTime = computationTime;
+
+    resultMutex.unlock();
 }
