@@ -82,9 +82,11 @@ protected:
     void setConfigChanged(bool configChanged);
 
     /**
-     * @brief Set the time the algorithm took to compute its result.
+     * @brief Set the outcome and computation time of the algorithm.
+     * @param result Vector which holds the Lines found by the algorithm
+     * @param computationTime The time the alrogithm spend to compute the result in seconds.
      */
-    void setResult(double computationTime);
+    void setResult(std::vector<Line*>* result, double computationTime);
 
     std::mutex configChangedMutex;
     std::mutex configVariablesMutex;

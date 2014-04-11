@@ -80,7 +80,19 @@ void Algorithm::setConfigChanged(bool configChanged)
     configChangedMutex.unlock();
 }
 
-void Algorithm::setComputationTime(double computationTime)
+void Algorithm::setResult(std::vector<Line*> result, double computationTime)
 {
+    resultMutex.lock();
+
+    // Delete the old result
+    for(auto iterator : this->result)
+    {
+        delete *iterator;
+    }
+    delete this->result;
+
+    this->result = result;
     this->computationTime = computationTime;
+
+    resultMutex.unlock();
 }
