@@ -26,7 +26,7 @@ INCLUDEPATH += $${TEST_INCL_DIR} \
 
 LIBS += -L$${ALG_BIN_DIR} -lalgorithms01
 
-POST_TARGETDEPS += $${ALG_DIR}
+POST_TARGETDEPS += ../algorithms
 
 #-------------------------------------------------
 #               win32 specifics
