@@ -26,3 +26,11 @@ INCLUDEPATH += $${TEST_INCL_DIR} \
 
 LIBS += -L$${ALG_BIN_DIR} -lalgorithms01
 
+#-------------------------------------------------
+#               win32 specifics
+#-------------------------------------------------
+win32{
+INCLUDEPATH += $(OPENCV_DIR_INCLUDE)
+LIBS += -L$(OPENCV_DIR_LIB)
+LIBS += -llibopencv_core248 -llibopencv_imgproc248
+}
