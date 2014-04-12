@@ -55,10 +55,21 @@ void EDL::routeAnchors(cv::InputArray magnitudes, cv::InputArray angles, std::ve
     }
 
     // Create result
-    // TODO
+    for(auto lineSegment : lineSegments)
+    {
+        Line* line = new Line(**lineSegment->begin(), **lineSegment->end());
+        result.push_back(line);
+    }
 
     // Free lineSegments
-    // TODO: for loop deletion of lineSegments
+    for(auto lineSegment : lineSegments)
+    {
+        for(auto point : *lineSegment)
+        {
+            delete point;
+        }
+        delete lineSegment;
+    }
 }
 
 void EDL::walkFromAnchor(cv::Point& anchorPoint, cv::Mat_<double>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<bool> &edgels, std::vector<std::vector<cv::Point*>*>& lineSegments)
