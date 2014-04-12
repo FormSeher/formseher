@@ -12,8 +12,6 @@ VERSION = 0.1
 CONFIG += staticlib
 DESTDIR = $${ALG_BIN_DIR}
 
-LIBS += -L$(OPENCV_DIR_LIB)
-
 DEFINES += ALGORITHMS_LIBRARY
 
 SOURCES += $${ALG_SRC_DIR}/algorithm.cpp \
