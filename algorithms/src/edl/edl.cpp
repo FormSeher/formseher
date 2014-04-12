@@ -35,7 +35,7 @@ void EDL::calculateAnchors(cv::InputArray gradientMagnitude, cv::OutputArray anc
 
 void EDL::routeAnchors(cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point2i*>& anchorPoints, std::vector<Line*>& result)
 {
-    CV_Assert(magnitudes.type() == CV_32F && angles.type() == CV_32F);
+    CV_Assert(magnitudes.type() == CV_64F && angles.type() == CV_64F);
 
     cv::Mat_<double> gradientMagnitudes = magnitudes.getMat();
     cv::Mat_<double> gradientAngles = angles.getMat();

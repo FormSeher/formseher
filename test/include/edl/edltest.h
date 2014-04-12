@@ -52,18 +52,15 @@ private slots:
 
     void routeAnchorsTest()
     {
-        cv::Mat magnitudes(5, 5, CV_32F);
+        cv::Mat_<double> magnitudes = cv::Mat::zeros(5, 5, CV_64F);
+        magnitudes(1, 1) = 15.0;
+        magnitudes(1, 2) = 14.0;
+        magnitudes(1, 3) = 14.3;
 
-        cv::Mat_<double> _magnitudes(magnitudes);
-        _magnitudes(1, 1) = 15.0;
-        _magnitudes(1, 2) = 14.0;
-        _magnitudes(1, 3) = 14.3;
-
-        cv::Mat angles(5, 5, CV_32F);
-        cv::Mat_<double> _angles(angles);
-        _angles(1, 1) = 0.5;
-        _angles(1, 2) = 0.5;
-        _angles(1, 3) = 0.5;
+        cv::Mat_<double> angles = cv::Mat::zeros(magnitudes.rows, magnitudes.cols, magnitudes.type());
+        angles(1, 1) = 0.5;
+        angles(1, 2) = 0.5;
+        angles(1, 3) = 0.5;
 
         std::vector<cv::Point*> anchorPoints;
         anchorPoints.push_back(new cv::Point(1, 1));
