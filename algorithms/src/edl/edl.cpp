@@ -57,7 +57,10 @@ void EDL::routeAnchors(cv::InputArray magnitudes, cv::InputArray angles, std::ve
     // Create result
     for(auto lineSegment : lineSegments)
     {
-        Line* line = new Line(**lineSegment->begin(), **lineSegment->end());
+        cv::Point* start = *lineSegment->begin();
+        cv::Point* end = *(lineSegment->end() - 1);
+
+        Line* line = new Line(*start, *end);
         result.push_back(line);
     }
 
