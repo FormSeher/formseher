@@ -38,7 +38,7 @@ LIBS += -llibopencv_core248 -llibopencv_imgproc248
 #-------------------------------------------------
 #               Linux/Unix specifics
 #-------------------------------------------------
-lunix{
+unix{
 LIBS += -lopencv_core -lopencv_imgproc
 }
 
