@@ -72,6 +72,9 @@ private slots:
 
         for(auto anchorPoint : anchorPoints)
             delete anchorPoint;
+
+        for(auto line : result)
+            delete line;
     }
 
     void walkFromAnchorTest()
