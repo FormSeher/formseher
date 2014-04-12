@@ -20,17 +20,18 @@ void EDL::calculate()
     // Save result
 }
 
-void calcGradAndAngle(cv::InputArray gradientX, cv::InputArray gradientY, cv::OutputArray gradientMagnitude, cv::OutputArray gradientAngle)
+
+void EDL::calcGradAndAngle(cv::InputArray gradientX, cv::InputArray gradientY, cv::OutputArray gradientMagnitude, cv::OutputArray gradientAngle)
 {
 
 }
 
-void calculateAnchors(cv::InputArray gradientMagnitude, cv::OutputArray anchorPoints, int threshold)
+void EDL::calculateAnchors(cv::InputArray gradientMagnitude, cv::OutputArray anchorPoints, int threshold)
 {
 
 }
 
-void routeAnchors(cv::InputArray gradientMagnitude, cv::InputArray gradientAngle, cv::InputArray anchorPoints, std::vector<Line*> result)
+void EDL::routeAnchors(cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point2i*>& anchorPoints, std::vector<Line*> result)
 {
 
 }
