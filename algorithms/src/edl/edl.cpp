@@ -32,6 +32,14 @@ void EDL::calculateAnchors(cv::InputArray gradientMagnitude, cv::OutputArray anc
 }
 
 void EDL::routeAnchors(cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point2i*>& anchorPoints, std::vector<Line*> result)
-{
 
+bool EDL::getDirection(cv::Point& point, cv::Mat& gradientAngles)
+{
+    double angle = gradientAngles.ptr<double>(point.x)[point.y] * M_PI / 180.0d;
+
+    if( fabs(cos(angle)) >= fabs(sin(angle)) )
+    {
+        return HORIZONTAL;
+    }
+    return VERTICAL;
 }
