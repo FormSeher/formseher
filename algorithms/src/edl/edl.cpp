@@ -97,7 +97,7 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, cv::Mat_<double>& gradientMagni
         // ####
         // Check if a new segment begins
         // ####
-        currentGradientAngle = gradientAngles(anchorPoint);
+        currentGradientAngle = gradientAngles(*point);
 
         // currentGradientAngle is not in lineSegmentAngle's tolerance
         if(lineSegmentAngle + angleTolerance < currentGradientAngle
@@ -165,7 +165,10 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, cv::Mat_<double>& gradientMagni
                 subDirection = 1;
             // Already examined both directions so let's quit
             else
+            {
+                delete point;
                 stopWalk = true;
+            }
         }
     } while(!stopWalk);
 }
