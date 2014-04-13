@@ -168,12 +168,12 @@ cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int su
 {
     if(mainDirection == HORIZONTAL)
     {
-        if(   gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y + 1) > gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y)
-           && gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y + 1) > gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y - 1))
+        if(   gradientMagnitudes(currentPoint->y + 1, currentPoint->x + subDirection) > gradientMagnitudes(currentPoint->y,     currentPoint->x + subDirection)
+           && gradientMagnitudes(currentPoint->y + 1, currentPoint->x + subDirection) > gradientMagnitudes(currentPoint->y - 1, currentPoint->x + subDirection))
         {
             return new cv::Point(currentPoint->x + subDirection, currentPoint->y + 1);
         }
-        else if (gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y)  > gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y - 1))
+        else if (gradientMagnitudes(currentPoint->y, currentPoint->x + subDirection)  > gradientMagnitudes(currentPoint->y - 1, currentPoint->x + subDirection))
         {
             return new cv::Point(currentPoint->x + subDirection, currentPoint->y);
         }
@@ -185,12 +185,12 @@ cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int su
     // VERTICAL
     else
     {
-        if(   gradientMagnitudes(currentPoint->x + 1, currentPoint->y + subDirection) > gradientMagnitudes(currentPoint->x,     currentPoint->y + subDirection)
-           && gradientMagnitudes(currentPoint->x + 1, currentPoint->y + subDirection) > gradientMagnitudes(currentPoint->x - 1, currentPoint->y + subDirection))
+        if(   gradientMagnitudes(currentPoint->y + subDirection, currentPoint->x + 1) > gradientMagnitudes(currentPoint->y + subDirection, currentPoint->x)
+           && gradientMagnitudes(currentPoint->y + subDirection, currentPoint->x + 1) > gradientMagnitudes(currentPoint->y + subDirection, currentPoint->x - 1))
         {
             return new cv::Point(currentPoint->x + 1, currentPoint->y + subDirection);
         }
-        else if (gradientMagnitudes(currentPoint->x, currentPoint->y + subDirection)  > gradientMagnitudes(currentPoint->x - 1, currentPoint->y + subDirection))
+        else if (gradientMagnitudes(currentPoint->y + subDirection, currentPoint->x)  > gradientMagnitudes(currentPoint->y + subDirection, currentPoint->x - 1))
         {
             return new cv::Point(currentPoint->x, currentPoint->y + subDirection);
         }
