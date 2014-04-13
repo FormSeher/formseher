@@ -104,7 +104,7 @@ void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradient
         const uchar *x = X.ptr<uchar>(i);
         const uchar *y = Y.ptr<uchar>(i);
         uchar* p_mag = Mag.ptr<uchar>(i);
-        float* p_ang = Ang.ptr<float>(i);
+        double* p_ang = Ang.ptr<double>(i);
 
         for (int j = 0; j < nCols; ++j){
             float x0 = x[j], y0 = y[j];
