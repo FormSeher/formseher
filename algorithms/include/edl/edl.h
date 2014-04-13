@@ -29,6 +29,8 @@ private:
     void walkFromAnchor(cv::Point& anchorPoint, cv::Mat_<double>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<bool> &edgels, std::vector<std::vector<cv::Point*>*>& lineSegments);
 
     bool getDirection(cv::Point& point, cv::Mat& gradientAngles);
+
+    cv::Point* findNextPoint(cv::Point* currentPoint, int mainDirection, int subDirection, cv::Mat_<double>& gradientMagnitudes);
 };
 
 #endif // EDL_H

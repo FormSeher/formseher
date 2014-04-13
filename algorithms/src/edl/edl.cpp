@@ -128,39 +128,7 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, cv::Mat_<double>& gradientMagni
         // ####
         // Find next point
         // ####
-        if(mainDirection == HORIZONTAL)
-        {
-            if(   gradientMagnitudes(point->x + subDirection, point->y + 1) > gradientMagnitudes(point->x + subDirection, point->y)
-               && gradientMagnitudes(point->x + subDirection, point->y + 1) > gradientMagnitudes(point->x + subDirection, point->y - 1))
-            {
-                point = new cv::Point(point->x + subDirection, point->y + 1);
-            }
-            else if (gradientMagnitudes(point->x + subDirection, point->y)  > gradientMagnitudes(point->x + subDirection, point->y - 1))
-            {
-                point = new cv::Point(point->x + subDirection, point->y);
-            }
-            else
-            {
-                point = new cv::Point(point->x + subDirection, point->y - 1);
-            }
-        }
-        // VERTICAL
-        else
-        {
-            if(   gradientMagnitudes(point->x + 1, point->y + subDirection) > gradientMagnitudes(point->x,     point->y + subDirection)
-               && gradientMagnitudes(point->x + 1, point->y + subDirection) > gradientMagnitudes(point->x - 1, point->y + subDirection))
-            {
-                point = new cv::Point(point->x + 1, point->y + subDirection);
-            }
-            else if (gradientMagnitudes(point->x, point->y + subDirection)  > gradientMagnitudes(point->x - 1, point->y + subDirection))
-            {
-                point = new cv::Point(point->x, point->y + subDirection);
-            }
-            else
-            {
-                point = new cv::Point(point->x - 1, point->y + subDirection);
-            }
-        }
+        point = findNextPoint(point, mainDirection, subDirection, gradientMagnitudes);
 
         // ####
         // Check if end reached, change direction if necessary or quit loop
@@ -194,4 +162,41 @@ bool EDL::getDirection(cv::Point& point, cv::Mat& gradientAngles)
         return HORIZONTAL;
     }
     return VERTICAL;
+}
+
+cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int subDirection, cv::Mat_<double>& gradientMagnitudes)
+{
+    if(mainDirection == HORIZONTAL)
+    {
+        if(   gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y + 1) > gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y)
+           && gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y + 1) > gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y - 1))
+        {
+            return new cv::Point(currentPoint->x + subDirection, currentPoint->y + 1);
+        }
+        else if (gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y)  > gradientMagnitudes(currentPoint->x + subDirection, currentPoint->y - 1))
+        {
+            return new cv::Point(currentPoint->x + subDirection, currentPoint->y);
+        }
+        else
+        {
+            return new cv::Point(currentPoint->x + subDirection, currentPoint->y - 1);
+        }
+    }
+    // VERTICAL
+    else
+    {
+        if(   gradientMagnitudes(currentPoint->x + 1, currentPoint->y + subDirection) > gradientMagnitudes(currentPoint->x,     currentPoint->y + subDirection)
+           && gradientMagnitudes(currentPoint->x + 1, currentPoint->y + subDirection) > gradientMagnitudes(currentPoint->x - 1, currentPoint->y + subDirection))
+        {
+            return new cv::Point(currentPoint->x + 1, currentPoint->y + subDirection);
+        }
+        else if (gradientMagnitudes(currentPoint->x, currentPoint->y + subDirection)  > gradientMagnitudes(currentPoint->x - 1, currentPoint->y + subDirection))
+        {
+            return new cv::Point(currentPoint->x, currentPoint->y + subDirection);
+        }
+        else
+        {
+            return new cv::Point(currentPoint->x - 1, currentPoint->y + subDirection);
+        }
+    }
 }
