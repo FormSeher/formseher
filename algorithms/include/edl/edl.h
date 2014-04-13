@@ -41,6 +41,7 @@ private:
     double scale;
     double delta;
     int threshold;
+    double angleTolerance;
 };
 
 #endif // EDL_H

@@ -17,7 +17,8 @@ EDL::EDL()
     : ksize(3),
       scale(1),
       delta(0),
-      threshold(36)
+      threshold(36),
+      angleTolerance(22.5 * M_PI / 180.0d)
 {
 }
 
