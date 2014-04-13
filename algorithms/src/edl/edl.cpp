@@ -114,7 +114,7 @@ void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradient
     }
 }
 
-void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point2i*>& anchorPoints, std::vector<Line*>& result)
+void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point>& anchorPoints, std::vector<Line*>& result)
 {
     CV_Assert(magnitudes.type() == CV_8U);
     CV_Assert(angles.type() == CV_64F);
@@ -128,12 +128,12 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     for(auto anchorPoint : anchorPoints)
     {
         // Is the pixel already part of an edge?
-        if(edgels(*anchorPoint) != 0)
+        if(edgels(anchorPoint) != 0)
         {
             continue;
         }
 
-        walkFromAnchor(*anchorPoint, angleTolerance, gradientMagnitudes, gradientAngles, edgels, lineSegments);
+        walkFromAnchor(anchorPoint, angleTolerance, gradientMagnitudes, gradientAngles, edgels, lineSegments);
     }
 
     // Create result
