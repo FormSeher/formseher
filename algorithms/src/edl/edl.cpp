@@ -1,12 +1,19 @@
-#include <edl/edl.h>
+#include "edl/edl.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <vector>
+#include <opencv2/highgui/highgui.hpp>
 
-EDL::EDL(): ksize(3), scale(1), delta(0), threshold(36)
+#include <vector>
+#include <iostream>
+
+EDL::EDL()
+    : ksize(3),
+      scale(1),
+      delta(0),
+      threshold(36)
 {
-    string = "path";
+    std::string path = "path";
     cv::cvtColor((cv::imread(path, CV_LOAD_IMAGE_COLOR)), src, CV_RGB2GRAY);
 }
 

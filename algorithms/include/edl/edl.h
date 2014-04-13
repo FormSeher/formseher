@@ -11,7 +11,7 @@
 class EDL : public Algorithm
 {
 public:
-    EDL(int ksize, double scale, double delta, int threshold);
+    EDL();
     ~EDL();
 
     void calculate();
@@ -22,6 +22,12 @@ private:
     void calculateAnchors(cv::InputArray gradientMagnitude, cv::OutputArray anchorPoints, int threshold);
 
     void routeAnchors(cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point2i*>& anchorPoints, std::vector<Line*> result);
+
+    int ksize;
+    double scale;
+    double delta;
+    int threshold;
+    cv::Mat src;
 };
 
 #endif // EDL_H
