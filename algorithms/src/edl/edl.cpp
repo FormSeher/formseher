@@ -40,8 +40,8 @@ void EDL::calculate()
     cv::Mat ady;
 
     //Definitions for grad, angle and anchor calculation
-    cv::Mat grad = cv::Mat::zeros(src.rows, src.cols, CV_8U);
-    cv::Mat angle = cv::Mat::zeros(src.rows, src.cols, CV_32F);
+    cv::Mat gradientMagnitudes = cv::Mat::zeros(src.rows, src.cols, CV_8U);
+    cv::Mat gradientAngles = cv::Mat::zeros(src.rows, src.cols, CV_32F);
     std::vector<cv::Point> anchors;
 
     // ####
@@ -62,13 +62,16 @@ void EDL::calculate()
     // create gradient and direction output including the anchorpoints
     // ####
 
-    calcGradAngleAnchors(adx, ady, grad, angle, anchors);
+    calcGradAngleAnchors(adx, ady, gradientMagnitudes, gradientAngles, anchors);
 
     // ####
     // run the routing algorithm
     // ####
+    std::vector<Line*> result;
+    routeAnchors(angleTolerance, gradientMagnitudes, gradientAngles, anchors, result);
 
     // Save result
+    setResult(&result, 0.0d);
 }
 
 bool EDL::isAnchor(cv::Mat& src, int x, int y){
