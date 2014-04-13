@@ -17,9 +17,9 @@ public:
     void calculate();
 
 private:
-    void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradientY, cv::OutputArray gradientMagnitude, cv::OutputArray gradientAngle, std::vector<cv::Point> anchors);
+    void calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradientY, cv::OutputArray gradientMagnitude, cv::OutputArray gradientAngle, std::vector<cv::Point>& anchors);
 
-    bool EDL::isAnchor(cv::Mat& src, int x, int y);
+    bool isAnchor(cv::Mat& src, int x, int y);
 
     void routeAnchors(cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point2i*>& anchorPoints, std::vector<Line*> result);
 

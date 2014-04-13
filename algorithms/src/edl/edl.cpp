@@ -1,11 +1,15 @@
+#define M_PI 3.141592654
+
 #include "edl/edl.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+
 #include <vector>
 #include <iostream>
+
 
 EDL::EDL()
     : ksize(3),
@@ -53,7 +57,7 @@ void EDL::calculate()
     // create gradient and direction output including the anchorpoints
     // ####
 
-    calcGradAngleAnchors(adx, ady, grad, angle, anchors, threshold);
+    EDL::calcGradAngleAnchors(adx, ady, grad, angle, anchors);
 
     // ####
     // run the routing algorithm
@@ -62,7 +66,7 @@ void EDL::calculate()
     // Save result
 }
 
-bool EDL::isAnchor(cv::Mat& src, int x, int y, int threshold){
+bool EDL::isAnchor(cv::Mat& src, int x, int y){
     bool isanchor = false;
     if (x > 0 && y > 0 && x < src.rows && y < src.cols) { //skip the first row of pixels
         int center = src.at<uchar>(x,y);
@@ -80,7 +84,7 @@ bool EDL::isAnchor(cv::Mat& src, int x, int y, int threshold){
     return isanchor;
 }
 
-void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradientY, cv::OutputArray gradientMagnitude, cv::OutputArray gradientAngle, std::vector<cv::Point> anchors, int threshold ){
+void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradientY, cv::OutputArray gradientMagnitude, cv::OutputArray gradientAngle, std::vector<cv::Point> &anchors){
     cv::Mat X = gradientX.getMat();
     cv::Mat Y = gradientY.getMat();
     cv::Mat Ang = gradientAngle.getMat();
@@ -98,7 +102,7 @@ void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradient
             float x0 = x[j], y0 = y[j];
             p_mag[j] = std::sqrt(x0*x0 + y0*y0);
             p_ang[j] = (M_PI/180) * cv::fastAtan2(y0, x0);
-                if(isAnchor(Mag, i, j, threshold))
+                if(isAnchor(Mag, i, j))
                 {
                     anchors.push_back(cv::Point(i,j));
                 }
