@@ -19,17 +19,19 @@ EDL::EDL()
       delta(0),
       threshold(36)
 {
-    std::string path = "path";
-    cv::cvtColor((cv::imread(path, CV_LOAD_IMAGE_COLOR)), src, CV_RGB2GRAY);
 }
 
 EDL::~EDL()
 {
-
 }
 
 void EDL::calculate()
 {
+    cv::Mat src = cv::imread(getInputFilePath().c_str());
+
+    if(!src.data)
+        return;
+
     //Definitions for sobel
     cv::Mat dx;
     cv::Mat dy;
@@ -59,7 +61,7 @@ void EDL::calculate()
     // create gradient and direction output including the anchorpoints
     // ####
 
-    EDL::calcGradAngleAnchors(adx, ady, grad, angle, anchors);
+    calcGradAngleAnchors(adx, ady, grad, angle, anchors);
 
     // ####
     // run the routing algorithm

@@ -41,7 +41,6 @@ private:
     double scale;
     double delta;
     int threshold;
-    cv::Mat src;
 };
 
 #endif // EDL_H
