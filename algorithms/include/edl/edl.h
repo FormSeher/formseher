@@ -21,7 +21,7 @@ private:
 
     void calculateAnchors(cv::InputArray gradientMagnitude, cv::OutputArray anchorPoints, int threshold);
 
-    void routeAnchors(cv::InputArray gradientMagnitude, cv::InputArray gradientAngle, cv::InputArray anchorPoints, std::vector<Line*> result);
+    void routeAnchors(cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point2i*>& anchorPoints, std::vector<Line*> result);
 };
 
 #endif // EDL_H
