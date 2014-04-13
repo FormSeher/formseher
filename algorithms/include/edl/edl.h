@@ -31,6 +31,8 @@ private:
     bool getDirection(cv::Point& point, cv::Mat& gradientAngles);
 
     cv::Point* findNextPoint(cv::Point* currentPoint, int mainDirection, int subDirection, cv::Mat_<double>& gradientMagnitudes);
+
+    bool isAligned(double compare, double angle, double tolerance);
 };
 
 #endif // EDL_H

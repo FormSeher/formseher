@@ -200,3 +200,16 @@ cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int su
         }
     }
 }
+
+bool EDL::isAligned(double compare, double angle, double tolerance)
+{
+    CV_Assert(compare <= 2 * M_PI && compare >= 0);
+    CV_Assert(angle <= 2 * M_PI && angle >= 0);
+
+    if(compare >= M_PI)
+        compare -= M_PI;
+    if(angle >= M_PI)
+        angle -= M_PI;
+
+    return ((angle - compare) <= tolerance) && ((angle - compare) >= -tolerance);
+}
