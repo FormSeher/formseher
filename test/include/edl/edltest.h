@@ -66,9 +66,12 @@ private slots:
         anchorPoints.push_back(new cv::Point(1, 1));
         anchorPoints.push_back(new cv::Point(3, 1));
 
+        double angleTolerance = (1.0d / 8.0d) * M_PI;
+
         std::vector<Line*> result;
 
-        edl->routeAnchors(magnitudes, angles, anchorPoints, result);
+
+        edl->routeAnchors(angleTolerance, magnitudes, angles, anchorPoints, result);
 
         // Check the result
         QVERIFY(1 == result.size());
