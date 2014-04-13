@@ -41,7 +41,7 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     cv::Mat_<uchar> gradientMagnitudes = magnitudes.getMat();
     cv::Mat_<double> gradientAngles = angles.getMat();
     cv::Mat_<bool> edgels = cv::Mat::zeros(gradientMagnitudes.rows, gradientMagnitudes.cols, CV_8U);
-    std::vector<std::vector<cv::Point*>*> lineSegments;
+    std::vector<std::list<cv::Point*>*> lineSegments;
 
     // Iterate all anchor points
     for(auto anchorPoint : anchorPoints)
@@ -58,8 +58,8 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     // Create result
     for(auto lineSegment : lineSegments)
     {
-        cv::Point* start = *lineSegment->begin();
-        cv::Point* end = *(lineSegment->end() - 1);
+        cv::Point* start = lineSegment->front();
+        cv::Point* end = lineSegment->back();
 
         Line* line = new Line(*start, *end);
         result.push_back(line);
@@ -76,7 +76,7 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     }
 }
 
-void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_<uchar>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<bool> &edgels, std::vector<std::vector<cv::Point*>*>& lineSegments)
+void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_<uchar>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<bool> &edgels, std::vector<std::list<cv::Point*>*>& lineSegments)
 {
     // Used to recalculate currentGradeintAngle
     double currentGradientAngle = gradientAngles(anchorPoint);
@@ -86,7 +86,7 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
 
     cv::Point* point = new cv::Point(anchorPoint);
 
-    std::vector<cv::Point*>* currentLineSegment = new std::vector<cv::Point*>;
+    std::list<cv::Point*>* currentLineSegment = new std::list<cv::Point*>;
     lineSegments.push_back(currentLineSegment);
 
     int mainDirection = getDirection(anchorPoint, gradientAngles);
@@ -109,11 +109,15 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
         // currentGradientAngle is not in lineSegmentAngle's tolerance
         if(!isAligned(lineSegmentAngle, currentGradientAngle, angleTolerance))
         {
-            currentLineSegment = new std::vector<cv::Point*>;
+            currentLineSegment = new std::list<cv::Point*>;
             lineSegments.push_back(currentLineSegment);
         }
 
-        currentLineSegment->push_back(point);
+        if(subDirection == -1)
+            currentLineSegment->push_front(point);
+        else
+            currentLineSegment->push_back(point);
+
         edgels(*point) = true;
 
         // ####

@@ -7,6 +7,7 @@
 
 #include <opencv2/core/core.hpp>
 #include <vector>
+#include <list>
 
 #define HORIZONTAL 0
 #define VERTICAL   1
@@ -26,7 +27,7 @@ private:
 
     void routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point2i*>& anchorPoints, std::vector<Line*>& result);
 
-    void walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_<uchar>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<bool> &edgels, std::vector<std::vector<cv::Point*>*>& lineSegments);
+    void walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_<uchar>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<bool> &edgels, std::vector<std::list<cv::Point*>*>& lineSegments);
 
     bool getDirection(cv::Point& point, cv::Mat& gradientAngles);
 

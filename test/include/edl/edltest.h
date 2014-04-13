@@ -53,9 +53,10 @@ private slots:
     void routeAnchorsTest()
     {
         cv::Mat_<uchar> magnitudes = cv::Mat::zeros(5, 5, CV_8U);
-        magnitudes(1, 1) = 15;
-        magnitudes(1, 2) = 14;
-        magnitudes(1, 3) = 14;
+        magnitudes(1, 0) = 140;
+        magnitudes(1, 1) = 150;
+        magnitudes(1, 2) = 143;
+        magnitudes(1, 3) = 145;
 
         cv::Mat_<double> angles = cv::Mat::zeros(magnitudes.rows, magnitudes.cols, magnitudes.type());
         angles(1, 1) = 0.5 * M_PI / 180.0d;
@@ -63,7 +64,7 @@ private slots:
         angles(1, 3) = 0.5 * M_PI / 180.0d;
 
         std::vector<cv::Point*> anchorPoints;
-        anchorPoints.push_back(new cv::Point(1, 1));
+        anchorPoints.push_back(new cv::Point(1, 0));
         anchorPoints.push_back(new cv::Point(3, 1));
 
         double angleTolerance = 21.5 * M_PI / 180.0d;
@@ -76,7 +77,7 @@ private slots:
         QVERIFY(1 == result.size());
 
         Line* line = result.at(0);
-        QVERIFY(cv::Point2d(1, 1) == line->getStart());
+        QVERIFY(cv::Point2d(0, 1) == line->getStart());
         QVERIFY(cv::Point2d(3, 1) == line->getEnd());
 
 
