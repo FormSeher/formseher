@@ -80,6 +80,7 @@ private slots:
         algorithm->setInput("this/is/input.file");
         QVERIFY("this/is/input.file" == algorithm->inputFilePath);
         QVERIFY(true == algorithm->configChanged);
+        QVERIFY("this/is/input.file" == algorithm->getInputFilePath());
     }
 
     void setConfigChangedTest()

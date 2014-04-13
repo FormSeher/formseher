@@ -99,6 +99,12 @@ protected:
      */
     std::mutex configVariablesMutex;
 
+    /**
+     * @brief Get file path of input file.
+     * @return Path to the inupt file.
+     */
+    std::string getInputFilePath();
+
 private:
     // Mutex to secure access when changing the result.
     std::mutex resultMutex;

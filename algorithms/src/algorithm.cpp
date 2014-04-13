@@ -113,3 +113,8 @@ void Algorithm::setResult(std::vector<Line*>* result, double computationTime)
 
     resultMutex.unlock();
 }
+
+std::string Algorithm::getInputFilePath()
+{
+    return inputFilePath;
+}
