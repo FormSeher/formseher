@@ -41,7 +41,7 @@ void EDL::calculate()
 
     //Definitions for grad, angle and anchor calculation
     cv::Mat gradientMagnitudes = cv::Mat::zeros(src.rows, src.cols, CV_8U);
-    cv::Mat gradientAngles = cv::Mat::zeros(src.rows, src.cols, CV_32F);
+    cv::Mat gradientAngles = cv::Mat::zeros(src.rows, src.cols, CV_64F);
     std::vector<cv::Point> anchors;
 
     // ####
