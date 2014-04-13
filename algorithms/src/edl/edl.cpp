@@ -95,8 +95,14 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, cv::Mat_<double>& gradientMagni
     int subDirection = -1;
     bool stopWalk = false;
 
+    // DEBUG
+    double currentGradientMagnitude;
+
     do
     {
+        // DEBUG
+        currentGradientMagnitude = gradientMagnitudes(*point);
+
         // ####
         // Check if a new segment begins
         // ####
@@ -165,7 +171,10 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, cv::Mat_<double>& gradientMagni
         {
             // Change direction
             if(subDirection == -1)
+            {
                 subDirection = 1;
+                point = new cv::Point(anchorPoint);
+            }
             // Already examined both directions so let's quit
             else
             {
