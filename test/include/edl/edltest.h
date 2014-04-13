@@ -145,6 +145,29 @@ private slots:
         QVERIFY(false == edl->isAligned(100 * M_PI / 180.0d, 200 * M_PI / 180.0d, angleTolerance));
     }
 
+    void isOutOfBoundsTest()
+    {
+        cv::Mat mat = cv::Mat::zeros(2, 2, CV_8U);
+
+        cv::Point point(-1, 0);
+        QVERIFY(true == edl->isOutOfBounds(&point, mat));
+
+        point = cv::Point(0, 0);
+        QVERIFY(false == edl->isOutOfBounds(&point, mat));
+
+        point = cv::Point(2, 2);
+        QVERIFY(false == edl->isOutOfBounds(&point, mat));
+
+        point = cv::Point(2, 3);
+        QVERIFY(true == edl->isOutOfBounds(&point, mat));
+
+        point = cv::Point(3, 2);
+        QVERIFY(true == edl->isOutOfBounds(&point, mat));
+
+        point= cv::Point(1, -1);
+        QVERIFY(true == edl->isOutOfBounds(&point, mat));
+    }
+
     void cleanupTestCase()
     {
         delete edl;

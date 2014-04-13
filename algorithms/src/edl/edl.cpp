@@ -302,3 +302,11 @@ bool EDL::isAligned(double compare, double angle, double tolerance)
 
     return ((angle - compare) <= tolerance) && ((angle - compare) >= -tolerance);
 }
+
+bool EDL::isOutOfBounds(cv::Point *point, cv::InputArray matrix)
+{
+    cv::Mat mat = matrix.getMat();
+
+    return (point->x < 0) || (point->x > mat.cols)
+            || (point->y < 0) || (point->y > mat.rows);
+}

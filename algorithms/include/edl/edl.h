@@ -35,6 +35,8 @@ private:
 
     bool isAligned(double compare, double angle, double tolerance);
 
+    bool isOutOfBounds(cv::Point* point, cv::InputArray matrix);
+
     int ksize;
     double scale;
     double delta;
