@@ -220,7 +220,8 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
         // ####
         // Check if end reached, change direction if necessary or quit loop
         // ####
-        if(gradientMagnitudes(*point) <= 0
+        if(!isOutOfBounds(point, gradientMagnitudes)
+           || gradientMagnitudes(*point) <= 0
            || getDirection(*point, gradientAngles) != mainDirection
            || edgels(*point)  != 0)
         {
