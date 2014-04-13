@@ -11,7 +11,7 @@
 class EDL : public Algorithm
 {
 public:
-    EDL();
+    EDL(int ksize, double scale, double delta, int threshold);
     ~EDL();
 
     void calculate();
