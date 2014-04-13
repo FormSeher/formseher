@@ -1,6 +1,6 @@
-#include "edl/edl.h"
-
+#include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <vector>
 
 EDL::EDL()
 {   private:
