@@ -58,18 +58,17 @@ private slots:
         magnitudes(1, 3) = 14.3;
 
         cv::Mat_<double> angles = cv::Mat::zeros(magnitudes.rows, magnitudes.cols, magnitudes.type());
-        angles(1, 1) = 0.5;
-        angles(1, 2) = 0.5;
-        angles(1, 3) = 0.5;
+        angles(1, 1) = 0.5 * M_PI / 180.0d;
+        angles(1, 2) = 0.5 * M_PI / 180.0d;
+        angles(1, 3) = 0.5 * M_PI / 180.0d;
 
         std::vector<cv::Point*> anchorPoints;
         anchorPoints.push_back(new cv::Point(1, 1));
         anchorPoints.push_back(new cv::Point(3, 1));
 
-        double angleTolerance = (1.0d / 8.0d) * M_PI;
+        double angleTolerance = 21.5 * M_PI / 180.0d;
 
         std::vector<Line*> result;
-
 
         edl->routeAnchors(angleTolerance, magnitudes, angles, anchorPoints, result);
 
