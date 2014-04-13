@@ -24,7 +24,8 @@ HEADERS  += $${APP_INCL_DIR}/mainwindow.h \
 
 FORMS    += $${APP_FORM_DIR}/mainwindow.ui
 
-INCLUDEPATH += $${APP_INCL_DIR}
+INCLUDEPATH += $${APP_INCL_DIR}\
+             $${ALG_INCL_DIR}
 
 LIBS += -L$${ALG_BIN_DIR} -lalgorithms01
 
@@ -40,4 +41,5 @@ win32{
 #               Linux/Unix specifics
 #-------------------------------------------------
 unix{
+LIBS += -lopencv_core -lopencv_imgproc -lopencv_highgui
 }
