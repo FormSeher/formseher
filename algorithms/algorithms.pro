@@ -33,7 +33,7 @@ INCLUDEPATH += $${ALG_INCL_DIR}
 win32{
 INCLUDEPATH += $(OPENCV_DIR_INCLUDE)
 LIBS += -L$(OPENCV_DIR_LIB)
-LIBS += -llibopencv_core248 -llibopencv_imgproc248
+LIBS += -llibopencv_core248 -llibopencv_imgproc248 l-libopencv_highgui248
 }
 #-------------------------------------------------
 #               Linux/Unix specifics
