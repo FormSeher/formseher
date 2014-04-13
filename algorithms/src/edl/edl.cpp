@@ -10,7 +10,9 @@ EDL::EDL()
     double scale;
     double delta;
     public:
-        EDL(int ksize, double scale, double delta): ksize(ksize), scale(scale) {}
+        EDL(int ksize, double scale, double delta):{
+            ksize = ksize;
+        }
 }
 
 EDL::~EDL()
@@ -85,10 +87,11 @@ void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradient
     int nCols = Mag.cols;
 
     for(int i = 0; i < nRows; ++i){
-            const uchar *x = X.ptr<uchar>(i);
-            const uchar *y = Y.ptr<uchar>(i);
-            uchar* p_mag = Mag.ptr<uchar>(i);
-            float* p_ang = Ang.ptr<float>(i);
+        const uchar *x = X.ptr<uchar>(i);
+        const uchar *y = Y.ptr<uchar>(i);
+        uchar* p_mag = Mag.ptr<uchar>(i);
+        float* p_ang = Ang.ptr<float>(i);
+
         for (int j = 0; j < nCols; ++j){
             float x0 = x[j], y0 = y[j];
             p_mag[j] = std::sqrt(x0*x0 + y0*y0);
