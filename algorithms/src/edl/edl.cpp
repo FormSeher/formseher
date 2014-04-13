@@ -117,6 +117,7 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, cv::Mat_<double>& gradientMagni
         }
 
         currentLineSegment->push_back(point);
+        edgels(*point) = true;
 
         // ####
         // Recalculate the segment angle
@@ -140,14 +141,16 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, cv::Mat_<double>& gradientMagni
             // Change direction
             if(subDirection == -1)
             {
+                delete point;
                 subDirection = 1;
-                point = new cv::Point(anchorPoint);
+                point = findNextPoint(&anchorPoint, mainDirection, subDirection, gradientMagnitudes);
             }
             // Already examined both directions so let's quit
             else
             {
                 delete point;
                 stopWalk = true;
+                continue;
             }
         }
     } while(!stopWalk);
