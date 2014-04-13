@@ -52,10 +52,10 @@ private slots:
 
     void routeAnchorsTest()
     {
-        cv::Mat_<double> magnitudes = cv::Mat::zeros(5, 5, CV_64F);
-        magnitudes(1, 1) = 15.0;
-        magnitudes(1, 2) = 14.0;
-        magnitudes(1, 3) = 14.3;
+        cv::Mat_<uchar> magnitudes = cv::Mat::zeros(5, 5, CV_8U);
+        magnitudes(1, 1) = 15;
+        magnitudes(1, 2) = 14;
+        magnitudes(1, 3) = 14;
 
         cv::Mat_<double> angles = cv::Mat::zeros(magnitudes.rows, magnitudes.cols, magnitudes.type());
         angles(1, 1) = 0.5 * M_PI / 180.0d;
@@ -94,13 +94,13 @@ private slots:
 
     void findNextPointTest()
     {
-        cv::Mat_<double> magnitudes = cv::Mat::zeros(5, 5, CV_64F);
-        magnitudes(1, 1) = 15.0;
-        magnitudes(1, 2) = 14.0;
-        magnitudes(1, 3) = 14.3;
-        magnitudes(2, 2) = 15.5;
-        magnitudes(3, 2) = 14.0;
-        magnitudes(4,  3) = 12.0;
+        cv::Mat_<uchar> magnitudes = cv::Mat::zeros(5, 5, CV_8U);
+        magnitudes(1, 1) = 150;
+        magnitudes(1, 2) = 140;
+        magnitudes(1, 3) = 143;
+        magnitudes(2, 2) = 155;
+        magnitudes(3, 2) = 140;
+        magnitudes(4,  3) = 120;
 
         int mainDirection = HORIZONTAL;
         int subDirection = -1;
@@ -109,14 +109,14 @@ private slots:
         cv::Point* nextPoint = edl->findNextPoint(&currentPoint, mainDirection, subDirection, magnitudes);
         QVERIFY(1 == nextPoint->x);
         QVERIFY(1 == nextPoint->y);
-        QVERIFY(15.0 == magnitudes(*nextPoint));
+        QVERIFY(150 == magnitudes(*nextPoint));
         delete nextPoint;
 
         subDirection = +1;
         nextPoint = edl->findNextPoint(&currentPoint, mainDirection, subDirection, magnitudes);
         QVERIFY(3 == nextPoint->x);
         QVERIFY(1 == nextPoint->y);
-        QVERIFY(14.3 == magnitudes(*nextPoint));
+        QVERIFY(143 == magnitudes(*nextPoint));
         delete nextPoint;
 
         mainDirection = VERTICAL;
@@ -127,14 +127,14 @@ private slots:
         nextPoint = edl->findNextPoint(&currentPoint, mainDirection, subDirection, magnitudes);
         QVERIFY(2 == nextPoint->x);
         QVERIFY(2 == nextPoint->y);
-        QVERIFY(15.5 == magnitudes(*nextPoint));
+        QVERIFY(155 == magnitudes(*nextPoint));
         delete nextPoint;
 
         subDirection = +1;
         nextPoint = edl->findNextPoint(&currentPoint, mainDirection, subDirection, magnitudes);
         QVERIFY(3 == nextPoint->x);
         QVERIFY(4 == nextPoint->y);
-        QVERIFY(12.0 == magnitudes(*nextPoint));
+        QVERIFY(120 == magnitudes(*nextPoint));
         delete nextPoint;
     }
 

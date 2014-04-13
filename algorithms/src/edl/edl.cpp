@@ -35,9 +35,10 @@ void EDL::calculateAnchors(cv::InputArray gradientMagnitude, cv::OutputArray anc
 
 void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point2i*>& anchorPoints, std::vector<Line*>& result)
 {
-    CV_Assert(magnitudes.type() == CV_64F && angles.type() == CV_64F);
+    CV_Assert(magnitudes.type() == CV_8U);
+    CV_Assert(angles.type() == CV_64F);
 
-    cv::Mat_<double> gradientMagnitudes = magnitudes.getMat();
+    cv::Mat_<uchar> gradientMagnitudes = magnitudes.getMat();
     cv::Mat_<double> gradientAngles = angles.getMat();
     cv::Mat_<bool> edgels = cv::Mat::zeros(gradientMagnitudes.rows, gradientMagnitudes.cols, CV_8U);
     std::vector<std::vector<cv::Point*>*> lineSegments;
@@ -75,7 +76,7 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     }
 }
 
-void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_<double>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<bool> &edgels, std::vector<std::vector<cv::Point*>*>& lineSegments)
+void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_<uchar>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<bool> &edgels, std::vector<std::vector<cv::Point*>*>& lineSegments)
 {
     // Used to recalculate currentGradeintAngle
     double currentGradientAngle = gradientAngles(anchorPoint);
@@ -163,7 +164,7 @@ bool EDL::getDirection(cv::Point& point, cv::Mat& gradientAngles)
     return VERTICAL;
 }
 
-cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int subDirection, cv::Mat_<double>& gradientMagnitudes)
+cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int subDirection, cv::Mat_<uchar>& gradientMagnitudes)
 {
     if(mainDirection == HORIZONTAL)
     {
