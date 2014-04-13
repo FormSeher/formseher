@@ -4,14 +4,15 @@
 
 EDL::EDL()
 {   private:
-    int threshold;
-    cv::Mat src;
-    int ksize;
-    double scale;
-    double delta;
+        int threshold;
+        cv::Mat src;
+        int ksize;
+        double scale;
+        double delta;
     public:
-        EDL(int ksize, double scale, double delta):{
-            ksize = ksize;
+        EDL(int ksize, double scale, double delta) : ksize(3), scale(1), delta(0), threshold(36)
+        {
+            cv::cvtColor((cv::imread(path, CV_LOAD_IMAGE_COLOR)), src, CV_RGB2GRAY);
         }
 }
 
