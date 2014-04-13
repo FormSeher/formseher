@@ -88,11 +88,6 @@ private slots:
             delete line;
     }
 
-    void walkFromAnchorTest()
-    {
-
-    }
-
     void findNextPointTest()
     {
         cv::Mat_<uchar> magnitudes = cv::Mat::zeros(5, 5, CV_8U);
