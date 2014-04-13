@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
     }
 
     cv::Mat input = cv::imread(argv[1]);
+
     if(!input.data)
     {
         std::cerr << "Invalid input file. Must be an image!" << std::endl;
@@ -45,9 +46,16 @@ int main(int argc, char *argv[])
     std::vector<Line*>* result = edl.getResult();
     std::cout << "lines found: " << result->size() << std::endl;
 
+    int color = 30;
     for(auto line : *result)
+    {
+        cv::line(input, line->getStart(), line->getEnd(), cv::Scalar(color,0,255), 1);
+        color += 30;
         delete line;
+    }
     delete result;
+
+    cv::imshow("result", input);
 
     cv::waitKey(0);
     return 0;
