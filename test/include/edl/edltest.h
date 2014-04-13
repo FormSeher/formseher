@@ -34,7 +34,7 @@ private slots:
 
     void getDirectionTest()
     {
-        cv::Mat angles = (cv::Mat_<double>(2, 2) << 1, 170, 70, 280);
+        cv::Mat angles = (cv::Mat_<double>(2, 2) << 0.0175, 1.2217, 2.9671, 4.8869);
 
         cv::Point point(0, 0);
         QVERIFY(HORIZONTAL == edl->getDirection(point, angles));

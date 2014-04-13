@@ -155,7 +155,7 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
 
 bool EDL::getDirection(cv::Point& point, cv::Mat& gradientAngles)
 {
-    double angle = gradientAngles.ptr<double>(point.x)[point.y] * M_PI / 180.0d;
+    double angle = gradientAngles.ptr<double>(point.y)[point.x];
 
     if( fabs(cos(angle)) >= fabs(sin(angle)) )
     {
