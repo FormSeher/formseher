@@ -69,19 +69,16 @@ private slots:
 
         double angleTolerance = 21.5 * M_PI / 180.0d;
 
-        std::vector<Line*> result;
+        std::vector<Line> result;
 
         edl->routeAnchors(angleTolerance, magnitudes, angles, anchorPoints, result);
 
         // Check the result
         QVERIFY(1 == result.size());
 
-        Line* line = result.at(0);
-        QVERIFY(cv::Point2d(0, 1) == line->getStart());
-        QVERIFY(cv::Point2d(3, 1) == line->getEnd());
-
-        for(auto line : result)
-            delete line;
+        Line& line = result.at(0);
+        QVERIFY(cv::Point2d(0, 1) == line.getStart());
+        QVERIFY(cv::Point2d(3, 1) == line.getEnd());
     }
 
     void findNextPointTest()

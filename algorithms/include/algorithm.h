@@ -64,7 +64,7 @@ public:
      * @brief Get the result of the last calculate() execution.
      * @return Result of last calculate() execution.
      */
-    std::vector<Line*>* getResult();
+    std::vector<Line>* getResult();
 
     /**
      * @brief Get the time the algorithm took to compute its result.
@@ -90,7 +90,7 @@ protected:
      * @param result Vector which holds the Lines found by the algorithm
      * @param computationTime The time the alrogithm spend to compute the result in seconds.
      */
-    void setResult(std::vector<Line*>* result, double computationTime);
+    void setResult(std::vector<Line> result, double computationTime);
 
     /**
      * @brief Mutex used to secure access on algorithm variables.
@@ -121,7 +121,7 @@ private:
     bool configChanged;
 
     // The result of the algorithm.
-    std::vector<Line*>* result;
+    std::vector<Line> result;
     // The time the algorithm needed to calculate the result
     double computationTime;
 

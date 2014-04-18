@@ -67,11 +67,11 @@ void EDL::calculate()
     // ####
     // run the routing algorithm
     // ####
-    std::vector<Line*> result;
+    std::vector<Line> result;
     routeAnchors(angleTolerance, gradientMagnitudes, gradientAngles, anchors, result);
 
     // Save result
-    setResult(&result, 0.0d);
+    setResult(result, 0.0d);
 }
 
 bool EDL::isAnchor(cv::Mat& src, int x, int y){
@@ -121,7 +121,7 @@ void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradient
     }
 }
 
-void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point>& anchorPoints, std::vector<Line*>& result)
+void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point>& anchorPoints, std::vector<Line> &result)
 {
     CV_Assert(magnitudes.type() == CV_8U);
     CV_Assert(angles.type() == CV_64F);
@@ -150,8 +150,7 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
         cv::Point* start = lineSegment->front();
         cv::Point* end = lineSegment->back();
 
-        Line* line = new Line(*start, *end);
-        result.push_back(line);
+        result.push_back(Line(*start, *end));
     }
 
     // Free lineSegments
