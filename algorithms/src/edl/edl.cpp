@@ -132,7 +132,7 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
 
     cv::Mat_<uchar> gradientMagnitudes = magnitudes.getMat();
     cv::Mat_<double> gradientAngles = angles.getMat();
-    cv::Mat_<bool> edgels = cv::Mat::zeros(gradientMagnitudes.rows, gradientMagnitudes.cols, CV_8U);
+    cv::Mat_<uchar> edgels = cv::Mat::zeros(gradientMagnitudes.rows, gradientMagnitudes.cols, CV_8U);
     std::vector<std::list<cv::Point*>*> lineSegments;
 
     std::cerr << "image widthxheight: " << gradientMagnitudes.cols << "x" << gradientMagnitudes.rows << std::endl;
@@ -147,6 +147,8 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
 
         walkFromAnchor(anchorPoint, angleTolerance, gradientMagnitudes, gradientAngles, edgels, lineSegments);
     }
+
+    cv::imshow("edgels", edgels);
 
     // Create result
     for(auto lineSegment : lineSegments)
@@ -171,7 +173,7 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     }
 }
 
-void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_<uchar>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<bool> &edgels, std::vector<std::list<cv::Point*>*>& lineSegments)
+void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_<uchar>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<uchar> &edgels, std::vector<std::list<cv::Point*>*>& lineSegments)
 {
     // Used to recalculate currentGradeintAngle
     double currentGradientAngle = gradientAngles(anchorPoint);
@@ -220,7 +222,7 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
         else
             currentLineSegment->push_back(point);
 
-        edgels(*point) = true;
+        edgels(*point) = 255;
 
         // ####
         // Recalculate the segment angle
