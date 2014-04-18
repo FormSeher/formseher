@@ -21,9 +21,9 @@ public:
     void calculate();
 
 private:
-    void calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradientY, cv::OutputArray gradientMagnitude, cv::OutputArray gradientAngle, std::vector<cv::Point>& anchors);
+    void calcGradAngleAnchors(cv::InputArray _gradientX, cv::InputArray _gradientY, cv::OutputArray _gradientMagnitudes, cv::OutputArray _gradientAngles, std::vector<cv::Point>& anchors);
 
-    bool isAnchor(cv::Mat& src, int x, int y);
+    bool isAnchor(cv::Mat& src, int row, int column);
 
     void routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point>& anchorPoints, std::vector<Line>& result);
 

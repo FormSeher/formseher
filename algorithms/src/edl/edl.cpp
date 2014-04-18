@@ -74,49 +74,53 @@ void EDL::calculate()
     setResult(result, 0.0d);
 }
 
-bool EDL::isAnchor(cv::Mat& src, int x, int y){
+bool EDL::isAnchor(cv::Mat& src, int row, int column)
+{
     bool isanchor = false;
-    if (x > 0 && y > 0 && x < src.rows && y < src.cols) { //skip the first row of pixels
-        int center = src.at<uchar>(x,y);
-        int top = src.at<uchar>(x,y+1);
-        int bottom = src.at<uchar>(x,y-1);
-        int right = src.at<uchar>(x+1,y);
-        int left = src.at<uchar>(x-1,y);
-        if (center - top >= threshold && center - bottom >= threshold) {
+
+    // prevent border pixles from being anchors.
+    if (row > 0 && column > 0 && row < src.rows && column < src.cols)
+    {
+        int center = src.at<uchar>(row, column);
+        int top = src.at<uchar>(row, column + 1);
+        int bottom = src.at<uchar>(row, column - 1);
+        int right = src.at<uchar>(row + 1, column);
+        int left = src.at<uchar>(row - 1, column);
+
+        if (center - top >= threshold && center - bottom >= threshold)
             isanchor = true;
-        }
-        if (center - right >= threshold && center - left >= threshold) {
+
+        if (center - right >= threshold && center - left >= threshold)
             isanchor = true;
-        }
     }
     return isanchor;
 }
 
-void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradientY, cv::OutputArray gradientMagnitude, cv::OutputArray gradientAngle, std::vector<cv::Point> &anchors)
+void EDL::calcGradAngleAnchors(cv::InputArray _gradientX, cv::InputArray _gradientY, cv::OutputArray _gradientMagnitudes, cv::OutputArray _gradientAngles, std::vector<cv::Point> &anchors)
 {
-    cv::Mat X = gradientX.getMat();
-    cv::Mat Y = gradientY.getMat();
-    cv::Mat Ang = gradientAngle.getMat();
-    cv::Mat Mag = gradientMagnitude.getMat();
-    int nRows = Mag.rows;
-    int nCols = Mag.cols;
+    cv::Mat gradientX = _gradientX.getMat();
+    cv::Mat gradientY = _gradientY.getMat();
+    cv::Mat gradientAngles = _gradientAngles.getMat();
+    cv::Mat gradientMagnitudes = _gradientMagnitudes.getMat();
+    int nRows = gradientMagnitudes.rows;
+    int nCols = gradientMagnitudes.cols;
 
-    for(int i = 0; i < nRows; ++i)
+    for(int row = 0; row < nRows; ++row)
     {
-        const uchar *x = X.ptr<uchar>(i);
-        const uchar *y = Y.ptr<uchar>(i);
-        uchar* p_mag = Mag.ptr<uchar>(i);
-        double* p_ang = Ang.ptr<double>(i);
+        const uchar* xRow = gradientX.ptr<uchar>(row);
+        const uchar* yRow = gradientY.ptr<uchar>(row);
+        uchar* magnitudesRow = gradientMagnitudes.ptr<uchar>(row);
+        double* anglesRow = gradientAngles.ptr<double>(row);
 
-        for (int j = 0; j < nCols; ++j)
+        for(int column = 0; column < nCols; ++column)
         {
-            double x0 = x[j];
-            double y0 = y[j];
-            p_mag[j] = std::sqrt(x0*x0 + y0*y0);
-            p_ang[j] = std::atan2(y0, x0);
+            double x0 = xRow[column];
+            double y0 = yRow[column];
+            magnitudesRow[column] = std::sqrt(x0*x0 + y0*y0);
+            anglesRow[column] = std::atan2(y0, x0);
 
-            if(isAnchor(Mag, i, j))
-                anchors.push_back(cv::Point(i,j));
+            if(isAnchor(gradientMagnitudes, row, column))
+                anchors.push_back(cv::Point(row,column));
         }
     }
 }
