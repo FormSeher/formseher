@@ -29,7 +29,7 @@ private:
 
     void walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_<uchar>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<uchar> &edgels, std::vector<std::list<cv::Point*>*>& lineSegments);
 
-    bool getDirection(cv::Point& point, cv::Mat& gradientAngles);
+    bool getDirection(double angle);
 
     cv::Point* findNextPoint(cv::Point* currentPoint, int mainDirection, int subDirection, cv::Mat_<uchar>& gradientMagnitudes);
 

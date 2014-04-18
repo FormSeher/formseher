@@ -34,20 +34,13 @@ private slots:
 
     void getDirectionTest()
     {
-        cv::Mat angles = (cv::Mat_<double>(2, 2) << 0.0175, 1.2217, 2.9671, 4.8869);
+        QVERIFY(VERTICAL == edl->getDirection(degreeToRad(0)));
+        QVERIFY(VERTICAL == edl->getDirection(degreeToRad(20)));
+        QVERIFY(VERTICAL == edl->getDirection(M_PI));
+        QVERIFY(VERTICAL == edl->getDirection(degreeToRad(199)));
 
-        cv::Point point(0, 0);
-        QVERIFY(HORIZONTAL == edl->getDirection(point, angles));
-
-        point.x = 1;
-        QVERIFY(VERTICAL == edl->getDirection(point, angles));
-
-        point.x = 0;
-        point.y = 1;
-        QVERIFY(HORIZONTAL == edl->getDirection(point, angles));
-
-        point.x = 1;
-        QVERIFY(VERTICAL == edl->getDirection(point, angles));
+        QVERIFY(HORIZONTAL == edl->getDirection(degreeToRad(90)));
+        QVERIFY(HORIZONTAL == edl->getDirection(degreeToRad(270)));
     }
 
     void routeAnchorsTest()
@@ -172,6 +165,11 @@ private slots:
 
 private:
     EDL* edl;
+
+    double degreeToRad(double degree)
+    {
+        return degree * M_PI / 180.0;
+    }
 };
 
 #endif // EDLTEST_H

@@ -186,7 +186,7 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
     std::list<cv::Point*>* currentLineSegment = new std::list<cv::Point*>;
     lineSegments.push_back(currentLineSegment);
 
-    int mainDirection = getDirection(anchorPoint, gradientAngles);
+    int mainDirection = getDirection(gradientAngles(anchorPoint));
     int subDirection = -1;
     bool stopWalk = false;
 
@@ -241,7 +241,7 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
         // ####
         if(!isOutOfBounds(point, gradientMagnitudes)
            || gradientMagnitudes(*point) <= 0
-           || getDirection(*point, gradientAngles) != mainDirection
+           || getDirection(gradientAngles(*point)) != mainDirection
            || edgels(*point)  != 0)
         {
             // Change direction
@@ -265,15 +265,13 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
     } while(!stopWalk);
 }
 
-bool EDL::getDirection(cv::Point& point, cv::Mat& gradientAngles)
+bool EDL::getDirection(double angle)
 {
-    double angle = gradientAngles.ptr<double>(point.y)[point.x];
-
     if( fabs(cos(angle)) >= fabs(sin(angle)) )
     {
-        return HORIZONTAL;
+        return VERTICAL;
     }
-    return VERTICAL;
+    return HORIZONTAL;
 }
 
 cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int subDirection, cv::Mat_<uchar>& gradientMagnitudes)
