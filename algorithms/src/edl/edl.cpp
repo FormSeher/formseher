@@ -92,7 +92,8 @@ bool EDL::isAnchor(cv::Mat& src, int x, int y){
     return isanchor;
 }
 
-void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradientY, cv::OutputArray gradientMagnitude, cv::OutputArray gradientAngle, std::vector<cv::Point> &anchors){
+void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradientY, cv::OutputArray gradientMagnitude, cv::OutputArray gradientAngle, std::vector<cv::Point> &anchors)
+{
     cv::Mat X = gradientX.getMat();
     cv::Mat Y = gradientY.getMat();
     cv::Mat Ang = gradientAngle.getMat();
@@ -100,20 +101,22 @@ void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradient
     int nRows = Mag.rows;
     int nCols = Mag.cols;
 
-    for(int i = 0; i < nRows; ++i){
+    for(int i = 0; i < nRows; ++i)
+    {
         const uchar *x = X.ptr<uchar>(i);
         const uchar *y = Y.ptr<uchar>(i);
         uchar* p_mag = Mag.ptr<uchar>(i);
         double* p_ang = Ang.ptr<double>(i);
 
-        for (int j = 0; j < nCols; ++j){
-            float x0 = x[j], y0 = y[j];
+        for (int j = 0; j < nCols; ++j)
+        {
+            double x0 = x[j];
+            double y0 = y[j];
             p_mag[j] = std::sqrt(x0*x0 + y0*y0);
-            p_ang[j] = (M_PI/180) * cv::fastAtan2(y0, x0);
-                if(isAnchor(Mag, i, j))
-                {
-                    anchors.push_back(cv::Point(i,j));
-                }
+            p_ang[j] = std::atan2(y0, x0);
+
+            if(isAnchor(Mag, i, j))
+                anchors.push_back(cv::Point(i,j));
         }
     }
 }
@@ -128,6 +131,7 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     cv::Mat_<bool> edgels = cv::Mat::zeros(gradientMagnitudes.rows, gradientMagnitudes.cols, CV_8U);
     std::vector<std::list<cv::Point*>*> lineSegments;
 
+    std::cerr << "image widthxheight: " << gradientMagnitudes.cols << "x" << gradientMagnitudes.rows << std::endl;
     // Iterate all anchor points
     for(auto anchorPoint : anchorPoints)
     {
@@ -183,6 +187,13 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
 
     do
     {
+        if( point->x+1 >= gradientAngles.cols || point->y+1 >= gradientAngles.rows || point->x < 1 || point->y < 1 )
+        {
+ //           std::cout << "break !!!" << std::endl;
+            stopWalk = true;
+            continue;
+        }
+
         // DEBUG
         currentGradientMagnitude = gradientMagnitudes(*point);
 
@@ -210,7 +221,7 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
         // ####
         sx += cos(currentGradientAngle);
         sy += sin(currentGradientAngle);
-        lineSegmentAngle = atan(sy / sx);
+        lineSegmentAngle = std::atan2(sy, sx);
 
         // ####
         // Find next point
@@ -231,6 +242,9 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
                 delete point;
                 subDirection = 1;
                 point = findNextPoint(&anchorPoint, mainDirection, subDirection, gradientMagnitudes);
+
+                if(isOutOfBounds(point, gradientMagnitudes))
+                    stopWalk = true;
             }
             // Already examined both directions so let's quit
             else
@@ -293,6 +307,7 @@ cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int su
 
 bool EDL::isAligned(double compare, double angle, double tolerance)
 {
+    std::cerr << " compare: " << compare << " angle: " << angle << std::endl;
     CV_Assert(compare <= 2 * M_PI && compare >= 0);
     CV_Assert(angle <= 2 * M_PI && angle >= 0);
 
