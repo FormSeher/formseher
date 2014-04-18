@@ -120,7 +120,7 @@ void EDL::calcGradAngleAnchors(cv::InputArray _gradientX, cv::InputArray _gradie
             anglesRow[column] = std::atan2(y0, x0);
 
             if(isAnchor(gradientMagnitudes, row, column))
-                anchors.push_back(cv::Point(row,column));
+                anchors.push_back(cv::Point(column,row));
         }
     }
 }
