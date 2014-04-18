@@ -147,10 +147,13 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     // Create result
     for(auto lineSegment : lineSegments)
     {
-        cv::Point* start = lineSegment->front();
-        cv::Point* end = lineSegment->back();
+        if(lineSegment->size() >= 2)
+        {
+            cv::Point* start = lineSegment->front();
+            cv::Point* end = lineSegment->back();
 
-        result.push_back(Line(*start, *end));
+            result.push_back(Line(*start, *end));
+        }
     }
 
     // Free lineSegments
