@@ -28,7 +28,7 @@ EDL::~EDL()
 
 void EDL::calculate()
 {
-    cv::Mat src = cv::imread(getInputFilePath().c_str());
+    cv::Mat src = cv::imread(getInputFilePath().c_str(), CV_LOAD_IMAGE_GRAYSCALE);
 
     if(!src.data)
         return;
