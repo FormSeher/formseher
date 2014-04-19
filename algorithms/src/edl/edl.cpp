@@ -255,6 +255,7 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
                 delete point;
                 subDirection = 1;
                 point = findNextPoint(&anchorPoint, mainDirection, subDirection, gradientMagnitudes);
+                currentLineSegment = lineSegments.at(0);
 
                 if(isOutOfBounds(point, gradientMagnitudes))
                     stopWalk = true;
