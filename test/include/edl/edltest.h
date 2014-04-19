@@ -102,9 +102,17 @@ private slots:
         std::cerr << result.size() << std::endl;
         QVERIFY(3 == result.size());
 
-        Line& line = result.at(0);
-        QVERIFY(cv::Point2d(0, 1) == line.getStart());
-        QVERIFY(cv::Point2d(3, 1) == line.getEnd());
+        Line line = result.at(0);
+        QVERIFY(cv::Point2d(4, 1) == line.getStart());
+        QVERIFY(cv::Point2d(6, 1) == line.getEnd());
+
+        line = result.at(1);
+        QVERIFY(cv::Point2d(1, 4) == line.getStart());
+        QVERIFY(cv::Point2d(3, 2) == line.getEnd());
+
+        line = result.at(2);
+        QVERIFY(cv::Point2d(7, 2) == line.getStart());
+        QVERIFY(cv::Point2d(8, 3) == line.getEnd());
     }
 
     void findNextPointTest()
