@@ -45,20 +45,52 @@ private slots:
 
     void routeAnchorsTest()
     {
-        cv::Mat_<uchar> magnitudes = cv::Mat::zeros(5, 5, CV_8U);
-        magnitudes(1, 0) = 140;
-        magnitudes(1, 1) = 150;
-        magnitudes(1, 2) = 143;
-        magnitudes(1, 3) = 145;
+        cv::Mat_<uchar> magnitudes = cv::Mat::zeros(6, 10, CV_8U);
+        magnitudes(2, 1) = 139;
+        magnitudes(3, 1) = 139;
+        magnitudes(4, 1) = 140;
+
+        magnitudes(2, 2) = 145;
+        magnitudes(3, 2) = 170;
+        magnitudes(4, 2) = 139;
+
+        magnitudes(1, 3) = 140;
+        magnitudes(2, 3) = 160;
+        magnitudes(3, 3) = 170;
+
+        magnitudes(1, 4) = 150;
+        magnitudes(2, 4) = 120;
+
+        magnitudes(1, 5) = 140;
+        magnitudes(2, 5) = 145;
+
+        magnitudes(1, 6) = 146;
+        magnitudes(2, 6) = 110;
+
+        magnitudes(0, 7) = 120;
+        magnitudes(1, 7) = 120;
+        magnitudes(2, 7) = 130;
+        magnitudes(4, 7) = 120;
+
+        magnitudes(2, 8) = 115;
+        magnitudes(3, 8) = 120;
 
         cv::Mat_<double> angles = cv::Mat::zeros(magnitudes.rows, magnitudes.cols, magnitudes.type());
-        angles(1, 1) = 0.5 * M_PI / 180.0d;
-        angles(1, 2) = 0.5 * M_PI / 180.0d;
-        angles(1, 3) = 0.5 * M_PI / 180.0d;
+        for(int row = 0; row < angles.rows; ++row)
+            for(int col = 0; col < 4; ++col)
+                angles(row, col) = degreeToRad(113);
+
+        for(int row = 0; row < angles.rows; ++row)
+            for(int col = 4; col < 7; ++col)
+                angles(row, col) = degreeToRad(90);
+
+        for(int row = 0; row < angles.rows; ++row)
+            for(int col = 7; col < angles.cols; ++col)
+                angles(row, col) = degreeToRad(65);
 
         std::vector<cv::Point> anchorPoints;
-        anchorPoints.push_back(cv::Point(1, 0));
-        anchorPoints.push_back(cv::Point(3, 1));
+        anchorPoints.push_back(cv::Point(4, 1));
+        anchorPoints.push_back(cv::Point(8, 3));
 
         double angleTolerance = 21.5 * M_PI / 180.0d;
 
@@ -67,7 +99,8 @@ private slots:
         edl->routeAnchors(angleTolerance, magnitudes, angles, anchorPoints, result);
 
         // Check the result
-        QVERIFY(1 == result.size());
+        std::cerr << result.size() << std::endl;
+        QVERIFY(3 == result.size());
 
         Line& line = result.at(0);
         QVERIFY(cv::Point2d(0, 1) == line.getStart());
