@@ -215,6 +215,9 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
         {
             currentLineSegment = new std::list<cv::Point*>;
             lineSegments.push_back(currentLineSegment);
+            // Reset line segment angle computation
+            sx = 0;
+            sy = 0;
         }
 
         if(subDirection == -1)
