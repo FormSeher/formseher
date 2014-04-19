@@ -254,8 +254,15 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
             {
                 delete point;
                 subDirection = 1;
+
                 point = findNextPoint(&anchorPoint, mainDirection, subDirection, gradientMagnitudes);
+
                 currentLineSegment = lineSegments.at(0);
+                // TODO: This should be set to the angle of the first lnie segment, not just to the
+                // angle of the anchorPoint!
+                lineSegmentAngle = gradientAngles(anchorPoint);
+                sx = cos(currentGradientAngle);
+                sy = sin(currentGradientAngle);
 
                 if(isOutOfBounds(point, gradientMagnitudes))
                     stopWalk = true;
