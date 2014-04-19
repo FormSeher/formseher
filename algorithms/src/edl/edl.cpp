@@ -137,7 +137,6 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     cv::Mat_<uchar> edgels = cv::Mat::zeros(gradientMagnitudes.rows, gradientMagnitudes.cols, CV_8U);
     std::vector<std::list<cv::Point*>*> lineSegments;
 
-    std::cerr << "image widthxheight: " << gradientMagnitudes.cols << "x" << gradientMagnitudes.rows << std::endl;
     // Iterate all anchor points
     for(auto anchorPoint : anchorPoints)
     {
@@ -149,8 +148,6 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
 
         walkFromAnchor(anchorPoint, angleTolerance, gradientMagnitudes, gradientAngles, edgels, lineSegments);
     }
-
-    cv::imshow("edgels", edgels);
 
     // Create result
     for(auto lineSegment : lineSegments)
@@ -192,20 +189,15 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
     int subDirection = -1;
     bool stopWalk = false;
 
-    // DEBUG
-    double currentGradientMagnitude;
-
     do
     {
+        // Break if pixle returned by findNextPoint() would be out of range.
+        // TODO: Find better solution?
         if( point->x+1 >= gradientAngles.cols || point->y+1 >= gradientAngles.rows || point->x < 1 || point->y < 1 )
         {
- //           std::cout << "break !!!" << std::endl;
             stopWalk = true;
             continue;
         }
-
-        // DEBUG
-        currentGradientMagnitude = gradientMagnitudes(*point);
 
         // ####
         // Check if a new segment begins

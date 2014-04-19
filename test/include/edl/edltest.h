@@ -99,7 +99,6 @@ private slots:
         edl->routeAnchors(angleTolerance, magnitudes, angles, anchorPoints, result);
 
         // Check the result
-        std::cerr << result.size() << std::endl;
         QVERIFY(3 == result.size());
 
         Line line = result.at(0);
