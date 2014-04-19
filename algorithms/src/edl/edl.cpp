@@ -318,7 +318,6 @@ cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int su
 
 bool EDL::isAligned(double compare, double angle, double tolerance)
 {
-    std::cerr << " compare: " << compare << " angle: " << angle << std::endl;
     CV_Assert(compare <= 2 * M_PI && compare >= 0);
     CV_Assert(angle <= 2 * M_PI && angle >= 0);
 
