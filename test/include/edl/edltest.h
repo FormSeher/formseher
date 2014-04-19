@@ -34,54 +34,84 @@ private slots:
 
     void getDirectionTest()
     {
-        cv::Mat angles = (cv::Mat_<double>(2, 2) << 0.0175, 1.2217, 2.9671, 4.8869);
+        QVERIFY(VERTICAL == edl->getDirection(degreeToRad(0)));
+        QVERIFY(VERTICAL == edl->getDirection(degreeToRad(20)));
+        QVERIFY(VERTICAL == edl->getDirection(M_PI));
+        QVERIFY(VERTICAL == edl->getDirection(degreeToRad(199)));
 
-        cv::Point point(0, 0);
-        QVERIFY(HORIZONTAL == edl->getDirection(point, angles));
-
-        point.x = 1;
-        QVERIFY(VERTICAL == edl->getDirection(point, angles));
-
-        point.x = 0;
-        point.y = 1;
-        QVERIFY(HORIZONTAL == edl->getDirection(point, angles));
-
-        point.x = 1;
-        QVERIFY(VERTICAL == edl->getDirection(point, angles));
+        QVERIFY(HORIZONTAL == edl->getDirection(degreeToRad(90)));
+        QVERIFY(HORIZONTAL == edl->getDirection(degreeToRad(270)));
     }
 
     void routeAnchorsTest()
     {
-        cv::Mat_<uchar> magnitudes = cv::Mat::zeros(5, 5, CV_8U);
-        magnitudes(1, 0) = 140;
-        magnitudes(1, 1) = 150;
-        magnitudes(1, 2) = 143;
-        magnitudes(1, 3) = 145;
+        cv::Mat_<uchar> magnitudes = cv::Mat::zeros(6, 10, CV_8U);
+        magnitudes(2, 1) = 139;
+        magnitudes(3, 1) = 139;
+        magnitudes(4, 1) = 140;
+
+        magnitudes(2, 2) = 145;
+        magnitudes(3, 2) = 170;
+        magnitudes(4, 2) = 139;
+
+        magnitudes(1, 3) = 140;
+        magnitudes(2, 3) = 160;
+        magnitudes(3, 3) = 170;
+
+        magnitudes(1, 4) = 150;
+        magnitudes(2, 4) = 120;
+
+        magnitudes(1, 5) = 140;
+        magnitudes(2, 5) = 145;
+
+        magnitudes(1, 6) = 146;
+        magnitudes(2, 6) = 110;
+
+        magnitudes(0, 7) = 120;
+        magnitudes(1, 7) = 120;
+        magnitudes(2, 7) = 130;
+        magnitudes(4, 7) = 120;
+
+        magnitudes(2, 8) = 115;
+        magnitudes(3, 8) = 120;
 
         cv::Mat_<double> angles = cv::Mat::zeros(magnitudes.rows, magnitudes.cols, magnitudes.type());
-        angles(1, 1) = 0.5 * M_PI / 180.0d;
-        angles(1, 2) = 0.5 * M_PI / 180.0d;
-        angles(1, 3) = 0.5 * M_PI / 180.0d;
+        for(int row = 0; row < angles.rows; ++row)
+            for(int col = 0; col < 4; ++col)
+                angles(row, col) = degreeToRad(113);
+
+        for(int row = 0; row < angles.rows; ++row)
+            for(int col = 4; col < 7; ++col)
+                angles(row, col) = degreeToRad(90);
+
+        for(int row = 0; row < angles.rows; ++row)
+            for(int col = 7; col < angles.cols; ++col)
+                angles(row, col) = degreeToRad(65);
 
         std::vector<cv::Point> anchorPoints;
-        anchorPoints.push_back(cv::Point(1, 0));
-        anchorPoints.push_back(cv::Point(3, 1));
+        anchorPoints.push_back(cv::Point(4, 1));
+        anchorPoints.push_back(cv::Point(8, 3));
 
         double angleTolerance = 21.5 * M_PI / 180.0d;
 
-        std::vector<Line*> result;
+        std::vector<Line> result;
 
         edl->routeAnchors(angleTolerance, magnitudes, angles, anchorPoints, result);
 
         // Check the result
-        QVERIFY(1 == result.size());
+        QVERIFY(3 == result.size());
 
-        Line* line = result.at(0);
-        QVERIFY(cv::Point2d(0, 1) == line->getStart());
-        QVERIFY(cv::Point2d(3, 1) == line->getEnd());
+        Line line = result.at(0);
+        QVERIFY(cv::Point2d(4, 1) == line.getStart());
+        QVERIFY(cv::Point2d(6, 1) == line.getEnd());
 
-        for(auto line : result)
-            delete line;
+        line = result.at(1);
+        QVERIFY(cv::Point2d(1, 4) == line.getStart());
+        QVERIFY(cv::Point2d(3, 2) == line.getEnd());
+
+        line = result.at(2);
+        QVERIFY(cv::Point2d(7, 2) == line.getStart());
+        QVERIFY(cv::Point2d(8, 3) == line.getEnd());
     }
 
     void findNextPointTest()
@@ -175,6 +205,11 @@ private slots:
 
 private:
     EDL* edl;
+
+    double degreeToRad(double degree)
+    {
+        return degree * M_PI / 180.0;
+    }
 };
 
 #endif // EDLTEST_H

@@ -94,37 +94,34 @@ private slots:
     void setResultTest()
     {
         // Set a result
-        std::vector<Line*>* result = new std::vector<Line*>;
-        result->push_back(new Line(1.0, 1.0, 1.0, 1.0));
-        result->push_back(new Line(1.0, 1.0, 1.0, 1.0));
+        std::vector<Line> result;
+        result.push_back(Line(1.0, 1.0, 1.0, 1.0));
+        result.push_back(Line(1.0, 1.0, 1.0, 1.0));
 
         algorithm->setResult(result, 12.5);
 
-        QVERIFY(result == algorithm->result);
+        QVERIFY(2 == algorithm->result.size());
         QVERIFY(12.5 == algorithm->computationTime);
 
         // Set another result
-        algorithm->setResult(0, 0.0);
+//        algorithm->setResult(0, 0.0);
 
-        QVERIFY(0 == algorithm->result);
+//        QVERIFY(0 == algorithm->result);
     }
 
     void getResultTest()
     {
-        std::vector<Line*> result;
+        std::vector<Line> result;
 
-        Line* line = new Line(1.0, 1.0, 1.0, 1.0);
+        Line line(1.0, 1.0, 1.0, 1.0);
         result.push_back(line);
 
-        algorithm->result = &result;
+        algorithm->result = result;
 
-        std::vector<Line*>* algoResult = algorithm->getResult();
+        std::vector<Line>* algoResult = algorithm->getResult();
 
         QVERIFY(&result != algoResult);
-        QVERIFY(result.at(0) != algoResult->at(0));
-
-        algorithm->result = 0;
-        delete line;
+        QVERIFY(&result.at(0) != &algoResult->at(0));
     }
 
     void cleanupTestCase()

@@ -18,6 +18,7 @@ EDL::EDL()
       scale(1),
       delta(0),
       threshold(36),
+      gaussianKernelSize(3),
       angleTolerance(22.5 * M_PI / 180.0d)
 {
 }
@@ -28,7 +29,7 @@ EDL::~EDL()
 
 void EDL::calculate()
 {
-    cv::Mat src = cv::imread(getInputFilePath().c_str());
+    cv::Mat src = cv::imread(getInputFilePath().c_str(), CV_LOAD_IMAGE_GRAYSCALE);
 
     if(!src.data)
         return;
@@ -47,6 +48,7 @@ void EDL::calculate()
     // ####
     // use a filter algorithm to suppress noise
     // ####
+    cv::GaussianBlur(src, src, cv::Size(gaussianKernelSize, gaussianKernelSize), 0, 0);
 
 
     // ####
@@ -67,65 +69,72 @@ void EDL::calculate()
     // ####
     // run the routing algorithm
     // ####
-    std::vector<Line*> result;
+    std::vector<Line> result;
     routeAnchors(angleTolerance, gradientMagnitudes, gradientAngles, anchors, result);
 
     // Save result
-    setResult(&result, 0.0d);
+    setResult(result, 0.0d);
 }
 
-bool EDL::isAnchor(cv::Mat& src, int x, int y){
+bool EDL::isAnchor(cv::Mat& src, int row, int column)
+{
     bool isanchor = false;
-    if (x > 0 && y > 0 && x < src.rows && y < src.cols) { //skip the first row of pixels
-        int center = src.at<uchar>(x,y);
-        int top = src.at<uchar>(x,y+1);
-        int bottom = src.at<uchar>(x,y-1);
-        int right = src.at<uchar>(x+1,y);
-        int left = src.at<uchar>(x-1,y);
-        if (center - top >= threshold && center - bottom >= threshold) {
+
+    // prevent border pixles from being anchors.
+    if (row > 0 && column > 0 && row < src.rows && column < src.cols)
+    {
+        int center = src.at<uchar>(row, column);
+        int top = src.at<uchar>(row, column + 1);
+        int bottom = src.at<uchar>(row, column - 1);
+        int right = src.at<uchar>(row + 1, column);
+        int left = src.at<uchar>(row - 1, column);
+
+        if (center - top >= threshold && center - bottom >= threshold)
             isanchor = true;
-        }
-        if (center - right >= threshold && center - left >= threshold) {
+
+        if (center - right >= threshold && center - left >= threshold)
             isanchor = true;
-        }
     }
     return isanchor;
 }
 
-void EDL::calcGradAngleAnchors(cv::InputArray gradientX, cv::InputArray gradientY, cv::OutputArray gradientMagnitude, cv::OutputArray gradientAngle, std::vector<cv::Point> &anchors){
-    cv::Mat X = gradientX.getMat();
-    cv::Mat Y = gradientY.getMat();
-    cv::Mat Ang = gradientAngle.getMat();
-    cv::Mat Mag = gradientMagnitude.getMat();
-    int nRows = Mag.rows;
-    int nCols = Mag.cols;
+void EDL::calcGradAngleAnchors(cv::InputArray _gradientX, cv::InputArray _gradientY, cv::OutputArray _gradientMagnitudes, cv::OutputArray _gradientAngles, std::vector<cv::Point> &anchors)
+{
+    cv::Mat gradientX = _gradientX.getMat();
+    cv::Mat gradientY = _gradientY.getMat();
+    cv::Mat gradientAngles = _gradientAngles.getMat();
+    cv::Mat gradientMagnitudes = _gradientMagnitudes.getMat();
+    int nRows = gradientMagnitudes.rows;
+    int nCols = gradientMagnitudes.cols;
 
-    for(int i = 0; i < nRows; ++i){
-        const uchar *x = X.ptr<uchar>(i);
-        const uchar *y = Y.ptr<uchar>(i);
-        uchar* p_mag = Mag.ptr<uchar>(i);
-        double* p_ang = Ang.ptr<double>(i);
+    for(int row = 0; row < nRows; ++row)
+    {
+        const uchar* xRow = gradientX.ptr<uchar>(row);
+        const uchar* yRow = gradientY.ptr<uchar>(row);
+        uchar* magnitudesRow = gradientMagnitudes.ptr<uchar>(row);
+        double* anglesRow = gradientAngles.ptr<double>(row);
 
-        for (int j = 0; j < nCols; ++j){
-            float x0 = x[j], y0 = y[j];
-            p_mag[j] = std::sqrt(x0*x0 + y0*y0);
-            p_ang[j] = (M_PI/180) * cv::fastAtan2(y0, x0);
-                if(isAnchor(Mag, i, j))
-                {
-                    anchors.push_back(cv::Point(i,j));
-                }
+        for(int column = 0; column < nCols; ++column)
+        {
+            double x0 = xRow[column];
+            double y0 = yRow[column];
+            magnitudesRow[column] = std::sqrt(x0*x0 + y0*y0);
+            anglesRow[column] = std::atan2(y0, x0);
+
+            if(isAnchor(gradientMagnitudes, row, column))
+                anchors.push_back(cv::Point(column,row));
         }
     }
 }
 
-void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point>& anchorPoints, std::vector<Line*>& result)
+void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::InputArray angles, std::vector<cv::Point>& anchorPoints, std::vector<Line> &result)
 {
     CV_Assert(magnitudes.type() == CV_8U);
     CV_Assert(angles.type() == CV_64F);
 
     cv::Mat_<uchar> gradientMagnitudes = magnitudes.getMat();
     cv::Mat_<double> gradientAngles = angles.getMat();
-    cv::Mat_<bool> edgels = cv::Mat::zeros(gradientMagnitudes.rows, gradientMagnitudes.cols, CV_8U);
+    cv::Mat_<uchar> edgels = cv::Mat::zeros(gradientMagnitudes.rows, gradientMagnitudes.cols, CV_8U);
     std::vector<std::list<cv::Point*>*> lineSegments;
 
     // Iterate all anchor points
@@ -143,11 +152,13 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     // Create result
     for(auto lineSegment : lineSegments)
     {
-        cv::Point* start = lineSegment->front();
-        cv::Point* end = lineSegment->back();
+        if(lineSegment->size() >= 2)
+        {
+            cv::Point* start = lineSegment->front();
+            cv::Point* end = lineSegment->back();
 
-        Line* line = new Line(*start, *end);
-        result.push_back(line);
+            result.push_back(Line(*start, *end));
+        }
     }
 
     // Free lineSegments
@@ -161,7 +172,7 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     }
 }
 
-void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_<uchar>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<bool> &edgels, std::vector<std::list<cv::Point*>*>& lineSegments)
+void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_<uchar>& gradientMagnitudes, cv::Mat_<double>& gradientAngles, cv::Mat_<uchar> &edgels, std::vector<std::list<cv::Point*>*>& lineSegments)
 {
     // Used to recalculate currentGradeintAngle
     double currentGradientAngle = gradientAngles(anchorPoint);
@@ -174,17 +185,19 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
     std::list<cv::Point*>* currentLineSegment = new std::list<cv::Point*>;
     lineSegments.push_back(currentLineSegment);
 
-    int mainDirection = getDirection(anchorPoint, gradientAngles);
+    int mainDirection = getDirection(gradientAngles(anchorPoint));
     int subDirection = -1;
     bool stopWalk = false;
 
-    // DEBUG
-    double currentGradientMagnitude;
-
     do
     {
-        // DEBUG
-        currentGradientMagnitude = gradientMagnitudes(*point);
+        // Break if pixle returned by findNextPoint() would be out of range.
+        // TODO: Find better solution?
+        if( point->x+1 >= gradientAngles.cols || point->y+1 >= gradientAngles.rows || point->x < 1 || point->y < 1 )
+        {
+            stopWalk = true;
+            continue;
+        }
 
         // ####
         // Check if a new segment begins
@@ -196,6 +209,9 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
         {
             currentLineSegment = new std::list<cv::Point*>;
             lineSegments.push_back(currentLineSegment);
+            // Reset line segment angle computation
+            sx = 0;
+            sy = 0;
         }
 
         if(subDirection == -1)
@@ -203,14 +219,14 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
         else
             currentLineSegment->push_back(point);
 
-        edgels(*point) = true;
+        edgels(*point) = 255;
 
         // ####
         // Recalculate the segment angle
         // ####
         sx += cos(currentGradientAngle);
         sy += sin(currentGradientAngle);
-        lineSegmentAngle = atan(sy / sx);
+        lineSegmentAngle = std::atan2(sy, sx);
 
         // ####
         // Find next point
@@ -220,9 +236,9 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
         // ####
         // Check if end reached, change direction if necessary or quit loop
         // ####
-        if(!isOutOfBounds(point, gradientMagnitudes)
+        if(isOutOfBounds(point, gradientMagnitudes)
            || gradientMagnitudes(*point) <= 0
-           || getDirection(*point, gradientAngles) != mainDirection
+           || getDirection(gradientAngles(*point)) != mainDirection
            || edgels(*point)  != 0)
         {
             // Change direction
@@ -230,7 +246,18 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
             {
                 delete point;
                 subDirection = 1;
+
                 point = findNextPoint(&anchorPoint, mainDirection, subDirection, gradientMagnitudes);
+
+                currentLineSegment = lineSegments.at(0);
+                // TODO: This should be set to the angle of the first lnie segment, not just to the
+                // angle of the anchorPoint!
+                lineSegmentAngle = gradientAngles(anchorPoint);
+                sx = cos(currentGradientAngle);
+                sy = sin(currentGradientAngle);
+
+                if(isOutOfBounds(point, gradientMagnitudes))
+                    stopWalk = true;
             }
             // Already examined both directions so let's quit
             else
@@ -243,15 +270,13 @@ void EDL::walkFromAnchor(cv::Point& anchorPoint, double angleTolerance, cv::Mat_
     } while(!stopWalk);
 }
 
-bool EDL::getDirection(cv::Point& point, cv::Mat& gradientAngles)
+bool EDL::getDirection(double angle)
 {
-    double angle = gradientAngles.ptr<double>(point.y)[point.x];
-
     if( fabs(cos(angle)) >= fabs(sin(angle)) )
     {
-        return HORIZONTAL;
+        return VERTICAL;
     }
-    return VERTICAL;
+    return HORIZONTAL;
 }
 
 cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int subDirection, cv::Mat_<uchar>& gradientMagnitudes)

@@ -43,15 +43,14 @@ int main(int argc, char *argv[])
     edl.setInput(argv[1]);
     edl.calculate();
 
-    std::vector<Line*>* result = edl.getResult();
+    std::vector<Line>* result = edl.getResult();
     std::cout << "lines found: " << result->size() << std::endl;
 
-    int color = 30;
+
+    cv::RNG rng(0xFFFFFFFF);
     for(auto line : *result)
     {
-        cv::line(input, line->getStart(), line->getEnd(), cv::Scalar(color,0,255), 1);
-        color += 30;
-        delete line;
+        cv::line(input, line.getStart(), line.getEnd(), cv::Scalar(rng.uniform(0, 256), rng.uniform(0, 256), rng.uniform(0, 256)), 1);
     }
     delete result;
 
