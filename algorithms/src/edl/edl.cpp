@@ -18,6 +18,7 @@ EDL::EDL()
       scale(1),
       delta(0),
       threshold(36),
+      gaussianKernelSize(3),
       angleTolerance(22.5 * M_PI / 180.0d)
 {
 }
@@ -47,6 +48,7 @@ void EDL::calculate()
     // ####
     // use a filter algorithm to suppress noise
     // ####
+    cv::GaussianBlur(src, src, cv::Size(gaussianKernelSize, gaussianKernelSize), 0, 0);
 
 
     // ####

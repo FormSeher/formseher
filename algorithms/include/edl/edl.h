@@ -41,6 +41,7 @@ private:
     double scale;
     double delta;
     int threshold;
+    int gaussianKernelSize;
     double angleTolerance;
 };
 
