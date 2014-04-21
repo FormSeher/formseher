@@ -336,3 +336,62 @@ bool EDL::isOutOfBounds(cv::Point *point, cv::InputArray matrix)
     return (point->x < 0) || (point->x > mat.cols)
             || (point->y < 0) || (point->y > mat.rows);
 }
+double EDL::getAngleTolerance() const
+{
+    return angleTolerance;
+}
+
+void EDL::setAngleTolerance(double value)
+{
+    angleTolerance = value;
+}
+
+int EDL::getGaussianKernelSize() const
+{
+    return gaussianKernelSize;
+}
+
+void EDL::setGaussianKernelSize(int value)
+{
+    gaussianKernelSize = value;
+}
+
+int EDL::getAnchorThreshold() const
+{
+    return anchorThreshold;
+}
+
+void EDL::setAnchorThreshold(int value)
+{
+    anchorThreshold = value;
+}
+
+double EDL::getSobelDelta() const
+{
+    return sobelDelta;
+}
+
+void EDL::setSobelDelta(double value)
+{
+    sobelDelta = value;
+}
+
+double EDL::getSobelScale() const
+{
+    return sobelScale;
+}
+
+void EDL::setSobelScale(double value)
+{
+    sobelScale = value;
+}
+
+int EDL::getSobelKernelSize() const
+{
+    return sobelKernelSize;
+}
+
+void EDL::setSobelKernelSize(int value)
+{
+    sobelKernelSize = value;
+}
