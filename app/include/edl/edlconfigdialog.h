@@ -4,6 +4,7 @@
 #include <QDialog>
 
 #include "algorithmconfigdialog.h"
+#include "edl/edl.h"
 
 namespace Ui {
 class EDLConfigDialog;
@@ -21,6 +22,8 @@ public:
 
 private:
     Ui::EDLConfigDialog *ui;
+
+    EDL edl;
 };
 
 #endif // EDLCONFIGDIALOG_H

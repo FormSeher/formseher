@@ -15,5 +15,5 @@ EDLConfigDialog::~EDLConfigDialog()
 
 Algorithm* EDLConfigDialog::getAlgorithm()
 {
-    return 0;
+    return &edl;
 }
