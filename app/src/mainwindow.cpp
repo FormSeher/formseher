@@ -5,6 +5,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 
+#include "algorithm.h"
+
 QString safepath = "C:/Users/schwa_000/Desktop/studium neu/Projekt 2/bilder";
 
 QString fileName;
@@ -58,6 +60,9 @@ bool MainWindow::registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDi
 
     algorithmConfigDialogs[id] = dialog;
     ui->comboBox->addItem(QString(id.c_str()));
+
+    dialog->getAlgorithm()->startThreaded();
+
     return true;
 }
 
