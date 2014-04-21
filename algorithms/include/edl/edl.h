@@ -37,10 +37,10 @@ private:
 
     bool isOutOfBounds(cv::Point* point, cv::InputArray matrix);
 
-    int ksize;
-    double scale;
-    double delta;
-    int threshold;
+    int sobelKernelSize;
+    double sobelScale;
+    double sobelDelta;
+    int anchorThreshold;
     int gaussianKernelSize;
     double angleTolerance;
 };

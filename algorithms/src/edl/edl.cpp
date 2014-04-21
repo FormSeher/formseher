@@ -14,10 +14,10 @@
 
 
 EDL::EDL()
-    : ksize(3),
-      scale(1),
-      delta(0),
-      threshold(36),
+    : sobelKernelSize(3),
+      sobelScale(1),
+      sobelDelta(0),
+      anchorThreshold(36),
       gaussianKernelSize(3),
       angleTolerance(22.5 * M_PI / 180.0d)
 {
@@ -55,8 +55,8 @@ void EDL::calculate()
     // run the edge operator
     // ####
 
-    cv::Sobel(src, dx, CV_16S, 1, 0, ksize, scale, delta, cv::BORDER_DEFAULT);
-    cv::Sobel(src, dy, CV_16S, 0, 1, ksize, scale, delta, cv::BORDER_DEFAULT);
+    cv::Sobel(src, dx, CV_16S, 1, 0, sobelKernelSize, sobelScale, sobelDelta, cv::BORDER_DEFAULT);
+    cv::Sobel(src, dy, CV_16S, 0, 1, sobelKernelSize, sobelScale, sobelDelta, cv::BORDER_DEFAULT);
     convertScaleAbs( dx, adx ); //decrease to CV_8U again
     convertScaleAbs( dy, ady ); //always use adx, ady to proceed!
 
@@ -89,10 +89,10 @@ bool EDL::isAnchor(cv::Mat& src, int row, int column)
         int right = src.at<uchar>(row + 1, column);
         int left = src.at<uchar>(row - 1, column);
 
-        if (center - top >= threshold && center - bottom >= threshold)
+        if (center - top >= anchorThreshold && center - bottom >= anchorThreshold)
             isanchor = true;
 
-        if (center - right >= threshold && center - left >= threshold)
+        if (center - right >= anchorThreshold && center - left >= anchorThreshold)
             isanchor = true;
     }
     return isanchor;
