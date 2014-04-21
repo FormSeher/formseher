@@ -5,6 +5,9 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 
+#include "algorithm.h"
+#include "line.h"
+
 QString safepath = "C:/Users/schwa_000/Desktop/studium neu/Projekt 2/bilder";
 
 QString fileName;
@@ -15,9 +18,13 @@ QImage oimage2;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    selectedAlgorithmDialog(0)
 {
     ui->setupUi(this);
+
+    connect(&resultTimer, SIGNAL(timeout()), this, SLOT(on_resultTimer_timeout()));
+    resultTimer.start(50);
 }
 
 MainWindow::~MainWindow()
@@ -49,7 +56,19 @@ void bigwindow(cv::Mat cvimage)
 
 
 //Mainblock:
+bool MainWindow::registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog* dialog)
+{
+    // Only register if id is still free
+    if(algorithmConfigDialogs.find(id) != algorithmConfigDialogs.end())
+        return false;
 
+    algorithmConfigDialogs[id] = dialog;
+    ui->comboBox->addItem(QString(id.c_str()));
+
+    dialog->getAlgorithm()->startThreaded();
+
+    return true;
+}
 
 void MainWindow::on_openpicture1_clicked()
 {
@@ -68,6 +87,8 @@ void MainWindow::on_openpicture1_clicked()
         QImage scaledPic = oimage1.scaled(pixSize,Qt::KeepAspectRatio,Qt::SmoothTransformation);
 
         ui->labelview1->setPixmap(QPixmap::fromImage(scaledPic));
+
+        selectedAlgorithmDialog->getAlgorithm()->setInput(fileName.toStdString());
     }
     catch(int e)
     {
@@ -182,5 +203,29 @@ void MainWindow::on_pushButton_4_clicked()
    bigwindow(cvimage2);
 }
 
+void MainWindow::on_comboBox_currentIndexChanged(const QString &algorithmId)
+{
+    selectedAlgorithmDialog = algorithmConfigDialogs[algorithmId.toStdString()];
+}
 
+void MainWindow::on_pushButton_clicked()
+{
+    selectedAlgorithmDialog->show();
+}
 
+void MainWindow::on_resultTimer_timeout()
+{
+    if(selectedAlgorithmDialog && !cvimage1.empty())
+    {
+        cv::Mat resultMat = cv::Mat::zeros(cvimage1.rows, cvimage1.cols, CV_8UC3);
+        std::vector<Line>* result = selectedAlgorithmDialog->getAlgorithm()->getResult();
+
+        for(auto line : *result)
+        {
+            cv::line(resultMat, line.getStart(), line.getEnd(), cv::Scalar(255,0,255));
+        }
+        delete result;
+
+        cv::imshow("result", resultMat);
+    }
+}

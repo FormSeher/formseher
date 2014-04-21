@@ -2,6 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
+
+#include <map>
+#include <string>
+
+#include "algorithmconfigdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -14,6 +20,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    bool registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog* dialog);
 
 private slots:
     void on_openpicture1_clicked();
@@ -32,8 +40,20 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_comboBox_currentIndexChanged(const QString &algorithmId);
+
+    void on_pushButton_clicked();
+
+    void on_resultTimer_timeout();
+
 private:
     Ui::MainWindow *ui;
+
+    std::map<std::string, AlgorithmConfigDialog*> algorithmConfigDialogs;
+    AlgorithmConfigDialog* selectedAlgorithmDialog;
+
+    QTimer resultTimer;
+
 };
 
 #endif // MAINWINDOW_H
