@@ -2,7 +2,7 @@
 #include "ui_edlconfigdialog.h"
 
 EDLConfigDialog::EDLConfigDialog(QWidget *parent) :
-    QDialog(parent),
+    AlgorithmConfigDialog(parent),
     ui(new Ui::EDLConfigDialog)
 {
     ui->setupUi(this);
@@ -11,4 +11,9 @@ EDLConfigDialog::EDLConfigDialog(QWidget *parent) :
 EDLConfigDialog::~EDLConfigDialog()
 {
     delete ui;
+}
+
+Algorithm* EDLConfigDialog::getAlgorithm()
+{
+    return 0;
 }
