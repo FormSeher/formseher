@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 
 #include <map>
 #include <string>
@@ -43,11 +44,15 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_resultTimer_timeout();
+
 private:
     Ui::MainWindow *ui;
 
     std::map<std::string, AlgorithmConfigDialog*> algorithmConfigDialogs;
     AlgorithmConfigDialog* selectedAlgorithmDialog;
+
+    QTimer resultTimer;
 
 };
 

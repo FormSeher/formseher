@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "algorithm.h"
+#include "line.h"
 
 QString safepath = "C:/Users/schwa_000/Desktop/studium neu/Projekt 2/bilder";
 
@@ -21,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
     selectedAlgorithmDialog(0)
 {
     ui->setupUi(this);
+
+    connect(&resultTimer, SIGNAL(timeout()), this, SLOT(on_resultTimer_timeout()));
+    resultTimer.start(50);
 }
 
 MainWindow::~MainWindow()
@@ -83,6 +87,8 @@ void MainWindow::on_openpicture1_clicked()
         QImage scaledPic = oimage1.scaled(pixSize,Qt::KeepAspectRatio,Qt::SmoothTransformation);
 
         ui->labelview1->setPixmap(QPixmap::fromImage(scaledPic));
+
+        selectedAlgorithmDialog->getAlgorithm()->setInput(fileName.toStdString());
     }
     catch(int e)
     {
@@ -205,4 +211,20 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &algorithmId)
 void MainWindow::on_pushButton_clicked()
 {
     selectedAlgorithmDialog->show();
+}
+
+void MainWindow::on_resultTimer_timeout()
+{
+    if(selectedAlgorithmDialog && !cvimage1.empty())
+    {
+        cv::Mat resultMat = cv::Mat::zeros(cvimage1.rows, cvimage1.cols, CV_8UC3);
+        std::vector<Line>* result = selectedAlgorithmDialog->getAlgorithm()->getResult();
+
+        for(auto line : *result)
+        {
+            cv::line(resultMat, line.getStart(), line.getEnd(), cv::Scalar(255,0,255));
+        }
+
+        cv::imshow("result", resultMat);
+    }
 }
