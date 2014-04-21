@@ -57,6 +57,7 @@ bool MainWindow::registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDi
         return false;
 
     algorithmConfigDialogs[id] = dialog;
+    ui->comboBox->addItem(QString(id.c_str()));
     return true;
 }
 
@@ -191,5 +192,12 @@ void MainWindow::on_pushButton_4_clicked()
    bigwindow(cvimage2);
 }
 
+void MainWindow::on_comboBox_currentIndexChanged(const QString &algorithmId)
+{
+    selectedAlgorithmDialog = algorithmConfigDialogs[algorithmId.toStdString()];
+}
 
-
+void MainWindow::on_pushButton_clicked()
+{
+    selectedAlgorithmDialog->show();
+}

@@ -39,6 +39,10 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_comboBox_currentIndexChanged(const QString &algorithmId);
+
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
