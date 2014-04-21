@@ -224,6 +224,7 @@ void MainWindow::on_resultTimer_timeout()
         {
             cv::line(resultMat, line.getStart(), line.getEnd(), cv::Scalar(255,0,255));
         }
+        delete result;
 
         cv::imshow("result", resultMat);
     }
