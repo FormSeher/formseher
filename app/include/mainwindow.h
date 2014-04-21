@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 
+#include <map>
+#include <string>
+
+#include "algorithmconfigdialog.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -14,6 +19,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    bool registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog* dialog);
 
 private slots:
     void on_openpicture1_clicked();
@@ -34,6 +41,10 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    std::map<std::string, AlgorithmConfigDialog*> algorithmConfigDialogs;
+    AlgorithmConfigDialog* selectedAlgorithmDialog;
+
 };
 
 #endif // MAINWINDOW_H

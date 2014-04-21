@@ -15,7 +15,8 @@ QImage oimage2;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    selectedAlgorithmDialog(0)
 {
     ui->setupUi(this);
 }
@@ -49,7 +50,15 @@ void bigwindow(cv::Mat cvimage)
 
 
 //Mainblock:
+bool MainWindow::registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog* dialog)
+{
+    // Only register if id is still free
+    if(algorithmConfigDialogs.find(id) != algorithmConfigDialogs.end())
+        return false;
 
+    algorithmConfigDialogs[id] = dialog;
+    return true;
+}
 
 void MainWindow::on_openpicture1_clicked()
 {
