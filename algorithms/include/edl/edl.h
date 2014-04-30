@@ -20,6 +20,24 @@ public:
 
     void calculate();
 
+    int getSobelKernelSize() const;
+    void setSobelKernelSize(int value);
+
+    double getSobelScale() const;
+    void setSobelScale(double value);
+
+    double getSobelDelta() const;
+    void setSobelDelta(double value);
+
+    int getAnchorThreshold() const;
+    void setAnchorThreshold(int value);
+
+    int getGaussianKernelSize() const;
+    void setGaussianKernelSize(int value);
+
+    double getAngleTolerance() const;
+    void setAngleTolerance(double value);
+
 private:
     void calcGradAngleAnchors(cv::InputArray _gradientX, cv::InputArray _gradientY, cv::OutputArray _gradientMagnitudes, cv::OutputArray _gradientAngles, std::vector<cv::Point>& anchors);
 
@@ -37,10 +55,10 @@ private:
 
     bool isOutOfBounds(cv::Point* point, cv::InputArray matrix);
 
-    int ksize;
-    double scale;
-    double delta;
-    int threshold;
+    int sobelKernelSize;
+    double sobelScale;
+    double sobelDelta;
+    int anchorThreshold;
     int gaussianKernelSize;
     double angleTolerance;
 };
