@@ -17,8 +17,7 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 SOURCES += $${TEST_SRC_DIR}/main.cpp
 
-HEADERS += $${TEST_INCL_DIR}/algorithmtest.h \
-           $${TEST_INCL_DIR}/linetest.h \
+HEADERS += $${TEST_INCL_DIR}/linetest.h \
            $${TEST_INCL_DIR}/edl/edltest.h
 
 INCLUDEPATH += $${TEST_INCL_DIR} \
