@@ -28,6 +28,10 @@ public:
     virtual Algorithm* getAlgorithm() = 0;
 
 signals:
+    /**
+     * Emit this siganl if the configuration was changed.
+     */
+    void configChanged();
 
 public slots:
 
