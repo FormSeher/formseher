@@ -13,37 +13,44 @@ EDLConfigDialog::~EDLConfigDialog()
     delete ui;
 }
 
-Algorithm* EDLConfigDialog::getAlgorithm()
+Algorithm* EDLConfigDialog::createAlgorithm()
 {
-    return &edl;
+    return new EDL(
+                ui->sobelKernelSize->value(),
+                ui->sobelScale->value(),
+                ui->sobelDelta->value(),
+                ui->gaussianKernelSize->value(),
+                ui->anchorThreshold->value(),
+                ui->angleTolerance->value() * M_PI / 180.0
+    );
 }
 
 void EDLConfigDialog::on_sobelKernelSize_valueChanged(int sobelKernelSize)
 {
-    edl.setSobelKernelSize(sobelKernelSize);
+    emit configChanged();
 }
 
 void EDLConfigDialog::on_sobelScale_valueChanged(double sobelScale)
 {
-    edl.setSobelScale(sobelScale);
+    emit configChanged();
 }
 
 void EDLConfigDialog::on_sobelDelta_valueChanged(double sobelDelta)
 {
-    edl.setSobelDelta(sobelDelta);
+    emit configChanged();
 }
 
 void EDLConfigDialog::on_gaussianKernelSize_valueChanged(int gaussianKernelSize)
 {
-    edl.setGaussianKernelSize(gaussianKernelSize);
+    emit configChanged();
 }
 
 void EDLConfigDialog::on_anchorThreshold_valueChanged(int anchorThreshold)
 {
-    edl.setAnchorThreshold(anchorThreshold);
+    emit configChanged();
 }
 
 void EDLConfigDialog::on_angleTolerance_valueChanged(double angleTolerance)
 {
-    edl.setAngleTolerance(angleTolerance * M_PI / 180.0);
+    emit configChanged();
 }

@@ -17,10 +17,14 @@ DESTDIR = bin
 
 SOURCES += $${APP_SRC_DIR}/main.cpp \
            $${APP_SRC_DIR}/mainwindow.cpp \
+           $${APP_SRC_DIR}/algorithmcontroller.cpp \
+           $${APP_SRC_DIR}/algorithmworker.cpp \
            $${APP_SRC_DIR}/algorithmconfigdialog.cpp \
            $${APP_SRC_DIR}/edl/edlconfigdialog.cpp
 
 HEADERS  += $${APP_INCL_DIR}/mainwindow.h \
+            $${APP_INCL_DIR}/algorithmcontroller.hpp \
+            $${APP_INCL_DIR}/algorithmworker.h \
             $${APP_INCL_DIR}/algorithmconfigdialog.h \
             $${APP_INCL_DIR}/edl/edlconfigdialog.h
 

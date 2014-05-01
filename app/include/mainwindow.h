@@ -8,6 +8,7 @@
 #include <string>
 
 #include "algorithmconfigdialog.h"
+#include "algorithmcontroller.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -44,16 +45,14 @@ private slots:
 
     void on_pushButton_clicked();
 
-    void on_resultTimer_timeout();
+    void on_worker1_newResultAvailable();
 
 private:
     Ui::MainWindow *ui;
 
     std::map<std::string, AlgorithmConfigDialog*> algorithmConfigDialogs;
     AlgorithmConfigDialog* selectedAlgorithmDialog;
-
-    QTimer resultTimer;
-
+    AlgorithmController controller1;
 };
 
 #endif // MAINWINDOW_H

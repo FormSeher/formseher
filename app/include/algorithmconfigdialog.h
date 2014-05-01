@@ -25,9 +25,13 @@ public:
      * @brief Return a pointer to the algorithm.
      * @return Pointer to the algorithm.
      */
-    virtual Algorithm* getAlgorithm() = 0;
+    virtual Algorithm* createAlgorithm() = 0;
 
 signals:
+    /**
+     * Emit this siganl if the configuration was changed.
+     */
+    void configChanged();
 
 public slots:
 

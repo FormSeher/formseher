@@ -13,13 +13,14 @@
 #include <iostream>
 
 
-EDL::EDL()
-    : sobelKernelSize(3),
-      sobelScale(1),
-      sobelDelta(0),
-      anchorThreshold(36),
-      gaussianKernelSize(3),
-      angleTolerance(22.5 * M_PI / 180.0d)
+EDL::EDL(int sobelKernelSize, double sobelScale, double sobelDelta, int gaussianKernelSize,
+         int anchorThreshold, double angleTolerance)
+    : sobelKernelSize(sobelKernelSize),
+      sobelScale(sobelScale),
+      sobelDelta(sobelDelta),
+      gaussianKernelSize(gaussianKernelSize),
+      anchorThreshold(anchorThreshold),
+      angleTolerance(angleTolerance)
 {
 }
 
@@ -27,12 +28,13 @@ EDL::~EDL()
 {
 }
 
-void EDL::calculate()
+std::vector<Line> EDL::calculate(cv::InputArray _image)
 {
-    cv::Mat src = cv::imread(getInputFilePath().c_str(), CV_LOAD_IMAGE_GRAYSCALE);
+    cv::Mat image = _image.getMat();
+    std::vector<Line> result;
 
-    if(!src.data)
-        return;
+    if(!image.data)
+        return result;
 
     //Definitions for sobel
     cv::Mat dx;
@@ -41,22 +43,22 @@ void EDL::calculate()
     cv::Mat ady;
 
     //Definitions for grad, angle and anchor calculation
-    cv::Mat gradientMagnitudes = cv::Mat::zeros(src.rows, src.cols, CV_8U);
-    cv::Mat gradientAngles = cv::Mat::zeros(src.rows, src.cols, CV_64F);
+    cv::Mat gradientMagnitudes = cv::Mat::zeros(image.rows, image.cols, CV_8U);
+    cv::Mat gradientAngles = cv::Mat::zeros(image.rows, image.cols, CV_64F);
     std::vector<cv::Point> anchors;
 
     // ####
     // use a filter algorithm to suppress noise
     // ####
-    cv::GaussianBlur(src, src, cv::Size(gaussianKernelSize, gaussianKernelSize), 0, 0);
+    cv::GaussianBlur(image, image, cv::Size(gaussianKernelSize, gaussianKernelSize), 0, 0);
 
 
     // ####
     // run the edge operator
     // ####
 
-    cv::Sobel(src, dx, CV_16S, 1, 0, sobelKernelSize, sobelScale, sobelDelta, cv::BORDER_DEFAULT);
-    cv::Sobel(src, dy, CV_16S, 0, 1, sobelKernelSize, sobelScale, sobelDelta, cv::BORDER_DEFAULT);
+    cv::Sobel(image, dx, CV_16S, 1, 0, sobelKernelSize, sobelScale, sobelDelta, cv::BORDER_DEFAULT);
+    cv::Sobel(image, dy, CV_16S, 0, 1, sobelKernelSize, sobelScale, sobelDelta, cv::BORDER_DEFAULT);
     convertScaleAbs( dx, adx ); //decrease to CV_8U again
     convertScaleAbs( dy, ady ); //always use adx, ady to proceed!
 
@@ -69,11 +71,10 @@ void EDL::calculate()
     // ####
     // run the routing algorithm
     // ####
-    std::vector<Line> result;
     routeAnchors(angleTolerance, gradientMagnitudes, gradientAngles, anchors, result);
 
     // Save result
-    setResult(result, 0.0d);
+    return result;
 }
 
 bool EDL::isAnchor(cv::Mat& src, int row, int column)
@@ -335,63 +336,4 @@ bool EDL::isOutOfBounds(cv::Point *point, cv::InputArray matrix)
 
     return (point->x < 0) || (point->x > mat.cols)
             || (point->y < 0) || (point->y > mat.rows);
-}
-double EDL::getAngleTolerance() const
-{
-    return angleTolerance;
-}
-
-void EDL::setAngleTolerance(double value)
-{
-    angleTolerance = value;
-}
-
-int EDL::getGaussianKernelSize() const
-{
-    return gaussianKernelSize;
-}
-
-void EDL::setGaussianKernelSize(int value)
-{
-    gaussianKernelSize = value;
-}
-
-int EDL::getAnchorThreshold() const
-{
-    return anchorThreshold;
-}
-
-void EDL::setAnchorThreshold(int value)
-{
-    anchorThreshold = value;
-}
-
-double EDL::getSobelDelta() const
-{
-    return sobelDelta;
-}
-
-void EDL::setSobelDelta(double value)
-{
-    sobelDelta = value;
-}
-
-double EDL::getSobelScale() const
-{
-    return sobelScale;
-}
-
-void EDL::setSobelScale(double value)
-{
-    sobelScale = value;
-}
-
-int EDL::getSobelKernelSize() const
-{
-    return sobelKernelSize;
-}
-
-void EDL::setSobelKernelSize(int value)
-{
-    sobelKernelSize = value;
 }

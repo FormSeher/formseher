@@ -7,6 +7,7 @@
 
 #include "algorithm.h"
 #include "line.h"
+#include "algorithmcontroller.hpp"
 
 QString safepath = "C:/Users/schwa_000/Desktop/studium neu/Projekt 2/bilder";
 
@@ -19,12 +20,12 @@ QImage oimage2;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    selectedAlgorithmDialog(0)
+    selectedAlgorithmDialog(0),
+    controller1()
 {
     ui->setupUi(this);
 
-    connect(&resultTimer, SIGNAL(timeout()), this, SLOT(on_resultTimer_timeout()));
-    resultTimer.start(50);
+    connect(&controller1, &AlgorithmController::newResultAvailable, this, &MainWindow::on_worker1_newResultAvailable);
 }
 
 MainWindow::~MainWindow()
@@ -65,8 +66,6 @@ bool MainWindow::registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDi
     algorithmConfigDialogs[id] = dialog;
     ui->comboBox->addItem(QString(id.c_str()));
 
-    dialog->getAlgorithm()->startThreaded();
-
     return true;
 }
 
@@ -88,7 +87,7 @@ void MainWindow::on_openpicture1_clicked()
 
         ui->labelview1->setPixmap(QPixmap::fromImage(scaledPic));
 
-        selectedAlgorithmDialog->getAlgorithm()->setInput(fileName.toStdString());
+        controller1.setImage(cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE));
     }
     catch(int e)
     {
@@ -206,6 +205,7 @@ void MainWindow::on_pushButton_4_clicked()
 void MainWindow::on_comboBox_currentIndexChanged(const QString &algorithmId)
 {
     selectedAlgorithmDialog = algorithmConfigDialogs[algorithmId.toStdString()];
+    controller1.setAlgorithmConfigDialog(selectedAlgorithmDialog);
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -213,19 +213,15 @@ void MainWindow::on_pushButton_clicked()
     selectedAlgorithmDialog->show();
 }
 
-void MainWindow::on_resultTimer_timeout()
+void MainWindow::on_worker1_newResultAvailable()
 {
-    if(selectedAlgorithmDialog && !cvimage1.empty())
+    cv::Mat resultMat = cv::Mat::zeros(cvimage1.rows, cvimage1.cols, CV_8UC3);
+
+    std::vector<Line> result = controller1.getLatestResult();
+    for(auto line : result)
     {
-        cv::Mat resultMat = cv::Mat::zeros(cvimage1.rows, cvimage1.cols, CV_8UC3);
-        std::vector<Line>* result = selectedAlgorithmDialog->getAlgorithm()->getResult();
-
-        for(auto line : *result)
-        {
-            cv::line(resultMat, line.getStart(), line.getEnd(), cv::Scalar(255,0,255));
-        }
-        delete result;
-
-        cv::imshow("result", resultMat);
+        cv::line(resultMat, line.getStart(), line.getEnd(), cv::Scalar(255,0,255));
     }
+
+    cv::imshow("result", resultMat);
 }
