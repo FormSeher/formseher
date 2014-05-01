@@ -18,7 +18,7 @@ public:
     explicit EDLConfigDialog(QWidget *parent = 0);
     ~EDLConfigDialog();
 
-    Algorithm* getAlgorithm();
+    Algorithm* createAlgorithm();
 
 private slots:
     void on_sobelKernelSize_valueChanged(int arg1);

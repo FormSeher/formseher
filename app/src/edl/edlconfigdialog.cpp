@@ -13,9 +13,16 @@ EDLConfigDialog::~EDLConfigDialog()
     delete ui;
 }
 
-Algorithm* EDLConfigDialog::getAlgorithm()
+Algorithm* EDLConfigDialog::createAlgorithm()
 {
-    return &edl;
+    return new EDL(
+                ui->sobelKernelSize->value(),
+                ui->sobelScale->value(),
+                ui->sobelDelta->value(),
+                ui->gaussianKernelSize->value(),
+                ui->anchorThreshold->value(),
+                ui->angleTolerance->value() * M_PI / 180.0
+    );
 }
 
 void EDLConfigDialog::on_sobelKernelSize_valueChanged(int sobelKernelSize)
