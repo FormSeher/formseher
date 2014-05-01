@@ -45,17 +45,12 @@ private slots:
 
     void on_pushButton_clicked();
 
-    void on_resultTimer_timeout();
-
 private:
     Ui::MainWindow *ui;
 
     std::map<std::string, AlgorithmConfigDialog*> algorithmConfigDialogs;
     AlgorithmConfigDialog* selectedAlgorithmDialog;
     Worker worker1;
-
-    QTimer resultTimer;
-
 };
 
 #endif // MAINWINDOW_H
