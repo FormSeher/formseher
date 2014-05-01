@@ -86,6 +86,8 @@ void MainWindow::on_openpicture1_clicked()
         QImage scaledPic = oimage1.scaled(pixSize,Qt::KeepAspectRatio,Qt::SmoothTransformation);
 
         ui->labelview1->setPixmap(QPixmap::fromImage(scaledPic));
+
+        controller1.setImage(cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE));
     }
     catch(int e)
     {
