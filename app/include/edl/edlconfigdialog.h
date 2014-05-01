@@ -35,8 +35,6 @@ private slots:
 
 private:
     Ui::EDLConfigDialog *ui;
-
-    EDL edl;
 };
 
 #endif // EDLCONFIGDIALOG_H
