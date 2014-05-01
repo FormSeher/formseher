@@ -7,6 +7,7 @@
 
 #include "algorithm.h"
 #include "line.h"
+#include "algorithmcontroller.hpp"
 
 QString safepath = "C:/Users/schwa_000/Desktop/studium neu/Projekt 2/bilder";
 
@@ -19,9 +20,12 @@ QImage oimage2;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    selectedAlgorithmDialog(0)
+    selectedAlgorithmDialog(0),
+    controller1()
 {
     ui->setupUi(this);
+
+    connect(&controller1, &AlgorithmController::newResultAvailable, this, &MainWindow::on_worker1_newResultAvailable);
 }
 
 MainWindow::~MainWindow()
@@ -205,4 +209,16 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &algorithmId)
 void MainWindow::on_pushButton_clicked()
 {
     selectedAlgorithmDialog->show();
+}
+
+void MainWindow::on_worker1_newResultAvailable(std::vector<Line> result)
+{
+    cv::Mat resultMat = cv::Mat::zeros(cvimage1.rows, cvimage1.cols, CV_8UC3);
+
+    for(auto line : result)
+    {
+        cv::line(resultMat, line.getStart(), line.getEnd(), cv::Scalar(255,0,255));
+    }
+
+    cv::imshow("result", resultMat);
 }
