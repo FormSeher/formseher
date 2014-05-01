@@ -19,12 +19,12 @@ SOURCES += $${APP_SRC_DIR}/main.cpp \
            $${APP_SRC_DIR}/mainwindow.cpp \
            $${APP_SRC_DIR}/algorithmconfigdialog.cpp \
            $${APP_SRC_DIR}/edl/edlconfigdialog.cpp \
-    src/worker.cpp
+    src/algorithmcontroller.cpp
 
 HEADERS  += $${APP_INCL_DIR}/mainwindow.h \
             $${APP_INCL_DIR}/algorithmconfigdialog.h \
             $${APP_INCL_DIR}/edl/edlconfigdialog.h \
-    include/worker.hpp
+    include/algorithmcontroller.hpp
 
 FORMS    += $${APP_FORM_DIR}/mainwindow.ui \
             $${APP_FORM_DIR}/edl/edlconfigdialog.ui

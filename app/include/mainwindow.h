@@ -8,7 +8,7 @@
 #include <string>
 
 #include "algorithmconfigdialog.h"
-#include "worker.hpp"
+#include "algorithmcontroller.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -50,7 +50,7 @@ private:
 
     std::map<std::string, AlgorithmConfigDialog*> algorithmConfigDialogs;
     AlgorithmConfigDialog* selectedAlgorithmDialog;
-    Worker worker1;
+    AlgorithmController controller1;
 };
 
 #endif // MAINWINDOW_H
