@@ -63,7 +63,7 @@ void AlgorithmController::scheduleAlgorithm()
         return;
     }
 
-    worker = new AlgorithmWorker(queuedAlgorithm, image, this);
+    worker = new AlgorithmWorker(queuedAlgorithm, image.clone(), this);
     scheduledAlgorithm = queuedAlgorithm;
     queuedAlgorithm = 0;
     connect(worker, &AlgorithmWorker::resultReady, this, &AlgorithmController::handleResult);
