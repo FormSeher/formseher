@@ -9,7 +9,7 @@ class Algorithm;
  * @brief The AlgorithmConfigDialog class used to configure an algorithm.
  *
  * Each algorithm is shipped with an custom AlgorithmConfigDialog. This dialog
- * is responsible for the configuratoin of any parameters that can be tweaked.
+ * works as a factory which creates new Algorithm instances.
  */
 class AlgorithmConfigDialog : public QDialog
 {
@@ -22,14 +22,18 @@ public:
     explicit AlgorithmConfigDialog(QWidget *parent = 0);
 
     /**
-     * @brief Return a pointer to the algorithm.
-     * @return Pointer to the algorithm.
+     * @brief Create a new Algorithm instance.
+     *
+     * This is a factory method which creates a new Algorithm instance
+     * with the currently configured parameters.
+     *
+     * @return Pointer to the new Algorithm.
      */
     virtual Algorithm* createAlgorithm() = 0;
 
 signals:
     /**
-     * Emit this siganl if the configuration was changed.
+     * Emit this signal if the configuration was changed.
      */
     void configChanged();
 

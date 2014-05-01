@@ -2,8 +2,6 @@
 
 #include "algorithmworker.h"
 
-#include <iostream>
-
 AlgorithmController::AlgorithmController()
     : configDialog(0),
       queuedAlgorithm(0),
@@ -47,8 +45,6 @@ void AlgorithmController::enqueueAlgorithm()
         delete queuedAlgorithm;
     queuedAlgorithm = newAlgorithm;
     queueMutex.unlock();
-
-    std::cout << "enqueued algorithm...." << std::endl;
 
     scheduleAlgorithm();
 }
