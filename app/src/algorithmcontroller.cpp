@@ -1,5 +1,7 @@
 #include "algorithmcontroller.hpp"
 
+#include "algorithmworker.h"
+
 #include <iostream>
 
 AlgorithmController::AlgorithmController()
@@ -21,7 +23,14 @@ void AlgorithmController::setAlgorithmConfigDialog(AlgorithmConfigDialog *dialog
 
     configDialog = dialog;
     configChangedConnection = connect(configDialog, &AlgorithmConfigDialog::configChanged,
-                                               this, &AlgorithmController::enqueueAlgorithm);
+                                      this, &AlgorithmController::enqueueAlgorithm);
+}
+
+void AlgorithmController::setImage(cv::InputArray image)
+{
+    queueMutex.lock();
+    this->image = image.getMat();
+    queueMutex.unlock();
 }
 
 void AlgorithmController::enqueueAlgorithm()
@@ -39,10 +48,29 @@ void AlgorithmController::enqueueAlgorithm()
     //scheduleAlgorithm()
 }
 
-void AlgorithmController::onCalculationFinished()
+void AlgorithmController::scheduleAlgorithm()
 {
     queueMutex.lock();
-    delete scheduledAlgorithm;
+
+    if(scheduledAlgorithm != 0 || queuedAlgorithm == 0)
+    {
+        queueMutex.unlock();
+        return;
+    }
+
+    AlgorithmWorker* worker = new AlgorithmWorker(queuedAlgorithm, image, this);
+    connect(worker, &AlgorithmWorker::resultReady, this, &AlgorithmController::handleResult);
+    connect(worker, &AlgorithmWorker::finished, this, &AlgorithmController::scheduleAlgorithm);
+    connect(worker, &AlgorithmWorker::finished, worker, &QObject::deleteLater);
+    worker->start();
+
+    queueMutex.unlock();
+}
+
+void AlgorithmController::handleResult(std::vector<Line> result)
+{
+    queueMutex.lock();
     scheduledAlgorithm = 0;
+    emit newResultAvailable(result);
     queueMutex.unlock();
 }

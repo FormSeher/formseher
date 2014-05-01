@@ -3,9 +3,11 @@
 
 #include "algorithm.h"
 #include "algorithmconfigdialog.h"
+#include "line.h"
 
 #include <QObject>
 #include <QMutex>
+#include <vector>
 
 class AlgorithmController : public QObject
 {
@@ -16,14 +18,21 @@ public:
     ~AlgorithmController();
 
     void setAlgorithmConfigDialog(AlgorithmConfigDialog* dialog);
+    void setImage(cv::InputArray image);
+
+signals:
+    void newResultAvailable(std::vector<Line> result);
 
 private slots:
     void enqueueAlgorithm();
-    void onCalculationFinished();
+    void scheduleAlgorithm();
+    void handleResult(std::vector<Line> result);
 
 private:
     QMetaObject::Connection configChangedConnection;
     AlgorithmConfigDialog* configDialog;
+
+    cv::Mat image;
 
     Algorithm* queuedAlgorithm;
     Algorithm* scheduledAlgorithm;
