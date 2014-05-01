@@ -15,28 +15,11 @@
 class EDL : public Algorithm
 {
 public:
-    EDL();
+    EDL(int sobelKernelSize = 3, double sobelScale = 1.9, double sobelDelta = 0.0, int gaussianKernelSize = 3,
+        int anchorThreshold = 36, double angleTolerance = 22.5 * M_PI / 180.0);
     ~EDL();
 
     std::vector<Line> calculate(cv::InputArray _image);
-
-    int getSobelKernelSize() const;
-    void setSobelKernelSize(int value);
-
-    double getSobelScale() const;
-    void setSobelScale(double value);
-
-    double getSobelDelta() const;
-    void setSobelDelta(double value);
-
-    int getAnchorThreshold() const;
-    void setAnchorThreshold(int value);
-
-    int getGaussianKernelSize() const;
-    void setGaussianKernelSize(int value);
-
-    double getAngleTolerance() const;
-    void setAngleTolerance(double value);
 
 private:
     void calcGradAngleAnchors(cv::InputArray _gradientX, cv::InputArray _gradientY, cv::OutputArray _gradientMagnitudes, cv::OutputArray _gradientAngles, std::vector<cv::Point>& anchors);
@@ -58,8 +41,8 @@ private:
     int sobelKernelSize;
     double sobelScale;
     double sobelDelta;
-    int anchorThreshold;
     int gaussianKernelSize;
+    int anchorThreshold;
     double angleTolerance;
 };
 
