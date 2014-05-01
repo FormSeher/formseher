@@ -45,7 +45,7 @@ private slots:
 
     void on_pushButton_clicked();
 
-    void on_worker1_newResultAvailable(std::vector<Line> result);
+    void on_worker1_newResultAvailable();
 
 private:
     Ui::MainWindow *ui;

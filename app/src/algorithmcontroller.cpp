@@ -33,6 +33,11 @@ void AlgorithmController::setImage(cv::InputArray image)
     queueMutex.unlock();
 }
 
+std::vector<Line> AlgorithmController::getLatestResult()
+{
+    return latestResult;
+}
+
 void AlgorithmController::enqueueAlgorithm()
 {
     Algorithm* newAlgorithm = configDialog->createAlgorithm();
@@ -58,19 +63,24 @@ void AlgorithmController::scheduleAlgorithm()
         return;
     }
 
-    AlgorithmWorker* worker = new AlgorithmWorker(queuedAlgorithm, image, this);
+    worker = new AlgorithmWorker(queuedAlgorithm, image, this);
+    scheduledAlgorithm = queuedAlgorithm;
+    queuedAlgorithm = 0;
     connect(worker, &AlgorithmWorker::resultReady, this, &AlgorithmController::handleResult);
-    connect(worker, &AlgorithmWorker::finished, this, &AlgorithmController::scheduleAlgorithm);
-    connect(worker, &AlgorithmWorker::finished, worker, &QObject::deleteLater);
+    connect(worker, &QThread::finished, worker, &QObject::deleteLater);
     worker->start();
 
     queueMutex.unlock();
 }
 
-void AlgorithmController::handleResult(std::vector<Line> result)
+void AlgorithmController::handleResult()
 {
     queueMutex.lock();
+
+    latestResult = worker->getResult();
+
     scheduledAlgorithm = 0;
-    emit newResultAvailable(result);
+    emit newResultAvailable();
+
     queueMutex.unlock();
 }

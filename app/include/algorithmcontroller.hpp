@@ -4,6 +4,7 @@
 #include "algorithm.h"
 #include "algorithmconfigdialog.h"
 #include "line.h"
+#include "algorithmworker.h"
 
 #include <QObject>
 #include <QMutex>
@@ -20,13 +21,15 @@ public:
     void setAlgorithmConfigDialog(AlgorithmConfigDialog* dialog);
     void setImage(cv::InputArray image);
 
+    std::vector<Line> getLatestResult();
+
 signals:
-    void newResultAvailable(std::vector<Line> result);
+    void newResultAvailable();
 
 private slots:
     void enqueueAlgorithm();
     void scheduleAlgorithm();
-    void handleResult(std::vector<Line> result);
+    void handleResult();
 
 private:
     QMetaObject::Connection configChangedConnection;
@@ -36,8 +39,11 @@ private:
 
     Algorithm* queuedAlgorithm;
     Algorithm* scheduledAlgorithm;
+    AlgorithmWorker* worker;
 
     QMutex queueMutex;
+
+    std::vector<Line> latestResult;
 };
 
 #endif // ALGORITHMCONTROLLER_HPP

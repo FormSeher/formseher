@@ -15,5 +15,10 @@ AlgorithmWorker::~AlgorithmWorker()
 void AlgorithmWorker::run()
 {
     std::vector<Line> result = algorithm->calculate(image);
-    emit resultReady(result);
+    emit resultReady();
+}
+
+std::vector<Line> AlgorithmWorker::getResult()
+{
+    return result;
 }

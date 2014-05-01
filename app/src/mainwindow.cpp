@@ -213,10 +213,11 @@ void MainWindow::on_pushButton_clicked()
     selectedAlgorithmDialog->show();
 }
 
-void MainWindow::on_worker1_newResultAvailable(std::vector<Line> result)
+void MainWindow::on_worker1_newResultAvailable()
 {
     cv::Mat resultMat = cv::Mat::zeros(cvimage1.rows, cvimage1.cols, CV_8UC3);
 
+    std::vector<Line> result = controller1.getLatestResult();
     for(auto line : result)
     {
         cv::line(resultMat, line.getStart(), line.getEnd(), cv::Scalar(255,0,255));

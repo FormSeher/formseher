@@ -18,14 +18,17 @@ public:
 
     void run() Q_DECL_OVERRIDE;
 
+    std::vector<Line> getResult();
+
 signals:
-    void resultReady(std::vector<Line> result);
+    void resultReady();
 
 public slots:
 
 private:
     Algorithm* algorithm;
     cv::Mat image;
+    std::vector<Line> result;
 };
 
 #endif // ALGORITHMWORKER_H
