@@ -8,6 +8,7 @@
 #include <string>
 
 #include "algorithmconfigdialog.h"
+#include "worker.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -51,6 +52,7 @@ private:
 
     std::map<std::string, AlgorithmConfigDialog*> algorithmConfigDialogs;
     AlgorithmConfigDialog* selectedAlgorithmDialog;
+    Worker worker1;
 
     QTimer resultTimer;
 
