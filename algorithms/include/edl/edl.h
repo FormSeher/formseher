@@ -18,7 +18,7 @@ public:
     EDL();
     ~EDL();
 
-    void calculate();
+    std::vector<Line> calculate(cv::InputArray _image);
 
     int getSobelKernelSize() const;
     void setSobelKernelSize(int value);

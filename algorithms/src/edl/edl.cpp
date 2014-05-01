@@ -27,12 +27,13 @@ EDL::~EDL()
 {
 }
 
-void EDL::calculate()
+std::vector<Line> EDL::calculate(cv::InputArray _image)
 {
-    cv::Mat src = cv::imread(getInputFilePath().c_str(), CV_LOAD_IMAGE_GRAYSCALE);
+    cv::Mat image = _image.getMat();
+    std::vector<Line> result;
 
-    if(!src.data)
-        return;
+    if(!image.data)
+        return result;
 
     //Definitions for sobel
     cv::Mat dx;
@@ -41,22 +42,22 @@ void EDL::calculate()
     cv::Mat ady;
 
     //Definitions for grad, angle and anchor calculation
-    cv::Mat gradientMagnitudes = cv::Mat::zeros(src.rows, src.cols, CV_8U);
-    cv::Mat gradientAngles = cv::Mat::zeros(src.rows, src.cols, CV_64F);
+    cv::Mat gradientMagnitudes = cv::Mat::zeros(image.rows, image.cols, CV_8U);
+    cv::Mat gradientAngles = cv::Mat::zeros(image.rows, image.cols, CV_64F);
     std::vector<cv::Point> anchors;
 
     // ####
     // use a filter algorithm to suppress noise
     // ####
-    cv::GaussianBlur(src, src, cv::Size(gaussianKernelSize, gaussianKernelSize), 0, 0);
+    cv::GaussianBlur(image, image, cv::Size(gaussianKernelSize, gaussianKernelSize), 0, 0);
 
 
     // ####
     // run the edge operator
     // ####
 
-    cv::Sobel(src, dx, CV_16S, 1, 0, sobelKernelSize, sobelScale, sobelDelta, cv::BORDER_DEFAULT);
-    cv::Sobel(src, dy, CV_16S, 0, 1, sobelKernelSize, sobelScale, sobelDelta, cv::BORDER_DEFAULT);
+    cv::Sobel(image, dx, CV_16S, 1, 0, sobelKernelSize, sobelScale, sobelDelta, cv::BORDER_DEFAULT);
+    cv::Sobel(image, dy, CV_16S, 0, 1, sobelKernelSize, sobelScale, sobelDelta, cv::BORDER_DEFAULT);
     convertScaleAbs( dx, adx ); //decrease to CV_8U again
     convertScaleAbs( dy, ady ); //always use adx, ady to proceed!
 
@@ -69,11 +70,10 @@ void EDL::calculate()
     // ####
     // run the routing algorithm
     // ####
-    std::vector<Line> result;
     routeAnchors(angleTolerance, gradientMagnitudes, gradientAngles, anchors, result);
 
     // Save result
-    setResult(result, 0.0d);
+    return result;
 }
 
 bool EDL::isAnchor(cv::Mat& src, int row, int column)
