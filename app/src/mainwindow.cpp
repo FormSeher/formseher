@@ -199,6 +199,7 @@ void MainWindow::on_pushButton_4_clicked()
 void MainWindow::on_comboBox_currentIndexChanged(const QString &algorithmId)
 {
     selectedAlgorithmDialog = algorithmConfigDialogs[algorithmId.toStdString()];
+    worker1.setAlgorithmConfigDialog(selectedAlgorithmDialog);
 }
 
 void MainWindow::on_pushButton_clicked()
