@@ -45,14 +45,14 @@ void AlgorithmController::enqueueAlgorithm()
 
     std::cout << "enqueued algorithm...." << std::endl;
 
-    //scheduleAlgorithm()
+    scheduleAlgorithm();
 }
 
 void AlgorithmController::scheduleAlgorithm()
 {
     queueMutex.lock();
 
-    if(scheduledAlgorithm != 0 || queuedAlgorithm == 0)
+    if(scheduledAlgorithm != 0 || queuedAlgorithm == 0 || image.empty())
     {
         queueMutex.unlock();
         return;
