@@ -43,6 +43,7 @@ private slots:
     void on_gaussianKernelSize_valueChanged(int gaussianKernelSize);
     void on_anchorThreshold_valueChanged(int anchorThreshold);
     void on_angleTolerance_valueChanged(double angleTolerance);
+    void on_minLineLength_valueChanged(int arg1);
 
 private:
     Ui::EDLConfigDialog *ui;

@@ -45,6 +45,8 @@ private slots:
 
     void routeAnchorsTest()
     {
+        edl->minLineLength = 2;
+
         cv::Mat_<uchar> magnitudes = cv::Mat::zeros(6, 10, CV_8U);
         magnitudes(2, 1) = 139;
         magnitudes(3, 1) = 139;

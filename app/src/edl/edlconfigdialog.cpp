@@ -21,7 +21,8 @@ Algorithm* EDLConfigDialog::createAlgorithm()
                 ui->sobelDelta->value(),
                 ui->gaussianKernelSize->value(),
                 ui->anchorThreshold->value(),
-                ui->angleTolerance->value() * M_PI / 180.0
+                ui->angleTolerance->value() * M_PI / 180.0,
+                ui->minLineLength->value()
     );
 }
 
@@ -51,6 +52,11 @@ void EDLConfigDialog::on_anchorThreshold_valueChanged(int anchorThreshold)
 }
 
 void EDLConfigDialog::on_angleTolerance_valueChanged(double angleTolerance)
+{
+    emit configChanged();
+}
+
+void EDLConfigDialog::on_minLineLength_valueChanged(int arg1)
 {
     emit configChanged();
 }

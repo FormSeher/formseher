@@ -16,7 +16,7 @@ class EDL : public Algorithm
 {
 public:
     EDL(int sobelKernelSize = 3, double sobelScale = 1.9, double sobelDelta = 0.0, int gaussianKernelSize = 3,
-        int anchorThreshold = 36, double angleTolerance = 22.5 * M_PI / 180.0);
+        int anchorThreshold = 36, double angleTolerance = 22.5 * M_PI / 180.0, unsigned int minLineLength = 30);
     ~EDL();
 
     std::vector<Line> calculate(cv::InputArray _image);
@@ -44,6 +44,7 @@ private:
     int gaussianKernelSize;
     int anchorThreshold;
     double angleTolerance;
+    unsigned int minLineLength;
 };
 
 #endif // EDL_H

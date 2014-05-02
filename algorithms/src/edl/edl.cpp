@@ -14,13 +14,14 @@
 
 
 EDL::EDL(int sobelKernelSize, double sobelScale, double sobelDelta, int gaussianKernelSize,
-         int anchorThreshold, double angleTolerance)
+         int anchorThreshold, double angleTolerance, unsigned int minLineLength)
     : sobelKernelSize(sobelKernelSize),
       sobelScale(sobelScale),
       sobelDelta(sobelDelta),
       gaussianKernelSize(gaussianKernelSize),
       anchorThreshold(anchorThreshold),
-      angleTolerance(angleTolerance)
+      angleTolerance(angleTolerance),
+      minLineLength(minLineLength)
 {
 }
 
@@ -153,7 +154,7 @@ void EDL::routeAnchors(double angleTolerance, cv::InputArray magnitudes, cv::Inp
     // Create result
     for(auto lineSegment : lineSegments)
     {
-        if(lineSegment->size() >= 2)
+        if(lineSegment->size() >= minLineLength)
         {
             cv::Point* start = lineSegment->front();
             cv::Point* end = lineSegment->back();
