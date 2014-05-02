@@ -215,12 +215,16 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_worker1_newResultAvailable()
 {
+    // Random number generator for colorful lines
+    cv::RNG rng(0xFFFFFFFF);
+
     cv::Mat resultMat = cv::Mat::zeros(cvimage1.rows, cvimage1.cols, CV_8UC3);
 
     std::vector<Line> result = controller1.getLatestResult();
     for(auto line : result)
     {
-        cv::line(resultMat, line.getStart(), line.getEnd(), cv::Scalar(255,0,255));
+        cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+        cv::line(resultMat, line.getStart(), line.getEnd(), color);
     }
 
     cv::imshow("result", resultMat);
