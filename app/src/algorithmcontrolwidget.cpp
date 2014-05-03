@@ -26,6 +26,18 @@ AlgorithmControlWidget::~AlgorithmControlWidget()
     delete ui;
 }
 
+bool AlgorithmControlWidget::registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog *dialog)
+{
+    // Only register if id is still free
+    if(algorithmConfigDialogs.find(id) != algorithmConfigDialogs.end())
+        return false;
+
+    algorithmConfigDialogs[id] = dialog;
+    ui->comboBox->addItem(QString(id.c_str()));
+
+    return true;
+}
+
 void AlgorithmControlWidget::setCvMatrix(cv::InputArray _matrix)
 {
     image = _matrix.getMat();

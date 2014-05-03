@@ -21,6 +21,8 @@ public:
     explicit AlgorithmControlWidget(QWidget *parent = 0);
     ~AlgorithmControlWidget();
 
+    bool registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog* dialog);
+
 private slots:
     void on_saveResult_clicked();
     void on_openPicture_clicked();
