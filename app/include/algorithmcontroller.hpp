@@ -52,12 +52,13 @@ signals:
      */
     void newResultAvailable();
 
-private slots:
+public slots:
     /**
      * @brief Enqueue a new Algorithm.
      */
     void enqueueAlgorithm();
 
+private slots:
     /**
      * @brief Schedule the waiting algorithm.
      */

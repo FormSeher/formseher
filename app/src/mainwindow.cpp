@@ -88,6 +88,7 @@ void MainWindow::on_openpicture1_clicked()
         ui->labelview1->setPixmap(QPixmap::fromImage(scaledPic));
 
         controller1.setImage(cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE));
+        controller1.enqueueAlgorithm();
     }
     catch(int e)
     {
