@@ -97,3 +97,9 @@ void AlgorithmControlWidget::on_controller_newResultAvailable()
         cv::line(resultMat, line.getStart(), line.getEnd(), color);
     }
 }
+
+void AlgorithmControlWidget::on_algorithmSelectBox_currentIndexChanged(const QString &algorithmId)
+{
+    selectedAlgorithmDialog = algorithmConfigDialogs[algorithmId.toStdString()];
+    controller.setAlgorithmConfigDialog(selectedAlgorithmDialog);
+}
