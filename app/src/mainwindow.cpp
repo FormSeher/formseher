@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     algorithmControlWidgets[0] = ui->algorithmControlWidget1;
     algorithmControlWidgets[1] = ui->algorithmControlWidget2;
+
+    algorithmControlWidgets[0]->setCvWindowName("Algorithm 1");
+    algorithmControlWidgets[1]->setCvWindowName("Algorithm 2");
 }
 
 MainWindow::~MainWindow()

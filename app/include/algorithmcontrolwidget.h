@@ -23,6 +23,8 @@ public:
 
     bool registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog* dialog);
 
+    void setCvWindowName(const std::string &value);
+
 private slots:
     void on_saveResult_clicked();
     void on_openPicture_clicked();
@@ -42,6 +44,7 @@ private:
     AlgorithmController controller;
 
     cv::Mat image;
+    std::string cvWindowName;
 };
 
 #endif // ALGORITHMCONTROLWIDGET_H

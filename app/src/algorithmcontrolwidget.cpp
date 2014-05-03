@@ -52,6 +52,12 @@ void AlgorithmControlWidget::setCvMatrix(cv::InputArray _matrix)
     ui->imageLabel->setPixmap(QPixmap::fromImage(scaledImage));
 }
 
+void AlgorithmControlWidget::setCvWindowName(const std::string &value)
+{
+    cvWindowName = value;
+}
+
+
 void AlgorithmControlWidget::on_saveResult_clicked()
 {
     try
