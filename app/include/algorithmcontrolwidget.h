@@ -30,6 +30,8 @@ private slots:
 
     void on_algorithmSelectBox_currentIndexChanged(const QString &algorithmId);
 
+    void on_configureAlgorithm_clicked();
+
 private:
     void setCvMatrix(cv::InputArray matrix);
 
