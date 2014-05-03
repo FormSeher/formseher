@@ -38,6 +38,9 @@ std::vector<Line> AlgorithmController::getLatestResult()
 
 void AlgorithmController::enqueueAlgorithm()
 {
+    if(!configDialog)
+        return;
+
     Algorithm* newAlgorithm = configDialog->createAlgorithm();
 
     queueMutex.lock();
