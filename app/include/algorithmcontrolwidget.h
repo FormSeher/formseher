@@ -25,8 +25,8 @@ public:
 
 private slots:
     void on_saveResult_clicked();
-
     void on_openPicture_clicked();
+    void on_controller_newResultAvailable();
 
 private:
     Ui::AlgorithmControlWidget *ui;
@@ -34,6 +34,8 @@ private:
     std::map<std::string, AlgorithmConfigDialog*> algorithmConfigDialogs;
     AlgorithmConfigDialog* selectedAlgorithmDialog;
     AlgorithmController controller;
+
+    cv::Mat image;
 };
 
 #endif // ALGORITHMCONTROLWIDGET_H

@@ -6,6 +6,7 @@
 #include <QString>
 #include <QFileDialog>
 
+#include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
@@ -16,6 +17,8 @@ AlgorithmControlWidget::AlgorithmControlWidget(QWidget *parent) :
     ui(new Ui::AlgorithmControlWidget)
 {
     ui->setupUi(this);
+
+    connect(&controller, &AlgorithmController::newResultAvailable, this, &AlgorithmControlWidget::on_controller_newResultAvailable);
 }
 
 AlgorithmControlWidget::~AlgorithmControlWidget()
@@ -25,9 +28,9 @@ AlgorithmControlWidget::~AlgorithmControlWidget()
 
 void AlgorithmControlWidget::setCvMatrix(cv::InputArray _matrix)
 {
-    cv::Mat matrix = _matrix.getMat();
-    cv::Mat converted = cv::Mat(matrix.rows, matrix.cols, matrix.type());
-    cv::cvtColor(matrix, converted, CV_BGR2RGB);
+    image = _matrix.getMat();
+    cv::Mat converted = cv::Mat(image.rows, image.cols, image.type());
+    cv::cvtColor(image, converted, CV_BGR2RGB);
     QImage qImage = QImage(converted.data, converted.cols, converted.rows, converted.step, QImage::Format_RGB888).copy();
 
     QSize imageSize = qImage.size();
@@ -65,5 +68,20 @@ void AlgorithmControlWidget::on_openPicture_clicked()
     catch(int e)
     {
         std::cout << "Error: Could not open picture." << std::endl;
+    }
+}
+
+void AlgorithmControlWidget::on_controller_newResultAvailable()
+{
+    // Random number generator for colorful lines
+    cv::RNG rng(0xFFFFFFFF);
+
+    cv::Mat resultMat = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
+
+    std::vector<Line> result = controller.getLatestResult();
+    for(auto line : result)
+    {
+        cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+        cv::line(resultMat, line.getStart(), line.getEnd(), color);
     }
 }
