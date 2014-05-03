@@ -71,7 +71,6 @@ void AlgorithmControlWidget::on_openPicture_clicked()
     {
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), QDir::homePath(), tr("Image files (*.png *.jpg *.bmp)"));
 
-        ui->lineEdit1->setText(fileName);
         setCvMatrix(cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_COLOR));
 
         controller.setImage(cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE));
