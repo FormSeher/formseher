@@ -474,78 +474,71 @@
     </item>
     <item>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="6" column="3">
+      <item row="5" column="3">
        <widget class="QPushButton" name="saveResult">
         <property name="text">
-         <string>speichern</string>
+         <string>Save</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="3">
+      <item row="2" column="3">
        <widget class="QPushButton" name="pushButton_3">
         <property name="text">
-         <string>im Fenster zeigen</string>
+         <string>Show in window</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="2">
+      <item row="5" column="2">
        <widget class="QPushButton" name="openPicture">
         <property name="text">
-         <string>öffnen</string>
+         <string>Open</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Ausgabeformat</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
+      <item row="2" column="1">
        <widget class="QPushButton" name="configureAlgorithm">
         <property name="text">
-         <string>Konfigurieren</string>
+         <string>Configure</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="3">
+      <item row="6" column="3">
        <widget class="QLCDNumber" name="runtime"/>
       </item>
-      <item row="7" column="2">
+      <item row="6" column="2">
        <widget class="QLabel" name="bearbeitungszeit_2">
         <property name="text">
-         <string>Bearbeitungszeit</string>
+         <string>Computation time</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0" colspan="2">
+      <item row="5" column="0" colspan="2">
        <widget class="QLineEdit" name="lineEdit1">
         <property name="placeholderText">
          <string>Keine Datei ausgewählt</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="2">
+      <item row="2" column="2">
        <widget class="QComboBox" name="displayconfig1">
         <item>
          <property name="text">
-          <string>Originalbild</string>
+          <string>Original image</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Linienbild</string>
+          <string>Detected Lines</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Original- und Linienbild</string>
+          <string>Image and Lines</string>
          </property>
         </item>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="2" column="0">
        <widget class="QComboBox" name="algorithmSelectBox"/>
       </item>
      </layout>
