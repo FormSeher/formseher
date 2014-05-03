@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 
 #include "algorithm.h"
@@ -35,10 +36,11 @@ MainWindow::~MainWindow()
 
 //functions:
 
-QImage Mat2QImage(cv::Mat &mat, QImage::Format format){
-    //cv::cvtColor(tmpImage, image, CV_BGR2RGB);
-    //return QImage((const unsigned char*)(cvimage.data),cvimage.cols,cvimage.rows,QImage::Format_RGB888);
-    return QImage(mat.data, mat.cols, mat.rows, mat.step, format);
+QImage Mat2QImage(cv::Mat &mat, QImage::Format format)
+{
+    cv::Mat converted = cv::Mat(mat.rows, mat.cols, mat.type());
+    cv::cvtColor(mat, converted, CV_BGR2RGB);
+    return QImage(converted.data, converted.cols, converted.rows, converted.step, format).copy();
 }
 
 cv::Mat QImage2Mat(QImage &img, int format){
@@ -78,8 +80,8 @@ void MainWindow::on_openpicture1_clicked()
 
         ui->lineEdit1->setText(fileName);
 
-        cvimage1 = cv::imread(fileName.toStdString(),1);
-        oimage1.load(fileName);
+        cvimage1 = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_COLOR);
+        oimage1 = Mat2QImage(cvimage1, QImage::Format_RGB888);
 
         QSize pixSize = oimage1.size();
         pixSize.scale(ui->labelview1->size(),Qt::KeepAspectRatio);
