@@ -2,13 +2,22 @@
 <ui version="4.0">
  <class>AlgorithmControlWidget</class>
  <widget class="QWidget" name="AlgorithmControlWidget">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>483</width>
+    <height>406</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -18,13 +27,28 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>401</width>
-     <height>301</height>
+     <width>481</width>
+     <height>405</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
     <item>
      <widget class="QLabel" name="imageLabel">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>300</height>
+       </size>
+      </property>
       <property name="palette">
        <palette>
         <active>
@@ -447,6 +471,84 @@
        <string/>
       </property>
      </widget>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="6" column="3">
+       <widget class="QPushButton" name="saveResult">
+        <property name="text">
+         <string>speichern</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="text">
+         <string>im Fenster zeigen</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QPushButton" name="openPicture">
+        <property name="text">
+         <string>öffnen</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Ausgabeformat</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Konfigurieren</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="3">
+       <widget class="QLCDNumber" name="runtime"/>
+      </item>
+      <item row="7" column="2">
+       <widget class="QLabel" name="bearbeitungszeit_2">
+        <property name="text">
+         <string>Bearbeitungszeit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="2">
+       <widget class="QLineEdit" name="lineEdit1">
+        <property name="placeholderText">
+         <string>Keine Datei ausgewählt</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QComboBox" name="displayconfig1">
+        <item>
+         <property name="text">
+          <string>Originalbild</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Linienbild</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Original- und Linienbild</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QComboBox" name="comboBox"/>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
