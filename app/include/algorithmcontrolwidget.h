@@ -29,13 +29,15 @@ private slots:
     void on_saveResult_clicked();
     void on_openPicture_clicked();
     void on_controller_newResultAvailable();
-
     void on_algorithmSelectBox_currentIndexChanged(const QString &algorithmId);
-
     void on_configureAlgorithm_clicked();
+    void on_showWindowCheckBox_toggled(bool checked);
+
+    void on_displayConfig_currentIndexChanged(int index);
 
 private:
-    void setCvMatrix(cv::InputArray matrix);
+    void updateImageLabel();
+    void updateResultImage();
 
     Ui::AlgorithmControlWidget *ui;
 
@@ -43,7 +45,10 @@ private:
     AlgorithmConfigDialog* selectedAlgorithmDialog;
     AlgorithmController controller;
 
+    std::vector<Line> latestResult;
+
     cv::Mat image;
+    cv::Mat resultImage;
     std::string cvWindowName;
 };
 

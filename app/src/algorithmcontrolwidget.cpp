@@ -38,11 +38,13 @@ bool AlgorithmControlWidget::registerAlgorithmConfigDialog(std::string id, Algor
     return true;
 }
 
-void AlgorithmControlWidget::setCvMatrix(cv::InputArray _matrix)
+void AlgorithmControlWidget::updateImageLabel()
 {
-    image = _matrix.getMat();
-    cv::Mat converted = cv::Mat(image.rows, image.cols, image.type());
-    cv::cvtColor(image, converted, CV_BGR2RGB);
+    if(resultImage.empty())
+            return;
+
+    cv::Mat converted = cv::Mat(resultImage.rows, resultImage.cols, resultImage.type());
+    cv::cvtColor(resultImage, converted, CV_BGR2RGB);
     QImage qImage = QImage(converted.data, converted.cols, converted.rows, converted.step, QImage::Format_RGB888).copy();
 
     QSize imageSize = qImage.size();
@@ -50,6 +52,30 @@ void AlgorithmControlWidget::setCvMatrix(cv::InputArray _matrix)
     QImage scaledImage = qImage.scaled(imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     ui->imageLabel->setPixmap(QPixmap::fromImage(scaledImage));
+}
+
+void AlgorithmControlWidget::updateResultImage()
+{
+    // Random number generator for colorful lines
+    cv::RNG rng(0xFFFFFFFF);
+
+    if(ui->displayConfig->currentIndex() == 1)
+        resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
+    else
+        resultImage = image.clone();
+
+    if(ui->displayConfig->currentIndex() != 0)
+    {
+        for(auto line : latestResult)
+        {
+            cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+            cv::line(resultImage, line.getStart(), line.getEnd(), color);
+        }
+    }
+
+    if(ui->showWindowCheckBox->checkState() == Qt::Checked)
+        cv::imshow(cvWindowName, resultImage);
+    updateImageLabel();
 }
 
 void AlgorithmControlWidget::setCvWindowName(const std::string &value)
@@ -77,7 +103,7 @@ void AlgorithmControlWidget::on_openPicture_clicked()
     {
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), QDir::homePath(), tr("Image files (*.png *.jpg *.bmp)"));
 
-        setCvMatrix(cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_COLOR));
+        image = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_COLOR);
 
         controller.setImage(cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE));
         controller.enqueueAlgorithm();
@@ -90,17 +116,8 @@ void AlgorithmControlWidget::on_openPicture_clicked()
 
 void AlgorithmControlWidget::on_controller_newResultAvailable()
 {
-    // Random number generator for colorful lines
-    cv::RNG rng(0xFFFFFFFF);
-
-    cv::Mat resultMat = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
-
-    std::vector<Line> result = controller.getLatestResult();
-    for(auto line : result)
-    {
-        cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-        cv::line(resultMat, line.getStart(), line.getEnd(), color);
-    }
+    latestResult = controller.getLatestResult();
+    updateResultImage();
 }
 
 void AlgorithmControlWidget::on_algorithmSelectBox_currentIndexChanged(const QString &algorithmId)
@@ -112,4 +129,15 @@ void AlgorithmControlWidget::on_algorithmSelectBox_currentIndexChanged(const QSt
 void AlgorithmControlWidget::on_configureAlgorithm_clicked()
 {
     selectedAlgorithmDialog->show();
+}
+
+void AlgorithmControlWidget::on_showWindowCheckBox_toggled(bool checked)
+{
+    if(checked && !resultImage.empty())
+        cv::imshow(cvWindowName, resultImage);
+}
+
+void AlgorithmControlWidget::on_displayConfig_currentIndexChanged(int index)
+{
+    updateResultImage();
 }
