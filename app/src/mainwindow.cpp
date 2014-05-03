@@ -10,23 +10,14 @@
 #include "line.h"
 #include "algorithmcontroller.hpp"
 
-QString safepath = "C:/Users/schwa_000/Desktop/studium neu/Projekt 2/bilder";
-
-QString fileName;
-cv::Mat cvimage1;
-cv::Mat cvimage2;
-QImage oimage1;
-QImage oimage2;
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    selectedAlgorithmDialog(0),
-    controller1()
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    connect(&controller1, &AlgorithmController::newResultAvailable, this, &MainWindow::on_worker1_newResultAvailable);
+    algorithmControlWidgets[0] = ui->algorithmControlWidget1;
+    algorithmControlWidgets[1] = ui->algorithmControlWidget2;
 }
 
 MainWindow::~MainWindow()
@@ -34,201 +25,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//functions:
-
-QImage Mat2QImage(cv::Mat &mat, QImage::Format format)
+bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, AlgorithmConfigDialog* dialog)
 {
-    cv::Mat converted = cv::Mat(mat.rows, mat.cols, mat.type());
-    cv::cvtColor(mat, converted, CV_BGR2RGB);
-    return QImage(converted.data, converted.cols, converted.rows, converted.step, format).copy();
-}
-
-cv::Mat QImage2Mat(QImage &img, int format){
-    return cv::Mat(img.height(),img.width(),format,img.bits(),img.bytesPerLine());
-}
-
-
-void bigwindow(cv::Mat cvimage)
-{
-        cv::namedWindow("Großansicht");
-        cv::imshow("Großansicht", cvimage);
-        cv::waitKey(0);
-
-}
-
-
-
-//Mainblock:
-bool MainWindow::registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog* dialog)
-{
-    // Only register if id is still free
-    if(algorithmConfigDialogs.find(id) != algorithmConfigDialogs.end())
+    if (slot < 1 || slot > 2)
         return false;
 
-    algorithmConfigDialogs[id] = dialog;
-    ui->comboBox->addItem(QString(id.c_str()));
-
-    return true;
-}
-
-void MainWindow::on_openpicture1_clicked()
-{
-    try
-    {
-    fileName = QFileDialog::getOpenFileName(this,
-        tr("Bild 1 auswählen"), "C:/Users/schwa_000/Desktop/studium neu/Projekt 2/bilder", tr("Bild Dateien (*.png *.jpg *.bmp)"));
-
-        ui->lineEdit1->setText(fileName);
-
-        cvimage1 = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_COLOR);
-        oimage1 = Mat2QImage(cvimage1, QImage::Format_RGB888);
-
-        QSize pixSize = oimage1.size();
-        pixSize.scale(ui->labelview1->size(),Qt::KeepAspectRatio);
-        QImage scaledPic = oimage1.scaled(pixSize,Qt::KeepAspectRatio,Qt::SmoothTransformation);
-
-        ui->labelview1->setPixmap(QPixmap::fromImage(scaledPic));
-
-        controller1.setImage(cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE));
-        controller1.enqueueAlgorithm();
-    }
-    catch(int e)
-    {
-    printf("Fehler beim Einlesen der Bild1 Datei");
-    }
-}
-
-
-void MainWindow::on_openpicture2_clicked()
-{
-    try
-    {
-    fileName = QFileDialog::getOpenFileName(this,
-        tr("Bild 2 auswählen"), safepath, tr("Bild Dateien (*.png *.jpg *.bmp)"));
-
-        ui->lineEdit2->setText(fileName);
-
-        cvimage2 = cv::imread(fileName.toStdString(),1);
-        oimage2.load(fileName);
-
-        QSize pixSize = oimage2.size();
-        pixSize.scale(ui->labelview2->size(),Qt::KeepAspectRatio);
-        QImage scaledPic = oimage2.scaled(pixSize,Qt::KeepAspectRatio,Qt::SmoothTransformation);
-
-        ui->labelview2->setPixmap(QPixmap::fromImage(scaledPic));
-    }
-    catch(int e)
-    {
-    printf("Fehler beim Einlesen der Bild2 Datei");
-    }
-}
-
-
-
-void MainWindow::on_save1_clicked()
-{
-    try
-    {
-    fileName = QFileDialog::getSaveFileName(this,tr("Speicherort wählen"), safepath, tr("Bild Dateien (*.png *.jpg *.bmp)"));
-
-    oimage1.save(fileName);
-    }
-    catch(int e)
-    {
-    printf("Fehler beim Speichern von Bild1");
-    }
-}
-
-
-void MainWindow::on_save2_clicked()
-{
-    try
-    {
-    fileName = QFileDialog::getSaveFileName(this,tr("Speicherort wählen"), safepath, tr("Bild Dateien (*.png *.jpg *.bmp)"));
-
-    oimage2.save(fileName);
-    }
-    catch(int e)
-    {
-    printf("Fehler beim Speichern von Bild2");
-    }
-}
-
-
-void MainWindow::on_lineEdit1_returnPressed()
-{
-    try
-    {
-    oimage1.load(ui->lineEdit1->text());
-    cvimage1 = cv::imread(ui->lineEdit1->text().toStdString(),1);
-
-    QSize pixSize = oimage1.size();
-    pixSize.scale(ui->labelview1->size(),Qt::KeepAspectRatio);
-    QImage scaledPic = oimage1.scaled(pixSize,Qt::KeepAspectRatio,Qt::SmoothTransformation);
-
-    ui->labelview1->setPixmap(QPixmap::fromImage(scaledPic));
-    }
-    catch(int e)
-    {
-    printf("Ungültige Eingabe.");
-    }
-}
-
-
-void MainWindow::on_lineEdit2_returnPressed()
-{
-    try
-    {
-    oimage2.load(ui->lineEdit1->text());
-    cvimage2 = cv::imread(ui->lineEdit2->text().toStdString(),1);
-
-    QSize pixSize = oimage2.size();
-    pixSize.scale(ui->labelview2->size(),Qt::KeepAspectRatio);
-    QImage scaledPic = oimage2.scaled(pixSize,Qt::KeepAspectRatio,Qt::SmoothTransformation);
-
-    ui->labelview2->setPixmap(QPixmap::fromImage(scaledPic));
-    }
-    catch(int e)
-    {
-    printf("Ungültige Eingabe.");
-    }
-}
-
-
-void MainWindow::on_pushButton_3_clicked()
-{
-   bigwindow(cvimage1);
-}
-
-void MainWindow::on_pushButton_4_clicked()
-{
-   bigwindow(cvimage2);
-}
-
-void MainWindow::on_comboBox_currentIndexChanged(const QString &algorithmId)
-{
-    selectedAlgorithmDialog = algorithmConfigDialogs[algorithmId.toStdString()];
-    controller1.setAlgorithmConfigDialog(selectedAlgorithmDialog);
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-    selectedAlgorithmDialog->show();
-}
-
-void MainWindow::on_worker1_newResultAvailable()
-{
-    // Random number generator for colorful lines
-    cv::RNG rng(0xFFFFFFFF);
-
-    cv::Mat resultMat = cv::Mat::zeros(cvimage1.rows, cvimage1.cols, CV_8UC3);
-
-    std::vector<Line> result = controller1.getLatestResult();
-    for(auto line : result)
-    {
-        cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-        cv::line(resultMat, line.getStart(), line.getEnd(), color);
-    }
-
-    cv::imshow("result", resultMat);
+    return algorithmControlWidgets[slot - 1]->registerAlgorithmConfigDialog(id, dialog);
 }
