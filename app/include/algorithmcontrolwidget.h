@@ -21,14 +21,14 @@ public:
     explicit AlgorithmControlWidget(QWidget *parent = 0);
     ~AlgorithmControlWidget();
 
-    void setCvMatrix(cv::InputArray matrix);
-
 private slots:
     void on_saveResult_clicked();
     void on_openPicture_clicked();
     void on_controller_newResultAvailable();
 
 private:
+    void setCvMatrix(cv::InputArray matrix);
+
     Ui::AlgorithmControlWidget *ui;
 
     std::map<std::string, AlgorithmConfigDialog*> algorithmConfigDialogs;
