@@ -33,7 +33,7 @@ bool AlgorithmControlWidget::registerAlgorithmConfigDialog(std::string id, Algor
         return false;
 
     algorithmConfigDialogs[id] = dialog;
-    ui->comboBox->addItem(QString(id.c_str()));
+    ui->algorithmSelectBox->addItem(QString(id.c_str()));
 
     return true;
 }
