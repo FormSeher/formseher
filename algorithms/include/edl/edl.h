@@ -1,6 +1,10 @@
 #ifndef EDL_H
 #define EDL_H
 
+#ifndef M_PI
+#define M_PI 3.141592654
+#endif
+
 #include "algorithm.h"
 
 #include "line.h"
