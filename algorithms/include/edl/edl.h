@@ -1,13 +1,15 @@
 #ifndef EDL_H
 #define EDL_H
 
-#ifndef M_PI
+/*#ifndef M_PI
 #define M_PI 3.141592654
-#endif
+#endif*/
 
 #include "algorithm.h"
 
 #include "line.h"
+
+#include "constantNumbers.h"
 
 #include <opencv2/core/core.hpp>
 #include <vector>
@@ -20,7 +22,7 @@ class EDL : public Algorithm
 {
 public:
     EDL(int sobelKernelSize = 3, double sobelScale = 1.9, double sobelDelta = 0.0, int gaussianKernelSize = 3,
-        int anchorThreshold = 36, double angleTolerance = 22.5 * M_PI / 180.0, unsigned int minLineLength = 30);
+        int anchorThreshold = 36, double angleTolerance = 22.5 *  const_pi / 180.0, unsigned int minLineLength = 30);
     ~EDL();
 
     std::vector<Line> calculate(cv::InputArray _image);

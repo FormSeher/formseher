@@ -1,8 +1,9 @@
-#ifndef M_PI
+/*#ifndef M_PI
 #define M_PI 3.141592654
-#endif
+#endif*/
 
 #include "edl/edl.h"
+#include "constantNumbers.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -320,13 +321,13 @@ cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int su
 
 bool EDL::isAligned(double compare, double angle, double tolerance)
 {
-    CV_Assert(compare <= 2 * M_PI && compare >= 0);
-    CV_Assert(angle <= 2 * M_PI && angle >= 0);
+    CV_Assert(compare <= 2 * const_pi && compare >= 0);
+    CV_Assert(angle <= 2 * const_pi && angle >= 0);
 
-    if(compare >= M_PI)
-        compare -= M_PI;
-    if(angle >= M_PI)
-        angle -= M_PI;
+    if(compare >= const_pi)
+        compare -= const_pi;
+    if(angle >= const_pi)
+        angle -= const_pi;
 
     return ((angle - compare) <= tolerance) && ((angle - compare) >= -tolerance);
 }
