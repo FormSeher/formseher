@@ -321,13 +321,13 @@ cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int su
 
 bool EDL::isAligned(double compare, double angle, double tolerance)
 {
-    CV_Assert(compare <= 2 * const_pi && compare >= 0);
-    CV_Assert(angle <= 2 * const_pi && angle >= 0);
+    CV_Assert(compare <= 2 * math_const::m_pi && compare >= 0);
+    CV_Assert(angle <= 2 * math_const::m_pi && angle >= 0);
 
-    if(compare >= const_pi)
-        compare -= const_pi;
-    if(angle >= const_pi)
-        angle -= const_pi;
+    if(compare >= math_const::m_pi)
+        compare -= math_const::m_pi;
+    if(angle >= math_const::m_pi)
+        angle -= math_const::m_pi;
 
     return ((angle - compare) <= tolerance) && ((angle - compare) >= -tolerance);
 }

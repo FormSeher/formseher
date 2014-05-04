@@ -22,7 +22,7 @@ Algorithm* EDLConfigDialog::createAlgorithm()
                 ui->sobelDelta->value(),
                 ui->gaussianKernelSize->value(),
                 ui->anchorThreshold->value(),
-                ui->angleTolerance->value() * const_pi / 180.0,
+                ui->angleTolerance->value() * math_const::m_pi / 180.0,
                 ui->minLineLength->value()
     );
 }

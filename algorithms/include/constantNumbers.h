@@ -9,7 +9,13 @@
  ** Collection of constant numbers
  * */
 
-const double const_pi = 3.141592654;
+
+
+namespace math_const
+{
+    const double m_pi = 3.141592654;
+}
+
 
 
 
