@@ -45,6 +45,9 @@ POST_TARGETDEPS += ../algorithms
 #               win32 specifics
 #-------------------------------------------------
 win32{
+INCLUDEPATH += $(OPENCV_DIR_INCLUDE)
+LIBS += -L$(OPENCV_DIR_LIB)
+LIBS += -llibopencv_core248 -llibopencv_imgproc248 -llibopencv_highgui248
 }
 
 #-------------------------------------------------
