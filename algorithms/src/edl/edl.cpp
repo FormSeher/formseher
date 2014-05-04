@@ -121,7 +121,8 @@ void EDL::calcGradAngleAnchors(cv::InputArray _gradientX, cv::InputArray _gradie
         {
             double x0 = xRow[column];
             double y0 = yRow[column];
-            magnitudesRow[column] = std::sqrt(x0*x0 + y0*y0);
+            magnitudesRow[column] = math_const::sqrtFast(x0*x0 + y0*y0);
+
             anglesRow[column] = std::atan2(y0, x0);
 
             if(isAnchor(gradientMagnitudes, row, column))
