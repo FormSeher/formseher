@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+#include "mathutil.h"
+
 // brute force everything public (don't do this at home kids!)
 #undef private
 #undef protected
@@ -36,7 +38,7 @@ private slots:
     {
         QVERIFY(VERTICAL == edl->getDirection(degreeToRad(0)));
         QVERIFY(VERTICAL == edl->getDirection(degreeToRad(20)));
-        QVERIFY(VERTICAL == edl->getDirection(M_PI));
+        QVERIFY(VERTICAL == edl->getDirection(math::m_pi));
         QVERIFY(VERTICAL == edl->getDirection(degreeToRad(199)));
 
         QVERIFY(HORIZONTAL == edl->getDirection(degreeToRad(90)));
@@ -94,7 +96,7 @@ private slots:
         anchorPoints.push_back(cv::Point(4, 1));
         anchorPoints.push_back(cv::Point(8, 3));
 
-        double angleTolerance = 21.5 * M_PI / 180.0d;
+        double angleTolerance = 21.5 * math::m_pi / 180.0d;
 
         std::vector<Line> result;
 
@@ -164,17 +166,17 @@ private slots:
 
     void isAlignedTest()
     {
-        double angleTolerance = 21.5 * M_PI / 180.0d;
+        double angleTolerance = 21.5 * math::m_pi / 180.0d;
 
         // test aligned
         QVERIFY(true  == edl->isAligned( 0,   0, angleTolerance));
-        QVERIFY(true  == edl->isAligned( 21.5 * M_PI / 180.0d, 0, angleTolerance));
-        QVERIFY(true  == edl->isAligned(180 * M_PI / 180.0d,  0, angleTolerance));
-        QVERIFY(true  == edl->isAligned(90 * M_PI / 180.0d,  270 * M_PI / 180.0d, angleTolerance));
+        QVERIFY(true  == edl->isAligned( 21.5 * math::m_pi / 180.0d, 0, angleTolerance));
+        QVERIFY(true  == edl->isAligned(180 * math::m_pi / 180.0d,  0, angleTolerance));
+        QVERIFY(true  == edl->isAligned(90 * math::m_pi / 180.0d,  270 * math::m_pi / 180.0d, angleTolerance));
         // Test not aligned
-        QVERIFY(false == edl->isAligned( 22 * M_PI / 180.0d,   0, angleTolerance));
-        QVERIFY(false == edl->isAligned( 45 * M_PI / 180.0d, 23 * M_PI / 180.0d, angleTolerance));
-        QVERIFY(false == edl->isAligned(100 * M_PI / 180.0d, 200 * M_PI / 180.0d, angleTolerance));
+        QVERIFY(false == edl->isAligned( 22 * math::m_pi / 180.0d,   0, angleTolerance));
+        QVERIFY(false == edl->isAligned( 45 * math::m_pi / 180.0d, 23 * math::m_pi / 180.0d, angleTolerance));
+        QVERIFY(false == edl->isAligned(100 * math::m_pi / 180.0d, 200 * math::m_pi / 180.0d, angleTolerance));
     }
 
     void isOutOfBoundsTest()
@@ -210,7 +212,7 @@ private:
 
     double degreeToRad(double degree)
     {
-        return degree * M_PI / 180.0;
+        return degree * math::m_pi / 180.0;
     }
 };
 
