@@ -37,6 +37,8 @@ private slots:
 
     void on_benchmarkButton_clicked();
 
+    double get_time();
+
 private:
     void updateImageLabel();
     void updateResultImage();

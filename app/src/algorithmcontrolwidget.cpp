@@ -12,7 +12,10 @@
 
 #include <iostream>
 
-double get_time () {
+
+
+double AlgorithmControlWidget::get_time()
+{
 struct timespec ts;
 if (clock_gettime (CLOCK_REALTIME, &ts) != 0)
 puts ("WARNING: Cannot read time using 'clock_gettime'!");
@@ -151,32 +154,31 @@ void AlgorithmControlWidget::on_displayConfig_currentIndexChanged(int index)
 
 void AlgorithmControlWidget::on_benchmarkButton_clicked()
 {
+
     if(resultImage.empty())
             return;
 
     Algorithm*algorithm =
             this->selectedAlgorithmDialog->createAlgorithm();
 
-
     double t0, t1;
     int n;
-    //... // Bild laden (wird nicht mitgemessen)
-    t0 = get_time ();
+
+    t0 = AlgorithmControlWidget::get_time();
     for (n = 0; n < 100; n++){
-   // Ihr Code wird 100x ausgeführt
+
+   // code runs 100 times
       algorithm->calculate(this->image);
 
    //-----------------------------------------------
+
     }
 
-    t1 = get_time ();
-
-    //latestResult = AlgorithmController::getLatestResult();
+    t1 = AlgorithmControlWidget::get_time();
 
     double ergtime = t1-t0;
-    printf ("\nElapsed time: %.2lf seconds\n\n", ergtime);
-    //... // Ausgabe des Ergebnisses (wird nicht mitgemessen)
     ui->runtime->display(ergtime/100);
     QString stergtime = QString::number(ergtime/100);
     ui->runtime2->setText(stergtime);
+    printf ("\nElapsed time: %.2lf seconds\n\n", ergtime);
 }
