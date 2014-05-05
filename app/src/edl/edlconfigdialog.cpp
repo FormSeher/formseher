@@ -1,6 +1,6 @@
 #include "edl/edlconfigdialog.h"
 #include "ui_edlconfigdialog.h"
-#include "constantNumbers.h"
+#include "mathutil.h"
 
 EDLConfigDialog::EDLConfigDialog(QWidget *parent) :
     AlgorithmConfigDialog(parent),
@@ -22,7 +22,7 @@ Algorithm* EDLConfigDialog::createAlgorithm()
                 ui->sobelDelta->value(),
                 ui->gaussianKernelSize->value(),
                 ui->anchorThreshold->value(),
-                ui->angleTolerance->value() * math_const::m_pi / 180.0,
+                ui->angleTolerance->value() * math::m_pi / 180.0,
                 ui->minLineLength->value()
     );
 }

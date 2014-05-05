@@ -1,9 +1,5 @@
-/*#ifndef M_PI
-#define M_PI 3.141592654
-#endif*/
-
 #include "edl/edl.h"
-#include "constantNumbers.h"
+#include "mathutil.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -121,7 +117,7 @@ void EDL::calcGradAngleAnchors(cv::InputArray _gradientX, cv::InputArray _gradie
         {
             double x0 = xRow[column];
             double y0 = yRow[column];
-            magnitudesRow[column] = math_const::sqrtFast(x0*x0 + y0*y0);
+            magnitudesRow[column] = math::sqrtFast(x0*x0 + y0*y0);
 
             anglesRow[column] = std::atan2(y0, x0);
 
@@ -322,13 +318,13 @@ cv::Point* EDL::findNextPoint(cv::Point* currentPoint, int mainDirection, int su
 
 bool EDL::isAligned(double compare, double angle, double tolerance)
 {
-    CV_Assert(compare <= 2 * math_const::m_pi && compare >= 0);
-    CV_Assert(angle <= 2 * math_const::m_pi && angle >= 0);
+    CV_Assert(compare <= 2 * math::m_pi && compare >= 0);
+    CV_Assert(angle <= 2 * math::m_pi && angle >= 0);
 
-    if(compare >= math_const::m_pi)
-        compare -= math_const::m_pi;
-    if(angle >= math_const::m_pi)
-        angle -= math_const::m_pi;
+    if(compare >= math::m_pi)
+        compare -= math::m_pi;
+    if(angle >= math::m_pi)
+        angle -= math::m_pi;
 
     return ((angle - compare) <= tolerance) && ((angle - compare) >= -tolerance);
 }
