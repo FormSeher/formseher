@@ -146,39 +146,34 @@ void AlgorithmControlWidget::on_displayConfig_currentIndexChanged(int index)
 
 double AlgorithmControlWidget::getTime()
 {
-struct timespec ts;
-if (clock_gettime (CLOCK_REALTIME, &ts) != 0)
-puts ("WARNING: Cannot read time using 'clock_gettime'!");
-return (double) ts.tv_sec + (double) ts.tv_nsec * 1e-9;
+    struct timespec ts;
+    if (clock_gettime(CLOCK_REALTIME, &ts) != 0)
+        puts ("WARNING: Cannot read time using 'clock_gettime'!");
+
+    return (double) ts.tv_sec + (double) ts.tv_nsec * 1e-9;
 }
 
 void AlgorithmControlWidget::on_benchmarkButton_clicked()
 {
-
     if(resultImage.empty())
             return;
 
-    Algorithm*algorithm =
-            this->selectedAlgorithmDialog->createAlgorithm();
+    Algorithm* algorithm = selectedAlgorithmDialog->createAlgorithm();
 
-    double t0, t1;
-    int n;
+    double startTime;
+    double endTime;
+    int executionCount = 100;
 
-    t0 = AlgorithmControlWidget::getTime();
-    for (n = 0; n < 100; n++){
+    // Begin time measurement and execute algorithm n-times
+    startTime = getTime();
 
-   // code runs 100 times
-      algorithm->calculate(this->image);
+    for(int i = 0; i < executionCount; ++i)
+        algorithm->calculate(image);
 
-   //-----------------------------------------------
+    endTime = getTime();
+    // End of time measurement
 
-    }
+    double elapsedTime = endTime - startTime;
 
-    t1 = AlgorithmControlWidget::getTime();
-
-    double ergtime = t1-t0;
-    ui->runtime->display(ergtime/100);
-    QString stergtime = QString::number(ergtime/100);
-    ui->runtime2->setText(stergtime);
-    printf ("\nElapsed time: %.2lf seconds\n\n", ergtime);
+    ui->benchmarkResult->setText(QString::number(elapsedTime / executionCount) + " sec");
 }
