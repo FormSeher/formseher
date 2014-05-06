@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>483</width>
-    <height>414</height>
+    <width>526</width>
+    <height>413</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -27,7 +27,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>481</width>
+     <width>524</width>
      <height>411</height>
     </rect>
    </property>
@@ -481,16 +481,6 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="3">
-       <widget class="QLCDNumber" name="runtime"/>
-      </item>
-      <item row="7" column="2">
-       <widget class="QLabel" name="bearbeitungszeit_2">
-        <property name="text">
-         <string>Computation time</string>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="2">
        <widget class="QComboBox" name="displayConfig">
         <item>
@@ -520,6 +510,13 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="3">
+       <widget class="QCheckBox" name="showWindowCheckBox">
+        <property name="text">
+         <string>Show in window</string>
+        </property>
+       </widget>
+      </item>
       <item row="7" column="1">
        <widget class="QPushButton" name="saveResult">
         <property name="text">
@@ -527,10 +524,23 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="3">
-       <widget class="QCheckBox" name="showWindowCheckBox">
+      <item row="4" column="2">
+       <widget class="QPushButton" name="benchmarkButton">
         <property name="text">
-         <string>Show in window</string>
+         <string>Benchmark</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QLabel" name="benchmarkResult">
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background</string>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
         </property>
        </widget>
       </item>

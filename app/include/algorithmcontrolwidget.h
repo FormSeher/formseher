@@ -35,9 +35,13 @@ private slots:
 
     void on_displayConfig_currentIndexChanged(int index);
 
+    void on_benchmarkButton_clicked();
+
 private:
     void updateImageLabel();
     void updateResultImage();
+
+    double getTime();
 
     Ui::AlgorithmControlWidget *ui;
 

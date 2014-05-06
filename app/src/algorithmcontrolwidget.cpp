@@ -12,6 +12,8 @@
 
 #include <iostream>
 
+
+
 AlgorithmControlWidget::AlgorithmControlWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AlgorithmControlWidget)
@@ -140,4 +142,38 @@ void AlgorithmControlWidget::on_showWindowCheckBox_toggled(bool checked)
 void AlgorithmControlWidget::on_displayConfig_currentIndexChanged(int index)
 {
     updateResultImage();
+}
+
+double AlgorithmControlWidget::getTime()
+{
+    struct timespec ts;
+    if (clock_gettime(CLOCK_REALTIME, &ts) != 0)
+        puts ("WARNING: Cannot read time using 'clock_gettime'!");
+
+    return (double) ts.tv_sec + (double) ts.tv_nsec * 1e-9;
+}
+
+void AlgorithmControlWidget::on_benchmarkButton_clicked()
+{
+    if(resultImage.empty())
+            return;
+
+    Algorithm* algorithm = selectedAlgorithmDialog->createAlgorithm();
+
+    double startTime;
+    double endTime;
+    int executionCount = 100;
+
+    // Begin time measurement and execute algorithm n-times
+    startTime = getTime();
+
+    for(int i = 0; i < executionCount; ++i)
+        algorithm->calculate(image);
+
+    endTime = getTime();
+    // End of time measurement
+
+    double elapsedTime = endTime - startTime;
+
+    ui->benchmarkResult->setText(QString::number(elapsedTime / executionCount) + " sec");
 }
