@@ -18,12 +18,14 @@ SOURCES += $${ALG_SRC_DIR}/algorithm.cpp \
     $${ALG_SRC_DIR}/picprepare.cpp \
     $${ALG_SRC_DIR}/line.cpp \
     $${ALG_SRC_DIR}/edl/edl.cpp \
+    $${ALG_SRC_DIR}/hough/hough.cpp \
     $${ALG_SRC_DIR}/mathutil.cpp
 
 HEADERS += $${ALG_INCL_DIR}/algorithm.h \
     $${ALG_INCL_DIR}/picprepare.h \
     $${ALG_INCL_DIR}/line.h \
     $${ALG_INCL_DIR}/edl/edl.h \
+    $${ALG_INCL_DIR}/hough/hough.h \
     $${ALG_INCL_DIR}/mathutil.h
 
 INCLUDEPATH += $${ALG_INCL_DIR}
@@ -43,4 +45,3 @@ LIBS += -llibopencv_core248 -llibopencv_imgproc248 -llibopencv_highgui248
 linux{
 LIBS += -lopencv_core -lopencv_imgproc
 }
-

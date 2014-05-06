@@ -21,6 +21,7 @@ SOURCES += $${APP_SRC_DIR}/main.cpp \
            $${APP_SRC_DIR}/algorithmworker.cpp \
            $${APP_SRC_DIR}/algorithmconfigdialog.cpp \
            $${APP_SRC_DIR}/edl/edlconfigdialog.cpp \
+           $${APP_SRC_DIR}/hough/houghconfigdialog.cpp \
            $${APP_SRC_DIR}/algorithmcontrolwidget.cpp
 
 HEADERS  += $${APP_INCL_DIR}/mainwindow.h \
@@ -28,10 +29,12 @@ HEADERS  += $${APP_INCL_DIR}/mainwindow.h \
             $${APP_INCL_DIR}/algorithmworker.h \
             $${APP_INCL_DIR}/algorithmconfigdialog.h \
             $${APP_INCL_DIR}/edl/edlconfigdialog.h \
+            $${APP_INCL_DIR}/hough/houghconfigdialog.h \
             $${APP_INCL_DIR}/algorithmcontrolwidget.h
 
 FORMS    += $${APP_FORM_DIR}/mainwindow.ui \
             $${APP_FORM_DIR}/edl/edlconfigdialog.ui \
+            $${APP_FORM_DIR}/hough/houghconfigdialog.ui \
             $${APP_FORM_DIR}/algorithmcontrolwidget.ui
 
 INCLUDEPATH += $${APP_INCL_DIR}\
