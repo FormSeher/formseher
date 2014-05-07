@@ -1,7 +1,7 @@
 #ifndef HOUGH_H
 #define HOUGH_H
 
-#include "algorithm.h"
+#include "linedetection/algorithm.h"
 
 #include "line.h"
 

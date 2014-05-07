@@ -1,8 +1,8 @@
 #ifndef ALGORITHMCONTROLLER_HPP
 #define ALGORITHMCONTROLLER_HPP
 
-#include "algorithm.h"
-#include "algorithmconfigdialog.h"
+#include "linedetection/algorithm.h"
+#include "gui/algorithmconfigdialog.h"
 #include "line.h"
 #include "algorithmworker.h"
 

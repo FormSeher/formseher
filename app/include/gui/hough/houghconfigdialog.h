@@ -3,8 +3,8 @@
 
 #include <QDialog>
 
-#include "algorithmconfigdialog.h"
-#include "hough/hough.h"
+#include "gui/algorithmconfigdialog.h"
+#include "linedetection/hough/hough.h"
 
 namespace Ui {
 class HoughConfigDialog;

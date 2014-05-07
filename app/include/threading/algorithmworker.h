@@ -1,7 +1,7 @@
 #ifndef ALGORITHMWORKER_H
 #define ALGORITHMWORKER_H
 
-#include "algorithm.h"
+#include "linedetection/algorithm.h"
 #include "line.h"
 
 #include <QThread>

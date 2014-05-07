@@ -1,4 +1,4 @@
-#include "algorithmcontrolwidget.h"
+#include "gui/algorithmcontrolwidget.h"
 #include "ui_algorithmcontrolwidget.h"
 
 #include <QImage>

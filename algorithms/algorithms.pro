@@ -14,19 +14,27 @@ DESTDIR = $${ALG_BIN_DIR}
 
 DEFINES += ALGORITHMS_LIBRARY
 
-SOURCES += $${ALG_SRC_DIR}/algorithm.cpp \
+SOURCES += \
+    # common
     $${ALG_SRC_DIR}/picprepare.cpp \
+    $${ALG_SRC_DIR}/mathutil.cpp \
     $${ALG_SRC_DIR}/line.cpp \
-    $${ALG_SRC_DIR}/edl/edl.cpp \
-    $${ALG_SRC_DIR}/hough/hough.cpp \
-    $${ALG_SRC_DIR}/mathutil.cpp
+    # line detection
+    $${ALG_SRC_DIR}/linedetection/algorithm.cpp \
+    $${ALG_SRC_DIR}/linedetection/edl/edl.cpp \
+    $${ALG_SRC_DIR}/linedetection/hough/hough.cpp
+    # object detection
 
-HEADERS += $${ALG_INCL_DIR}/algorithm.h \
+HEADERS += \
+    # common
     $${ALG_INCL_DIR}/picprepare.h \
+    $${ALG_INCL_DIR}/mathutil.h \
     $${ALG_INCL_DIR}/line.h \
-    $${ALG_INCL_DIR}/edl/edl.h \
-    $${ALG_INCL_DIR}/hough/hough.h \
-    $${ALG_INCL_DIR}/mathutil.h
+    # line detection
+    $${ALG_INCL_DIR}/linedetection/algorithm.h \
+    $${ALG_INCL_DIR}/linedetection/edl/edl.h \
+    $${ALG_INCL_DIR}/linedetection/hough/hough.h
+    # object detection
 
 INCLUDEPATH += $${ALG_INCL_DIR}
 

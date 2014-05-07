@@ -1,6 +1,6 @@
-#include "algorithmcontroller.hpp"
+#include "threading/algorithmcontroller.hpp"
 
-#include "algorithmworker.h"
+#include "threading/algorithmworker.h"
 
 AlgorithmController::AlgorithmController()
     : configDialog(0),

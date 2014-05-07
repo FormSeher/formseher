@@ -1,4 +1,4 @@
-#include "hough/hough.h"
+#include "linedetection/hough/hough.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>

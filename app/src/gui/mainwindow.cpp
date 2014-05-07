@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "gui/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <opencv2/core/core.hpp>
@@ -6,9 +6,9 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 
-#include "algorithm.h"
+#include "linedetection/algorithm.h"
 #include "line.h"
-#include "algorithmcontroller.hpp"
+#include "threading/algorithmcontroller.hpp"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

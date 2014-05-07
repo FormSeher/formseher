@@ -1,4 +1,4 @@
-#include "edl/edlconfigdialog.h"
+#include "gui/edl/edlconfigdialog.h"
 #include "ui_edlconfigdialog.h"
 #include "mathutil.h"
 

@@ -1,9 +1,9 @@
-#include <mainwindow.h>
+#include <gui/mainwindow.h>
 #include <QApplication>
 
-#include "algorithmconfigdialog.h"
-#include "edl/edlconfigdialog.h"
-#include "hough/houghconfigdialog.h"
+#include "gui/algorithmconfigdialog.h"
+#include "gui/edl/edlconfigdialog.h"
+#include "gui/hough/houghconfigdialog.h"
 
 int main(int argc, char *argv[])
 {
