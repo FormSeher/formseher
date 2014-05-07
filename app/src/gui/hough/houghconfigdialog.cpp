@@ -1,4 +1,4 @@
-#include "hough/houghconfigdialog.h"
+#include "gui/hough/houghconfigdialog.h"
 #include "ui_houghconfigdialog.h"
 
 HoughConfigDialog::HoughConfigDialog(QWidget *parent) :

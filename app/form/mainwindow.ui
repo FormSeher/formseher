@@ -48,7 +48,7 @@
   <customwidget>
    <class>AlgorithmControlWidget</class>
    <extends>QWidget</extends>
-   <header>algorithmcontrolwidget.h</header>
+   <header>gui/algorithmcontrolwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

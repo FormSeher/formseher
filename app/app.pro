@@ -15,27 +15,39 @@ TEMPLATE = app
 TARGET = formseher
 DESTDIR = bin
 
-SOURCES += $${APP_SRC_DIR}/main.cpp \
-           $${APP_SRC_DIR}/mainwindow.cpp \
-           $${APP_SRC_DIR}/algorithmcontroller.cpp \
-           $${APP_SRC_DIR}/algorithmworker.cpp \
-           $${APP_SRC_DIR}/algorithmconfigdialog.cpp \
-           $${APP_SRC_DIR}/edl/edlconfigdialog.cpp \
-           $${APP_SRC_DIR}/hough/houghconfigdialog.cpp \
-           $${APP_SRC_DIR}/algorithmcontrolwidget.cpp
+SOURCES += \
+        # common
+        $${APP_SRC_DIR}/main.cpp \
+        # gui
+        $${APP_SRC_DIR}/gui/mainwindow.cpp \
+        $${APP_SRC_DIR}/gui/algorithmcontrolwidget.cpp \
+        # gui - linedetection
+        $${APP_SRC_DIR}/gui/algorithmconfigdialog.cpp \
+        $${APP_SRC_DIR}/gui/edl/edlconfigdialog.cpp \
+        $${APP_SRC_DIR}/gui/hough/houghconfigdialog.cpp \
+        # threading
+        $${APP_SRC_DIR}/algorithmcontroller.cpp \
+        $${APP_SRC_DIR}/algorithmworker.cpp
 
-HEADERS  += $${APP_INCL_DIR}/mainwindow.h \
-            $${APP_INCL_DIR}/algorithmcontroller.hpp \
-            $${APP_INCL_DIR}/algorithmworker.h \
-            $${APP_INCL_DIR}/algorithmconfigdialog.h \
-            $${APP_INCL_DIR}/edl/edlconfigdialog.h \
-            $${APP_INCL_DIR}/hough/houghconfigdialog.h \
-            $${APP_INCL_DIR}/algorithmcontrolwidget.h
+HEADERS  += \
+        # gui
+        $${APP_INCL_DIR}/gui/mainwindow.h \
+        $${APP_INCL_DIR}/gui/algorithmcontrolwidget.h \
+        # gui - linedetection
+        $${APP_INCL_DIR}/gui/algorithmconfigdialog.h \
+        $${APP_INCL_DIR}/gui/edl/edlconfigdialog.h \
+        $${APP_INCL_DIR}/gui/hough/houghconfigdialog.h \
+        # threading
+        $${APP_INCL_DIR}/algorithmcontroller.hpp \
+        $${APP_INCL_DIR}/algorithmworker.h
 
-FORMS    += $${APP_FORM_DIR}/mainwindow.ui \
-            $${APP_FORM_DIR}/edl/edlconfigdialog.ui \
-            $${APP_FORM_DIR}/hough/houghconfigdialog.ui \
-            $${APP_FORM_DIR}/algorithmcontrolwidget.ui
+FORMS    += \
+        # common forms
+        $${APP_FORM_DIR}/mainwindow.ui \
+        $${APP_FORM_DIR}/algorithmcontrolwidget.ui \
+        # linedetection forms
+        $${APP_FORM_DIR}/edl/edlconfigdialog.ui \
+        $${APP_FORM_DIR}/hough/houghconfigdialog.ui
 
 INCLUDEPATH += $${APP_INCL_DIR}\
              $${ALG_INCL_DIR}
