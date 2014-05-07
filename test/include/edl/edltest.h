@@ -16,7 +16,7 @@
 #define private public
 #define protected public
 
-#include "edl/edl.h"
+#include "linedetection/edl/edl.h"
 
 // Restore visibilities
 #undef private

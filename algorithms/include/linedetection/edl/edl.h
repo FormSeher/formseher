@@ -5,7 +5,7 @@
 #define M_PI 3.141592654
 #endif*/
 
-#include "algorithm.h"
+#include "linedetection/algorithm.h"
 
 #include "line.h"
 

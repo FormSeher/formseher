@@ -1,4 +1,4 @@
-#include "algorithm.h"
+#include "linedetection/algorithm.h"
 
 #include "line.h"
 

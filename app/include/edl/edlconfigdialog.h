@@ -4,7 +4,7 @@
 #include <QDialog>
 
 #include "algorithmconfigdialog.h"
-#include "edl/edl.h"
+#include "linedetection/edl/edl.h"
 
 namespace Ui {
 class EDLConfigDialog;

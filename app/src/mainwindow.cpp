@@ -6,7 +6,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 
-#include "algorithm.h"
+#include "linedetection/algorithm.h"
 #include "line.h"
 #include "algorithmcontroller.hpp"
 

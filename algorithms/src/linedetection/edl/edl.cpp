@@ -1,4 +1,4 @@
-#include "edl/edl.h"
+#include "linedetection/edl/edl.h"
 #include "mathutil.h"
 
 #include <opencv2/core/core.hpp>

@@ -1,7 +1,7 @@
 #ifndef ALGORITHMCONTROLLER_HPP
 #define ALGORITHMCONTROLLER_HPP
 
-#include "algorithm.h"
+#include "linedetection/algorithm.h"
 #include "algorithmconfigdialog.h"
 #include "line.h"
 #include "algorithmworker.h"

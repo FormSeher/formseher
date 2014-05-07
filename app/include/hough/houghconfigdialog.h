@@ -4,7 +4,7 @@
 #include <QDialog>
 
 #include "algorithmconfigdialog.h"
-#include "hough/hough.h"
+#include "linedetection/hough/hough.h"
 
 namespace Ui {
 class HoughConfigDialog;
