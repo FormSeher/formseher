@@ -1,4 +1,4 @@
-#include "algorithmworker.h"
+#include "threading/algorithmworker.h"
 
 AlgorithmWorker::AlgorithmWorker(Algorithm* algorithm, cv::InputArray image, QObject *parent)
     : QThread(parent),

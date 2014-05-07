@@ -8,7 +8,7 @@
 
 #include "linedetection/algorithm.h"
 #include "line.h"
-#include "algorithmcontroller.hpp"
+#include "threading/algorithmcontroller.hpp"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

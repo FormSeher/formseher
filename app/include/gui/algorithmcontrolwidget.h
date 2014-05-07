@@ -7,7 +7,7 @@
 
 #include "linedetection/algorithm.h"
 #include "algorithmconfigdialog.h"
-#include "algorithmcontroller.hpp"
+#include "threading/algorithmcontroller.hpp"
 
 namespace Ui {
 class AlgorithmControlWidget;

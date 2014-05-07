@@ -26,8 +26,8 @@ SOURCES += \
         $${APP_SRC_DIR}/gui/edl/edlconfigdialog.cpp \
         $${APP_SRC_DIR}/gui/hough/houghconfigdialog.cpp \
         # threading
-        $${APP_SRC_DIR}/algorithmcontroller.cpp \
-        $${APP_SRC_DIR}/algorithmworker.cpp
+        $${APP_SRC_DIR}/threading/algorithmcontroller.cpp \
+        $${APP_SRC_DIR}/threading/algorithmworker.cpp
 
 HEADERS  += \
         # gui
@@ -38,8 +38,8 @@ HEADERS  += \
         $${APP_INCL_DIR}/gui/edl/edlconfigdialog.h \
         $${APP_INCL_DIR}/gui/hough/houghconfigdialog.h \
         # threading
-        $${APP_INCL_DIR}/algorithmcontroller.hpp \
-        $${APP_INCL_DIR}/algorithmworker.h
+        $${APP_INCL_DIR}/threading/algorithmcontroller.hpp \
+        $${APP_INCL_DIR}/threading/algorithmworker.h
 
 FORMS    += \
         # common forms

@@ -8,7 +8,7 @@
 #include <string>
 
 #include "algorithmconfigdialog.h"
-#include "algorithmcontroller.hpp"
+#include "threading/algorithmcontroller.hpp"
 #include "algorithmcontrolwidget.h"
 
 namespace Ui {
