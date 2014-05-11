@@ -1,7 +1,7 @@
 #include <QtTest>
 
 #include "linetest.h"
-#include "edl/edltest.h"
+#include "linedetection/edl/edltest.h"
 
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
