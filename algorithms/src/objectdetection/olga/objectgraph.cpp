@@ -4,6 +4,14 @@ ObjectGraph::ObjectGraph()
 {
 }
 
+ObjectGraph::~ObjectGraph()
+{
+    for(auto node : nodes)
+        delete node;
+    for(auto edge : edges)
+        delete edge;
+}
+
 float ObjectGraph::compareTo(const ObjectGraph &objectGraph) const
 {
     return 0.0f;

@@ -11,6 +11,7 @@ class ObjectGraph
 {
 public:
     ObjectGraph();
+    ~ObjectGraph();
 
     /**
      * @brief Compares this ObjectGraph to another ObjectGraph.
