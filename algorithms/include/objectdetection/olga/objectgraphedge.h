@@ -12,6 +12,9 @@ public:
 
     int getDistance() const;
 
+    bool operator==(const ObjectGraphEdge& rhs);
+    bool operator!=(const ObjectGraphEdge& rhs);
+
 private:
     int distance;
 };

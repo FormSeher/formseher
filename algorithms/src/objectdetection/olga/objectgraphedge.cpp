@@ -13,3 +13,17 @@ int ObjectGraphEdge::getDistance() const
 {
     return distance;
 }
+
+bool ObjectGraphEdge::operator==(const ObjectGraphEdge &rhs)
+{
+    if(static_cast<cv::Vec2i>(*this) != static_cast<cv::Vec2i>(rhs))
+        return false;
+    if(this->getDistance() != rhs.getDistance())
+        return false;
+    return true;
+}
+
+bool ObjectGraphEdge::operator!=(const ObjectGraphEdge &rhs)
+{
+    return !((*this) == rhs);
+}
