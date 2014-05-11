@@ -15,13 +15,8 @@ Q_OBJECT
 private slots:
     void constructorTest()
     {
-        ObjectGraphNode node1;
-        node1.x = 0;
-        node1.y = 1;
-
-        ObjectGraphNode node2;
-        node2.x = 10;
-        node2.y = 1;
+        ObjectGraphNode node1(0, 1);
+        ObjectGraphNode node2(10 ,1);
 
         ObjectGraphEdge edge(node1, node2);
 
@@ -31,13 +26,8 @@ private slots:
 
     void operatorEqualTest()
     {
-        ObjectGraphNode node1;
-        node1.x = 0;
-        node1.y = 1;
-
-        ObjectGraphNode node2;
-        node2.x = 10;
-        node2.y = 1;
+        ObjectGraphNode node1(0, 1);
+        ObjectGraphNode node2(10, 1);
 
         ObjectGraphEdge edge1(node1, node2);
         ObjectGraphEdge edge2(node1, node2);
@@ -47,17 +37,9 @@ private slots:
 
     void operatorNotEqualTest()
     {
-        ObjectGraphNode node1;
-        node1.x = 0;
-        node1.y = 1;
-
-        ObjectGraphNode node2;
-        node2.x = 10;
-        node2.y = 1;
-
-        ObjectGraphNode node3;
-        node3.x = 100;
-        node2.y = 1;
+        ObjectGraphNode node1(0, 1);
+        ObjectGraphNode node2(10, 1);
+        ObjectGraphNode node3(100 ,1);
 
         ObjectGraphEdge edge1(node1, node2);
         ObjectGraphEdge edge2(node1, node3);
