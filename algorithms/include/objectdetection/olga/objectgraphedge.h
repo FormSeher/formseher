@@ -10,7 +10,7 @@ class ObjectGraphEdge : public cv::Vec2i
 public:
     ObjectGraphEdge(const ObjectGraphNode& start, const ObjectGraphNode& end);
 
-    int getDistance();
+    int getDistance() const;
 
 private:
     int distance;

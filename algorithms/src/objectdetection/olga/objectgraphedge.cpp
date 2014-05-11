@@ -9,7 +9,7 @@ ObjectGraphEdge::ObjectGraphEdge(const ObjectGraphNode& start, const ObjectGraph
     cv::normalize(*this, *this);
 }
 
-int ObjectGraphEdge::getDistance()
+int ObjectGraphEdge::getDistance() const
 {
     return distance;
 }
