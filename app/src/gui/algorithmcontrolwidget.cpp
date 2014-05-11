@@ -139,7 +139,7 @@ void AlgorithmControlWidget::on_showWindowCheckBox_toggled(bool checked)
         cv::imshow(cvWindowName, resultImage);
 }
 
-void AlgorithmControlWidget::on_displayConfig_currentIndexChanged(int index)
+void AlgorithmControlWidget::on_displayConfig_currentIndexChanged(int)
 {
     updateResultImage();
 }

@@ -22,17 +22,17 @@ Algorithm* HoughConfigDialog::createAlgorithm()
     );
 }
 
-void HoughConfigDialog::on_checkEnvironmentSize_valueChanged(int houghMinimumLineSize)
+void HoughConfigDialog::on_checkEnvironmentSize_valueChanged(int)
 {
     emit configChanged();
 }
 
-void HoughConfigDialog::on_maximalLineGap_valueChanged(int houghMinimumLineSize)
+void HoughConfigDialog::on_maximalLineGap_valueChanged(int)
 {
     emit configChanged();
 }
 
-void HoughConfigDialog::on_minimumLineSize_valueChanged(int minimumLineSize)
+void HoughConfigDialog::on_minimumLineSize_valueChanged(int)
 {
     emit configChanged();
 }

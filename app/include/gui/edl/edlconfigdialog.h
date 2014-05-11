@@ -37,13 +37,13 @@ public:
 
 private slots:
     // These slots just trigger the AlgorithmConfigDialog.configChanged() signal.
-    void on_sobelKernelSize_valueChanged(int arg1);
-    void on_sobelScale_valueChanged(double sobelScale);
-    void on_sobelDelta_valueChanged(double sobelDelta);
-    void on_gaussianKernelSize_valueChanged(int gaussianKernelSize);
-    void on_anchorThreshold_valueChanged(int anchorThreshold);
-    void on_angleTolerance_valueChanged(double angleTolerance);
-    void on_minLineLength_valueChanged(int arg1);
+    void on_sobelKernelSize_valueChanged(int);
+    void on_sobelScale_valueChanged(double);
+    void on_sobelDelta_valueChanged(double);
+    void on_gaussianKernelSize_valueChanged(int);
+    void on_anchorThreshold_valueChanged(int);
+    void on_angleTolerance_valueChanged(double);
+    void on_minLineLength_valueChanged(int);
 
 private:
     Ui::EDLConfigDialog *ui;
