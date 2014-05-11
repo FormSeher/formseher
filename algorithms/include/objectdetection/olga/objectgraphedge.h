@@ -15,8 +15,14 @@ public:
     bool operator==(const ObjectGraphEdge& rhs);
     bool operator!=(const ObjectGraphEdge& rhs);
 
+    const ObjectGraphNode& getStart() const;
+    const ObjectGraphNode& getEnd() const;
+
 private:
     int distance;
+
+    const ObjectGraphNode& start;
+    const ObjectGraphNode& end;
 };
 
 #endif // OBJECTGRAPHEDGE_H

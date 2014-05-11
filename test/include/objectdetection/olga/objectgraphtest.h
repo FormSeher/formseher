@@ -35,7 +35,9 @@ private slots:
 
         const ObjectGraphEdge* edge = graph.insertNewEdge(start, end);
 
-        // TODO: Check start and end
+        QVERIFY(*start == edge->getStart());
+        QVERIFY(*end == edge->getEnd());
+
         QVERIFY(1 == graph.getEdgeCount());
         QVERIFY(4 == edge->getDistance());
     }
