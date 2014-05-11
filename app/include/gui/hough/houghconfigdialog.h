@@ -38,9 +38,9 @@ public:
 
 private slots:
     // These slots just trigger the AlgorithmConfigDialog.configChanged() signal.
-    void on_checkEnvironmentSize_valueChanged(int checkEnvironmentSize);
-    void on_maximalLineGap_valueChanged(int maximalLineGap);
-    void on_minimumLineSize_valueChanged(int minimumLineSize);
+    void on_checkEnvironmentSize_valueChanged(int);
+    void on_maximalLineGap_valueChanged(int);
+    void on_minimumLineSize_valueChanged(int);
 
 private:
     Ui::HoughConfigDialog *ui;

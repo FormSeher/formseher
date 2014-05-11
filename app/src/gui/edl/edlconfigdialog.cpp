@@ -27,37 +27,37 @@ Algorithm* EDLConfigDialog::createAlgorithm()
     );
 }
 
-void EDLConfigDialog::on_sobelKernelSize_valueChanged(int sobelKernelSize)
+void EDLConfigDialog::on_sobelKernelSize_valueChanged(int)
 {
     emit configChanged();
 }
 
-void EDLConfigDialog::on_sobelScale_valueChanged(double sobelScale)
+void EDLConfigDialog::on_sobelScale_valueChanged(double)
 {
     emit configChanged();
 }
 
-void EDLConfigDialog::on_sobelDelta_valueChanged(double sobelDelta)
+void EDLConfigDialog::on_sobelDelta_valueChanged(double)
 {
     emit configChanged();
 }
 
-void EDLConfigDialog::on_gaussianKernelSize_valueChanged(int gaussianKernelSize)
+void EDLConfigDialog::on_gaussianKernelSize_valueChanged(int)
 {
     emit configChanged();
 }
 
-void EDLConfigDialog::on_anchorThreshold_valueChanged(int anchorThreshold)
+void EDLConfigDialog::on_anchorThreshold_valueChanged(int)
 {
     emit configChanged();
 }
 
-void EDLConfigDialog::on_angleTolerance_valueChanged(double angleTolerance)
+void EDLConfigDialog::on_angleTolerance_valueChanged(double)
 {
     emit configChanged();
 }
 
-void EDLConfigDialog::on_minLineLength_valueChanged(int arg1)
+void EDLConfigDialog::on_minLineLength_valueChanged(int)
 {
     emit configChanged();
 }

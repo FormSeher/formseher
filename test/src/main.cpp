@@ -1,7 +1,9 @@
 #include <QtTest>
 
 #include "linetest.h"
-#include "edl/edltest.h"
+
+#include "linedetection/edl/edltest.h"
+
 #include "objectdetection/olga/objectgraphedgetest.h"
 #include "objectdetection/olga/objectgraphtest.h"
 
