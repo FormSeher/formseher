@@ -18,7 +18,8 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 SOURCES += $${TEST_SRC_DIR}/main.cpp
 
 HEADERS += $${TEST_INCL_DIR}/linetest.h \
-           $${TEST_INCL_DIR}/edl/edltest.h
+           $${TEST_INCL_DIR}/edl/edltest.h \
+           $${TEST_INCL_DIR}/objectdetection/olga/objectgraphedgetest.h
 
 INCLUDEPATH += $${TEST_INCL_DIR} \
                $${ALG_INCL_DIR}

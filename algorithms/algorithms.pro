@@ -25,7 +25,8 @@ SOURCES += \
     $${ALG_SRC_DIR}/linedetection/hough/hough.cpp \
     # object detection
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraph.cpp \
-    $${ALG_SRC_DIR}/objectdetection/olga/objectgraphnode.cpp
+    $${ALG_SRC_DIR}/objectdetection/olga/objectgraphnode.cpp \
+    $${ALG_SRC_DIR}/objectdetection/olga/objectgraphedge.cpp
 
 HEADERS += \
     # common
@@ -38,7 +39,8 @@ HEADERS += \
     $${ALG_INCL_DIR}/linedetection/hough/hough.h \
     # object detection
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraph.h \
-    $${ALG_INCL_DIR}/objectdetection/olga/objectgraphnode.h
+    $${ALG_INCL_DIR}/objectdetection/olga/objectgraphnode.h \
+    $${ALG_INCL_DIR}/objectdetection/olga/objectgraphedge.h
 
 INCLUDEPATH += $${ALG_INCL_DIR}
 
