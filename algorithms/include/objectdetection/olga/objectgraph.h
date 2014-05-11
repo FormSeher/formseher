@@ -20,8 +20,22 @@ public:
      */
     float compareTo(const ObjectGraph& objectGraph) const;
 
+    /**
+     * @brief Insert a new node with given parameters.
+     * @param x The x-coordinate of the node.
+     * @param y The y-coordinate of the node.
+     * @return Pointer to the newly created node.
+     */
+    const ObjectGraphNode* insertNewNode(int x, int y);
+
+    /**
+     * @brief Get the number of nodes added to the graph.
+     * @return Number of nodes.
+     */
+    int getNodeCount() const;
+
 private:
-    std::vector<ObjectGraphNode> nodes;
+    std::vector<ObjectGraphNode*> nodes;
     std::vector<ObjectGraphEdge> edges;
 };
 
