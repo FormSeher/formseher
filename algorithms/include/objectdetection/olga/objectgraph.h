@@ -3,7 +3,7 @@
 
 #include <opencv2/core/core.hpp>
 
-class ObjectGraph : public std::vector<cv::Point>
+class ObjectGraph
 {
 public:
     ObjectGraph();
