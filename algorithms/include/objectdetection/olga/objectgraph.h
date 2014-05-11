@@ -29,14 +29,28 @@ public:
     const ObjectGraphNode* insertNewNode(int x, int y);
 
     /**
+     * @brief Insert a new edge between two nodes.
+     * @param start The start of the edge.
+     * @param end The end of the edge.
+     * @return Pointer to the newly created edge.
+     */
+    const ObjectGraphEdge* insertNewEdge(const ObjectGraphNode* start, const ObjectGraphNode* end);
+
+    /**
      * @brief Get the number of nodes added to the graph.
      * @return Number of nodes.
      */
     int getNodeCount() const;
 
+    /**
+     * @brief Get the number of edges added to the graph.
+     * @return Number of edges.
+     */
+    int getEdgeCount() const;
+
 private:
     std::vector<ObjectGraphNode*> nodes;
-    std::vector<ObjectGraphEdge> edges;
+    std::vector<ObjectGraphEdge*> edges;
 };
 
 #endif // OBJECTGRAPH_H

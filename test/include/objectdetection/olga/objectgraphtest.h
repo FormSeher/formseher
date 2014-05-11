@@ -25,6 +25,20 @@ private slots:
         QVERIFY(node2->x == 1);
         QVERIFY(node2->y == 1);
     }
+
+    void insertNewEdgeTest()
+    {
+        ObjectGraph graph;
+
+        const ObjectGraphNode* start = graph.insertNewNode(1, 1);
+        const ObjectGraphNode* end = graph.insertNewNode(1, 5);
+
+        const ObjectGraphEdge* edge = graph.insertNewEdge(start, end);
+
+        // TODO: Check start and end
+        QVERIFY(1 == graph.getEdgeCount());
+        QVERIFY(4 == edge->getDistance());
+    }
 };
 
 #endif // OBJECTGRAPHTEST_H
