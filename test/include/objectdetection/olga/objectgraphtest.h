@@ -42,6 +42,16 @@ private slots:
         QVERIFY(4 == edge->getDistance());
     }
 
+    void findNodeTest()
+    {
+        ObjectGraph graph;
+
+        const ObjectGraphNode* node = graph.insertNewNode(1, 1);
+
+        QVERIFY(node == graph.findNode(cv::Point(1, 1)));
+        QVERIFY(0 == graph.findNode(cv::Point(1, 0)));
+    }
+
     void findEdgeTest()
     {
         ObjectGraph graph;

@@ -50,6 +50,13 @@ public:
     int getEdgeCount() const;
 
     /**
+     * @brief Find a node in the graph.
+     * @param coordinates The coordinates of the searched node.
+     * @return Pointer to the node or null if no node was found.
+     */
+    const ObjectGraphNode* findNode(cv::Point2i coordinates);
+
+    /**
      * @brief Find an edge in the graph.
      * @param start One end of the edge.
      * @param end The other end of the edge.
