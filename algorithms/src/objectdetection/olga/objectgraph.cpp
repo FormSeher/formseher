@@ -46,3 +46,16 @@ int ObjectGraph::getEdgeCount() const
 {
     return edges.size();
 }
+
+const ObjectGraphEdge *ObjectGraph::findEdge(cv::Point2i start, cv::Point2i end)
+{
+    for(auto edge : edges)
+    {
+        if( (edge->getStart() == start && edge->getEnd() == end)
+           || (edge->getStart() == end && edge->getEnd() == start) )
+        {
+            return edge;
+        }
+    }
+    return 0;
+}

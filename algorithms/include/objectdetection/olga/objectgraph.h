@@ -49,6 +49,14 @@ public:
      */
     int getEdgeCount() const;
 
+    /**
+     * @brief Find an edge in the graph.
+     * @param start One end of the edge.
+     * @param end The other end of the edge.
+     * @return Pointer to the edge or null if no edge was found.
+     */
+    const ObjectGraphEdge* findEdge(cv::Point2i start, cv::Point2i end);
+
 private:
     std::vector<ObjectGraphNode*> nodes;
     std::vector<ObjectGraphEdge*> edges;
