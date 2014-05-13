@@ -12,8 +12,11 @@ class ObjectGraphNode : public cv::Point2i
 public:
     ObjectGraphNode(int x, int y);
 
+    void addEdge(const ObjectGraphEdge* edge);
+    const std::vector<const ObjectGraphEdge*>& getEdges() const;
+
 private:
-    std::vector<ObjectGraphEdge*> edges;
+    std::vector<const ObjectGraphEdge*> edges;
 };
 
 #endif // OBJECTGRAPHNODE_H
