@@ -33,6 +33,7 @@ HEADERS += \
     $${ALG_INCL_DIR}/picprepare.h \
     $${ALG_INCL_DIR}/mathutil.h \
     $${ALG_INCL_DIR}/line.h \
+    $${ALG_INCL_DIR}/pointercompare.h \
     # line detection
     $${ALG_INCL_DIR}/linedetection/algorithm.h \
     $${ALG_INCL_DIR}/linedetection/edl/edl.h \
