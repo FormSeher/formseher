@@ -5,7 +5,7 @@ template<class T>
 class PointerCompare
 {
 public:
-    bool operator()(T* const& lhs, T* const& rhs) const
+    bool operator()(const T* const& lhs, const T* const& rhs) const
     {
         return (*lhs) < (*rhs);
     }

@@ -67,7 +67,7 @@ public:
     const ObjectGraphEdge* findEdge(cv::Point2i start, cv::Point2i end);
 
 private:
-    std::set<ObjectGraphNode*, PointerCompare<ObjectGraphNode>> nodes;
+    std::set<const ObjectGraphNode*, PointerCompare<ObjectGraphNode>> nodes;
     std::vector<ObjectGraphEdge*> edges;
 };
 
