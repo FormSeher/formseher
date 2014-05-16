@@ -2,10 +2,12 @@
 #define OBJECTGRAPH_H
 
 #include <vector>
+#include <set>
 #include <opencv2/core/core.hpp>
 
 #include "objectdetection/olga/objectgraphedge.h"
 #include "objectdetection/olga/objectgraphnode.h"
+#include "pointercompare.h"
 
 class ObjectGraph
 {
@@ -65,7 +67,7 @@ public:
     const ObjectGraphEdge* findEdge(cv::Point2i start, cv::Point2i end);
 
 private:
-    std::vector<ObjectGraphNode*> nodes;
+    std::set<ObjectGraphNode*, PointerCompare<ObjectGraphNode>> nodes;
     std::vector<ObjectGraphEdge*> edges;
 };
 
