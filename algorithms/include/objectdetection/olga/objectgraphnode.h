@@ -15,6 +15,8 @@ public:
     void addEdge(const ObjectGraphEdge* edge);
     const std::vector<const ObjectGraphEdge*>& getEdges() const;
 
+    bool operator<(const ObjectGraphNode& rhs);
+
 private:
     std::vector<const ObjectGraphEdge*> edges;
 };

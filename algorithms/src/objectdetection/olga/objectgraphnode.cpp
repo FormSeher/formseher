@@ -14,3 +14,8 @@ const std::vector<const ObjectGraphEdge*> &ObjectGraphNode::getEdges() const
 {
     return edges;
 }
+
+bool ObjectGraphNode::operator<(const ObjectGraphNode &rhs)
+{
+    return this->y < rhs.y || this->x < rhs.x;
+}
