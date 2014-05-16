@@ -17,7 +17,7 @@ float ObjectGraph::compareTo(const ObjectGraph &objectGraph) const
     return 0.0f;
 }
 
-const ObjectGraphNode* ObjectGraph::insertNewNode(int x, int y)
+const ObjectGraphNode* ObjectGraph::insertNode(int x, int y)
 {
     const ObjectGraphNode* foundNode = findNode(cv::Point2i(x, y));
 
@@ -29,7 +29,7 @@ const ObjectGraphNode* ObjectGraph::insertNewNode(int x, int y)
     return newNode;
 }
 
-const ObjectGraphEdge* ObjectGraph::insertNewEdge(const ObjectGraphNode* _start, const ObjectGraphNode* _end)
+const ObjectGraphEdge* ObjectGraph::insertEdge(const ObjectGraphNode* _start, const ObjectGraphNode* _end)
 {
     // TODO: Check if edge exists
     ObjectGraphNode* start = nodes.find(_start)->second;

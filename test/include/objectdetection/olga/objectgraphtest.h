@@ -14,9 +14,9 @@ private slots:
     void insertNewNodeTest()
     {
         ObjectGraph graph;
-        const ObjectGraphNode* node = graph.insertNewNode(2, 3);
-        const ObjectGraphNode* node1 = graph.insertNewNode(2, 3);
-        const ObjectGraphNode* node2 = graph.insertNewNode(1, 1);
+        const ObjectGraphNode* node = graph.insertNode(2, 3);
+        const ObjectGraphNode* node1 = graph.insertNode(2, 3);
+        const ObjectGraphNode* node2 = graph.insertNode(1, 1);
 
         QVERIFY(2 == graph.getNodeCount());
 
@@ -33,10 +33,10 @@ private slots:
     {
         ObjectGraph graph;
 
-        const ObjectGraphNode* start = graph.insertNewNode(1, 1);
-        const ObjectGraphNode* end = graph.insertNewNode(1, 5);
+        const ObjectGraphNode* start = graph.insertNode(1, 1);
+        const ObjectGraphNode* end = graph.insertNode(1, 5);
 
-        const ObjectGraphEdge* edge = graph.insertNewEdge(start, end);
+        const ObjectGraphEdge* edge = graph.insertEdge(start, end);
 
         QVERIFY(*start == edge->getStart());
         QVERIFY(*end == edge->getEnd());
@@ -56,7 +56,7 @@ private slots:
     {
         ObjectGraph graph;
 
-        const ObjectGraphNode* node = graph.insertNewNode(1, 1);
+        const ObjectGraphNode* node = graph.insertNode(1, 1);
 
         QVERIFY(node == graph.findNode(cv::Point(1, 1)));
         QVERIFY(0 == graph.findNode(cv::Point(1, 0)));
@@ -66,10 +66,10 @@ private slots:
     {
         ObjectGraph graph;
 
-        const ObjectGraphNode* start = graph.insertNewNode(1, 1);
-        const ObjectGraphNode* end = graph.insertNewNode(1, 5);
+        const ObjectGraphNode* start = graph.insertNode(1, 1);
+        const ObjectGraphNode* end = graph.insertNode(1, 5);
 
-        const ObjectGraphEdge* edge = graph.insertNewEdge(start, end);
+        const ObjectGraphEdge* edge = graph.insertEdge(start, end);
 
         const ObjectGraphEdge* foundEdge = graph.findEdge(*start, *end);
         QVERIFY(edge == foundEdge);

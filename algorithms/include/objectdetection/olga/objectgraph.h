@@ -29,7 +29,7 @@ public:
      * @param y The y-coordinate of the node.
      * @return Pointer to the newly created node.
      */
-    const ObjectGraphNode* insertNewNode(int x, int y);
+    const ObjectGraphNode* insertNode(int x, int y);
 
     /**
      * @brief Insert a new edge between two nodes.
@@ -37,7 +37,7 @@ public:
      * @param end The end of the edge.
      * @return Pointer to the newly created edge.
      */
-    const ObjectGraphEdge* insertNewEdge(const ObjectGraphNode* start, const ObjectGraphNode* end);
+    const ObjectGraphEdge* insertEdge(const ObjectGraphNode* start, const ObjectGraphNode* end);
 
     /**
      * @brief Get the number of nodes added to the graph.
