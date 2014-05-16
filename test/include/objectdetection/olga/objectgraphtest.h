@@ -15,12 +15,15 @@ private slots:
     {
         ObjectGraph graph;
         const ObjectGraphNode* node = graph.insertNewNode(2, 3);
+        const ObjectGraphNode* node1 = graph.insertNewNode(2, 3);
         const ObjectGraphNode* node2 = graph.insertNewNode(1, 1);
 
         QVERIFY(2 == graph.getNodeCount());
 
         QVERIFY(node->x == 2);
         QVERIFY(node->y == 3);
+
+        QVERIFY(node == node1);
 
         QVERIFY(node2->x == 1);
         QVERIFY(node2->y == 1);
