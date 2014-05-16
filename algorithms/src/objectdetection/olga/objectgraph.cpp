@@ -6,8 +6,8 @@ ObjectGraph::ObjectGraph()
 
 ObjectGraph::~ObjectGraph()
 {
-    for(auto node : nodes)
-        delete node;
+    for(auto iterator : nodes)
+        delete iterator.second;
     for(auto edge : edges)
         delete edge;
 }
@@ -25,16 +25,21 @@ const ObjectGraphNode* ObjectGraph::insertNewNode(int x, int y)
         return foundNode;
 
     ObjectGraphNode* newNode = new ObjectGraphNode(x, y);
-    nodes.insert(newNode);
+    nodes[newNode] = newNode;
     return newNode;
 }
 
-const ObjectGraphEdge* ObjectGraph::insertNewEdge(const ObjectGraphNode* start, const ObjectGraphNode* end)
+const ObjectGraphEdge* ObjectGraph::insertNewEdge(const ObjectGraphNode* _start, const ObjectGraphNode* _end)
 {
     // TODO: Check if edge exists
+    ObjectGraphNode* start = nodes.find(_start)->second;
+    ObjectGraphNode* end = nodes.find(_end)->second;
 
     ObjectGraphEdge* edge = new ObjectGraphEdge(*start, *end);
     edges.push_back(edge);
+
+    start->addEdge(edge);
+    end->addEdge(edge);
 
     return edge;
 }
@@ -56,7 +61,7 @@ const ObjectGraphNode *ObjectGraph::findNode(cv::Point2i coordinates)
 
     if(iterator == nodes.end())
         return 0;
-    return *iterator;
+    return iterator->second;
 }
 
 const ObjectGraphEdge *ObjectGraph::findEdge(cv::Point2i start, cv::Point2i end)

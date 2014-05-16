@@ -43,6 +43,13 @@ private slots:
 
         QVERIFY(1 == graph.getEdgeCount());
         QVERIFY(4 == edge->getDistance());
+
+        // Check if edges have been added to nodes
+        QVERIFY(start->getEdges().size() == 1);
+        QVERIFY(end->getEdges().size() == 1);
+
+        QVERIFY(edge == start->getEdges().at(0));
+        QVERIFY(edge == end->getEdges().at(0));
     }
 
     void findNodeTest()
