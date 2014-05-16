@@ -49,12 +49,12 @@ int ObjectGraph::getEdgeCount() const
 
 const ObjectGraphNode *ObjectGraph::findNode(cv::Point2i coordinates)
 {
-    for(auto node : nodes)
-    {
-        if(*node == coordinates)
-            return node;
-    }
-    return 0;
+    ObjectGraphNode tmpNode(coordinates.x, coordinates.y);
+    auto iterator = nodes.find(&tmpNode);
+
+    if(iterator == nodes.end())
+        return 0;
+    return *iterator;
 }
 
 const ObjectGraphEdge *ObjectGraph::findEdge(cv::Point2i start, cv::Point2i end)
