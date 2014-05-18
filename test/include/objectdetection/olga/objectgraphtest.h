@@ -1,10 +1,12 @@
-#ifndef OBJECTGRAPHTEST_H
-#define OBJECTGRAPHTEST_H
+#ifndef FS_OBJECTGRAPHTEST_H
+#define FS_OBJECTGRAPHTEST_H
 
 #include <QtTest/QtTest>
 #include <QObject>
 
 #include "objectdetection/olga/objectgraph.h"
+
+using namespace formseher;
 
 class ObjectGraphTest : public QObject
 {
@@ -81,4 +83,4 @@ private slots:
     }
 };
 
-#endif // OBJECTGRAPHTEST_H
+#endif // FS_OBJECTGRAPHTEST_H

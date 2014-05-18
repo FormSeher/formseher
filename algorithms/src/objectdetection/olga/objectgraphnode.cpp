@@ -1,5 +1,8 @@
 #include "objectdetection/olga/objectgraphnode.h"
 
+namespace formseher
+{
+
 ObjectGraphNode::ObjectGraphNode(int x, int y)
     : cv::Point2i(x, y)
 {
@@ -18,4 +21,6 @@ const std::vector<const ObjectGraphEdge*> &ObjectGraphNode::getEdges() const
 bool ObjectGraphNode::operator<(const ObjectGraphNode &rhs) const
 {
     return this->y < rhs.y || this->x < rhs.x;
+}
+
 }

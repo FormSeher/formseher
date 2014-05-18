@@ -1,5 +1,5 @@
-#ifndef OBJECTGRAPH_H
-#define OBJECTGRAPH_H
+#ifndef FS_OBJECTGRAPH_H
+#define FS_OBJECTGRAPH_H
 
 #include <vector>
 #include <map>
@@ -8,6 +8,9 @@
 #include "objectdetection/olga/objectgraphedge.h"
 #include "objectdetection/olga/objectgraphnode.h"
 #include "pointercompare.h"
+
+namespace formseher
+{
 
 class ObjectGraph
 {
@@ -71,4 +74,6 @@ private:
     std::vector<ObjectGraphEdge*> edges;
 };
 
-#endif // OBJECTGRAPH_H
+} // namespace formseher
+
+#endif // FS_OBJECTGRAPH_H

@@ -1,5 +1,8 @@
 #include "objectdetection/olga/objectgraphedge.h"
 
+namespace formseher
+{
+
 ObjectGraphEdge::ObjectGraphEdge(const ObjectGraphNode& start, const ObjectGraphNode& end)
     : cv::Vec2i(end - start),
       start(start),
@@ -36,4 +39,6 @@ const ObjectGraphNode &ObjectGraphEdge::getStart() const
 const ObjectGraphNode &ObjectGraphEdge::getEnd() const
 {
     return end;
+}
+
 }

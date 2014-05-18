@@ -1,5 +1,8 @@
 #include "objectdetection/olga/objectgraph.h"
 
+namespace formseher
+{
+
 ObjectGraph::ObjectGraph()
 {
 }
@@ -75,4 +78,6 @@ const ObjectGraphEdge *ObjectGraph::findEdge(cv::Point2i start, cv::Point2i end)
         }
     }
     return 0;
+}
+
 }

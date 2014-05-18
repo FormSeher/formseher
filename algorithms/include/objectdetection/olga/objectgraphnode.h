@@ -1,8 +1,11 @@
-#ifndef OBJECTGRAPHNODE_H
-#define OBJECTGRAPHNODE_H
+#ifndef FS_OBJECTGRAPHNODE_H
+#define FS_OBJECTGRAPHNODE_H
 
 #include <opencv2/core/core.hpp>
 #include <vector>
+
+namespace formseher
+{
 
 //#include "objectdetection/olga/objectgraphedge.h"
 class ObjectGraphEdge;
@@ -21,4 +24,6 @@ private:
     std::vector<const ObjectGraphEdge*> edges;
 };
 
-#endif // OBJECTGRAPHNODE_H
+} // namespace formseher
+
+#endif // FS_OBJECTGRAPHNODE_H
