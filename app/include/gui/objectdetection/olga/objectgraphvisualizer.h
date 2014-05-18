@@ -13,7 +13,7 @@ class ObjectGraphVisualizer
 public:
     ObjectGraphVisualizer();
 
-    static void drawGraphOnMatrix(const ObjectGraph* graph, cv::InputArray matrix);
+    static void drawGraphOnMatrix(const ObjectGraph* graph, cv::OutputArray matrix);
 };
 
 } // namespace formseher
