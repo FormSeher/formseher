@@ -29,6 +29,9 @@ const ObjectGraphNode* ObjectGraph::insertNode(int x, int y)
 
     ObjectGraphNode* newNode = new ObjectGraphNode(x, y);
     nodes[newNode] = newNode;
+
+    updateBoundingBox(newNode);
+
     return newNode;
 }
 
@@ -78,6 +81,39 @@ const ObjectGraphEdge *ObjectGraph::findEdge(cv::Point2i start, cv::Point2i end)
         }
     }
     return 0;
+}
+
+cv::Rect ObjectGraph::getBoundingBox() const
+{
+    return cv::Rect(
+            boundingBoxCorners[0].x, // x
+            boundingBoxCorners[0].y, // y
+            boundingBoxCorners[1].x - boundingBoxCorners[0].x, // width
+            boundingBoxCorners[1].y - boundingBoxCorners[0].y  // height
+    );
+}
+
+void ObjectGraph::updateBoundingBox(const ObjectGraphNode* node)
+{
+    if(nodes.size() == 1)
+    {
+        boundingBoxCorners[0] = *node;
+        boundingBoxCorners[1] = *node;
+    }
+    else
+    {
+        // Update x coordinate
+        if(boundingBoxCorners[0].x > node->x)
+            boundingBoxCorners[0].x = node->x;
+        else if(boundingBoxCorners[1].x < node->x)
+            boundingBoxCorners[1].x = node->x;
+
+        // Update y coordinate
+        if(boundingBoxCorners[0].y > node->y)
+            boundingBoxCorners[0].y = node->y;
+        else if(boundingBoxCorners[1].y < node->y)
+            boundingBoxCorners[1].y = node->y;
+    }
 }
 
 }

@@ -69,9 +69,31 @@ public:
      */
     const ObjectGraphEdge* findEdge(cv::Point2i start, cv::Point2i end);
 
+    /**
+     * @brief Get the bounding box of the Graph.
+     *
+     * Bounding box of the graph in which all nodes are included.
+     *
+     * @return The bounding box as cv::Rect.
+     */
+    cv::Rect getBoundingBox() const;
+
 private:
     std::map<const ObjectGraphNode*, ObjectGraphNode*, PointerCompare<ObjectGraphNode>> nodes;
     std::vector<ObjectGraphEdge*> edges;
+
+    // top-left (0) and bottom-right (1) points of bounding box.
+    cv::Point2i boundingBoxCorners[2];
+
+    /**
+     * @brief Updates the bounding box.
+     *
+     * Called after a new node was inserted (@see ObjectGraph::insertNode()). Updates the top-left and
+     * bottom-right corners of the bounding box.
+     *
+     * @param node Pointer to the new inserted ObjectGraphNode.
+     */
+    void updateBoundingBox(const ObjectGraphNode* node);
 };
 
 } // namespace formseher

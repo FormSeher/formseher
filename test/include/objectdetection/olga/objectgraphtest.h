@@ -81,6 +81,26 @@ private slots:
 
         QVERIFY(0 == graph.findEdge(cv::Point(0, 200), *start));
     }
+
+    void boundingBoxTest()
+    {
+        ObjectGraph graph;
+
+        graph.insertNode(1, 1);
+        QVERIFY(cv::Rect(1, 1, 0, 0) == graph.getBoundingBox());
+
+        graph.insertNode(2, 3);
+        QVERIFY(cv::Rect(1, 1, 1, 2) == graph.getBoundingBox());
+
+        graph.insertNode(3, 0);
+        QVERIFY(cv::Rect(1, 0, 2, 3) == graph.getBoundingBox());
+
+        graph.insertNode(2, 2);
+        QVERIFY(cv::Rect(1, 0, 2, 3) == graph.getBoundingBox());
+
+        graph.insertNode(0, 4);
+        QVERIFY(cv::Rect(0, 0, 3, 4) == graph.getBoundingBox());
+    }
 };
 
 #endif // FS_OBJECTGRAPHTEST_H
