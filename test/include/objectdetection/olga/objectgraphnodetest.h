@@ -27,6 +27,18 @@ private slots:
         QVERIFY(edge == *node1.getEdges().front());
     }
 
+    void testOperatorEquals()
+    {
+        ObjectGraphNode node1(1, 1);
+        ObjectGraphNode node2(1, 1);
+        ObjectGraphNode node3(1, 0);
+
+        QVERIFY(node1 == node2);
+        QVERIFY(node2 == node1);
+        QVERIFY(!(node1 == node3));
+        QVERIFY(!(node3 == node2));
+    }
+
     void testOperatorLess()
     {
         ObjectGraphNode node11(1, 0);
