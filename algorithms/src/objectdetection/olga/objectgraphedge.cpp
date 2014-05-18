@@ -3,8 +3,8 @@
 namespace formseher
 {
 
-ObjectGraphEdge::ObjectGraphEdge(const ObjectGraphNode& start, const ObjectGraphNode& end)
-    : cv::Vec2i(end - start),
+ObjectGraphEdge::ObjectGraphEdge(ObjectGraphNode& start, ObjectGraphNode& end)
+    : cv::Vec2i(end.getCoordinates() - start.getCoordinates()),
       start(start),
       end(end)
 {
@@ -31,12 +31,12 @@ bool ObjectGraphEdge::operator!=(const ObjectGraphEdge &rhs)
     return !((*this) == rhs);
 }
 
-const ObjectGraphNode &ObjectGraphEdge::getStart() const
+ObjectGraphNode& ObjectGraphEdge::getStart() const
 {
     return start;
 }
 
-const ObjectGraphNode &ObjectGraphEdge::getEnd() const
+ObjectGraphNode& ObjectGraphEdge::getEnd() const
 {
     return end;
 }

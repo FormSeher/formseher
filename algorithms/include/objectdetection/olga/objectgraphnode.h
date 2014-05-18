@@ -10,7 +10,7 @@ namespace formseher
 //#include "objectdetection/olga/objectgraphedge.h"
 class ObjectGraphEdge;
 
-class ObjectGraphNode : public cv::Point2i
+class ObjectGraphNode
 {
 public:
     ObjectGraphNode(int x, int y);
@@ -18,10 +18,15 @@ public:
     void addEdge(const ObjectGraphEdge* edge);
     const std::vector<const ObjectGraphEdge*>& getEdges() const;
 
+    bool operator==(const ObjectGraphNode& rhs) const;
     bool operator<(const ObjectGraphNode& rhs) const;
+
+    cv::Point2i getCoordinates() const;
 
 private:
     std::vector<const ObjectGraphEdge*> edges;
+
+    cv::Point2i coordinates;
 };
 
 } // namespace formseher

@@ -2,7 +2,7 @@
 #define FS_OBJECTGRAPH_H
 
 #include <vector>
-#include <map>
+#include <set>
 #include <opencv2/core/core.hpp>
 
 #include "objectdetection/olga/objectgraphedge.h"
@@ -32,7 +32,7 @@ public:
      * @param y The y-coordinate of the node.
      * @return Pointer to the newly created node.
      */
-    const ObjectGraphNode* insertNode(int x, int y);
+    ObjectGraphNode *insertNode(int x, int y);
 
     /**
      * @brief Insert a new edge between two nodes.
@@ -40,7 +40,7 @@ public:
      * @param end The end of the edge.
      * @return Pointer to the newly created edge.
      */
-    const ObjectGraphEdge* insertEdge(const ObjectGraphNode* start, const ObjectGraphNode* end);
+    ObjectGraphEdge* insertEdge(ObjectGraphNode* start, ObjectGraphNode* end);
 
     /**
      * @brief Get the number of nodes added to the graph.
@@ -59,7 +59,7 @@ public:
      * @param coordinates The coordinates of the searched node.
      * @return Pointer to the node or null if no node was found.
      */
-    const ObjectGraphNode* findNode(cv::Point2i coordinates);
+    ObjectGraphNode* findNode(cv::Point2i coordinates);
 
     /**
      * @brief Find an edge in the graph.
@@ -67,7 +67,15 @@ public:
      * @param end The other end of the edge.
      * @return Pointer to the edge or null if no edge was found.
      */
-    const ObjectGraphEdge* findEdge(cv::Point2i start, cv::Point2i end);
+    ObjectGraphEdge* findEdge(cv::Point2i start, cv::Point2i end);
+
+    /**
+     * @brief Find an edge in the graph.
+     * @param start One end of the edge.
+     * @param end The other end of the edge.
+     * @return Pointer to the edge or null if no edge was found.
+     */
+    ObjectGraphEdge* findEdge(const ObjectGraphNode& start, const ObjectGraphNode& end);
 
     /**
      * @brief Get the bounding box of the Graph.
@@ -79,7 +87,7 @@ public:
     cv::Rect getBoundingBox() const;
 
 private:
-    std::map<const ObjectGraphNode*, ObjectGraphNode*, PointerCompare<ObjectGraphNode>> nodes;
+    std::set<ObjectGraphNode*, PointerCompare<ObjectGraphNode>> nodes;
     std::vector<ObjectGraphEdge*> edges;
 
     // top-left (0) and bottom-right (1) points of bounding box.

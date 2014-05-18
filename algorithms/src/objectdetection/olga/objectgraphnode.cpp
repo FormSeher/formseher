@@ -4,7 +4,7 @@ namespace formseher
 {
 
 ObjectGraphNode::ObjectGraphNode(int x, int y)
-    : cv::Point2i(x, y)
+    : coordinates(x, y)
 {
 }
 
@@ -18,9 +18,20 @@ const std::vector<const ObjectGraphEdge*> &ObjectGraphNode::getEdges() const
     return edges;
 }
 
+bool ObjectGraphNode::operator==(const ObjectGraphNode &rhs) const
+{
+    return this->getCoordinates() == rhs.getCoordinates();
+}
+
 bool ObjectGraphNode::operator<(const ObjectGraphNode &rhs) const
 {
-    return this->y < rhs.y || this->x < rhs.x;
+    return this->getCoordinates().y < rhs.getCoordinates().y
+            || this->getCoordinates().x < rhs.getCoordinates().x;
+}
+
+cv::Point2i ObjectGraphNode::getCoordinates() const
+{
+    return coordinates;
 }
 
 }
