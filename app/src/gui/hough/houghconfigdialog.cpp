@@ -1,6 +1,9 @@
 #include "gui/hough/houghconfigdialog.h"
 #include "ui_houghconfigdialog.h"
 
+namespace formseher
+{
+
 HoughConfigDialog::HoughConfigDialog(QWidget *parent) :
     AlgorithmConfigDialog(parent),
     ui(new Ui::HoughConfigDialog)
@@ -36,3 +39,5 @@ void HoughConfigDialog::on_minimumLineSize_valueChanged(int)
 {
     emit configChanged();
 }
+
+} // namespace formseher

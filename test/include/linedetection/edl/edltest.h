@@ -1,5 +1,5 @@
-#ifndef EDLTEST_H
-#define EDLTEST_H
+#ifndef FS_EDLTEST_H
+#define FS_EDLTEST_H
 
 #include <QObject>
 #include <QtTest/QtTest>
@@ -23,6 +23,8 @@
 #undef protected
 #define protected protected
 #define private private
+
+using namespace formseher;
 
 class EDLTest : public QObject
 {
@@ -216,4 +218,4 @@ private:
     }
 };
 
-#endif // EDLTEST_H
+#endif // FS_EDLTEST_H

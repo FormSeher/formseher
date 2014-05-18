@@ -1,10 +1,12 @@
-#ifndef LINETEST_H
-#define LINETEST_H
+#ifndef FS_LINETEST_H
+#define FS_LINETEST_H
 
 #include <QObject>
 #include <QtTest/QtTest>
 
 #include "line.h"
+
+using namespace formseher;
 
 class LineTest : public QObject
 {
@@ -34,4 +36,4 @@ private slots:
     }
 };
 
-#endif // LINETEST_H
+#endif // FS_LINETEST_H

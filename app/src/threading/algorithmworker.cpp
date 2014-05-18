@@ -1,5 +1,8 @@
 #include "threading/algorithmworker.h"
 
+namespace formseher
+{
+
 AlgorithmWorker::AlgorithmWorker(Algorithm* algorithm, cv::InputArray image, QObject *parent)
     : QThread(parent),
       algorithm(algorithm)
@@ -22,3 +25,5 @@ std::vector<Line> AlgorithmWorker::getResult()
 {
     return result;
 }
+
+} // namespace formseher

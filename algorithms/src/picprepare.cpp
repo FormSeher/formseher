@@ -1,5 +1,8 @@
 #include "picprepare.h"
 
+namespace formseher
+{
+
 /**
  * @brief PicturePrepare::PicturePrepare
  * @param src
@@ -54,3 +57,6 @@ Mat PicturePrepare::startPreparePicture()
 
     return grad;
 }
+
+}
+

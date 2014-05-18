@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef FS_MAINWINDOW_H
+#define FS_MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QTimer>
@@ -14,6 +14,9 @@
 namespace Ui {
 class MainWindow;
 }
+
+namespace formseher
+{
 
 class MainWindow : public QMainWindow
 {
@@ -31,4 +34,6 @@ private:
     AlgorithmControlWidget* algorithmControlWidgets[2];
 };
 
-#endif // MAINWINDOW_H
+} // namespace formseher
+
+#endif // FS_MAINWINDOW_H

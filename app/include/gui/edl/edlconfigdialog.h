@@ -1,5 +1,5 @@
-#ifndef EDLCONFIGDIALOG_H
-#define EDLCONFIGDIALOG_H
+#ifndef FS_EDLCONFIGDIALOG_H
+#define FS_EDLCONFIGDIALOG_H
 
 #include <QDialog>
 
@@ -9,6 +9,9 @@
 namespace Ui {
 class EDLConfigDialog;
 }
+
+namespace formseher
+{
 
 /**
  * @brief The EDLConfigDialog class used to create EDL instances.
@@ -49,4 +52,6 @@ private:
     Ui::EDLConfigDialog *ui;
 };
 
-#endif // EDLCONFIGDIALOG_H
+} // namespace formseher
+
+#endif // FS_EDLCONFIGDIALOG_H

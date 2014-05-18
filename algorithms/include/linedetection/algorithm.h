@@ -1,5 +1,5 @@
-#ifndef ALGORITHM_H
-#define ALGORITHM_H
+#ifndef FS_ALGORITHM_H
+#define FS_ALGORITHM_H
 
 #include <vector>
 #include <string>
@@ -7,6 +7,9 @@
 #include <mutex>
 #include <condition_variable>
 #include <opencv2/core/core.hpp>
+
+namespace formseher
+{
 
 class Line;
 
@@ -38,4 +41,6 @@ public:
     virtual std::vector<Line> calculate(cv::InputArray image) = 0;
 };
 
-#endif // ALGORITHM_H
+} // namespace formseher
+
+#endif // FS_ALGORITHM_H

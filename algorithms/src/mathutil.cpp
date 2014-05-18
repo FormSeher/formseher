@@ -1,5 +1,8 @@
 #include "mathutil.h"
 
+namespace formseher
+{
+
 namespace math
 {
 
@@ -13,4 +16,5 @@ float sqrtFast(float num)
     return *(float*) &i;
 }
 
-}
+} // namespace math
+} // namespace formseher

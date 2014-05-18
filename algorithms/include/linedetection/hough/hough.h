@@ -1,5 +1,5 @@
-#ifndef HOUGH_H
-#define HOUGH_H
+#ifndef FS_HOUGH_H
+#define FS_HOUGH_H
 
 #include "linedetection/algorithm.h"
 
@@ -8,6 +8,9 @@
 #include <opencv2/core/core.hpp>
 #include <vector>
 #include <list>
+
+namespace formseher
+{
 
 // OpenCV ###############
 
@@ -61,4 +64,6 @@ private:
 
 };
 
-#endif // HOUGH_H
+} // namespace formseher
+
+#endif // FS_HOUGH_H
