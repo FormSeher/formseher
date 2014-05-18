@@ -86,6 +86,18 @@ public:
      */
     cv::Rect getBoundingBox() const;
 
+    /**
+     * @brief Get the set of nodes of the graph.
+     * @return Set containing the nodes of the graph.
+     */
+    const std::set<ObjectGraphNode*, PointerCompare<ObjectGraphNode>>& getNodes() const;
+
+    /**
+     * @brief Get the vector of edges of the graph.
+     * @return Vector containing the edges of the graph.
+     */
+    const std::vector<ObjectGraphEdge*>& getEdges() const;
+
 private:
     std::set<ObjectGraphNode*, PointerCompare<ObjectGraphNode>> nodes;
     std::vector<ObjectGraphEdge*> edges;

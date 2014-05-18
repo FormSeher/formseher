@@ -93,7 +93,17 @@ cv::Rect ObjectGraph::getBoundingBox() const
             boundingBoxCorners[0].y, // y
             boundingBoxCorners[1].x - boundingBoxCorners[0].x, // width
             boundingBoxCorners[1].y - boundingBoxCorners[0].y  // height
-    );
+            );
+}
+
+const std::set<ObjectGraphNode*, PointerCompare<ObjectGraphNode>>& ObjectGraph::getNodes() const
+{
+    return nodes;
+}
+
+const std::vector<ObjectGraphEdge*>& ObjectGraph::getEdges() const
+{
+    return edges;
 }
 
 void ObjectGraph::updateBoundingBox(const ObjectGraphNode* node)
