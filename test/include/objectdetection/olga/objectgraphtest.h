@@ -21,10 +21,12 @@ private slots:
         ObjectGraphNode* node2 = graph.insertNode(1, 1);
 
         QVERIFY(2 == graph.getNodeCount());
+        QVERIFY(2 == graph.getNodes().size());
 
         QVERIFY(node->getCoordinates() == cv::Point2i(2, 3));
         QVERIFY(node == node1);
         QVERIFY(node2->getCoordinates() == cv::Point2i(1, 1));
+
     }
 
     void insertNewEdgeTest()
@@ -40,12 +42,13 @@ private slots:
         QVERIFY(*end == edge->getEnd());
 
         QVERIFY(1 == graph.getEdgeCount());
-        QVERIFY(4 == edge->getDistance());
+        QVERIFY(1 == graph.getEdges().size());
 
         // Check if edges have been added to nodes
         QVERIFY(start->getEdges().size() == 1);
         QVERIFY(end->getEdges().size() == 1);
 
+        QVERIFY(4 == edge->getDistance());
         QVERIFY(edge == start->getEdges().at(0));
         QVERIFY(edge == end->getEdges().at(0));
     }
