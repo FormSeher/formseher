@@ -1,5 +1,5 @@
-#ifndef EDL_H
-#define EDL_H
+#ifndef FS_EDL_H
+#define FS_EDL_H
 
 /*#ifndef M_PI
 #define M_PI 3.141592654
@@ -17,6 +17,9 @@
 
 #define HORIZONTAL 0
 #define VERTICAL   1
+
+namespace formseher
+{
 
 class EDL : public Algorithm
 {
@@ -53,4 +56,6 @@ private:
     unsigned int minLineLength;
 };
 
-#endif // EDL_H
+} // namespace formseher
+
+#endif // FS_EDL_H

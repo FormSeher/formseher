@@ -1,5 +1,5 @@
-#ifndef ALGORITHMWORKER_H
-#define ALGORITHMWORKER_H
+#ifndef FS_ALGORITHMWORKER_H
+#define FS_ALGORITHMWORKER_H
 
 #include "linedetection/algorithm.h"
 #include "line.h"
@@ -7,6 +7,9 @@
 #include <QThread>
 #include <opencv2/core/core.hpp>
 #include <vector>
+
+namespace formseher
+{
 
 /**
  * @brief The AlgorithmWorker class
@@ -54,4 +57,6 @@ private:
     std::vector<Line> result;
 };
 
-#endif // ALGORITHMWORKER_H
+} // namespace formseher
+
+#endif // FS_ALGORITHMWORKER_H

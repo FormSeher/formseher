@@ -1,5 +1,5 @@
-#ifndef ALGORITHMCONTROLWIDGET_H
-#define ALGORITHMCONTROLWIDGET_H
+#ifndef FS_ALGORITHMCONTROLWIDGET_H
+#define FS_ALGORITHMCONTROLWIDGET_H
 
 #include <QWidget>
 #include <opencv2/core/core.hpp>
@@ -12,6 +12,9 @@
 namespace Ui {
 class AlgorithmControlWidget;
 }
+
+namespace formseher
+{
 
 class AlgorithmControlWidget : public QWidget
 {
@@ -56,4 +59,6 @@ private:
     std::string cvWindowName;
 };
 
-#endif // ALGORITHMCONTROLWIDGET_H
+} // namespace formseher
+
+#endif // FS_ALGORITHMCONTROLWIDGET_H

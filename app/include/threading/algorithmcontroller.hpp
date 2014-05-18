@@ -1,5 +1,5 @@
-#ifndef ALGORITHMCONTROLLER_HPP
-#define ALGORITHMCONTROLLER_HPP
+#ifndef FS_ALGORITHMCONTROLLER_HPP
+#define FS_ALGORITHMCONTROLLER_HPP
 
 #include "linedetection/algorithm.h"
 #include "gui/algorithmconfigdialog.h"
@@ -9,6 +9,8 @@
 #include <QObject>
 #include <QMutex>
 #include <vector>
+
+namespace formseher {
 
 /**
  * @brief The AlgorithmController class which controls the execution of AlgorithmWorkers.
@@ -110,4 +112,6 @@ private:
     std::vector<Line> latestResult;
 };
 
-#endif // ALGORITHMCONTROLLER_HPP
+} // namespace formseher
+
+#endif // FS_ALGORITHMCONTROLLER_HPP

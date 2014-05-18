@@ -10,6 +10,9 @@
 #include "line.h"
 #include "threading/algorithmcontroller.hpp"
 
+namespace formseher
+{
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -35,3 +38,5 @@ bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, Algorit
 
     return algorithmControlWidgets[slot - 1]->registerAlgorithmConfigDialog(id, dialog);
 }
+
+} // namespace formseher

@@ -1,5 +1,8 @@
 #include "line.h"
 
+namespace formseher
+{
+
 Line::Line(double x1, double y1, double x2, double y2)
     : start(x1, y1),
       end(x2, y2)
@@ -23,4 +26,6 @@ const cv::Point2d& Line::getStart()
 const cv::Point2d& Line::getEnd()
 {
     return end;
+}
+
 }

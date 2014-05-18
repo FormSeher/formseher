@@ -4,6 +4,9 @@
 
 #include <iostream>
 
+namespace formseher
+{
+
 Algorithm::Algorithm()
 {
 }
@@ -11,3 +14,5 @@ Algorithm::Algorithm()
 Algorithm::~Algorithm()
 {
 }
+
+} // namespace formseher

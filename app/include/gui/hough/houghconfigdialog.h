@@ -1,5 +1,5 @@
-#ifndef HOUGHCONFIGDIALOG_H
-#define HOUGHCONFIGDIALOG_H
+#ifndef FS_HOUGHCONFIGDIALOG_H
+#define FS_HOUGHCONFIGDIALOG_H
 
 #include <QDialog>
 
@@ -9,6 +9,9 @@
 namespace Ui {
 class HoughConfigDialog;
 }
+
+namespace formseher
+{
 
 /**
  * @brief The HoughConfigDialog class used to create EDL instances.
@@ -48,5 +51,7 @@ private:
     Hough hough;
 };
 
-#endif // HOUGHCONFIGDIALOG_H
+} // namespace formseher
+
+#endif // FS_HOUGHCONFIGDIALOG_H
 
