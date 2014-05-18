@@ -1,5 +1,5 @@
-#ifndef LINE_H
-#define LINE_H
+#ifndef FS_LINE_H
+#define FS_LINE_H
 
 #include <opencv2/core/core.hpp>
 
@@ -25,4 +25,4 @@ private:
 
 }
 
-#endif // LINE_H
+#endif // FS_LINE_H

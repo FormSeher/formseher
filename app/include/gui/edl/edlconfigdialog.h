@@ -1,5 +1,5 @@
-#ifndef EDLCONFIGDIALOG_H
-#define EDLCONFIGDIALOG_H
+#ifndef FS_EDLCONFIGDIALOG_H
+#define FS_EDLCONFIGDIALOG_H
 
 #include <QDialog>
 
@@ -54,4 +54,4 @@ private:
 
 } // namespace formseher
 
-#endif // EDLCONFIGDIALOG_H
+#endif // FS_EDLCONFIGDIALOG_H

@@ -1,5 +1,5 @@
-#ifndef PICTUREPREPARE_H
-#define PICTUREPREPARE_H
+#ifndef FS_PICTUREPREPARE_H
+#define FS_PICTUREPREPARE_H
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -28,4 +28,4 @@ private:
 };
 
 }
-#endif // PICTUREPREPARE_H
+#endif // FS_PICTUREPREPARE_H

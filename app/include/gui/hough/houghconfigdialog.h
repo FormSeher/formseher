@@ -1,5 +1,5 @@
-#ifndef HOUGHCONFIGDIALOG_H
-#define HOUGHCONFIGDIALOG_H
+#ifndef FS_HOUGHCONFIGDIALOG_H
+#define FS_HOUGHCONFIGDIALOG_H
 
 #include <QDialog>
 
@@ -53,5 +53,5 @@ private:
 
 } // namespace formseher
 
-#endif // HOUGHCONFIGDIALOG_H
+#endif // FS_HOUGHCONFIGDIALOG_H
 

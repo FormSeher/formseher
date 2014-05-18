@@ -1,5 +1,5 @@
-#ifndef HOUGH_H
-#define HOUGH_H
+#ifndef FS_HOUGH_H
+#define FS_HOUGH_H
 
 #include "linedetection/algorithm.h"
 
@@ -66,4 +66,4 @@ private:
 
 } // namespace formseher
 
-#endif // HOUGH_H
+#endif // FS_HOUGH_H

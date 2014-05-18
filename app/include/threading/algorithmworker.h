@@ -1,5 +1,5 @@
-#ifndef ALGORITHMWORKER_H
-#define ALGORITHMWORKER_H
+#ifndef FS_ALGORITHMWORKER_H
+#define FS_ALGORITHMWORKER_H
 
 #include "linedetection/algorithm.h"
 #include "line.h"
@@ -59,4 +59,4 @@ private:
 
 } // namespace formseher
 
-#endif // ALGORITHMWORKER_H
+#endif // FS_ALGORITHMWORKER_H

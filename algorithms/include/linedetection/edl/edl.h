@@ -1,5 +1,5 @@
-#ifndef EDL_H
-#define EDL_H
+#ifndef FS_EDL_H
+#define FS_EDL_H
 
 /*#ifndef M_PI
 #define M_PI 3.141592654
@@ -58,4 +58,4 @@ private:
 
 } // namespace formseher
 
-#endif // EDL_H
+#endif // FS_EDL_H

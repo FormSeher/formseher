@@ -1,5 +1,5 @@
-#ifndef ALGORITHMCONFIGDIALOG_H
-#define ALGORITHMCONFIGDIALOG_H
+#ifndef FS_ALGORITHMCONFIGDIALOG_H
+#define FS_ALGORITHMCONFIGDIALOG_H
 
 #include <QDialog>
 
@@ -46,4 +46,4 @@ public slots:
 
 } // namespace formseher
 
-#endif // ALGORITHMCONFIGDIALOG_H
+#endif // FS_ALGORITHMCONFIGDIALOG_H

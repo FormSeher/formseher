@@ -1,5 +1,5 @@
-#ifndef ALGORITHM_H
-#define ALGORITHM_H
+#ifndef FS_ALGORITHM_H
+#define FS_ALGORITHM_H
 
 #include <vector>
 #include <string>
@@ -43,4 +43,4 @@ public:
 
 } // namespace formseher
 
-#endif // ALGORITHM_H
+#endif // FS_ALGORITHM_H

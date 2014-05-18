@@ -1,5 +1,5 @@
-#ifndef ALGORITHMCONTROLWIDGET_H
-#define ALGORITHMCONTROLWIDGET_H
+#ifndef FS_ALGORITHMCONTROLWIDGET_H
+#define FS_ALGORITHMCONTROLWIDGET_H
 
 #include <QWidget>
 #include <opencv2/core/core.hpp>
@@ -61,4 +61,4 @@ private:
 
 } // namespace formseher
 
-#endif // ALGORITHMCONTROLWIDGET_H
+#endif // FS_ALGORITHMCONTROLWIDGET_H

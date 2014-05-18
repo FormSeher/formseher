@@ -1,5 +1,5 @@
-#ifndef ALGORITHMCONTROLLER_HPP
-#define ALGORITHMCONTROLLER_HPP
+#ifndef FS_ALGORITHMCONTROLLER_HPP
+#define FS_ALGORITHMCONTROLLER_HPP
 
 #include "linedetection/algorithm.h"
 #include "gui/algorithmconfigdialog.h"
@@ -114,4 +114,4 @@ private:
 
 } // namespace formseher
 
-#endif // ALGORITHMCONTROLLER_HPP
+#endif // FS_ALGORITHMCONTROLLER_HPP

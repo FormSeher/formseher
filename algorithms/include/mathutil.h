@@ -1,5 +1,5 @@
-#ifndef FORMSEHER_MATHUTIL_H
-#define FORMSEHER_MATHUTIL_H
+#ifndef FS_MATHUTIL_H
+#define FS_MATHUTIL_H
 
 namespace formseher
 {
@@ -15,4 +15,4 @@ float sqrtFast(float num);
 
 } // namespace math
 } // namespace formseher
-#endif // FORMSEHER_MATH_H
+#endif // FS_MATH_H
