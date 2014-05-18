@@ -8,7 +8,7 @@
 namespace formseher
 {
 
-class ObjectGraphEdge : public cv::Vec2i
+class ObjectGraphEdge
 {
 public:
     ObjectGraphEdge(ObjectGraphNode& start, ObjectGraphNode& end);
@@ -21,7 +21,11 @@ public:
     ObjectGraphNode& getStart() const;
     ObjectGraphNode& getEnd() const;
 
+    cv::Vec2i toCvVector() const;
+
 private:
+    cv::Vec2i vector;
+
     int distance;
 
     ObjectGraphNode& start;

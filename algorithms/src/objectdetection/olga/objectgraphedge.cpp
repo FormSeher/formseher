@@ -4,12 +4,12 @@ namespace formseher
 {
 
 ObjectGraphEdge::ObjectGraphEdge(ObjectGraphNode& start, ObjectGraphNode& end)
-    : cv::Vec2i(end.getCoordinates() - start.getCoordinates()),
+    : vector(end.getCoordinates() - start.getCoordinates()),
       start(start),
       end(end)
 {
-    distance = cv::norm(*static_cast<cv::Vec2i*>(this));
-    cv::normalize(*this, *this);
+    distance = cv::norm(vector);
+    cv::normalize(vector, vector);
 }
 
 int ObjectGraphEdge::getDistance() const
@@ -19,7 +19,7 @@ int ObjectGraphEdge::getDistance() const
 
 bool ObjectGraphEdge::operator==(const ObjectGraphEdge &rhs)
 {
-    if(static_cast<cv::Vec2i>(*this) != static_cast<cv::Vec2i>(rhs))
+    if(vector != rhs.toCvVector())
         return false;
     if(this->getDistance() != rhs.getDistance())
         return false;
@@ -39,6 +39,11 @@ ObjectGraphNode& ObjectGraphEdge::getStart() const
 ObjectGraphNode& ObjectGraphEdge::getEnd() const
 {
     return end;
+}
+
+cv::Vec2i ObjectGraphEdge::toCvVector() const
+{
+    return vector;
 }
 
 }

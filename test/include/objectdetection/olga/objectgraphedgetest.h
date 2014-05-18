@@ -23,7 +23,7 @@ private slots:
         ObjectGraphEdge edge(node1, node2);
 
         QVERIFY(10 == edge.getDistance());
-        QVERIFY(cv::Vec2i(1, 0) == edge);
+        QVERIFY(cv::Vec2i(1, 0) == edge.toCvVector());
 
         QVERIFY(node1 == edge.getStart());
         QVERIFY(node2 == edge.getEnd());
