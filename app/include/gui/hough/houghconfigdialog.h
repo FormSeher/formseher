@@ -10,6 +10,9 @@ namespace Ui {
 class HoughConfigDialog;
 }
 
+namespace formseher
+{
+
 /**
  * @brief The HoughConfigDialog class used to create EDL instances.
  */
@@ -47,6 +50,8 @@ private:
 
     Hough hough;
 };
+
+} // namespace formseher
 
 #endif // HOUGHCONFIGDIALOG_H
 

@@ -12,7 +12,8 @@
 
 #include <iostream>
 
-
+namespace formseher
+{
 
 AlgorithmControlWidget::AlgorithmControlWidget(QWidget *parent) :
     QWidget(parent),
@@ -187,3 +188,5 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
     ui->benchmarkResult->setText(QString::number(elapsedTime / executionCount) + " sec");
     benchmarkDialog.close();
 }
+
+} // namespace formseher

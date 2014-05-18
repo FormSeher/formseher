@@ -8,6 +8,9 @@
 #include <condition_variable>
 #include <opencv2/core/core.hpp>
 
+namespace formseher
+{
+
 class Line;
 
 /**
@@ -37,5 +40,7 @@ public:
      */
     virtual std::vector<Line> calculate(cv::InputArray image) = 0;
 };
+
+} // namespace formseher
 
 #endif // ALGORITHM_H

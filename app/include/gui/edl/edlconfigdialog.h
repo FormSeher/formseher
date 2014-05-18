@@ -10,6 +10,9 @@ namespace Ui {
 class EDLConfigDialog;
 }
 
+namespace formseher
+{
+
 /**
  * @brief The EDLConfigDialog class used to create EDL instances.
  */
@@ -48,5 +51,7 @@ private slots:
 private:
     Ui::EDLConfigDialog *ui;
 };
+
+} // namespace formseher
 
 #endif // EDLCONFIGDIALOG_H

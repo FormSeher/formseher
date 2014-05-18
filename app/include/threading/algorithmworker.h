@@ -8,6 +8,9 @@
 #include <opencv2/core/core.hpp>
 #include <vector>
 
+namespace formseher
+{
+
 /**
  * @brief The AlgorithmWorker class
  *
@@ -53,5 +56,7 @@ private:
     cv::Mat image;
     std::vector<Line> result;
 };
+
+} // namespace formseher
 
 #endif // ALGORITHMWORKER_H

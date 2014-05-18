@@ -11,6 +11,9 @@
 using namespace cv;
 using namespace std;
 
+namespace formseher
+{
+
 class PicturePrepare
 {
 public:
@@ -24,4 +27,5 @@ private:
 
 };
 
+}
 #endif // PICTUREPREPARE_H

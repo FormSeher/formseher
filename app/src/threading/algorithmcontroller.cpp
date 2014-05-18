@@ -2,6 +2,9 @@
 
 #include "threading/algorithmworker.h"
 
+namespace formseher
+{
+
 AlgorithmController::AlgorithmController()
     : configDialog(0),
       queuedAlgorithm(0),
@@ -83,3 +86,5 @@ void AlgorithmController::handleResult()
 
     queueMutex.unlock();
 }
+
+} // namespace formseher

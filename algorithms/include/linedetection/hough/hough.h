@@ -9,6 +9,9 @@
 #include <vector>
 #include <list>
 
+namespace formseher
+{
+
 // OpenCV ###############
 
 #define halfPi ((float)(CV_PI*0.5))
@@ -60,5 +63,7 @@ private:
     u_int16_t minimumLineSize;      // FROM_GUI
 
 };
+
+} // namespace formseher
 
 #endif // HOUGH_H

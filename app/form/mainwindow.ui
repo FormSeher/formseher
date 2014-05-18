@@ -16,10 +16,10 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="AlgorithmControlWidget" name="algorithmControlWidget1" native="true"/>
+     <widget class="formseher::AlgorithmControlWidget" name="algorithmControlWidget1" native="true"/>
     </item>
     <item>
-     <widget class="AlgorithmControlWidget" name="algorithmControlWidget2" native="true"/>
+     <widget class="formseher::AlgorithmControlWidget" name="algorithmControlWidget2" native="true"/>
     </item>
    </layout>
   </widget>
@@ -46,7 +46,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>AlgorithmControlWidget</class>
+   <class>formseher::AlgorithmControlWidget</class>
    <extends>QWidget</extends>
    <header>gui/algorithmcontrolwidget.h</header>
    <container>1</container>

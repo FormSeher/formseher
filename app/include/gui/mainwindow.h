@@ -15,6 +15,9 @@ namespace Ui {
 class MainWindow;
 }
 
+namespace formseher
+{
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -30,5 +33,7 @@ private:
 
     AlgorithmControlWidget* algorithmControlWidgets[2];
 };
+
+} // namespace formseher
 
 #endif // MAINWINDOW_H

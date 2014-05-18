@@ -2,6 +2,9 @@
 #include "ui_edlconfigdialog.h"
 #include "mathutil.h"
 
+namespace formseher
+{
+
 EDLConfigDialog::EDLConfigDialog(QWidget *parent) :
     AlgorithmConfigDialog(parent),
     ui(new Ui::EDLConfigDialog)
@@ -61,3 +64,5 @@ void EDLConfigDialog::on_minLineLength_valueChanged(int)
 {
     emit configChanged();
 }
+
+} // namespace formseher

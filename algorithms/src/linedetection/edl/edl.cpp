@@ -9,6 +9,8 @@
 #include <vector>
 #include <iostream>
 
+namespace formseher
+{
 
 EDL::EDL(int sobelKernelSize, double sobelScale, double sobelDelta, int gaussianKernelSize,
          int anchorThreshold, double angleTolerance, unsigned int minLineLength)
@@ -336,3 +338,5 @@ bool EDL::isOutOfBounds(cv::Point *point, cv::InputArray matrix)
     return (point->x < 0) || (point->x > mat.cols)
             || (point->y < 0) || (point->y > mat.rows);
 }
+
+} // namespace formseher

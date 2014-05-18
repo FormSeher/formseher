@@ -3,6 +3,9 @@
 
 #include <QDialog>
 
+namespace formseher
+{
+
 class Algorithm;
 
 /**
@@ -40,5 +43,7 @@ signals:
 public slots:
 
 };
+
+} // namespace formseher
 
 #endif // ALGORITHMCONFIGDIALOG_H

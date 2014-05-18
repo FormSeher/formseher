@@ -10,6 +10,8 @@
 #include <QMutex>
 #include <vector>
 
+namespace formseher {
+
 /**
  * @brief The AlgorithmController class which controls the execution of AlgorithmWorkers.
  */
@@ -109,5 +111,7 @@ private:
      */
     std::vector<Line> latestResult;
 };
+
+} // namespace formseher
 
 #endif // ALGORITHMCONTROLLER_HPP

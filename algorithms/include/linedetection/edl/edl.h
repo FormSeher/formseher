@@ -18,6 +18,9 @@
 #define HORIZONTAL 0
 #define VERTICAL   1
 
+namespace formseher
+{
+
 class EDL : public Algorithm
 {
 public:
@@ -52,5 +55,7 @@ private:
     double angleTolerance;
     unsigned int minLineLength;
 };
+
+} // namespace formseher
 
 #endif // EDL_H

@@ -13,6 +13,9 @@ namespace Ui {
 class AlgorithmControlWidget;
 }
 
+namespace formseher
+{
+
 class AlgorithmControlWidget : public QWidget
 {
     Q_OBJECT
@@ -55,5 +58,7 @@ private:
     cv::Mat resultImage;
     std::string cvWindowName;
 };
+
+} // namespace formseher
 
 #endif // ALGORITHMCONTROLWIDGET_H

@@ -3,6 +3,9 @@
 
 #include <opencv2/core/core.hpp>
 
+namespace formseher
+{
+
 class Line
 {
 public:
@@ -19,5 +22,7 @@ private:
     cv::Point2d start;
     cv::Point2d end;
 };
+
+}
 
 #endif // LINE_H

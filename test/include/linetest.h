@@ -6,6 +6,8 @@
 
 #include "line.h"
 
+using namespace formseher;
+
 class LineTest : public QObject
 {
     Q_OBJECT

@@ -11,6 +11,9 @@
 using namespace cv;
 using namespace std;
 
+namespace formseher
+{
+
 Hough::Hough(u_int16_t checkEnvironmentSize, u_int16_t maximalLineGap, u_int16_t minimumLineSize)
     : checkEnvironmentSize(checkEnvironmentSize),
       maximalLineGap(maximalLineGap),
@@ -296,3 +299,5 @@ void Hough::getCannyImage(cv::Mat& outputCannyImage, cv::Mat& inputGrayLevelImag
     // set minvotes according to canny pixel density
     minimalHoughVotes = calculateMinimalVotes(cannyEdgePixelDensity, edgePixelCounter);
 }
+
+} // namespace formseher

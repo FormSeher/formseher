@@ -24,6 +24,8 @@
 #define protected protected
 #define private private
 
+using namespace formseher;
+
 class EDLTest : public QObject
 {
     Q_OBJECT
