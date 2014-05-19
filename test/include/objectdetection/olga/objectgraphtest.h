@@ -36,12 +36,14 @@ private slots:
         ObjectGraphNode* start = graph.insertNode(1, 1);
         ObjectGraphNode* end = graph.insertNode(1, 5);
 
-        ObjectGraphEdge* edge = graph.insertEdge(start, end);
+        ObjectGraphEdge* edge1 = graph.insertEdge(start, end);
         // Insert same edge with swapped start/end points
-        graph.insertEdge(end, start);
+        ObjectGraphEdge* edge2 = graph.insertEdge(end, start);
 
-        QVERIFY(*start == edge->getStart());
-        QVERIFY(*end == edge->getEnd());
+        QVERIFY(*start == edge1->getStart());
+        QVERIFY(*end == edge1->getEnd());
+
+        QVERIFY(edge1 == edge2);
 
         QVERIFY(1 == graph.getEdgeCount());
         QVERIFY(1 == graph.getEdges().size());
@@ -50,9 +52,9 @@ private slots:
         QVERIFY(start->getEdges().size() == 1);
         QVERIFY(end->getEdges().size() == 1);
 
-        QVERIFY(4 == edge->getDistance());
-        QVERIFY(edge == start->getEdges().at(0));
-        QVERIFY(edge == end->getEdges().at(0));
+        QVERIFY(4 == edge1->getDistance());
+        QVERIFY(edge1 == start->getEdges().at(0));
+        QVERIFY(edge1 == end->getEdges().at(0));
     }
 
     void findNodeTest()
@@ -74,13 +76,11 @@ private slots:
 
         ObjectGraphEdge* edge = graph.insertEdge(start, end);
 
-        ObjectGraphEdge* foundEdge = graph.findEdge(*start, *end);
+        ObjectGraphEdge* foundEdge = graph.findEdge(start, end);
         QVERIFY(edge == foundEdge);
 
-        foundEdge = graph.findEdge(*end, *start);
+        foundEdge = graph.findEdge(end, start);
         QVERIFY(edge == foundEdge);
-
-        QVERIFY(0 == graph.findEdge(cv::Point(0, 200), start->getCoordinates()));
     }
 
     void boundingBoxTest()

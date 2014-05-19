@@ -35,12 +35,34 @@ ObjectGraphNode* ObjectGraph::insertNode(int x, int y)
     return newNode;
 }
 
-ObjectGraphEdge* ObjectGraph::insertEdge(ObjectGraphNode* start, ObjectGraphNode* end)
+ObjectGraphEdge* ObjectGraph::insertEdge(ObjectGraphNode* _start, ObjectGraphNode* _end)
 {
-    // TODO: Check if edge exists
+    ObjectGraphNode* start;
+    ObjectGraphNode* end;
 
-    ObjectGraphEdge* edge = new ObjectGraphEdge(*start, *end);
+    // Swap start/end so "smallest" point is start of the line
+    if(*_start < *_end)
+    {
+        start = _start;
+        end = _end;
+    }
+    else
+    {
+        start = _end;
+        end = _start;
+    }
+
+    // Check if edge exists
+    ObjectGraphEdge* edge = findEdge(start, end);
+
+    if(edge)
+        return edge;
+
+    // No edge found? Create new one
+    edge = new ObjectGraphEdge(*start, *end);
     edges.insert(edge);
+
+    edgesMap[start][end] = edge;
 
     start->addEdge(edge);
     end->addEdge(edge);
@@ -68,22 +90,35 @@ ObjectGraphNode *ObjectGraph::findNode(cv::Point2i coordinates)
     return *iterator;
 }
 
-ObjectGraphEdge *ObjectGraph::findEdge(cv::Point2i start, cv::Point2i end)
+ObjectGraphEdge *ObjectGraph::findEdge(const ObjectGraphNode* _start, const ObjectGraphNode* _end) const
 {
-    for(auto edge : edges)
-    {
-        if( (edge->getStart().getCoordinates() == start && edge->getEnd().getCoordinates() == end)
-           || (edge->getStart().getCoordinates() == end && edge->getEnd().getCoordinates() == start) )
-        {
-            return edge;
-        }
-    }
-    return 0;
-}
+    const ObjectGraphNode* start;
+    const ObjectGraphNode* end;
 
-ObjectGraphEdge *ObjectGraph::findEdge(const ObjectGraphNode &start, const ObjectGraphNode &end)
-{
-    return findEdge(start.getCoordinates(), end.getCoordinates());
+    // Swap coordinates for correct edgesMap access ("smaller" node is saved first)
+    if(*_start < *_end)
+    {
+        start = _start;
+        end = _end;
+    }
+    else
+    {
+        start = _end;
+        end = _start;
+    }
+
+    // Access first level of edgesMap
+    auto edgeMapIterator1 = edgesMap.find(start);
+    if(edgeMapIterator1 == edgesMap.end())
+        return 0;
+
+    // Access second level of edgesMap
+    auto edgeMapIterator2 = edgeMapIterator1->second.find(end);
+    if(edgeMapIterator2 == edgeMapIterator1->second.end())
+        return 0;
+
+    // Return third level of edgesMap (the ObjectGraphEdge pointer)
+    return edgeMapIterator2->second;
 }
 
 cv::Rect ObjectGraph::getBoundingBox() const

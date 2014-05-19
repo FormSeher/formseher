@@ -1,7 +1,7 @@
 #ifndef FS_OBJECTGRAPH_H
 #define FS_OBJECTGRAPH_H
 
-#include <vector>
+#include <map>
 #include <set>
 #include <opencv2/core/core.hpp>
 
@@ -40,7 +40,7 @@ public:
      * @param end The end of the edge.
      * @return Pointer to the newly created edge.
      */
-    ObjectGraphEdge* insertEdge(ObjectGraphNode* start, ObjectGraphNode* end);
+    ObjectGraphEdge* insertEdge(ObjectGraphNode* _start, ObjectGraphNode* _end);
 
     /**
      * @brief Get the number of nodes added to the graph.
@@ -67,15 +67,7 @@ public:
      * @param end The other end of the edge.
      * @return Pointer to the edge or null if no edge was found.
      */
-    ObjectGraphEdge* findEdge(cv::Point2i start, cv::Point2i end);
-
-    /**
-     * @brief Find an edge in the graph.
-     * @param start One end of the edge.
-     * @param end The other end of the edge.
-     * @return Pointer to the edge or null if no edge was found.
-     */
-    ObjectGraphEdge* findEdge(const ObjectGraphNode& start, const ObjectGraphNode& end);
+    ObjectGraphEdge* findEdge(const ObjectGraphNode* _start, const ObjectGraphNode* _end) const;
 
     /**
      * @brief Get the bounding box of the Graph.
@@ -101,6 +93,8 @@ public:
 private:
     std::set<ObjectGraphNode*, PointerCompare<ObjectGraphNode>> nodes;
     std::set<ObjectGraphEdge*> edges;
+    // edge map for improved find algorithm
+    std::map<const ObjectGraphNode*, std::map<const ObjectGraphNode*, ObjectGraphEdge*>> edgesMap;
 
     // top-left (0) and bottom-right (1) points of bounding box.
     cv::Point2i boundingBoxCorners[2];
