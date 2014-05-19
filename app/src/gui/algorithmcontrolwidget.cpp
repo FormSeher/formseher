@@ -178,7 +178,7 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
     startTime = getTime();
 
     for(int i = 0; i < executionCount; ++i)
-        algorithm->calculate(image);
+        algorithm->calculate(image.clone());
 
     endTime = getTime();
     // End of time measurement
