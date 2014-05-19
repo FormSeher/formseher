@@ -37,6 +37,8 @@ private slots:
         ObjectGraphNode* end = graph.insertNode(1, 5);
 
         ObjectGraphEdge* edge = graph.insertEdge(start, end);
+        // Insert same edge with swapped start/end points
+        graph.insertEdge(end, start);
 
         QVERIFY(*start == edge->getStart());
         QVERIFY(*end == edge->getEnd());

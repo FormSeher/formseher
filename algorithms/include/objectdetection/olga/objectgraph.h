@@ -96,11 +96,11 @@ public:
      * @brief Get the vector of edges of the graph.
      * @return Vector containing the edges of the graph.
      */
-    const std::vector<ObjectGraphEdge*>& getEdges() const;
+    const std::set<ObjectGraphEdge*>& getEdges() const;
 
 private:
     std::set<ObjectGraphNode*, PointerCompare<ObjectGraphNode>> nodes;
-    std::vector<ObjectGraphEdge*> edges;
+    std::set<ObjectGraphEdge*> edges;
 
     // top-left (0) and bottom-right (1) points of bounding box.
     cv::Point2i boundingBoxCorners[2];

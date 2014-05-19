@@ -40,7 +40,7 @@ ObjectGraphEdge* ObjectGraph::insertEdge(ObjectGraphNode* start, ObjectGraphNode
     // TODO: Check if edge exists
 
     ObjectGraphEdge* edge = new ObjectGraphEdge(*start, *end);
-    edges.push_back(edge);
+    edges.insert(edge);
 
     start->addEdge(edge);
     end->addEdge(edge);
@@ -101,7 +101,7 @@ const std::set<ObjectGraphNode*, PointerCompare<ObjectGraphNode>>& ObjectGraph::
     return nodes;
 }
 
-const std::vector<ObjectGraphEdge*>& ObjectGraph::getEdges() const
+const std::set<ObjectGraphEdge *> &ObjectGraph::getEdges() const
 {
     return edges;
 }
