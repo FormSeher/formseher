@@ -15,8 +15,8 @@ public:
 
     ~Line();
 
-    const cv::Point2d& getStart();
-    const cv::Point2d& getEnd();
+    const cv::Point2d& getStart() const;
+    const cv::Point2d& getEnd() const;
 
 private:
     cv::Point2d start;

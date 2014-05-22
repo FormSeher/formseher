@@ -18,12 +18,12 @@ Line::~Line()
 {
 }
 
-const cv::Point2d& Line::getStart()
+const cv::Point2d& Line::getStart() const
 {
     return start;
 }
 
-const cv::Point2d& Line::getEnd()
+const cv::Point2d& Line::getEnd() const
 {
     return end;
 }
