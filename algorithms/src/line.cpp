@@ -41,9 +41,9 @@ const cv::Vec2i& Line::getDirectionVector()
     return directionVector;
 }
 
-const double getLength()
+double Line::getLength()
 {
-
+    return length;
 }
 
-}
+} // namespace formseher
