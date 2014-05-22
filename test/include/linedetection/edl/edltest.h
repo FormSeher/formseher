@@ -108,16 +108,16 @@ private slots:
         QVERIFY(3 == result.size());
 
         Line line = result.at(0);
-        QVERIFY(cv::Point2d(4, 1) == line.getStart());
-        QVERIFY(cv::Point2d(6, 1) == line.getEnd());
+        QVERIFY(cv::Point2i(4, 1) == line.getStart());
+        QVERIFY(cv::Point2i(6, 1) == line.getEnd());
 
         line = result.at(1);
-        QVERIFY(cv::Point2d(1, 4) == line.getStart());
-        QVERIFY(cv::Point2d(3, 2) == line.getEnd());
+        QVERIFY(cv::Point2i(1, 4) == line.getStart());
+        QVERIFY(cv::Point2i(3, 2) == line.getEnd());
 
         line = result.at(2);
-        QVERIFY(cv::Point2d(7, 2) == line.getStart());
-        QVERIFY(cv::Point2d(8, 3) == line.getEnd());
+        QVERIFY(cv::Point2i(7, 2) == line.getStart());
+        QVERIFY(cv::Point2i(8, 3) == line.getEnd());
     }
 
     void findNextPointTest()

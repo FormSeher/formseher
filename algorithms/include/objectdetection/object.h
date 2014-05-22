@@ -13,17 +13,20 @@ class Object
 public:
     Object();
 
-    const std::vector<Line>& getLines() const;
+    void addLine(const Line* line);
+    const std::vector<const Line*>& getLines() const;
+
     cv::Rect getBoundingBox() const;
-    std::string getName() const;
-    void addLine(Line* line);
+
     void setName(std::string name);
+    std::string getName() const;
 
 private:
+    void updateBoundingBox(const cv::Point2i& point);
+    cv::Point2i boundingBoxCorners[2];
 
-    cv::Rect boundingBox;
     std::string name;
-    std::vector<Line*> lines;
+    std::vector<const Line*> lines;
 
 };
 

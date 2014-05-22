@@ -15,7 +15,7 @@ ObjectGraph::~ObjectGraph()
         delete edge;
 }
 
-float ObjectGraph::compareTo(const ObjectGraph &objectGraph) const
+float ObjectGraph::compareTo(const ObjectGraph&) const
 {
     return 0.0f;
 }
