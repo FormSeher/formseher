@@ -31,7 +31,8 @@ SOURCES += \
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraphnode.cpp \
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraphedge.cpp \
     $${ALG_SRC_DIR}/objectdetection/haff/hypothesis.cpp \
-    $${ALG_SRC_DIR}/objectdetection/haff/haff.cpp
+    $${ALG_SRC_DIR}/objectdetection/haff/haff.cpp \
+    $${ALG_SRC_DIR}/objectdetection/haff/haffdatabase.cpp
 
 HEADERS += \
     # common
@@ -51,7 +52,8 @@ HEADERS += \
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraphnode.h \
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraphedge.h \
     $${ALG_INCL_DIR}/objectdetection/haff/hypothesis.h \
-    $${ALG_INCL_DIR}/objectdetection/haff/haff.h
+    $${ALG_INCL_DIR}/objectdetection/haff/haff.h \
+    $${ALG_INCL_DIR}/objectdetection/haff/haffdatabase.h
 
 INCLUDEPATH += $${ALG_INCL_DIR}
 
