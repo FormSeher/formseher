@@ -23,7 +23,10 @@ SOURCES += \
     $${ALG_SRC_DIR}/linedetection/algorithm.cpp \
     $${ALG_SRC_DIR}/linedetection/edl/edl.cpp \
     $${ALG_SRC_DIR}/linedetection/hough/hough.cpp \
-    # object detection
+    # object detection - common
+    $${ALG_SRC_DIR}/objectdetection/object.cpp \
+    $${ALG_SRC_DIR}/objectdetection/objectdetectionalgorithm.cpp \
+    # object detection - OLGA
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraph.cpp \
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraphnode.cpp \
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraphedge.cpp
@@ -38,7 +41,10 @@ HEADERS += \
     $${ALG_INCL_DIR}/linedetection/algorithm.h \
     $${ALG_INCL_DIR}/linedetection/edl/edl.h \
     $${ALG_INCL_DIR}/linedetection/hough/hough.h \
-    # object detection
+    # object detection - common
+    $${ALG_INCL_DIR}/objectdetection/object.h \
+    $${ALG_INCL_DIR}/objectdetection/objectdetectionalgorithm.h \
+    # object detection - OLGA
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraph.h \
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraphnode.h \
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraphedge.h
