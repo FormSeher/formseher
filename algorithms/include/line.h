@@ -9,18 +9,18 @@ namespace formseher
 class Line
 {
 public:
-    Line(double x1, double y1, double x2, double y2);
+    Line(int x1, int y1, int x2, int y2);
 
-    Line(const cv::Point2d& start, const cv::Point2d& end);
+    Line(const cv::Point2i& start, const cv::Point2i& end);
 
     ~Line();
 
-    const cv::Point2d& getStart();
-    const cv::Point2d& getEnd();
+    const cv::Point2i& getStart() const;
+    const cv::Point2i& getEnd() const;
 
 private:
-    cv::Point2d start;
-    cv::Point2d end;
+    cv::Point2i start;
+    cv::Point2i end;
 };
 
 }

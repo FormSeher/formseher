@@ -15,24 +15,24 @@ class LineTest : public QObject
 private slots:
     void test1()
     {
-        Line line(0.5, 1.0, 1.5, 2.0);
-        QVERIFY(0.5 == line.getStart().x);
-        QVERIFY(1.0 == line.getStart().y);
-        QVERIFY(1.5 == line.getEnd().x);
-        QVERIFY(2.0 == line.getEnd().y);
+        Line line(1, 2, 3, 4);
+        QVERIFY(1 == line.getStart().x);
+        QVERIFY(2 == line.getStart().y);
+        QVERIFY(3 == line.getEnd().x);
+        QVERIFY(4 == line.getEnd().y);
     }
 
     void test2()
     {
-        cv::Point2d start(0.5, 1.0);
-        cv::Point2d end(1.5, 2.0);
+        cv::Point2i start(1, 2);
+        cv::Point2i end(3, 4);
 
         Line line(start, end);
 
-        QVERIFY(0.5 == line.getStart().x);
-        QVERIFY(1.0 == line.getStart().y);
-        QVERIFY(1.5 == line.getEnd().x);
-        QVERIFY(2.0 == line.getEnd().y);
+        QVERIFY(1 == line.getStart().x);
+        QVERIFY(2 == line.getStart().y);
+        QVERIFY(3 == line.getEnd().x);
+        QVERIFY(4 == line.getEnd().y);
     }
 };
 
