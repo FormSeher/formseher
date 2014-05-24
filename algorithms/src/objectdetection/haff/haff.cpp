@@ -2,7 +2,8 @@
 
 namespace formseher {
 
-Haff::Haff()
+Haff::Haff(const HaffDatabase& database)
+    : database(database)
 {
 }
 

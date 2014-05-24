@@ -3,6 +3,7 @@
 
 #include "objectdetection/objectdetectionalgorithm.h"
 #include "line.h"
+#include "objectdetection/haff/haffdatabase.h"
 
 namespace formseher
 {
@@ -11,10 +12,12 @@ class Haff : public ObjectDetectionAlgorithm
 {
 
 public:
-    Haff();
+    Haff(const HaffDatabase& database);
 
     std::vector<Object*> calculate(std::vector<Line>);
 
+private:
+    const HaffDatabase& database;
 };
 
 }   //  namespace formseher
