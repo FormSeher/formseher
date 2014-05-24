@@ -14,7 +14,7 @@ class Haff : public ObjectDetectionAlgorithm
 public:
     Haff(const HaffDatabase& database);
 
-    std::vector<Object*> calculate(std::vector<Line>);
+    std::vector<Object*> calculate(std::vector<Line> detectedLines);
 
 private:
     const HaffDatabase& database;
