@@ -18,9 +18,9 @@ private:
     double coverRating;
     double scaleRating;
 
-    static const double angleFactor = 1.0;
-    static const double coverFactor = 1.0;
-    static const double scaleFactor = 1.0;
+    static const double angleFactor;
+    static const double coverFactor;
+    static const double scaleFactor;
 
     //<PictureLine, DB-Line>
     std::map<Line*, Line*> lineMatchMap;
