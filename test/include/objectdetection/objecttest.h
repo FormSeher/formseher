@@ -29,8 +29,8 @@ private slots:
         Line line1(1, 2, 3, 4);
         Line line2(5, 6, 7, 9);
 
-        o.addLine(&line1);
-        o.addLine(&line2);
+        o.addLine(line1);
+        o.addLine(line2);
 
         QVERIFY(2 == o.getLines().size());
         QVERIFY(cv::Point2i(1, 2) == o.getLines().at(0)->getStart());

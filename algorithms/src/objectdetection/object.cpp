@@ -5,7 +5,12 @@ namespace formseher
 
 Object::Object()
 {
+}
 
+Object::~Object()
+{
+    for(auto line : lines)
+        delete line;
 }
 
 const std::vector<const Line*> &Object::getLines() const
@@ -23,21 +28,22 @@ cv::Rect Object::getBoundingBox() const
             );
 }
 
-void Object::addLine(const Line* line)
+void Object::addLine(const Line line)
 {
-    lines.push_back(line);
+    Line* newLine = new Line(line);
+    lines.push_back(newLine);
 
     // update bounding box. First check is needed for the first inserted
     // corner of the bounding box.
     if(lines.size() == 1)
     {
-        boundingBoxCorners[0] = line->getStart();
-        boundingBoxCorners[1] = line->getEnd();
+        boundingBoxCorners[0] = newLine->getStart();
+        boundingBoxCorners[1] = newLine->getEnd();
     }
     else
-        updateBoundingBox(line->getStart());
+        updateBoundingBox(newLine->getStart());
 
-    updateBoundingBox(line->getEnd());
+    updateBoundingBox(newLine->getEnd());
 }
 
 void Object::setName(std::string name)
