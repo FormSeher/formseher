@@ -1,32 +1,23 @@
 #include "objectdetection/objectdetectionalgorithm.h"
-#include "objectdetection/databaseobject.h"
 
 namespace formseher
 {
 
-int databaseSize;
-std::vector<Object> databaseObjects;
-
 ObjectDetectionAlgorithm::ObjectDetectionAlgorithm()
 {
-    getAllDatabaseObjects(databaseObjects);
-    getDatabaseSize(databaseSize);
+    getAllDatabaseObjects();
 }
 
-void getDatabaseSize(int& size){
-
-    // get number of total objects in database
-    size = databaseObjects.size();
-}
-
-void getAllDatabaseObjects(std::vector<Object>& databaseObjects){
+void ObjectDetectionAlgorithm::getAllDatabaseObjects(){
 
     // @toDo:
     // get somehow all objects in a loop
     // databaseObjects.push_back(...);
+
+    databaseSize = databaseObjects.size();
 }
 
-void getFirstRating(int& rating, Line firstLine, Line secondLine, Object databaseObject){
+void ObjectDetectionAlgorithm::getFirstRating(int& rating, Line firstLine, Line secondLine, Object databaseObject){
 
     // @toDo:
     // compare the distance between start and end points
@@ -43,7 +34,7 @@ void getFirstRating(int& rating, Line firstLine, Line secondLine, Object databas
     //      -> small variances are ok
 }
 
-void getRating(int& rating, Object consideredObject, Line lineToCheck, Object databaseObject, int currentLineNumber){
+void ObjectDetectionAlgorithm::getRating(int& rating, Object consideredObject, Line lineToCheck, Object databaseObject, int currentLineNumber){
 
     Line lastFoundLine = consideredObject.getLines()[currentLineNumber-1];
     // currentFoundLine == lineToCheck
@@ -64,7 +55,7 @@ void getRating(int& rating, Object consideredObject, Line lineToCheck, Object da
 
 }
 
-getBestRatedObjects(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects){
+void ObjectDetectionAlgorithm::getBestRatedObjects(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects){
 
     // @toDo: iterate through unfinished Objects and get their ratings
     // if rating is above ~80% add it to found objects
