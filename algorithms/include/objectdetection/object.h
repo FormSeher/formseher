@@ -12,8 +12,9 @@ class Object
 
 public:
     Object();
+    ~Object();
 
-    void addLine(const Line* line);
+    void addLine(const Line line);
     const std::vector<const Line*>& getLines() const;
 
     cv::Rect getBoundingBox() const;
