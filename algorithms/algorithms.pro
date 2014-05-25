@@ -29,7 +29,9 @@ SOURCES += \
     # object detection - OLGA
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraph.cpp \
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraphnode.cpp \
-    $${ALG_SRC_DIR}/objectdetection/olga/objectgraphedge.cpp
+    $${ALG_SRC_DIR}/objectdetection/olga/objectgraphedge.cpp \
+    # object detection - teamB
+    $${ALG_SRC_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.cpp
 
 HEADERS += \
     # common
@@ -47,7 +49,9 @@ HEADERS += \
     # object detection - OLGA
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraph.h \
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraphnode.h \
-    $${ALG_INCL_DIR}/objectdetection/olga/objectgraphedge.h
+    $${ALG_INCL_DIR}/objectdetection/olga/objectgraphedge.h \
+    # object detection - teamB
+    $${ALG_INCL_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.h
 
 INCLUDEPATH += $${ALG_INCL_DIR}
 
