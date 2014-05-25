@@ -11,7 +11,7 @@ class ObjectDetectionAlgorithm
 public:
     ObjectDetectionAlgorithm();
 
-    virtual std::vector<Object*> calculate(std::vector<Line>) = 0;
+    virtual std::vector<Object*> calculate(std::vector<Line> lines) = 0;
 
 };
 
