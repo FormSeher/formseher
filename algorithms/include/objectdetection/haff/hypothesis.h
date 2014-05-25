@@ -12,7 +12,8 @@ public:
     void calculateRating();
     double getRating() const;
     bool containsLine(const Line* line) const;
-
+    bool operator<(const Hypothesis& hypo) const;
+    	
 private:
     double angleRating;
     double coverRating;

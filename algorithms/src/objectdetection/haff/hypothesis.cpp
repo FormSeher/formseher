@@ -22,4 +22,15 @@ bool Hypothesis::containsLine(const Line *line) const
     return false;
 }
 
+bool Hypothesis::operator<(const Hypothesis& hypo) const
+{
+	double ownRating = getRating();
+	double foreignRating = hypo.getRating();
+	
+	if(ownRating < foreignRating)
+	{
+		return true;
+	}
+	else return false;
+}
 } // namespace formseher
