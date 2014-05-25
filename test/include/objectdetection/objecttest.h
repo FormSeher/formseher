@@ -38,6 +38,35 @@ private slots:
 
         QVERIFY(cv::Rect(1, 2, 6, 7) == o.getBoundingBox());
     }
+
+    void toStringTest()
+    {
+        Object o;
+        o.setName("Fancy object");
+        o.addLine(Line(10, 2, 3, 4));
+        o.addLine(Line(5, 666, 7, 8));
+
+        std::string serialized = o.toString();
+
+        QVERIFY("Fancy object:10,2,3,4;5,666,7,8;" == serialized);
+    }
+
+    void fromStringTest()
+    {
+        std::string serialized = "Fancy object:10,2,3,4;5,666,7,8;";
+
+        Object o;
+        o.fromString(serialized);
+
+        QVERIFY("Fancy object" == o.getName());
+        QVERIFY(2 == o.getLines().size());
+
+        auto lines = o.getLines();
+        QVERIFY(cv::Point2i(10, 2) == lines.at(0)->getStart());
+        QVERIFY(cv::Point2i( 3, 4) == lines.at(0)->getEnd());
+        QVERIFY(cv::Point2i( 5, 666) == lines.at(1)->getStart());
+        QVERIFY(cv::Point2i( 7, 8) == lines.at(1)->getEnd());
+    }
 };
 
 #endif // FS_OBJECTTEST_H
