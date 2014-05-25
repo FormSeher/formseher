@@ -49,6 +49,18 @@ public:
      */
     std::string toString();
 
+    /**
+     * @brief Sets the rating of the Object.
+     * @param rating The rating.
+     */
+    void setRating(float rating);
+
+    /**
+     * @brief Get the rating of the Object.
+     * @return The rating.
+     */
+    float getRating();
+
 private:
     void updateBoundingBox(const cv::Point2i& point);
     cv::Point2i boundingBoxCorners[2];
@@ -56,6 +68,7 @@ private:
     std::string name;
     std::vector<const Line*> lines;
 
+    float rating;
 };
 
 }   // formseher

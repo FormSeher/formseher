@@ -67,6 +67,13 @@ private slots:
         QVERIFY(cv::Point2i( 5, 666) == lines.at(1)->getStart());
         QVERIFY(cv::Point2i( 7, 8) == lines.at(1)->getEnd());
     }
+
+    void ratingTest()
+    {
+        Object o;
+        o.setRating(12.25);
+        QVERIFY(12.25f == o.getRating());
+    }
 };
 
 #endif // FS_OBJECTTEST_H

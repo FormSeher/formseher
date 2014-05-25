@@ -6,6 +6,7 @@ namespace formseher
 {
 
 Object::Object()
+    : rating(0.0f)
 {
 }
 
@@ -119,6 +120,16 @@ std::string Object::toString()
     }
 
     return serialized.str();
+}
+
+void Object::setRating(float rating)
+{
+    this->rating = rating;
+}
+
+float Object::getRating()
+{
+    return rating;
 }
 
 void Object::updateBoundingBox(const cv::Point2i& point)
