@@ -1,5 +1,5 @@
-#ifndef HYPOTHESIS_H
-#define HYPOTHESIS_H
+#ifndef FS_HYPOTHESIS_H
+#define FS_HYPOTHESIS_H
 
 #include "objectdetection/object.h"
 
@@ -32,4 +32,4 @@ private:
 
 }   // namespace formseher
 
-#endif HYPOTHESIS_H
+#endif // FS_HYPOTHESIS_H
