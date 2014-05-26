@@ -26,7 +26,7 @@ public:
     /**
      * @brief Loads the objects stored in the database.
      */
-    void load();
+    bool load();
 
     /**
      * @brief Get the objects previously loaded by HaffDatabase::load().
