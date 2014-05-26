@@ -10,8 +10,13 @@ class Hypothesis
 {
 public:
     void calculateRating();
+
     double getRating() const;
+
     bool containsLine(const Line* line) const;
+
+    void addLineMatch(Line *pictureLine, Line *databaseLine);
+
     bool operator<(const Hypothesis& hypo) const;
     	
 private:
