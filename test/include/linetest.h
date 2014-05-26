@@ -13,7 +13,7 @@ class LineTest : public QObject
     Q_OBJECT
 
 private slots:
-    void test1()
+    void constructorTest1()
     {
         Line line(1, 2, 3, 4);
         QVERIFY(1 == line.getStart().x);
@@ -22,7 +22,7 @@ private slots:
         QVERIFY(4 == line.getEnd().y);
     }
 
-    void test2()
+    void constructorTest2()
     {
         cv::Point2i start(1, 2);
         cv::Point2i end(3, 4);
@@ -34,6 +34,27 @@ private slots:
         QVERIFY(3 == line.getEnd().x);
         QVERIFY(4 == line.getEnd().y);
     }
+
+    void positionVectorTest()
+    {
+        Line line(1, 2, 3, 4);
+        QVERIFY(1 == line.getPositionVector()[0]);
+        QVERIFY(2 == line.getPositionVector()[1]);
+    }
+
+    void directionVectorTest()
+    {
+        Line line(1, 2, 3, 4);
+        QVERIFY( 2.0 / std::sqrt( 2 * 2 + 2 * 2) == line.getDirectionVector()[0]);
+        QVERIFY( 2.0 / std::sqrt( 2 * 2 + 2 * 2) == line.getDirectionVector()[1]);
+    }
+
+    void lengthTest()
+    {
+        Line line(1, 2, 3, 4);
+        QVERIFY( std::sqrt(2 * 2 + 2 * 2) == line.getLength() );
+    }
+
 };
 
 #endif // FS_LINETEST_H
