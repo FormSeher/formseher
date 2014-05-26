@@ -33,6 +33,8 @@ bool HaffDatabase::load()
         objects.push_back(object);
     }
 
+    file.close();
+
     return true;
 }
 
