@@ -28,9 +28,9 @@ bool Hypothesis::containsLine(const Line* line) const
     return ( lineMatchMap.find( (Line*) line ) != lineMatchMap.end() );
 }
 
-void Hypothesis::addLineMatch(Line* pictureLine, Line* databaseLine)
+void Hypothesis::addLineMatch(const Line* pictureLine, const Line* databaseLine)
 {
-    lineMatchMap.insert( std::pair<Line*, Line*>(pictureLine, databaseLine) );
+    lineMatchMap.insert( std::pair<Line*, Line*>((Line*)pictureLine, (Line*)databaseLine) );
 }
 
 bool Hypothesis::operator<(const Hypothesis& hypo) const

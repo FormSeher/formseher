@@ -15,7 +15,7 @@ public:
 
     bool containsLine(const Line* line) const;
 
-    void addLineMatch(Line *pictureLine, Line *databaseLine);
+    void addLineMatch(const Line *pictureLine, const Line *databaseLine);
 
     bool operator<(const Hypothesis& hypo) const;
     	

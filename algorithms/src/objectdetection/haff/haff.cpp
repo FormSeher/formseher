@@ -30,7 +30,7 @@ std::vector<Object*> Haff::calculate(std::vector<Line> detectedLines)
                 {
                     // Create new Hypothesis
                     Hypothesis newHypothesis = Hypothesis();
-                    newHypothesis.addLineMatch(detectedLine, modelLine);
+                    newHypothesis.addLineMatch(&detectedLine, modelLine);
 
                     // Rate new Hypothesis
                     newHypothesis.calculateRating();
@@ -44,10 +44,10 @@ std::vector<Object*> Haff::calculate(std::vector<Line> detectedLines)
                 {
                     for(auto oldHypothesis : oldHypotheses)
                     {
-                        if ( ! oldHypothesis.containsLine(detectedLine) )
+                        if ( ! oldHypothesis.containsLine( &detectedLine ) )
                         {
                             // Create new Hypothesis
-                            oldHypothesis.addLineMatch(detectedLine, modelLine);
+                            oldHypothesis.addLineMatch(&detectedLine, modelLine);
 
                             // Rate new Hypothesis
                             oldHypothesis.calculateRating();
