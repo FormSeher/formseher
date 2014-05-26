@@ -22,11 +22,40 @@ std::vector<Object*> Haff::calculate(std::vector<Line> detectedLines)
         {
             for(auto detectedLine : detectedLines)
             {
-                for(auto oldHypothesis : oldHypotheses)
+                // TODO: Ugly code duplication. How to improve?
+                // TODO: Clearify how to construct a "non-matching" hypothesis value-key pair.
+
+                // Construct newHypotheses in first iteration step.
+                if ( modelLine == model->getLines().front() )
                 {
                     // Create new Hypothesis
+                    Hypothesis newHypothesis = Hypothesis();
+                    newHypothesis.addLineMatch(detectedLine, modelLine);
+
                     // Rate new Hypothesis
+                    newHypothesis.calculateRating();
+
                     // Store new Hypothesis in newHypotheses set
+                    newHypotheses.insert(newHypothesis);
+                }
+
+                // Construct newHypotheses in other iteration steps.
+                else
+                {
+                    for(auto oldHypothesis : oldHypotheses)
+                    {
+                        if ( ! oldHypothesis.containsLine(detectedLine) )
+                        {
+                            // Create new Hypothesis
+                            oldHypothesis.addLineMatch(detectedLine, modelLine);
+
+                            // Rate new Hypothesis
+                            oldHypothesis.calculateRating();
+
+                            // Store new Hypothesis in newHypotheses set
+                            newHypotheses.insert(oldHypothesis);
+                        }
+                    }
                 }
             }
 
