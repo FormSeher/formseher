@@ -42,7 +42,7 @@ const cv::Vec2i Line::getPositionVector()
     return cv::Vec2i(start.x, start.y);
 }
 
-const cv::Vec2i& Line::getDirectionVector()
+const cv::Vec2d& Line::getDirectionVector()
 {
     return directionVector;
 }
