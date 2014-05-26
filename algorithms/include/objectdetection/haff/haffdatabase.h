@@ -35,7 +35,10 @@ public:
     const std::vector<const Object*>& getObjects() const;
 
 private:
+    // Path to the database file
     std::string filePath;
+
+    // Populated by Objects retrieved from load().
     std::vector<const Object*> objects;
 };
 
