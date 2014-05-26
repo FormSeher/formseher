@@ -20,6 +20,7 @@ public:
 
     const cv::Vec2i getPositionVector();
     const cv::Vec2i& getDirectionVector();
+
     double getLength();
 
 private:

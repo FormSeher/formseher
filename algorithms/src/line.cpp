@@ -7,9 +7,15 @@ Line::Line(int x1, int y1, int x2, int y2)
     : start(x1, y1),
       end(x2, y2)
 {
-
+    //Calculate direction vector
     directionVector[0] = end.x - start.x;
     directionVector[1] = end.y - start.y;
+
+    //Calculate length of line
+    length = cv::norm(directionVector);
+
+    //Normalize line to length 1
+    directionVector = cv::normalize(directionVector);
 }
 
 Line::Line(const cv::Point2i& start, const cv::Point2i& end)
