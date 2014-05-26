@@ -9,12 +9,18 @@ const double Hypothesis::scaleFactor = 1.0;
 
 void Hypothesis::calculateRating()
 {
+    // Calculate angle rating
 
+    // Calculate cover rating
+
+    // Calculate scale rating
 }
 
 double Hypothesis::getRating() const
 {
-    return 0.0;
+    return ( angleRating * angleFactor
+           + coverRating * coverFactor
+           + scaleRating * scaleFactor ) ;
 }
 
 bool Hypothesis::containsLine(const Line* line) const
@@ -32,7 +38,7 @@ bool Hypothesis::operator<(const Hypothesis& hypo) const
 	double ownRating = getRating();
 	double foreignRating = hypo.getRating();
 	
-	if(ownRating < foreignRating)
+    if(ownRating < foreignRating)
 	{
 		return true;
 	}
