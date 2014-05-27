@@ -57,10 +57,11 @@ std::vector<Object*> Haff::calculate(std::vector<Line> detectedLines)
                         }
                     }
                 }
+
+                // Filter newHypotheses for best ones (do not forget to destory
+                // old hypohteses and new hypotheses which are no longer used!)
             }
 
-            // Filter newHypotheses for best ones (do not forget to destory
-            // old hypohteses and new hypotheses which are no longer used!)
         }
     }
 
