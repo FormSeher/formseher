@@ -67,8 +67,26 @@ std::vector<Object*> Haff::calculate(std::vector<Line> detectedLines)
                     }
                 }
 
-                // Filter newHypotheses for best ones (do not forget to destory
-                // old hypohteses and new hypotheses which are no longer used!)
+                // Clear old hypotheses witch are no longer required
+                for(auto oldHypothesis : oldHypotheses)
+                    delete oldHypothesis;
+                oldHypotheses.clear();
+
+                // Copy best rated new hypotheses to oldHyptoheses
+                int counter = 0;
+                std::multiset<Hypothesis>::iterator itr;
+                for(itr = newHypotheses.begin();
+                    itr != newHypotheses.end() && counter < 10;
+                    ++itr)
+                {
+                    oldHypotheses.insert(*iter);
+                    ++counter;
+                }
+
+                // Delete rest of newHypotheses which is no longer needed
+                for(; itr != newHypotheses.end(); ++itr)
+                    delete *itr;
+                newHypotheses.clear();
             }
         }
 
