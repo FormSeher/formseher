@@ -13,9 +13,9 @@ Haff::Haff(const HaffDatabase& database)
 
 std::vector<Object*> Haff::calculate(std::vector<Line> detectedLines)
 {
-    std::multiset<Hypothesis> oldHypotheses;
-    std::multiset<Hypothesis> newHypotheses;
-    std::multiset<Hypothesis> likelyHypotheses;
+    std::multiset<Hypothesis*> oldHypotheses;
+    std::multiset<Hypothesis*> newHypotheses;
+    std::multiset<Hypothesis*> likelyHypotheses;
 
     for(auto model : database.getObjects())
     {
@@ -36,11 +36,11 @@ std::vector<Object*> Haff::calculate(std::vector<Line> detectedLines)
                 if ( modelLine == model->getLines().front() )
                 {
                     // Create new Hypothesis
-                    Hypothesis newHypothesis = Hypothesis();
-                    newHypothesis.addLineMatch(&detectedLine, modelLine);
+                    Hypothesis* newHypothesis = new Hypothesis();
+                    newHypothesis->addLineMatch(&detectedLine, modelLine);
 
                     // Rate new Hypothesis
-                    newHypothesis.calculateRating();
+                    newHypothesis->calculateRating();
 
                     // Store new Hypothesis in newHypotheses set
                     newHypotheses.insert(newHypothesis);
@@ -51,15 +51,15 @@ std::vector<Object*> Haff::calculate(std::vector<Line> detectedLines)
                 {
                     for(auto oldHypothesis : oldHypotheses)
                     {
-                        if ( ! oldHypothesis.containsLine( &detectedLine ) )
+                        if ( ! oldHypothesis->containsLine( &detectedLine ) )
                         {
                             // TODO: Create a copy of oldHypothesis
 
                             // Create new Hypothesis
-                            oldHypothesis.addLineMatch(&detectedLine, modelLine);
+                            oldHypothesis->addLineMatch(&detectedLine, modelLine);
 
                             // Rate new Hypothesis
-                            oldHypothesis.calculateRating();
+                            oldHypothesis->calculateRating();
 
                             // Store new Hypothesis in newHypotheses set
                             newHypotheses.insert(oldHypothesis);
@@ -74,12 +74,12 @@ std::vector<Object*> Haff::calculate(std::vector<Line> detectedLines)
 
                 // Copy best rated new hypotheses to oldHyptoheses
                 int counter = 0;
-                std::multiset<Hypothesis>::iterator itr;
+                std::multiset<Hypothesis*>::iterator itr;
                 for(itr = newHypotheses.begin();
                     itr != newHypotheses.end() && counter < 10;
                     ++itr)
                 {
-                    oldHypotheses.insert(*iter);
+                    oldHypotheses.insert(*itr);
                     ++counter;
                 }
 
