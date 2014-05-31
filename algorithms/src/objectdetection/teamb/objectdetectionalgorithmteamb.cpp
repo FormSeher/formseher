@@ -40,11 +40,11 @@ void ObjectDetectionAlgorithmTeamB::getAllDatabaseObjects(){
 
 void ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber){
 
-    Line lastFoundLine = consideredObject.getLines()[currentLineNumber-1];
+    const Line* lastFoundLine = consideredObject.getLines()[currentLineNumber-1];
     // currentFoundLine == lineToCheck
 
-    Line lastDBLine = databaseObject.getLines()[currentLineNumber-1];
-    Line currentDBLine = databaseObject.getLines()[currentLineNumber];
+    const Line* lastDBLine = databaseObject.getLines()[currentLineNumber-1];
+    const Line* currentDBLine = databaseObject.getLines()[currentLineNumber];
 
     // @toDo:
     // compare the distance between start and end points
@@ -59,29 +59,29 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line lin
 
 }
 
-void ObjectDetectionAlgorithmTeamB::getBestRatedObjects(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects){
+void ObjectDetectionAlgorithmTeamB::getBestRatedObjects(std::vector<Object> unfinishedObjects, std::vector<Object> foundObjects){
 
     // @toDo: iterate through unfinished Objects and get their ratings
     // if rating is above ~80% add it to found objects
     // @reminder: do not only add the best rated object as there could be many same objects in a picture
 }
 
-virtual std::vector<Object*> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> lines){
+std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> lines){
 
     std::vector<Object> foundObjects;
     std::vector<Object> unfinishedObjects;
 
     // iterate through database objects
-    for(uint currentObjectIndex = 0; currentObjectIndex < databaseSize; currentObjectIndex++){
+    for(int currentObjectIndex = 0; currentObjectIndex < databaseSize; currentObjectIndex++){
 
         // iterate through received line vector
         // first step: every line equals the first line of a object
-        for(uint firstLineIndex = 0; firstLineIndex < lines.size(); firstLineIndex++){
+        for(int firstLineIndex = 0; firstLineIndex < lines.size(); firstLineIndex++){
 
             int rating = 0;
 
             // second step: match firstLine with all other lines which equal the second line of a object
-            for(uint secondLineIndex = 0; secondLineIndex < lines.size(); secondLineIndex++){
+            for(int secondLineIndex = 0; secondLineIndex < lines.size(); secondLineIndex++){
 
             // shorter iteration if comparison between first and second line only needs an angle or distance
             // if relative sizes between lines have to be considered this loop cannot be used
@@ -148,7 +148,7 @@ virtual std::vector<Object*> ObjectDetectionAlgorithmTeamB::calculate(std::vecto
                     }
                 }
             }
-            unfinishedObjects = newFoundObjects;
+            unfinishedObjects = newUnfinishedObjects;
         }
 
     getBestRatedObjects(unfinishedObjects, foundObjects);
