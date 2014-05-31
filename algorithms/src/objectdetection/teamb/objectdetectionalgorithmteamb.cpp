@@ -46,7 +46,118 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
 
     // @howTo
     // consideredObject.setRating(consideredObject.getRating()+myRating);
+    Line nextConsideredObjectLine = consideredObject.getLines()[currentLineNumber + 1];
 
+    Line currentDBLine = databaseObject.getLines()[currentLineNumber];
+    Line nextDBLine = databaseObject.getLines()[currentLineNumber + 1];
+
+    //calculate the vector between line.start and line.end for both objects and angle
+    cv::Point2i pointToCheckStart;
+    cv::Point2i pointToCheckEnd;
+
+    cv::Point2i nextPointToCheckStart;
+    cv::Point2i nextPointToCheckEnd;
+
+    cv::Point2i dbStartPoint;
+    cv::Point2i dbEndPoint;
+
+    cv::Point2i dbNextPointStart;
+    cv::Point2i dbNextPointEnd;
+
+    pointToCheckStart = lineToCheck.getStart();
+    pointToCheckEnd = lineToCheck.getEnd();
+
+    nextPointToCheckStart = nextConsideredObjectLine.getStart();
+    nextPointToCheckEnd = nextConsideredObjectLine.getEnd();
+
+    dbStartPoint = currentDBLine.getStart();
+    dbEndPoint = currentDBLine.getEnd();
+
+    dbNextPointStart = nextDBLine.getStart();
+    dbNextPointEnd = nextDBLine.getEnd();
+
+
+    //make vector between start and end point
+
+    cv::Point2i vectorCurrentPoint;
+    cv::Point2i vectorCurrentPointNext;
+
+    cv::Point2i vectorDbPoint;
+    cv::Point2i vectorDbPointNext;
+
+    //the vector of the the start and end point, for current and next line
+    //b - a
+    vectorCurrentPoint = pointToCheckEnd - pointToCheckStart;
+    vectorCurrentPointNext = nextPointToCheckEnd - nextPointToCheckStart;
+
+    vectorDbPoint = dbEndPoint - dbStartPoint;
+    vectorDbPointNext = dbNextPointEnd - dbNextPointStart;
+
+    //calculate angle between current and next line, skalarprodukt without cos
+    //phi = (a1*b1) + (an * bn) / |a| * |b|
+    double currentPointAngle;
+    double dbPointAngle;
+
+    int numeratorCurrentPoint;
+    double denominatorCurrentPoint;
+
+    int numeratorDbPoint;
+    double denominatorDbPoint;
+
+    //angle for current and next line
+    numeratorCurrentPoint = vectorCurrentPoint.x * vectorCurrentPointNext.x + vectorCurrentPoint.y * vectorCurrentPointNext.y;
+    denominatorCurrentPoint = formseher::math::sqrtFast(vectorCurrentPoint.x * vectorCurrentPoint.x + vectorCurrentPoint.y * vectorCurrentPoint.y) * formseher::math::sqrtFast(vectorCurrentPointNext.x * vectorCurrentPointNext.x + vectorCurrentPointNext.y * vectorCurrentPointNext.y);
+
+    currentPointAngle = numeratorCurrentPoint / denominatorCurrentPoint;
+
+    //angle for current and next db line
+    numeratorDbPoint = vectorDbPoint.x * vectorDbPointNext.x + vectorDbPoint.y * vectorDbPointNext.y;
+    denominatorDbPoint = formseher::math::sqrtFast(vectorDbPoint.x * vectorDbPoint.x + vectorDbPoint.y * vectorDbPoint.y) * formseher::math::sqrtFast(vectorDbPointNext.x * vectorDbPointNext.x + vectorDbPointNext.y * vectorDbPointNext.y);
+
+    dbPointAngle = numeratorDbPoint / denominatorDbPoint;
+
+    //now make with the vector dimension and angle rating values
+
+
+    // @toDo:
+    // compare the distance between start and end points
+    // if distance if too high return with 0
+    //|a|= sqrt(a1^2+an^2)
+
+    //get the length
+    double lengthCurrentLine = formseher::math::sqrtFast(vectorCurrentPoint.x * vectorCurrentPoint.x + vectorCurrentPoint.y * vectorCurrentPoint.y);
+    double lengthCurrentLineNext = formseher::math::sqrtFast(vectorCurrentPointNext.x * vectorCurrentPointNext.x + vectorCurrentPointNext.y * vectorCurrentPointNext.y);
+
+    double lengthDbCurrentLine = formseher::math::sqrtFast(vectorDbPoint.x * vectorDbPoint.x + vectorDbPoint.y * vectorDbPoint.y);
+    double lengthDbLineNext = formseher::math::sqrtFast(vectorDbPointNext.x * vectorDbPointNext.x + vectorDbPointNext.y * vectorDbPointNext.y);
+
+    //now compare and set the rating, the current line to db current line, because next should be the same
+
+    double smallerThenDbThreshold = 1.2;// the dbline is 1.2 so big as the lineToCheck
+    double biggerThenDbThreshold = 0.8;// the lineToCheck is 1.2 so big as the dbline
+
+    if(lengthDbCurrentLine / lengthCurrentLine > smallerThenDbThreshold || lengthDbCurrentLine / lengthCurrentLine < biggerThenDbThreshold)
+    {
+
+        //set rating
+
+    }
+
+    // @toDo:
+    // compare the angle of given lines with the angle of first and second line of object
+    // do not calculate angles ! takes to much time !
+    //      use comparisons instead
+    // keep in mind that angles will never match
+    //      -> small variances are ok
+
+    //now compare the angle
+
+    double angleThreshold = 0.1;//its allmost 10° +-2
+
+    if(dbPointAngle - currentPointAngle > angleThreshold || dbPointAngle - currentPointAngle < -angleThreshold);
+    {
+        *rating = 0;
+    }
 }
 
 void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects){
