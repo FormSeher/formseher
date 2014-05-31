@@ -6,7 +6,6 @@ namespace formseher
 {
 
 Model::Model()
-    : rating(0.0f)
 {
 }
 
@@ -15,7 +14,6 @@ Model::Model(const Model &object)
     boundingBoxCorners[0] = object.boundingBoxCorners[0];
     boundingBoxCorners[1] = object.boundingBoxCorners[1];
     name = object.name;
-    rating = object.rating;
 
     for(auto rhsLine : object.lines)
         lines.push_back(new Line(*rhsLine));
@@ -131,16 +129,6 @@ std::string Model::toString()
     }
 
     return serialized.str();
-}
-
-void Model::setRating(float rating)
-{
-    this->rating = rating;
-}
-
-float Model::getRating()
-{
-    return rating;
 }
 
 void Model::updateBoundingBox(const cv::Point2i& point)
