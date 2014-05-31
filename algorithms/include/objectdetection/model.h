@@ -1,5 +1,5 @@
-#ifndef OBJECT_H
-#define OBJECT_H
+#ifndef FS_MODEL_H
+#define FS_MODEL_H
 
 #include <opencv2/core/core.hpp>
 #include <string.h>
@@ -7,14 +7,14 @@
 
 namespace formseher {
 
-class Object
+class Model
 {
 
 public:
-    Object();
-    Object(const Object& object);
+    Model();
+    Model(const Model& object);
 
-    ~Object();
+    ~Model();
 
 
     void addLine(const Line line);
@@ -76,4 +76,4 @@ private:
 
 }   // formseher
 
-#endif // OBJECT_H
+#endif // FS_MODEL_H

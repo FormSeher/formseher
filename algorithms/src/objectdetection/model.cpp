@@ -1,16 +1,16 @@
-#include "objectdetection/object.h"
+#include "objectdetection/model.h"
 
 #include <sstream>
 
 namespace formseher
 {
 
-Object::Object()
+Model::Model()
     : rating(0.0f)
 {
 }
 
-Object::Object(const Object &object)
+Model::Model(const Model &object)
 {
     boundingBoxCorners[0] = object.boundingBoxCorners[0];
     boundingBoxCorners[1] = object.boundingBoxCorners[1];
@@ -21,18 +21,18 @@ Object::Object(const Object &object)
         lines.push_back(new Line(*rhsLine));
 }
 
-Object::~Object()
+Model::~Model()
 {
     for(auto line : lines)
         delete line;
 }
 
-const std::vector<const Line*> &Object::getLines() const
+const std::vector<const Line*> &Model::getLines() const
 {
     return lines;
 }
 
-cv::Rect Object::getBoundingBox() const
+cv::Rect Model::getBoundingBox() const
 {
     return cv::Rect(
             boundingBoxCorners[0].x, // x
@@ -42,7 +42,7 @@ cv::Rect Object::getBoundingBox() const
             );
 }
 
-void Object::addLine(const Line line)
+void Model::addLine(const Line line)
 {
     Line* newLine = new Line(line);
     lines.push_back(newLine);
@@ -60,17 +60,17 @@ void Object::addLine(const Line line)
     updateBoundingBox(newLine->getEnd());
 }
 
-void Object::setName(std::string name)
+void Model::setName(std::string name)
 {
     this->name = name;
 }
 
-std::string Object::getName() const
+std::string Model::getName() const
 {
     return name;
 }
 
-void Object::fromString(const std::string& string)
+void Model::fromString(const std::string& string)
 {
     // Set name
     size_t pos = string.find(':');
@@ -114,7 +114,7 @@ void Object::fromString(const std::string& string)
     }
 }
 
-std::string Object::toString()
+std::string Model::toString()
 {
     std::stringstream serialized;
 
@@ -133,17 +133,17 @@ std::string Object::toString()
     return serialized.str();
 }
 
-void Object::setRating(float rating)
+void Model::setRating(float rating)
 {
     this->rating = rating;
 }
 
-float Object::getRating()
+float Model::getRating()
 {
     return rating;
 }
 
-void Object::updateBoundingBox(const cv::Point2i& point)
+void Model::updateBoundingBox(const cv::Point2i& point)
 {
     // Update x coordinate
     if(boundingBoxCorners[0].x > point.x)

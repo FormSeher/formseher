@@ -6,23 +6,23 @@
 
 #include <opencv2/core/core.hpp>
 
-#include "objectdetection/object.h"
+#include "objectdetection/model.h"
 #include "line.h"
 
 using namespace formseher;
 
-class ObjectTest : public QObject
+class ModelTest : public QObject
 {
 Q_OBJECT
 
 private slots:
     void copyConstructorTest()
     {
-        Object o1;
+        Model o1;
         o1.setName("o1");
         o1.addLine(Line(1, 1, 2, 2));
 
-        Object o2(o1);
+        Model o2(o1);
 
         QVERIFY(o1.getName() == o2.getName());
         QVERIFY(o1.getBoundingBox() == o2.getBoundingBox());
@@ -41,14 +41,14 @@ private slots:
 
     void nameTest()
     {
-        Object o;
+        Model o;
         o.setName("This is object!");
         QVERIFY("This is object!" == o.getName());
     }
 
     void addLineTest()
     {
-        Object o;
+        Model o;
         Line line1(1, 2, 3, 4);
         Line line2(5, 6, 7, 9);
 
@@ -64,7 +64,7 @@ private slots:
 
     void toStringTest()
     {
-        Object o;
+        Model o;
         o.setName("Fancy object");
         o.addLine(Line(10, 2, 3, 4));
         o.addLine(Line(5, 666, 7, 8));
@@ -78,7 +78,7 @@ private slots:
     {
         std::string serialized = "Fancy object:10,2,3,4;5,666,7,8;";
 
-        Object o;
+        Model o;
         o.fromString(serialized);
 
         QVERIFY("Fancy object" == o.getName());
@@ -93,7 +93,7 @@ private slots:
 
     void ratingTest()
     {
-        Object o;
+        Model o;
         o.setRating(12.25);
         QVERIFY(12.25f == o.getRating());
     }
