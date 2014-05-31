@@ -1,12 +1,12 @@
-#ifndef FS_ALGORITHMCONFIGDIALOG_H
-#define FS_ALGORITHMCONFIGDIALOG_H
+#ifndef FS_LINEDETECTIONALGORITHMCONFIGDIALOG_H
+#define FS_LINEDETECTIONALGORITHMCONFIGDIALOG_H
 
 #include <QDialog>
 
 namespace formseher
 {
 
-class Algorithm;
+class LineDetectionAlgorithm;
 
 /**
  * @brief The AlgorithmConfigDialog class used to configure an algorithm.
@@ -14,7 +14,7 @@ class Algorithm;
  * Each algorithm is shipped with an custom AlgorithmConfigDialog. This dialog
  * works as a factory which creates new Algorithm instances.
  */
-class AlgorithmConfigDialog : public QDialog
+class LineDetectionAlgorithmConfigDialog : public QDialog
 {
     Q_OBJECT
 public:
@@ -22,7 +22,7 @@ public:
      * @brief Standard ctor
      * @param parent
      */
-    explicit AlgorithmConfigDialog(QWidget *parent = 0);
+    explicit LineDetectionAlgorithmConfigDialog(QWidget *parent = 0);
 
     /**
      * @brief Create a new Algorithm instance.
@@ -32,7 +32,7 @@ public:
      *
      * @return Pointer to the new Algorithm.
      */
-    virtual Algorithm* createAlgorithm() = 0;
+    virtual LineDetectionAlgorithm* createAlgorithm() = 0;
 
 signals:
     /**
@@ -46,4 +46,4 @@ public slots:
 
 } // namespace formseher
 
-#endif // FS_ALGORITHMCONFIGDIALOG_H
+#endif // FS_LINEDETECTIONALGORITHMCONFIGDIALOG_H

@@ -3,7 +3,7 @@
 namespace formseher
 {
 
-AlgorithmWorker::AlgorithmWorker(Algorithm* algorithm, cv::InputArray image, QObject *parent)
+AlgorithmWorker::AlgorithmWorker(LineDetectionAlgorithm* algorithm, cv::InputArray image, QObject *parent)
     : QThread(parent),
       algorithm(algorithm)
 {
