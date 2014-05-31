@@ -7,7 +7,7 @@
 #include <map>
 #include <string>
 
-#include "algorithmconfigdialog.h"
+#include "gui/linedetectionalgorithmconfigdialog.h"
 #include "threading/algorithmcontroller.hpp"
 #include "algorithmcontrolwidget.h"
 

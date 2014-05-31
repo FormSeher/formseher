@@ -4,7 +4,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include "gui/algorithmconfigdialog.h"
+#include "gui/linedetectionalgorithmconfigdialog.h"
 #include "gui/edl/edlconfigdialog.h"
 #include "gui/hough/houghconfigdialog.h"
 

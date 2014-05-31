@@ -6,7 +6,7 @@
 #include <map>
 
 #include "linedetection/linedetectionalgorithm.h"
-#include "algorithmconfigdialog.h"
+#include "linedetectionalgorithmconfigdialog.h"
 #include "threading/algorithmcontroller.hpp"
 
 namespace Ui {
