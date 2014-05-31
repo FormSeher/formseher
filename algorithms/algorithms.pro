@@ -31,7 +31,8 @@ SOURCES += \
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraphnode.cpp \
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraphedge.cpp \
     # object detection - teamB
-    $${ALG_SRC_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.cpp
+    $${ALG_SRC_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.cpp \
+    src/objectdetection/model.cpp
 
 HEADERS += \
     # common
@@ -51,7 +52,8 @@ HEADERS += \
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraphnode.h \
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraphedge.h \
     # object detection - teamB
-    $${ALG_INCL_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.h
+    $${ALG_INCL_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.h \
+    include/objectdetection/model.h
 
 INCLUDEPATH += $${ALG_INCL_DIR}
 
