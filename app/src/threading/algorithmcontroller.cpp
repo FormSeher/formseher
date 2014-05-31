@@ -17,13 +17,13 @@ AlgorithmController::~AlgorithmController()
         delete queuedAlgorithm;
 }
 
-void AlgorithmController::setAlgorithmConfigDialog(AlgorithmConfigDialog *dialog)
+void AlgorithmController::setAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog *dialog)
 {
     if(configDialog)
         disconnect(configChangedConnection);
 
     configDialog = dialog;
-    configChangedConnection = connect(configDialog, &AlgorithmConfigDialog::configChanged,
+    configChangedConnection = connect(configDialog, &LineDetectionAlgorithmConfigDialog::configChanged,
                                       this, &AlgorithmController::enqueueAlgorithm);
 }
 

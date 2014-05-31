@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
     formseher::MainWindow w;
 
 
-    w.registerAlgorithmConfigDialog(1, "EDL", static_cast<formseher::AlgorithmConfigDialog*>(&edlDialog1));
-    w.registerAlgorithmConfigDialog(2, "EDL", static_cast<formseher::AlgorithmConfigDialog*>(&edlDialog2));
-    w.registerAlgorithmConfigDialog(1, "Hough", static_cast<formseher::AlgorithmConfigDialog*>(&houghDialog1));
-    w.registerAlgorithmConfigDialog(2, "Hough", static_cast<formseher::AlgorithmConfigDialog*>(&houghDialog2));
+    w.registerAlgorithmConfigDialog(1, "EDL", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&edlDialog1));
+    w.registerAlgorithmConfigDialog(2, "EDL", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&edlDialog2));
+    w.registerAlgorithmConfigDialog(1, "Hough", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&houghDialog1));
+    w.registerAlgorithmConfigDialog(2, "Hough", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&houghDialog2));
 
     w.show();
 

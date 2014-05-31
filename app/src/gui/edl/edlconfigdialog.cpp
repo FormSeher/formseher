@@ -6,7 +6,7 @@ namespace formseher
 {
 
 EDLConfigDialog::EDLConfigDialog(QWidget *parent) :
-    AlgorithmConfigDialog(parent),
+    LineDetectionAlgorithmConfigDialog(parent),
     ui(new Ui::EDLConfigDialog)
 {
     ui->setupUi(this);

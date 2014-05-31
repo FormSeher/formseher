@@ -30,7 +30,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, AlgorithmConfigDialog* dialog)
+bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, LineDetectionAlgorithmConfigDialog* dialog)
 {
     if (slot < 1 || slot > 2)
         return false;

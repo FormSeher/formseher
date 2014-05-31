@@ -16,7 +16,7 @@ namespace formseher
 /**
  * @brief The HoughConfigDialog class used to create EDL instances.
  */
-class HoughConfigDialog : public AlgorithmConfigDialog
+class HoughConfigDialog : public LineDetectionAlgorithmConfigDialog
 {
     Q_OBJECT
 

@@ -29,7 +29,7 @@ AlgorithmControlWidget::~AlgorithmControlWidget()
     delete ui;
 }
 
-bool AlgorithmControlWidget::registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog *dialog)
+bool AlgorithmControlWidget::registerAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog *dialog)
 {
     // Only register if id is still free
     if(algorithmConfigDialogs.find(id) != algorithmConfigDialogs.end())

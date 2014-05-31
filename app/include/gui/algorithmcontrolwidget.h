@@ -24,7 +24,7 @@ public:
     explicit AlgorithmControlWidget(QWidget *parent = 0);
     ~AlgorithmControlWidget();
 
-    bool registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog* dialog);
+    bool registerAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog* dialog);
 
     void setCvWindowName(const std::string &value);
 
@@ -48,8 +48,8 @@ private:
 
     Ui::AlgorithmControlWidget *ui;
 
-    std::map<std::string, AlgorithmConfigDialog*> algorithmConfigDialogs;
-    AlgorithmConfigDialog* selectedAlgorithmDialog;
+    std::map<std::string, LineDetectionAlgorithmConfigDialog*> algorithmConfigDialogs;
+    LineDetectionAlgorithmConfigDialog* selectedAlgorithmDialog;
     AlgorithmController controller;
 
     std::vector<Line> latestResult;

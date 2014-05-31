@@ -26,7 +26,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    bool registerAlgorithmConfigDialog(int slot, std::string id, AlgorithmConfigDialog* dialog);
+    bool registerAlgorithmConfigDialog(int slot, std::string id, LineDetectionAlgorithmConfigDialog* dialog);
 
 private:
     Ui::MainWindow *ui;

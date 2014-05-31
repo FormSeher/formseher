@@ -34,7 +34,7 @@ public:
      * @brief Set the AlgorithmConfigDialog which is used to create new Algorithm instances.
      * @param dialog Pointer to an AlgorithmConfigDialog.
      */
-    void setAlgorithmConfigDialog(AlgorithmConfigDialog* dialog);
+    void setAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog* dialog);
 
     /**
      * @brief Set the image on which the AlgorithmWorkers should operate.
@@ -79,7 +79,7 @@ private:
     /**
      * @brief The AlgorithmConfigDialog currently used to create Algorithm instances.
      */
-    AlgorithmConfigDialog* configDialog;
+    LineDetectionAlgorithmConfigDialog* configDialog;
 
     /**
      * @brief The currently used image

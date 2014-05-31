@@ -16,7 +16,7 @@ namespace formseher
 /**
  * @brief The EDLConfigDialog class used to create EDL instances.
  */
-class EDLConfigDialog : public AlgorithmConfigDialog
+class EDLConfigDialog : public LineDetectionAlgorithmConfigDialog
 {
     Q_OBJECT
 

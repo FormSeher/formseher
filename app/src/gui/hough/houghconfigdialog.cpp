@@ -5,7 +5,7 @@ namespace formseher
 {
 
 HoughConfigDialog::HoughConfigDialog(QWidget *parent) :
-    AlgorithmConfigDialog(parent),
+    LineDetectionAlgorithmConfigDialog(parent),
     ui(new Ui::HoughConfigDialog)
 {
     ui->setupUi(this);
