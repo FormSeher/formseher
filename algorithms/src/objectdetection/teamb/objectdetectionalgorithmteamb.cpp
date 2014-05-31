@@ -21,24 +21,7 @@ void ObjectDetectionAlgorithmTeamB::getAllDatabaseObjects(){
     databaseSize = databaseObjects.size();
 }
 
-//void ObjectDetectionAlgorithmTeamB::getFirstRating(int& rating, Line firstLine, Line secondLine, Object databaseObject){
-
-//    // @toDo:
-//    // compare the distance between start and end points
-//    // if distance if too high return with 0
-
-
-//    // @toDo:
-//    // compare the angle of given lines with the angle of first and second line of object
-//    // how to get lines of a database object:
-//    //      std::vector<Line> objLines = databaseObject.getLines();
-//    // do not calculate angles ! takes to much time !
-//    //      use comparisons instead
-//    // keep in mind that angles will never match
-//    //      -> small variances are ok
-//}
-
-void ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber){
+void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine){
 
     const Line* lastFoundLine = consideredObject.getLines()[currentLineNumber-1];
     // currentFoundLine == lineToCheck
@@ -57,9 +40,16 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line lin
     // keep in mind that angles will never match
     //      -> small variances are ok
 
+    // @reminder
+    // myRating has to be <= maxRatingPerLine
+    // as maxRatingPerLine is maximum(100)/lines of object
+
+    // @howTo
+    // consideredObject.setRating(consideredObject.getRating()+myRating);
+
 }
 
-void ObjectDetectionAlgorithmTeamB::getBestRatedObjects(std::vector<Object> unfinishedObjects, std::vector<Object> foundObjects){
+void ObjectDetectionAlgorithmTeamB::getBestRatedObjects(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects){
 
     // @toDo: iterate through unfinished Objects and get their ratings
     // if rating is above ~80% add it to found objects
@@ -74,72 +64,38 @@ std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> l
     // iterate through database objects
     for(int currentObjectIndex = 0; currentObjectIndex < databaseSize; currentObjectIndex++){
 
-        // iterate through received line vector
-        // first step: every line equals the first line of a object
+        // maximum rating for 1 line
+        float maxRatingPerLine = 100 / databaseObjects[currentObjectIndex].getLines().size();
+
+        // create possible object for every line
         for(int firstLineIndex = 0; firstLineIndex < lines.size(); firstLineIndex++){
 
-            int rating = 0;
-
-            // second step: match firstLine with all other lines which equal the second line of a object
-            for(int secondLineIndex = 0; secondLineIndex < lines.size(); secondLineIndex++){
-
-            // shorter iteration if comparison between first and second line only needs an angle or distance
-            // if relative sizes between lines have to be considered this loop cannot be used
-            // for(uint secondLineIndex = firstLineIndex; secondLineIndex < lines.size(); secondLineIndex++){
-
-                // skip same line
-                if(firstLineIndex == secondLineIndex){
-                    continue;
-                }
-
-                // now compare first and second line and rate the likelyhood of the two lines being the first and second line of an object
-//                getFirstRating(rating, lines[firstLineIndex], lines[secondLineIndex], databaseObjects[currentObjectIndex]);
-
-                // if rating is not high enough continue research
-                // @toDo: set appropriate rating value
-                if(rating > 0000){
-
-                    // if the first two lines matched add them to found objects vector
-                    Object obj;
-                    obj.addLine(lines[firstLineIndex]);
-                    obj.addLine(lines[secondLineIndex]);
-                    unfinishedObjects.push_back(obj);
-
-                    // @toDo: increase overall rating of obj
-
-                    rating = 0;
-                }
-                else{
-                    rating = 0;
-                    continue;
-                }
-
-            }
+            Object obj;
+            obj.addLine(lines[firstLineIndex]);
+            obj.setRating(maxRatingPerLine);
+            unfinishedObjects.push_back(obj);
         }
 
-        // iterate through lines of an object starting at 3rd line (as first 2 lines are already checked) to check all other lines
-        for(uint objectLineIndex = 2; objectLineIndex < databaseObjects[currentObjectIndex].getLines().size(); objectLineIndex++){
+        // iterate through lines of an object starting at 2nd line (as first lines are already in) to check all other lines
+        for(uint objectLineIndex = 1; objectLineIndex < databaseObjects[currentObjectIndex].getLines().size(); objectLineIndex++){
 
             std::vector<Object> newUnfinishedObjects;
 
             // check other object lines with found lines
-            for(uint foundObjectsIndex = 0; foundObjectsIndex < foundObjects.size(); foundObjectsIndex++){
+            for(uint foundObjectsIndex = 0; foundObjectsIndex < unfinishedObjects.size(); foundObjectsIndex++){
 
                 // get possible next line
                 for(uint nextLineIndex = 0; nextLineIndex < lines.size(); nextLineIndex++){
 
-                    int rating;
-                    rateObject(foundObjects[foundObjectsIndex], lines[nextLineIndex], databaseObjects[currentObjectIndex], objectLineIndex);
+                    rateObject(unfinishedObjects[foundObjectsIndex], lines[nextLineIndex], databaseObjects[currentObjectIndex], objectLineIndex, maxRatingPerLine);
 
                     // if rating is not high enough continue
-                    // @toDo: set appropriate rating value
-                    if(rating > 0000){
+                    // rating has to be atleast 60% of maximum
+                    if(unfinishedObjects[foundObjectsIndex].getRating() > (maxRatingPerLine * (objectLineIndex + 1)) * 0.6){
 
                         // if rating was ok add line to object
                         Object newObj = unfinishedObjects[foundObjectsIndex];
                         newObj.addLine(lines[nextLineIndex]);
-
-                        // @toDo: increase overall rating of obj
 
                         newUnfinishedObjects.push_back(newObj);
                     }

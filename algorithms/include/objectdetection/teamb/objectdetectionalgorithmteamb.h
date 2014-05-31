@@ -22,8 +22,8 @@ private:
     std::vector<Model> databaseObjects;
 
     void getAllDatabaseObjects();
-    void rateObject(Object consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber);
-    void getBestRatedObjects(std::vector<Object> unfinishedObjects, std::vector<Object> foundObjects);
+    void rateObject(Object& consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine);
+    void getBestRatedObjects(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects);
 
 };   //  namespace formseher
 }
