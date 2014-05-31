@@ -20,7 +20,7 @@ SOURCES += \
     $${ALG_SRC_DIR}/mathutil.cpp \
     $${ALG_SRC_DIR}/line.cpp \
     # line detection
-    $${ALG_SRC_DIR}/linedetection/algorithm.cpp \
+    $${ALG_SRC_DIR}/linedetection/linedetectionalgorithm.cpp \
     $${ALG_SRC_DIR}/linedetection/edl/edl.cpp \
     $${ALG_SRC_DIR}/linedetection/hough/hough.cpp \
     # object detection - common
@@ -39,7 +39,7 @@ HEADERS += \
     $${ALG_INCL_DIR}/line.h \
     $${ALG_INCL_DIR}/pointercompare.h \
     # line detection
-    $${ALG_INCL_DIR}/linedetection/algorithm.h \
+    $${ALG_INCL_DIR}/linedetection/linedetectionalgorithm.h \
     $${ALG_INCL_DIR}/linedetection/edl/edl.h \
     $${ALG_INCL_DIR}/linedetection/hough/hough.h \
     # object detection - common

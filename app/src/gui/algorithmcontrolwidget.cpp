@@ -159,7 +159,7 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
     if(resultImage.empty())
             return;
 
-    Algorithm* algorithm = selectedAlgorithmDialog->createAlgorithm();
+    LineDetectionAlgorithm* algorithm = selectedAlgorithmDialog->createAlgorithm();
 
     double startTime;
     double endTime;

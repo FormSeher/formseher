@@ -1,7 +1,7 @@
 #ifndef FS_ALGORITHMCONTROLLER_HPP
 #define FS_ALGORITHMCONTROLLER_HPP
 
-#include "linedetection/algorithm.h"
+#include "linedetection/linedetectionalgorithm.h"
 #include "gui/algorithmconfigdialog.h"
 #include "line.h"
 #include "algorithmworker.h"
@@ -89,12 +89,12 @@ private:
     /**
      * @brief The next algorithm waiting for execution.
      */
-    Algorithm* queuedAlgorithm;
+    LineDetectionAlgorithm* queuedAlgorithm;
 
     /**
      * @brief The currently running algorithm.
      */
-    Algorithm* scheduledAlgorithm;
+    LineDetectionAlgorithm* scheduledAlgorithm;
 
     /**
      * @brief The currently running AlgorithmWorker.

@@ -6,7 +6,7 @@
 namespace formseher
 {
 
-class Algorithm;
+class LineDetectionAlgorithm;
 
 /**
  * @brief The AlgorithmConfigDialog class used to configure an algorithm.
@@ -32,7 +32,7 @@ public:
      *
      * @return Pointer to the new Algorithm.
      */
-    virtual Algorithm* createAlgorithm() = 0;
+    virtual LineDetectionAlgorithm* createAlgorithm() = 0;
 
 signals:
     /**

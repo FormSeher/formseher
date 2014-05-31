@@ -36,7 +36,7 @@ public:
      * @brief Create a new EDL instance with current parameters.
      * @return Algorithm pointer to an EDL instance.
      */
-    Algorithm* createAlgorithm();
+    LineDetectionAlgorithm* createAlgorithm();
 
 private slots:
     // These slots just trigger the AlgorithmConfigDialog.configChanged() signal.

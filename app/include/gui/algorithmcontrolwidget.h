@@ -5,7 +5,7 @@
 #include <opencv2/core/core.hpp>
 #include <map>
 
-#include "linedetection/algorithm.h"
+#include "linedetection/linedetectionalgorithm.h"
 #include "algorithmconfigdialog.h"
 #include "threading/algorithmcontroller.hpp"
 

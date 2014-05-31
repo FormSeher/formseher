@@ -44,7 +44,7 @@ void AlgorithmController::enqueueAlgorithm()
     if(!configDialog)
         return;
 
-    Algorithm* newAlgorithm = configDialog->createAlgorithm();
+    LineDetectionAlgorithm* newAlgorithm = configDialog->createAlgorithm();
 
     queueMutex.lock();
     if(queuedAlgorithm != 0)

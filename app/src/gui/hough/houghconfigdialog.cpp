@@ -16,7 +16,7 @@ HoughConfigDialog::~HoughConfigDialog()
     delete ui;
 }
 
-Algorithm* HoughConfigDialog::createAlgorithm()
+LineDetectionAlgorithm* HoughConfigDialog::createAlgorithm()
 {
     return new Hough(
                 ui->checkEnvironmentSize->value(),

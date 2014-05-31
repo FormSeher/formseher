@@ -17,7 +17,7 @@ EDLConfigDialog::~EDLConfigDialog()
     delete ui;
 }
 
-Algorithm* EDLConfigDialog::createAlgorithm()
+LineDetectionAlgorithm* EDLConfigDialog::createAlgorithm()
 {
     return new EDL(
                 ui->sobelKernelSize->value(),
