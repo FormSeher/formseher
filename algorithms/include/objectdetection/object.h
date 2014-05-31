@@ -12,7 +12,10 @@ class Object
 
 public:
     Object();
+    Object(const Object& object);
+
     ~Object();
+
 
     void addLine(const Line line);
     const std::vector<const Line*>& getLines() const;

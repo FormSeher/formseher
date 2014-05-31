@@ -10,6 +10,17 @@ Object::Object()
 {
 }
 
+Object::Object(const Object &object)
+{
+    boundingBoxCorners[0] = object.boundingBoxCorners[0];
+    boundingBoxCorners[1] = object.boundingBoxCorners[1];
+    name = object.name;
+    rating = object.rating;
+
+    for(auto rhsLine : object.lines)
+        lines.push_back(new Line(*rhsLine));
+}
+
 Object::~Object()
 {
     for(auto line : lines)

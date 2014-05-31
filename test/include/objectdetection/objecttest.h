@@ -16,6 +16,29 @@ class ObjectTest : public QObject
 Q_OBJECT
 
 private slots:
+    void copyConstructorTest()
+    {
+        Object o1;
+        o1.setName("o1");
+        o1.addLine(Line(1, 1, 2, 2));
+
+        Object o2(o1);
+
+        QVERIFY(o1.getName() == o2.getName());
+        QVERIFY(o1.getBoundingBox() == o2.getBoundingBox());
+
+        QVERIFY(o1.getLines().size() == o2.getLines().size());
+
+        const Line* l1 = o1.getLines().at(0);
+        const Line* l2 = o2.getLines().at(0);
+
+        // Check if pointers are different
+        QVERIFY(l1 != l2);
+        // Check if line objects are equal
+        QVERIFY(l1->getStart() == l2->getStart());
+        QVERIFY(l1->getEnd() == l2->getEnd());
+    }
+
     void nameTest()
     {
         Object o;
