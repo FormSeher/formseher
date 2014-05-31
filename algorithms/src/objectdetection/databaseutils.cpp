@@ -34,10 +34,7 @@ namespace formseher{
         return objects;
     }
 
-    void DatabaseUtils::write(Object objectToAdd){
-
-        // add object to document here
-
+    void DatabaseUtils::write(){
 
         // get string from json
         rapidjson::StringBuffer buffer;
@@ -52,5 +49,13 @@ namespace formseher{
             file << str;
             file.close();
         }
+    }
+
+    void DatabaseUtils::addObject(Object objectToAdd){
+
+    }
+
+    void DatabaseUtils::removeObject(Object objectToRemove){
+
     }
 }

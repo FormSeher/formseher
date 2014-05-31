@@ -14,7 +14,9 @@ namespace formseher
 
         DatabaseUtils(std::string path);
         std::vector<Model> read();
-        void write(Object objectToAdd);
+        void write();
+        void addObject(Object objectToAdd);
+        void removeObject(Object objectToRemove);
 
     private:
 
