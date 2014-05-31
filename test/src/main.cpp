@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
     ObjectGraphNodeTest objectGraphNodeTest;
     ObjectGraphTest objectGraphTest;
 
-    ModelTest objectTest;
+    ModelTest modelTest;
 
     return   QTest::qExec(&lineTest, argc, argv)
            | QTest::qExec(&pointerCompareTest, argc, argv)
@@ -31,6 +31,6 @@ int main(int argc, char** argv) {
            | QTest::qExec(&objectGraphEdgeTest, argc, argv)
            | QTest::qExec(&objectGraphTest, argc, argv)
            | QTest::qExec(&objectGraphNodeTest, argc, argv)
-           | QTest::qExec(&objectTest, argc, argv);
+           | QTest::qExec(&modelTest, argc, argv);
 }
 
