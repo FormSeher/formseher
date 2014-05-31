@@ -29,7 +29,7 @@ AlgorithmControlWidget::~AlgorithmControlWidget()
     delete ui;
 }
 
-bool AlgorithmControlWidget::registerAlgorithmConfigDialog(std::string id, AlgorithmConfigDialog *dialog)
+bool AlgorithmControlWidget::registerAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog *dialog)
 {
     // Only register if id is still free
     if(algorithmConfigDialogs.find(id) != algorithmConfigDialogs.end())
@@ -159,7 +159,7 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
     if(resultImage.empty())
             return;
 
-    Algorithm* algorithm = selectedAlgorithmDialog->createAlgorithm();
+    LineDetectionAlgorithm* algorithm = selectedAlgorithmDialog->createAlgorithm();
 
     double startTime;
     double endTime;

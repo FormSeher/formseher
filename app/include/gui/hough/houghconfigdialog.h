@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-#include "gui/algorithmconfigdialog.h"
+#include "gui/linedetectionalgorithmconfigdialog.h"
 #include "linedetection/hough/hough.h"
 
 namespace Ui {
@@ -16,7 +16,7 @@ namespace formseher
 /**
  * @brief The HoughConfigDialog class used to create EDL instances.
  */
-class HoughConfigDialog : public AlgorithmConfigDialog
+class HoughConfigDialog : public LineDetectionAlgorithmConfigDialog
 {
     Q_OBJECT
 
@@ -37,7 +37,7 @@ public:
      * @brief Create a new Hough instance with current parameters.
      * @return Algorithm pointer to an EDL instance.
      */
-     Algorithm* createAlgorithm();
+     LineDetectionAlgorithm* createAlgorithm();
 
 private slots:
     // These slots just trigger the AlgorithmConfigDialog.configChanged() signal.

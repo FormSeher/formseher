@@ -1,7 +1,7 @@
 #ifndef OBJECTDETECTIONALGORITHM_H
 #define OBJECTDETECTIONALGORITHM_H
 
-#include "object.h"
+#include "objectdetection/object.h"
 #include "line.h"
 
 namespace formseher {
@@ -11,7 +11,7 @@ class ObjectDetectionAlgorithm
 public:
     ObjectDetectionAlgorithm();
 
-    virtual std::vector<Object*> calculate(std::vector<Line>) = 0;
+    virtual std::vector<Object> calculate(std::vector<Line>) = 0;
 
 };
 

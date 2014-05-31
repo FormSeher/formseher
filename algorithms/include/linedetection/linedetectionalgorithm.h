@@ -1,5 +1,5 @@
-#ifndef FS_ALGORITHM_H
-#define FS_ALGORITHM_H
+#ifndef FS_LINEDETECTIONALGORITHM_H
+#define FS_LINEDETECTIONALGORITHM_H
 
 #include <vector>
 #include <string>
@@ -18,18 +18,18 @@ class Line;
  *
  * Derive from this class to create a custom line detection algorithm.
  */
-class Algorithm
+class LineDetectionAlgorithm
 {
 public:
     /**
      * @brief Standard ctor
      */
-    Algorithm();
+    LineDetectionAlgorithm();
 
     /**
      * @brief Standard dtor
      */
-    virtual ~Algorithm();
+    virtual ~LineDetectionAlgorithm();
 
     /**
      * @brief Run the algorithm once.
@@ -43,4 +43,4 @@ public:
 
 } // namespace formseher
 
-#endif // FS_ALGORITHM_H
+#endif // FS_LINEDETECTIONALGORITHM_H
