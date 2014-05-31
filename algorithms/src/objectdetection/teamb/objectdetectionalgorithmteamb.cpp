@@ -49,11 +49,17 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
 
 }
 
-void ObjectDetectionAlgorithmTeamB::getBestRatedObjects(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects){
+void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects){
 
-    // @toDo: iterate through unfinished Objects and get their ratings
-    // if rating is above ~80% add it to found objects
-    // @reminder: do not only add the best rated object as there could be many same objects in a picture
+    Object bestRatedObject;
+    bestRatedObject.setRating(0);
+
+    for(int currentObjectIndex = 0; currentObjectIndex < unfinishedObjects.size(); currentObjectIndex++){
+        if(unfinishedObjects[currentObjectIndex].getRating() > bestRatedObject.getRating()){
+            bestRatedObject = unfinishedObjects[currentObjectIndex];
+        }
+    }
+    foundObjects.push_back(bestRatedObject);
 }
 
 std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> lines){
@@ -107,7 +113,7 @@ std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> l
             unfinishedObjects = newUnfinishedObjects;
         }
 
-    getBestRatedObjects(unfinishedObjects, foundObjects);
+    getBestRatedObject(unfinishedObjects, foundObjects);
     }
     return foundObjects;
 }
