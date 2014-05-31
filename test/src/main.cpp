@@ -9,6 +9,7 @@
 #include "objectdetection/olga/objectgraphnodetest.h"
 #include "objectdetection/olga/objectgraphtest.h"
 
+#include "objectdetection/modeltest.h"
 #include "objectdetection/objecttest.h"
 
 int main(int argc, char** argv) {
@@ -23,6 +24,7 @@ int main(int argc, char** argv) {
     ObjectGraphNodeTest objectGraphNodeTest;
     ObjectGraphTest objectGraphTest;
 
+    ModelTest modelTest;
     ObjectTest objectTest;
 
     return   QTest::qExec(&lineTest, argc, argv)
@@ -31,6 +33,7 @@ int main(int argc, char** argv) {
            | QTest::qExec(&objectGraphEdgeTest, argc, argv)
            | QTest::qExec(&objectGraphTest, argc, argv)
            | QTest::qExec(&objectGraphNodeTest, argc, argv)
+           | QTest::qExec(&modelTest, argc, argv)
            | QTest::qExec(&objectTest, argc, argv);
 }
 
