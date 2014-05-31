@@ -3,6 +3,7 @@
 #include "objectdetection/model.h"
 #include "objectdetection/object.h"
 #include "line.h"
+#include "objectdetection/databaseutils.h"
 
 namespace formseher
 {
@@ -14,9 +15,8 @@ ObjectDetectionAlgorithmTeamB::ObjectDetectionAlgorithmTeamB()
 
 void ObjectDetectionAlgorithmTeamB::getAllDatabaseObjects(){
 
-    // @toDo:
-    // get somehow all objects in a loop
-    // databaseObjects.push_back(...);
+    DatabaseUtils dbu("pathToDB");
+    databaseObjects = dbu.read();
 
     databaseSize = databaseObjects.size();
 }
