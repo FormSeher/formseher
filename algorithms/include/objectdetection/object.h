@@ -11,6 +11,8 @@ class Object : public Model
 public:
     Object();
 
+    Object(const Object& object);
+
     /**
      * @brief Sets the rating of the Object.
      * @param rating The rating.

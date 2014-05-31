@@ -8,6 +8,12 @@ Object::Object()
 {
 }
 
+Object::Object(const Object &object)
+    : Model(object)
+{
+    rating = object.rating;
+}
+
 void Object::setRating(float rating)
 {
     this->rating = rating;
