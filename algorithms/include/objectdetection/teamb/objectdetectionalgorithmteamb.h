@@ -3,6 +3,8 @@
 
 #include "objectdetection/objectdetectionalgorithm.h"
 #include "line.h"
+#include "objectdetection/model.h"
+#include "objectdetection/object.h"
 
 namespace formseher
 {
@@ -17,13 +19,11 @@ public:
 
 private:
     int databaseSize;
-    std::vector<Object> databaseObjects;
+    std::vector<Model> databaseObjects;
 
     void getAllDatabaseObjects();
     void getFirstRating(int& rating, Line firstLine, Line secondLine, Object databaseObject);
-    void getRating(int& rating, Object consideredObject, Line lineToCheck, Object databaseObject, int currentLineNumber);
-    void getBestRatedObjects(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects);
-
+    void rateObject(Object consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber);
 }   //  namespace formseher
 
 #endif // OBJECTDETECTIONALGORITHMTEAMB_H

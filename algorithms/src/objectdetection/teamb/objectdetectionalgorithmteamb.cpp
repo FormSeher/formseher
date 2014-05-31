@@ -1,5 +1,8 @@
 #include "objectdetection/teamb/objectdetectionalgorithmteamb.h"
 #include <set>
+#include "objectdetection/model.h"
+#include "objectdetection/object.h"
+#include "line.h"
 
 namespace formseher
 {
@@ -18,24 +21,24 @@ void ObjectDetectionAlgorithmTeamB::getAllDatabaseObjects(){
     databaseSize = databaseObjects.size();
 }
 
-void ObjectDetectionAlgorithmTeamB::getFirstRating(int& rating, Line firstLine, Line secondLine, Object databaseObject){
+//void ObjectDetectionAlgorithmTeamB::getFirstRating(int& rating, Line firstLine, Line secondLine, Object databaseObject){
 
-    // @toDo:
-    // compare the distance between start and end points
-    // if distance if too high return with 0
+//    // @toDo:
+//    // compare the distance between start and end points
+//    // if distance if too high return with 0
 
 
-    // @toDo:
-    // compare the angle of given lines with the angle of first and second line of object
-    // how to get lines of a database object:
-    //      std::vector<Line> objLines = databaseObject.getLines();
-    // do not calculate angles ! takes to much time !
-    //      use comparisons instead
-    // keep in mind that angles will never match
-    //      -> small variances are ok
-}
+//    // @toDo:
+//    // compare the angle of given lines with the angle of first and second line of object
+//    // how to get lines of a database object:
+//    //      std::vector<Line> objLines = databaseObject.getLines();
+//    // do not calculate angles ! takes to much time !
+//    //      use comparisons instead
+//    // keep in mind that angles will never match
+//    //      -> small variances are ok
+//}
 
-void ObjectDetectionAlgorithmTeamB::getRating(int& rating, Object consideredObject, Line lineToCheck, Object databaseObject, int currentLineNumber){
+void ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber){
 
     Line lastFoundLine = consideredObject.getLines()[currentLineNumber-1];
     // currentFoundLine == lineToCheck
@@ -90,7 +93,7 @@ virtual std::vector<Object*> ObjectDetectionAlgorithmTeamB::calculate(std::vecto
                 }
 
                 // now compare first and second line and rate the likelyhood of the two lines being the first and second line of an object
-                getFirstRating(rating, lines[firstLineIndex], lines[secondLineIndex], databaseObjects[currentObjectIndex]);
+//                getFirstRating(rating, lines[firstLineIndex], lines[secondLineIndex], databaseObjects[currentObjectIndex]);
 
                 // if rating is not high enough continue research
                 // @toDo: set appropriate rating value
@@ -126,7 +129,7 @@ virtual std::vector<Object*> ObjectDetectionAlgorithmTeamB::calculate(std::vecto
                 for(uint nextLineIndex = 0; nextLineIndex < lines.size(); nextLineIndex++){
 
                     int rating;
-                    getRating(rating, foundObjects[foundObjectsIndex], lines[nextLineIndex], databaseObjects[currentObjectIndex], objectLineIndex);
+                    rateObject(foundObjects[foundObjectsIndex], lines[nextLineIndex], databaseObjects[currentObjectIndex], objectLineIndex);
 
                     // if rating is not high enough continue
                     // @toDo: set appropriate rating value

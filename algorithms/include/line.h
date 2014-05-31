@@ -18,9 +18,17 @@ public:
     const cv::Point2i& getStart() const;
     const cv::Point2i& getEnd() const;
 
+    const cv::Vec2i getPositionVector();
+    const cv::Vec2i& getDirectionVector();
+
+    double getLength();
+
 private:
     cv::Point2i start;
     cv::Point2i end;
+
+    cv::Vec2i directionVector;
+    double length;
 };
 
 }
