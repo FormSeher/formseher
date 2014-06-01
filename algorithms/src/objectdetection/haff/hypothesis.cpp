@@ -42,6 +42,43 @@ bool Hypothesis::operator<(const Hypothesis& hypo) const
 	{
 		return true;
 	}
-	else return false;
+    else return false;
 }
+
+double Hypothesis::calculateAngleRating()
+{
+    if(lineMatchMap.size() < 2)
+        return 1.0;
+
+    double totalError = 0.0;
+    // prevIter is last element of lines to get a cyclic match:
+    // line1 -> line2 -> line3 -> line1
+    auto prevIter = --(lineMatchMap.end());
+    auto currIter = lineMatchMap.begin();
+
+    double angleObject;
+    double angleModel;
+
+    while(currIter != lineMatchMap.end())
+    {
+        // HINT: absolute values of dot products are used to treat
+        // line (A -> B) as line (B -> A)
+
+        // angleObject = last object line vector * current object line vector
+        angleObject = std::fabs(prevIter->first->getDirectionVector().dot(currIter->first->getDirectionVector()));
+
+        // angleModel = last model line vector * current model line vector
+        angleModel = std::fabs(prevIter->second->getDirectionVector().dot(currIter->second->getDirectionVector()));
+
+        // Add relative error
+        totalError += std::fabs(angleModel - angleObject);
+
+        // Increment iterators
+        prevIter = currIter++;
+    }
+
+    // match = 100% - error
+    return 1.0d - (totalError / lineMatchMap.size());
+}
+
 } // namespace formseher

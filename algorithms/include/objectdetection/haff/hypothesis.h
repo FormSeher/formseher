@@ -20,6 +20,12 @@ public:
     bool operator<(const Hypothesis& hypo) const;
     	
 private:
+    /**
+     * @brief Calculates rating of angles.
+     * @return Rating of angle match between 0 (0% match) and 1 (100% match).
+     */
+    double calculateAngleRating();
+
     double angleRating;
     double coverRating;
     double scaleRating;
