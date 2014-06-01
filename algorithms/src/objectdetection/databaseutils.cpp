@@ -29,9 +29,40 @@ namespace formseher{
         document.Parse<0>(databaseString.c_str());
 
         // get objects here
-        std::vector<Model> objects;
+        std::vector<Model> objectsToReturn;
+        // object array
+        const rapidjson::Value& objects = document["objects"];
+        assert(objects.IsArray());
 
-        return objects;
+        // get every object from objects-array
+        for (rapidjson::SizeType i = 0; i < objects.Size(); i++){
+
+            const rapidjson::Value& object = objects[i];
+            Model model;
+
+            // set name for model
+            assert((object["name"].IsString()));
+            model.setName(object["name"].GetString());
+
+            // get lines of object
+            const rapidjson::Value& lines = object["lines"];
+            assert(lines.IsArray());
+            for (rapidjson::SizeType lineCounter = 0; lineCounter < lines.Size(); lineCounter++){
+
+                const rapidjson::Value& line = lines[lineCounter];
+                assert(line.HasMember("start"));
+                assert(line.HasMember("end"));
+
+                const rapidjson::Value& start = line["start"];
+                const rapidjson::Value& end = line["end"];
+
+                // add line to model
+                Line lineToAdd(start["x"].GetInt(), start["y"].GetInt(), end["x"].GetInt(), end["y"].GetInt());
+                model.addLine(lineToAdd);
+            }
+            objectsToReturn.push_back(model);
+        }
+        return objectsToReturn;
     }
 
     void DatabaseUtils::write(){
@@ -53,9 +84,62 @@ namespace formseher{
 
     void DatabaseUtils::addObject(Object objectToAdd){
 
+        assert(document.HasMember("objects"));
+        rapidjson::Value& objects = document["objects"];
+        assert(objects.IsArray());
+
+        rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
+
+        rapidjson::Value obj;
+        obj.SetObject();
+        obj.AddMember("name", objectToAdd.getName().c_str(), allocator);
+
+        const std::vector<const Line*> linesToAdd = objectToAdd.getLines();
+
+        rapidjson::Value lines;
+        lines.SetArray();
+
+        for(uint i = 0; i < linesToAdd.size(); i++){
+
+            rapidjson::Value line;
+            line.SetObject();
+
+            rapidjson::Value start;
+            start.SetObject();
+
+            rapidjson::Value end;
+            end.SetObject();
+
+            start.AddMember("x", linesToAdd[i]->getStart().x, allocator);
+            start.AddMember("y", linesToAdd[i]->getStart().y, allocator);
+
+            end.AddMember("x", linesToAdd[i]->getEnd().x, allocator);
+            end.AddMember("y", linesToAdd[i]->getEnd().y, allocator);
+
+            line.AddMember("start", start, allocator);
+            line.AddMember("end", end, allocator);
+
+            lines.AddMember("line", line, allocator);
+        }
+
+        obj.AddMember("lines", lines, allocator);
+        objects.AddMember("object", obj, allocator);
     }
 
     void DatabaseUtils::removeObject(Object objectToRemove){
 
+        assert(document.HasMember("objects"));
+        rapidjson::Value& objects = document["objects"];
+        assert(objects.IsArray());
+
+        for (rapidjson::SizeType i = 0; i < objects.Size(); i++){
+
+            rapidjson::Value& object = objects[i];
+            assert(object.IsObject());
+
+            if(objectToRemove.getName().compare(object["name"].GetString()) == 0){
+                object.Clear();
+            }
+        }
     }
 }
