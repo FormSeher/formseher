@@ -23,7 +23,7 @@ private:
 
     void getAllDatabaseObjects();
     void rateObject(Object& consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine);
-    void getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects);
+    void getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects, std::string objectName);
 
 };   //  namespace formseher
 }

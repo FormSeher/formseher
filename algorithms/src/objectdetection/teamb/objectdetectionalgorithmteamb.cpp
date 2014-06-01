@@ -4,6 +4,7 @@
 #include "objectdetection/object.h"
 #include "line.h"
 #include "objectdetection/databaseutils.h"
+#include "mathutil.h"
 
 namespace formseher
 {
@@ -46,10 +47,10 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
 
     // @howTo
     // consideredObject.setRating(consideredObject.getRating()+myRating);
-    Line nextConsideredObjectLine = consideredObject.getLines()[currentLineNumber + 1];
+    const Line* nextConsideredObjectLine = consideredObject.getLines()[currentLineNumber + 1];
 
-    Line currentDBLine = databaseObject.getLines()[currentLineNumber];
-    Line nextDBLine = databaseObject.getLines()[currentLineNumber + 1];
+//    const Line* currentDBLine = databaseObject.getLines()[currentLineNumber];
+    const Line* nextDBLine = databaseObject.getLines()[currentLineNumber + 1];
 
     //calculate the vector between line.start and line.end for both objects and angle
     cv::Point2i pointToCheckStart;
@@ -67,14 +68,14 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
     pointToCheckStart = lineToCheck.getStart();
     pointToCheckEnd = lineToCheck.getEnd();
 
-    nextPointToCheckStart = nextConsideredObjectLine.getStart();
-    nextPointToCheckEnd = nextConsideredObjectLine.getEnd();
+    nextPointToCheckStart = nextConsideredObjectLine->getStart();
+    nextPointToCheckEnd = nextConsideredObjectLine->getEnd();
 
-    dbStartPoint = currentDBLine.getStart();
-    dbEndPoint = currentDBLine.getEnd();
+    dbStartPoint = currentDBLine->getStart();
+    dbEndPoint = currentDBLine->getEnd();
 
-    dbNextPointStart = nextDBLine.getStart();
-    dbNextPointEnd = nextDBLine.getEnd();
+    dbNextPointStart = nextDBLine->getStart();
+    dbNextPointEnd = nextDBLine->getEnd();
 
 
     //make vector between start and end point
@@ -106,13 +107,15 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
 
     //angle for current and next line
     numeratorCurrentPoint = vectorCurrentPoint.x * vectorCurrentPointNext.x + vectorCurrentPoint.y * vectorCurrentPointNext.y;
-    denominatorCurrentPoint = formseher::math::sqrtFast(vectorCurrentPoint.x * vectorCurrentPoint.x + vectorCurrentPoint.y * vectorCurrentPoint.y) * formseher::math::sqrtFast(vectorCurrentPointNext.x * vectorCurrentPointNext.x + vectorCurrentPointNext.y * vectorCurrentPointNext.y);
+    denominatorCurrentPoint = formseher::math::sqrtFast(vectorCurrentPoint.x * vectorCurrentPoint.x + vectorCurrentPoint.y * vectorCurrentPoint.y)
+                                * formseher::math::sqrtFast(vectorCurrentPointNext.x * vectorCurrentPointNext.x + vectorCurrentPointNext.y * vectorCurrentPointNext.y);
 
     currentPointAngle = numeratorCurrentPoint / denominatorCurrentPoint;
 
     //angle for current and next db line
     numeratorDbPoint = vectorDbPoint.x * vectorDbPointNext.x + vectorDbPoint.y * vectorDbPointNext.y;
-    denominatorDbPoint = formseher::math::sqrtFast(vectorDbPoint.x * vectorDbPoint.x + vectorDbPoint.y * vectorDbPoint.y) * formseher::math::sqrtFast(vectorDbPointNext.x * vectorDbPointNext.x + vectorDbPointNext.y * vectorDbPointNext.y);
+    denominatorDbPoint = formseher::math::sqrtFast(vectorDbPoint.x * vectorDbPoint.x + vectorDbPoint.y * vectorDbPoint.y)
+                            * formseher::math::sqrtFast(vectorDbPointNext.x * vectorDbPointNext.x + vectorDbPointNext.y * vectorDbPointNext.y);
 
     dbPointAngle = numeratorDbPoint / denominatorDbPoint;
 
@@ -139,6 +142,9 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
     if(lengthDbCurrentLine / lengthCurrentLine > smallerThenDbThreshold || lengthDbCurrentLine / lengthCurrentLine < biggerThenDbThreshold)
     {
 
+        // @reminder
+        // myRating has to be <= maxRatingPerLine
+        // as maxRatingPerLine is maximum(100)/lines of object
         //set rating
 
     }
@@ -156,20 +162,24 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
 
     if(dbPointAngle - currentPointAngle > angleThreshold || dbPointAngle - currentPointAngle < -angleThreshold);
     {
-        *rating = 0;
+        // @reminder
+        // myRating has to be <= maxRatingPerLine
+        // as maxRatingPerLine is maximum(100)/lines of object
+//        *rating = 0;
     }
 }
 
-void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects){
+void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects, std::string objectName){
 
     Object bestRatedObject;
     bestRatedObject.setRating(0);
 
-    for(int currentObjectIndex = 0; currentObjectIndex < unfinishedObjects.size(); currentObjectIndex++){
+    for(uint currentObjectIndex = 0; currentObjectIndex < unfinishedObjects.size(); currentObjectIndex++){
         if(unfinishedObjects[currentObjectIndex].getRating() > bestRatedObject.getRating()){
             bestRatedObject = unfinishedObjects[currentObjectIndex];
         }
     }
+    bestRatedObject.setName(objectName);
     foundObjects.push_back(bestRatedObject);
 }
 
@@ -185,7 +195,7 @@ std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> l
         float maxRatingPerLine = 100 / databaseObjects[currentObjectIndex].getLines().size();
 
         // create possible object for every line
-        for(int firstLineIndex = 0; firstLineIndex < lines.size(); firstLineIndex++){
+        for(uint firstLineIndex = 0; firstLineIndex < lines.size(); firstLineIndex++){
 
             Object obj;
             obj.addLine(lines[firstLineIndex]);
@@ -224,7 +234,7 @@ std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> l
             unfinishedObjects = newUnfinishedObjects;
         }
 
-    getBestRatedObject(unfinishedObjects, foundObjects);
+    getBestRatedObject(unfinishedObjects, foundObjects, databaseObjects[currentObjectIndex].getName());
     }
     return foundObjects;
 }
