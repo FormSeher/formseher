@@ -30,6 +30,8 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
     const Line* lastDBLine = databaseObject.getLines()[currentLineNumber-1];
     const Line* currentDBLine = databaseObject.getLines()[currentLineNumber];
 
+    //currentDbline = linTocheck; lastdbline = lastFoundline, -1 is the line before line to check
+
     // @toDo:
     // compare the distance between start and end points
     // if distance if too high return with 0
@@ -47,54 +49,59 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
 
     // @howTo
     // consideredObject.setRating(consideredObject.getRating()+myRating);
-    const Line* nextConsideredObjectLine = consideredObject.getLines()[currentLineNumber + 1];
+//    const Line* nextConsideredObjectLine = consideredObject.getLines()[currentLineNumber + 1];
 
 //    const Line* currentDBLine = databaseObject.getLines()[currentLineNumber];
-    const Line* nextDBLine = databaseObject.getLines()[currentLineNumber + 1];
+//    const Line* nextDBLine = databaseObject.getLines()[currentLineNumber + 1];
 
     //calculate the vector between line.start and line.end for both objects and angle
+
+    //points from lineToCheck
     cv::Point2i pointToCheckStart;
     cv::Point2i pointToCheckEnd;
 
-    cv::Point2i nextPointToCheckStart;
-    cv::Point2i nextPointToCheckEnd;
+    //points from lastFoundLine
+    cv::Point2i lastPointToCheckStart;
+    cv::Point2i lastPointToCheckEnd;
 
+    //points from currentDBLine
     cv::Point2i dbStartPoint;
     cv::Point2i dbEndPoint;
 
-    cv::Point2i dbNextPointStart;
-    cv::Point2i dbNextPointEnd;
+    //points from lastDBLine
+    cv::Point2i lastDBPointStart;
+    cv::Point2i lastDBPointEnd;
 
     pointToCheckStart = lineToCheck.getStart();
     pointToCheckEnd = lineToCheck.getEnd();
 
-    nextPointToCheckStart = nextConsideredObjectLine->getStart();
-    nextPointToCheckEnd = nextConsideredObjectLine->getEnd();
+    lastPointToCheckStart = lastFoundLine->getStart();
+    lastPointToCheckEnd = lastFoundLine->getEnd();
 
     dbStartPoint = currentDBLine->getStart();
     dbEndPoint = currentDBLine->getEnd();
 
-    dbNextPointStart = nextDBLine->getStart();
-    dbNextPointEnd = nextDBLine->getEnd();
+    lastDBPointStart = lastDBLine->getStart();
+    lastDBPointEnd = lastDBLine->getEnd();
 
 
     //make vector between start and end point
 
     cv::Point2i vectorCurrentPoint;
-    cv::Point2i vectorCurrentPointNext;
+    cv::Point2i vectorCurrentPointLast;
 
     cv::Point2i vectorDbPoint;
-    cv::Point2i vectorDbPointNext;
+    cv::Point2i vectorDbPointLast;
 
     //the vector of the the start and end point, for current and next line
     //b - a
     vectorCurrentPoint = pointToCheckEnd - pointToCheckStart;
-    vectorCurrentPointNext = nextPointToCheckEnd - nextPointToCheckStart;
+    vectorCurrentPointLast = lastPointToCheckEnd - lastPointToCheckStart;
 
     vectorDbPoint = dbEndPoint - dbStartPoint;
-    vectorDbPointNext = dbNextPointEnd - dbNextPointStart;
+    vectorDbPointLast = lastDBPointEnd - lastDBPointStart;
 
-    //calculate angle between current and next line, skalarprodukt without cos
+    //calculate angle between current and last line, skalarprodukt without cos
     //phi = (a1*b1) + (an * bn) / |a| * |b|
     double currentPointAngle;
     double dbPointAngle;
@@ -106,16 +113,16 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
     double denominatorDbPoint;
 
     //angle for current and next line
-    numeratorCurrentPoint = vectorCurrentPoint.x * vectorCurrentPointNext.x + vectorCurrentPoint.y * vectorCurrentPointNext.y;
+    numeratorCurrentPoint = vectorCurrentPoint.x * vectorCurrentPointLast.x + vectorCurrentPoint.y * vectorCurrentPointLast.y;
     denominatorCurrentPoint = formseher::math::sqrtFast(vectorCurrentPoint.x * vectorCurrentPoint.x + vectorCurrentPoint.y * vectorCurrentPoint.y)
-                                * formseher::math::sqrtFast(vectorCurrentPointNext.x * vectorCurrentPointNext.x + vectorCurrentPointNext.y * vectorCurrentPointNext.y);
+                                * formseher::math::sqrtFast(vectorCurrentPointLast.x * vectorCurrentPointLast.x + vectorCurrentPointLast.y * vectorCurrentPointLast.y);
 
     currentPointAngle = numeratorCurrentPoint / denominatorCurrentPoint;
 
     //angle for current and next db line
-    numeratorDbPoint = vectorDbPoint.x * vectorDbPointNext.x + vectorDbPoint.y * vectorDbPointNext.y;
+    numeratorDbPoint = vectorDbPoint.x * vectorDbPointLast.x + vectorDbPoint.y * vectorDbPointLast.y;
     denominatorDbPoint = formseher::math::sqrtFast(vectorDbPoint.x * vectorDbPoint.x + vectorDbPoint.y * vectorDbPoint.y)
-                            * formseher::math::sqrtFast(vectorDbPointNext.x * vectorDbPointNext.x + vectorDbPointNext.y * vectorDbPointNext.y);
+                            * formseher::math::sqrtFast(vectorDbPointLast.x * vectorDbPointLast.x + vectorDbPointLast.y * vectorDbPointLast.y);
 
     dbPointAngle = numeratorDbPoint / denominatorDbPoint;
 
@@ -129,10 +136,10 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
 
     //get the length
     double lengthCurrentLine = formseher::math::sqrtFast(vectorCurrentPoint.x * vectorCurrentPoint.x + vectorCurrentPoint.y * vectorCurrentPoint.y);
-    double lengthCurrentLineNext = formseher::math::sqrtFast(vectorCurrentPointNext.x * vectorCurrentPointNext.x + vectorCurrentPointNext.y * vectorCurrentPointNext.y);
+    double lengthCurrentLineLast = formseher::math::sqrtFast(vectorCurrentPointLast.x * vectorCurrentPointLast.x + vectorCurrentPointLast.y * vectorCurrentPointLast.y);
 
     double lengthDbCurrentLine = formseher::math::sqrtFast(vectorDbPoint.x * vectorDbPoint.x + vectorDbPoint.y * vectorDbPoint.y);
-    double lengthDbLineNext = formseher::math::sqrtFast(vectorDbPointNext.x * vectorDbPointNext.x + vectorDbPointNext.y * vectorDbPointNext.y);
+    double lengthDbLineLast = formseher::math::sqrtFast(vectorDbPointLast.x * vectorDbPointLast.x + vectorDbPointLast.y * vectorDbPointLast.y);
 
     //now compare and set the rating, the current line to db current line, because next should be the same
 
@@ -146,6 +153,7 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
         // myRating has to be <= maxRatingPerLine
         // as maxRatingPerLine is maximum(100)/lines of object
         //set rating
+        //check for the point coordinates start and end if distance is to high
 
     }
 
