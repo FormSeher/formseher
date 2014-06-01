@@ -21,6 +21,19 @@ class HypothesisTest : public QObject
 Q_OBJECT
 
 private slots:
+    void containsLineTest()
+    {
+        Hypothesis h;
+
+        Line l1(1, 2, 3, 4);
+        Line l2(1, 2, 3, 4);
+
+        h.addLineMatch(&l1, &l2);
+
+        QVERIFY( h.containsLine(&l1));
+        QVERIFY(!h.containsLine(&l2));
+    }
+
     void calculateAngleRating_perfectMatch()
     {
         Hypothesis h;
