@@ -25,34 +25,17 @@ void ObjectDetectionAlgorithmTeamB::getAllDatabaseObjects(){
 void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine){
 
     const Line* lastFoundLine = consideredObject.getLines()[currentLineNumber-1];
-    // currentFoundLine == lineToCheck
 
     const Line* lastDBLine = databaseObject.getLines()[currentLineNumber-1];
     const Line* currentDBLine = databaseObject.getLines()[currentLineNumber];
 
     //currentDbline = linTocheck; lastdbline = lastFoundline, -1 is the line before line to check
-
-    // @toDo:
-    // compare the distance between start and end points
-    // if distance if too high return with 0
-
-    // @toDo:
-    // compare the angle of given lines with the angle of first and second line of object
-    // do not calculate angles ! takes to much time !
-    //      use comparisons instead
-    // keep in mind that angles will never match
-    //      -> small variances are ok
-
     // @reminder
     // myRating has to be <= maxRatingPerLine
     // as maxRatingPerLine is maximum(100)/lines of object
 
     // @howTo
     // consideredObject.setRating(consideredObject.getRating()+myRating);
-//    const Line* nextConsideredObjectLine = consideredObject.getLines()[currentLineNumber + 1];
-
-//    const Line* currentDBLine = databaseObject.getLines()[currentLineNumber];
-//    const Line* nextDBLine = databaseObject.getLines()[currentLineNumber + 1];
 
     //calculate the vector between line.start and line.end for both objects and angle
 
@@ -106,25 +89,25 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
     double currentPointAngle;
     double dbPointAngle;
 
-    int numeratorCurrentPoint;
-    double denominatorCurrentPoint;
+    int numeratorCurrentVector;
+    double denominatorCurrentVector;
 
-    int numeratorDbPoint;
-    double denominatorDbPoint;
+    int numeratorDbVector;
+    double denominatorDbVector;
 
     //angle for current and next line
-    numeratorCurrentPoint = vectorCurrentPoint.x * vectorCurrentPointLast.x + vectorCurrentPoint.y * vectorCurrentPointLast.y;
-    denominatorCurrentPoint = formseher::math::sqrtFast(vectorCurrentPoint.x * vectorCurrentPoint.x + vectorCurrentPoint.y * vectorCurrentPoint.y)
+    numeratorCurrentVector = vectorCurrentPoint.x * vectorCurrentPointLast.x + vectorCurrentPoint.y * vectorCurrentPointLast.y;
+    denominatorCurrentVector = formseher::math::sqrtFast(vectorCurrentPoint.x * vectorCurrentPoint.x + vectorCurrentPoint.y * vectorCurrentPoint.y)
                                 * formseher::math::sqrtFast(vectorCurrentPointLast.x * vectorCurrentPointLast.x + vectorCurrentPointLast.y * vectorCurrentPointLast.y);
 
-    currentPointAngle = numeratorCurrentPoint / denominatorCurrentPoint;
+    currentPointAngle = numeratorCurrentVector / denominatorCurrentVector;
 
     //angle for current and next db line
-    numeratorDbPoint = vectorDbPoint.x * vectorDbPointLast.x + vectorDbPoint.y * vectorDbPointLast.y;
-    denominatorDbPoint = formseher::math::sqrtFast(vectorDbPoint.x * vectorDbPoint.x + vectorDbPoint.y * vectorDbPoint.y)
+    numeratorDbVector = vectorDbPoint.x * vectorDbPointLast.x + vectorDbPoint.y * vectorDbPointLast.y;
+    denominatorDbVector = formseher::math::sqrtFast(vectorDbPoint.x * vectorDbPoint.x + vectorDbPoint.y * vectorDbPoint.y)
                             * formseher::math::sqrtFast(vectorDbPointLast.x * vectorDbPointLast.x + vectorDbPointLast.y * vectorDbPointLast.y);
 
-    dbPointAngle = numeratorDbPoint / denominatorDbPoint;
+    dbPointAngle = numeratorDbVector / denominatorDbVector;
 
     //now make with the vector dimension and angle rating values
 
@@ -153,7 +136,7 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
         // myRating has to be <= maxRatingPerLine
         // as maxRatingPerLine is maximum(100)/lines of object
         //set rating
-        //check for the point coordinates start and end if distance is to high
+        //check for the point coordinates start and end if distance is to high ==>first
 
     }
 
