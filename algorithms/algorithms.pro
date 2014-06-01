@@ -33,7 +33,8 @@ SOURCES += \
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraphedge.cpp \
     # object detection - teamB
     $${ALG_SRC_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.cpp \
-    src/objectdetection/model.cpp
+    # database utils
+    $${ALG_SRC_DIR}/objectdetection/databaseutils.cpp
 
 HEADERS += \
     # common
@@ -54,11 +55,17 @@ HEADERS += \
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraphnode.h \
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraphedge.h \
     # object detection - teamB
-    $${ALG_INCL_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.h \
-    include/objectdetection/model.h
+    $${ALG_INCL_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.h\
+    #database utils
+    $${ALG_INCL_DIR}/objectdetection/databaseutils.h\
 
-INCLUDEPATH += $${ALG_INCL_DIR}
+    #utils include - fu cpp :<
+    $${ALG_INCL_DIR}/utils/rapidjson/document.h
 
+
+INCLUDEPATH += $${ALG_INCL_DIR}\
+
+    $${ALG_DIR}/utils/rapidjson
 
 #-------------------------------------------------
 #               win32 specifics

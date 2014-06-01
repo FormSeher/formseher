@@ -15,15 +15,11 @@ namespace formseher{
 
     std::vector<Model> DatabaseUtils::read(){
 
-        std::string databaseString;
-        std::ifstream dbFile;
+
+        std::ifstream dbFile(pathToDatabase);
 
         // read file
-        dbFile.open(pathToDatabase);
-        while(!dbFile.is_open()){
-            getline(dbFile, databaseString);
-        }
-        dbFile.close();
+        std::string databaseString( (std::istreambuf_iterator<char>(dbFile) ), (std::istreambuf_iterator<char>()) );
 
         // parse read file
         document.Parse<0>(databaseString.c_str());
@@ -37,7 +33,7 @@ namespace formseher{
         // get every object from objects-array
         for (rapidjson::SizeType i = 0; i < objects.Size(); i++){
 
-            const rapidjson::Value& object = objects[i];
+            const rapidjson::Value& object = objects[i]["object"];
             Model model;
 
             // set name for model
@@ -49,7 +45,7 @@ namespace formseher{
             assert(lines.IsArray());
             for (rapidjson::SizeType lineCounter = 0; lineCounter < lines.Size(); lineCounter++){
 
-                const rapidjson::Value& line = lines[lineCounter];
+                const rapidjson::Value& line = lines[lineCounter]["line"];
                 assert(line.HasMember("start"));
                 assert(line.HasMember("end"));
 
@@ -119,11 +115,21 @@ namespace formseher{
             line.AddMember("start", start, allocator);
             line.AddMember("end", end, allocator);
 
-            lines.AddMember("line", line, allocator);
+//            lines[rapidjson::SizeType(i)] = line;
+//            lines.AddMember("line", line, allocator);
+            rapidjson::Value lineName;
+            lineName.SetObject();
+            lineName.AddMember("line", line, allocator);
+            lines.PushBack(lineName, allocator);
         }
 
         obj.AddMember("lines", lines, allocator);
-        objects.AddMember("object", obj, allocator);
+        rapidjson::Value objName;
+        objName.SetObject();
+        objName.AddMember("object", obj, allocator);
+//        obj.
+//        objects.AddMember("object", obj, allocator);
+        objects.PushBack(objName, allocator);
     }
 
     void DatabaseUtils::removeObject(Object objectToRemove){

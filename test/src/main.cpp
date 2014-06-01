@@ -12,6 +12,8 @@
 #include "objectdetection/modeltest.h"
 #include "objectdetection/objecttest.h"
 
+#include "objectdetection/databaseutilstest.h"
+
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
 
@@ -27,6 +29,8 @@ int main(int argc, char** argv) {
     ModelTest modelTest;
     ObjectTest objectTest;
 
+    DatabaseUtilsTest databaseUtilsTest;
+
     return   QTest::qExec(&lineTest, argc, argv)
            | QTest::qExec(&pointerCompareTest, argc, argv)
            | QTest::qExec(&edlTest, argc, argv)
@@ -34,6 +38,7 @@ int main(int argc, char** argv) {
            | QTest::qExec(&objectGraphTest, argc, argv)
            | QTest::qExec(&objectGraphNodeTest, argc, argv)
            | QTest::qExec(&modelTest, argc, argv)
-           | QTest::qExec(&objectTest, argc, argv);
+           | QTest::qExec(&objectTest, argc, argv)
+           | QTest::qExec(&databaseUtilsTest, argc, argv);
 }
 
