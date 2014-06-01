@@ -128,16 +128,50 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
 
     double smallerThenDbThreshold = 1.2;// the dbline is 1.2 so big as the lineToCheck
     double biggerThenDbThreshold = 0.8;// the lineToCheck is 1.2 so big as the dbline
+    double coordinateThresholdMax = 1.2;
+    double coordinateThresholdMin = 0.85;
+    // @reminder
+    // myRating has to be <= maxRatingPerLine
+    // as maxRatingPerLine is maximum(100)/lines of object
+    //set rating
+    //check for the point coordinates start and end if distance is to high ==>first
 
-    if(lengthDbCurrentLine / lengthCurrentLine > smallerThenDbThreshold || lengthDbCurrentLine / lengthCurrentLine < biggerThenDbThreshold)
+    double tenPointRating = maxRatingPerLine / 10;
+    double lengthAndPosiRating = tenPointRating;
+
+
+    if(pointToCheckStart.x / dbStartPoint.x < coordinateThresholdMax && pointToCheckStart.y / dbStartPoint.y < coordinateThresholdMax
+            && pointToCheckEnd.x / dbEndPoint.x < coordinateThresholdMax && pointToCheckEnd.y / dbEndPoint.y < coordinateThresholdMax
+            ||pointToCheckStart.x / dbStartPoint.x > coordinateThresholdMin && pointToCheckStart.y / dbStartPoint.y > coordinateThresholdMin
+            && pointToCheckEnd.x / dbEndPoint.x > coordinateThresholdMin && pointToCheckEnd.y / dbEndPoint.y > coordinateThresholdMin)//check the point coordinates
     {
+        lengthAndPosiRating = tenPointRating * 3;
 
-        // @reminder
-        // myRating has to be <= maxRatingPerLine
-        // as maxRatingPerLine is maximum(100)/lines of object
-        //set rating
-        //check for the point coordinates start and end if distance is to high ==>first
+        if(lengthDbCurrentLine / lengthCurrentLine > smallerThenDbThreshold || lengthDbCurrentLine / lengthCurrentLine < biggerThenDbThreshold)// check the length
+        {
+            lengthAndPosiRating = tenPointRating;
+            lengthAndPosiRating = tenPointRating * 4;
 
+            if(lengthDbLineLast / lengthCurrentLineLast > smallerThenDbThreshold || lengthDbLineLast / lengthCurrentLineLast < biggerThenDbThreshold)
+            {
+                lengthAndPosiRating = tenPointRating;
+                lengthAndPosiRating = tenPointRating * 6;
+            }
+            else//point coord. ok, length ok but dbline length is wrong
+            {
+                lengthAndPosiRating = tenPointRating;
+                lengthAndPosiRating = tenPointRating * 5;
+            }
+        }
+        else//when point coord. is ok but length of lineToCheck is wrong
+        {
+            lengthAndPosiRating = tenPointRating;
+            lengthAndPosiRating = tenPointRating * 1;
+        }
+    }
+    else//rate when point coord. are very wrong
+    {
+        lengthAndPosiRating = tenPointRating;
     }
 
     // @toDo:
@@ -150,6 +184,7 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
     //now compare the angle
 
     double angleThreshold = 0.1;//its allmost 10° +-2
+    double angleRating;
 
     if(dbPointAngle - currentPointAngle > angleThreshold || dbPointAngle - currentPointAngle < -angleThreshold);
     {
@@ -157,7 +192,14 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
         // myRating has to be <= maxRatingPerLine
         // as maxRatingPerLine is maximum(100)/lines of object
 //        *rating = 0;
+        angleRating = tenPointRating * 4;
+
+
     }
+
+    double completeRating = lengthAndPosiRating + angleRating;
+
+    consideredObject.setRating(consideredObject.getRating()+completeRating);
 }
 
 void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects, std::string objectName){
