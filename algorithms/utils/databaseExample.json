@@ -1,32 +1,36 @@
-[
-    "object" {
-        "name" : "name", 
-        "lines": {
-            "line": {
-                "start": {
-                    "x": 1, 
-                    "y": 2
-                },
-                "end" {
-                    "x": 1,
-                    "y": 2
-                }
-            }
-        }
-    },
-    "object" {
-        "name" : "name", 
-        "lines": {
-            "line": {
-                "start": {
-                    "x": 1, 
-                    "y": 2
-                },
-                "end" {
-                    "x": 1,
-                    "y": 2
-                }
-            }
-        }
-    }
-] 
+{
+    "objects":[
+  
+	"object" {
+	    "name" : "name", 
+	    "lines": [
+		"line": {
+		    "start": {
+			"x": 1, 
+			"y": 2
+		    },
+		    "end" {
+			"x": 1,
+			"y": 2
+		    }
+		]
+	    }
+	},
+      
+	"object" {
+	    "name" : "name", 
+	    "lines": [
+		"line": {
+		    "start": {
+			"x": 1, 
+			"y": 2
+		    },
+		    "end" {
+			"x": 1,
+			"y": 2
+		    }
+		]
+	    }
+	}
+    ]
+}
