@@ -6,7 +6,6 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 
-#include "linedetection/algorithm.h"
 #include "line.h"
 #include "threading/algorithmcontroller.hpp"
 
@@ -31,7 +30,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, AlgorithmConfigDialog* dialog)
+bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, LineDetectionAlgorithmConfigDialog* dialog)
 {
     if (slot < 1 || slot > 2)
         return false;

@@ -11,7 +11,7 @@ Haff::Haff(const HaffDatabase& database)
 {
 }
 
-std::vector<Object*> Haff::calculate(std::vector<Line> detectedLines)
+std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
 {
     std::multiset<Hypothesis*> oldHypotheses;
     std::multiset<Hypothesis*> newHypotheses;
@@ -93,7 +93,7 @@ std::vector<Object*> Haff::calculate(std::vector<Line> detectedLines)
         // TODO: Add likliest hypothesis to likelyHyptohesis set.
     }
 
-    std::vector<Object*> detectedObjects;
+    std::vector<Object> detectedObjects;
 
     // Create Objects
 

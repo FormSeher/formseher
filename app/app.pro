@@ -22,7 +22,7 @@ SOURCES += \
         $${APP_SRC_DIR}/gui/mainwindow.cpp \
         $${APP_SRC_DIR}/gui/algorithmcontrolwidget.cpp \
         # gui - linedetection
-        $${APP_SRC_DIR}/gui/algorithmconfigdialog.cpp \
+        $${APP_SRC_DIR}/gui/linedetectionalgorithmconfigdialog.cpp \
         $${APP_SRC_DIR}/gui/edl/edlconfigdialog.cpp \
         $${APP_SRC_DIR}/gui/hough/houghconfigdialog.cpp \
         # gui - objectdetection
@@ -36,7 +36,7 @@ HEADERS  += \
         $${APP_INCL_DIR}/gui/mainwindow.h \
         $${APP_INCL_DIR}/gui/algorithmcontrolwidget.h \
         # gui - linedetection
-        $${APP_INCL_DIR}/gui/algorithmconfigdialog.h \
+        $${APP_INCL_DIR}/gui/linedetectionalgorithmconfigdialog.h \
         $${APP_INCL_DIR}/gui/edl/edlconfigdialog.h \
         $${APP_INCL_DIR}/gui/hough/houghconfigdialog.h \
         # gui - objectdetection

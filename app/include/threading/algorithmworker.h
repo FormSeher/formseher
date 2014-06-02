@@ -1,7 +1,7 @@
 #ifndef FS_ALGORITHMWORKER_H
 #define FS_ALGORITHMWORKER_H
 
-#include "linedetection/algorithm.h"
+#include "linedetection/linedetectionalgorithm.h"
 #include "line.h"
 
 #include <QThread>
@@ -26,7 +26,7 @@ public:
      * @param image The image on which the Algorithm is executed.
      * @param parent The parent.
      */
-    explicit AlgorithmWorker(Algorithm* algorithm, cv::InputArray image, QObject *parent = 0);
+    explicit AlgorithmWorker(LineDetectionAlgorithm* algorithm, cv::InputArray image, QObject *parent = 0);
 
     /**
      * @brief Destructor
@@ -52,7 +52,7 @@ signals:
     void resultReady();
 
 private:
-    Algorithm* algorithm;
+    LineDetectionAlgorithm* algorithm;
     cv::Mat image;
     std::vector<Line> result;
 };

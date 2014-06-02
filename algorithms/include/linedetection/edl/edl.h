@@ -5,7 +5,7 @@
 #define M_PI 3.141592654
 #endif*/
 
-#include "linedetection/algorithm.h"
+#include "linedetection/linedetectionalgorithm.h"
 
 #include "line.h"
 
@@ -21,7 +21,7 @@
 namespace formseher
 {
 
-class EDL : public Algorithm
+class EDL : public LineDetectionAlgorithm
 {
 public:
     EDL(int sobelKernelSize = 3, double sobelScale = 1.9, double sobelDelta = 0.0, int gaussianKernelSize = 3,

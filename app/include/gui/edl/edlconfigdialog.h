@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-#include "gui/algorithmconfigdialog.h"
+#include "gui/linedetectionalgorithmconfigdialog.h"
 #include "linedetection/edl/edl.h"
 
 namespace Ui {
@@ -16,7 +16,7 @@ namespace formseher
 /**
  * @brief The EDLConfigDialog class used to create EDL instances.
  */
-class EDLConfigDialog : public AlgorithmConfigDialog
+class EDLConfigDialog : public LineDetectionAlgorithmConfigDialog
 {
     Q_OBJECT
 
@@ -36,7 +36,7 @@ public:
      * @brief Create a new EDL instance with current parameters.
      * @return Algorithm pointer to an EDL instance.
      */
-    Algorithm* createAlgorithm();
+    LineDetectionAlgorithm* createAlgorithm();
 
 private slots:
     // These slots just trigger the AlgorithmConfigDialog.configChanged() signal.

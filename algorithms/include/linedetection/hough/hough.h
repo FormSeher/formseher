@@ -1,13 +1,24 @@
 #ifndef FS_HOUGH_H
 #define FS_HOUGH_H
 
-#include "linedetection/algorithm.h"
+#include "linedetection/linedetectionalgorithm.h"
 
 #include "line.h"
 
 #include <opencv2/core/core.hpp>
 #include <vector>
 #include <list>
+
+#if defined(_WIN32)
+
+#include <stdint.h>
+
+typedef uint8_t u_int8_t;
+typedef uint16_t u_int16_t;
+typedef uint32_t u_int32_t;
+typedef unsigned int uint;
+
+#endif
 
 namespace formseher
 {
@@ -34,7 +45,7 @@ namespace formseher
 #define ABS_X_EQUAL_Y    0
 
 
-class Hough : public Algorithm
+class Hough : public LineDetectionAlgorithm
 {
 public:
     Hough(u_int16_t checkEnvironmentSize = 2, u_int16_t maximalLineGap = 9, u_int16_t minimumLineSize = 30);
