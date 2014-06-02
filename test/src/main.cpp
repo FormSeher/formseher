@@ -4,6 +4,7 @@
 #include "pointercomparetest.h"
 
 #include "linedetection/edl/edltest.h"
+#include "linedetection/edl2/edl2test.h"
 
 #include "objectdetection/olga/objectgraphedgetest.h"
 #include "objectdetection/olga/objectgraphnodetest.h"
@@ -19,6 +20,7 @@ int main(int argc, char** argv) {
     PointerCompareTest pointerCompareTest;
 
     EDLTest edlTest;
+    EDL2Test edl2Test;
 
     ObjectGraphEdgeTest objectGraphEdgeTest;
     ObjectGraphNodeTest objectGraphNodeTest;
@@ -30,6 +32,7 @@ int main(int argc, char** argv) {
     return   QTest::qExec(&lineTest, argc, argv)
            | QTest::qExec(&pointerCompareTest, argc, argv)
            | QTest::qExec(&edlTest, argc, argv)
+           | QTest::qExec(&edl2Test, argc, argv)
            | QTest::qExec(&objectGraphEdgeTest, argc, argv)
            | QTest::qExec(&objectGraphTest, argc, argv)
            | QTest::qExec(&objectGraphNodeTest, argc, argv)
