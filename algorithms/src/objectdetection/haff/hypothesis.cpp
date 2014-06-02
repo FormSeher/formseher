@@ -5,7 +5,6 @@ namespace formseher
 
 const double Hypothesis::angleWeight = 1.0;
 const double Hypothesis::coverWeight = 1.0;
-const double Hypothesis::scaleWeight = 1.0;
 
 void Hypothesis::calculateRating()
 {
@@ -20,7 +19,7 @@ double Hypothesis::getRating() const
 {
     return ( angleRating * angleWeight
            + coverRating * coverWeight
-           + scaleRating * scaleWeight ) ;
+    );
 }
 
 bool Hypothesis::containsLine(const Line* line) const
