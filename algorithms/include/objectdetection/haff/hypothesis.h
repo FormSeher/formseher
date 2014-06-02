@@ -9,6 +9,8 @@ namespace formseher
 class Hypothesis
 {
 public:
+    Hypothesis(double angleWeight = 1.0, double coverWeight = 1.0);
+
     void calculateRating();
 
     double getRating() const;
@@ -37,12 +39,12 @@ private:
     /**
      * @brief Factor with which the angleRating is weighted.
      */
-    static const double angleWeight;
+    const double angleWeight;
 
     /**
      * @brief Factor with which the coverRating is weighted.
      */
-    static const double coverWeight;
+    const double coverWeight;
 
     //<PictureLine, DB-Line>
     std::map<Line*, Line*> lineMatchMap;

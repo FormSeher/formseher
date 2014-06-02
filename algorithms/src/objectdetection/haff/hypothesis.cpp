@@ -3,8 +3,12 @@
 namespace formseher
 {
 
-const double Hypothesis::angleWeight = 1.0;
-const double Hypothesis::coverWeight = 1.0;
+Hypothesis::Hypothesis(double angleWeight, double coverWeight)
+    : angleWeight(angleWeight),
+      coverWeight(coverWeight)
+{
+
+}
 
 void Hypothesis::calculateRating()
 {
