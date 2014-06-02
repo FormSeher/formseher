@@ -17,7 +17,9 @@
                         }
                     }
                 ]
-            },
+            }
+        },
+        {
 	    "object": {
                 "name": "name",
                 "lines": [
