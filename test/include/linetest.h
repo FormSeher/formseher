@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QtTest/QtTest>
+#include <iostream>
 
 #include "line.h"
 
@@ -53,6 +54,69 @@ private slots:
     {
         Line line(1, 2, 3, 4);
         QVERIFY( std::sqrt(2 * 2 + 2 * 2) == line.getLength() );
+    }
+
+    void perpendicularPointTest()
+    {
+        Line line1(-4, 20, 4, 20);
+        QVERIFY ( 0 == line1.getPerpendicularPoint().x );
+        QVERIFY ( 20 == line1.getPerpendicularPoint().y );
+
+        Line line2(-4, 20, 4, -20);
+        QVERIFY ( 0 == line2.getPerpendicularPoint().x );
+        QVERIFY ( 0 == line2.getPerpendicularPoint().y );
+
+        Line line3(3, 7, 0, 10);
+        QVERIFY ( 5 == line3.getPerpendicularPoint().x );
+        QVERIFY ( 5 == line3.getPerpendicularPoint().y );
+    }
+
+    void getPerpendicularDistanceToOriginTest()
+    {
+        Line line1(-4, 20, 4, 20);
+        QVERIFY ( 20 == line1.getPerpendicularDistanceToOrigin() );
+
+        Line line2(-4, 20, 4, -20);
+        QVERIFY ( 0 == line2.getPerpendicularDistanceToOrigin() );
+
+        Line line3(3, 7, 0, 10);
+        QVERIFY ( std::sqrt(5*5+5*5) == line3.getPerpendicularDistanceToOrigin() );
+    }
+
+    void setPerpendicularTest()
+    {
+        Line line(0, 0, 0, 0);
+        cv::Point2i testPoint = cv::Point2i(20,40);
+        line.setPerpendicular(1.435, testPoint);
+
+        QVERIFY ( 1.435 == line.getPerpendicularDistanceToOrigin() );
+        QVERIFY ( 20 == line.getPerpendicularPoint().x);
+        QVERIFY ( 40 == line.getPerpendicularPoint().y);
+
+    }
+
+    void getPerpendicularDistanceToStartTest()
+    {
+        Line line1(-4, 20, 4, 20);
+        QVERIFY ( 4 == line1.getPerpendicularDistanceToStart() );
+
+        Line line2(2, 20, 10, 20);
+        QVERIFY ( 2 == line2.getPerpendicularDistanceToStart() );
+
+        Line line3(3, 7, 0, 10);
+        QVERIFY ( std::sqrt(-2*-2+2*2) == line3.getPerpendicularDistanceToStart() );
+    }
+
+    void getPerpendicularDistanceToEndTest()
+    {
+        Line line1(-4, 20, 4, 20);
+        QVERIFY ( 4 == line1.getPerpendicularDistanceToStart() );
+
+        Line line2(2, 20, 10, 20);
+        QVERIFY ( 10 == line2.getPerpendicularDistanceToEnd() );
+
+        Line line3(3, 7, 0, 10);
+        QVERIFY ( std::sqrt(-5*-5+5*5) == line3.getPerpendicularDistanceToEnd() );
     }
 
 };
