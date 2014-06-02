@@ -30,9 +30,20 @@ private:
     double coverRating;
     double scaleRating;
 
-    static const double angleFactor;
-    static const double coverFactor;
-    static const double scaleFactor;
+    /**
+     * @brief Factor with which the angleRating is weighted.
+     */
+    static const double angleWeight;
+
+    /**
+     * @brief Factor with which the coverRating is weighted.
+     */
+    static const double coverWeight;
+
+    /**
+     * @brief Factor with which the scaleRating is weighted.
+     */
+    static const double scaleWeight;
 
     //<PictureLine, DB-Line>
     std::map<Line*, Line*> lineMatchMap;
