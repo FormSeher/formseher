@@ -6,8 +6,6 @@
 
 #include <opencv2/core/core.hpp>
 
-#include <iostream>
-
 // brute force everything public (don't do this at home kids!)
 #undef private
 #undef protected
@@ -59,8 +57,6 @@ private slots:
         cv::Mat_<uchar> test_gradientMagnitudes = edl->gradientMagnitudes;
         cv::Mat_<uchar> test_dx = edl->dx;
         cv::Mat_<uchar> test_dy = edl->dy;
-        std::cout << "calcGradTest:" << std::endl;
-        std::cout << test_gradientMagnitudes << std::endl << test_dx << std::endl << test_dy << std::endl;
     }
 
     void findAnchorsTest()
@@ -88,9 +84,6 @@ private slots:
         edl->findAnchors(anchors);
 
         cv::Mat_<uchar> test_gradientMagnitudes = edl->gradientMagnitudes;
-        std::cout << "findAnchorsTest:" << std::endl;
-        std::cout << test_gradientMagnitudes << std::endl;
-        std::cout << "anchors:" << anchors << std::endl;
      }
 
     void getOrientationTest()
@@ -185,10 +178,6 @@ private slots:
         //call walkFromAnchor
         std::vector<std::list<cv::Point*>*> lineSegments;
         edl->walkFromAnchor(anchors[0], lineSegments);
-
-//        //show the result
-//        std::cout << "walkFromAnchorTest:" << std::endl;
-//        std::cout << "Line" << lineSegments[0] << std::endl;
     }
 
     void getAngleBetweenVectorsTest()
