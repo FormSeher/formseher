@@ -34,6 +34,11 @@ namespace formseher{
         for (rapidjson::SizeType i = 0; i < objects.Size(); i++){
 
             const rapidjson::Value& object = objects[i]["object"];
+
+            if(!object.IsObject()){
+                continue;
+            }
+
             Model model;
 
             // set name for model
@@ -115,8 +120,6 @@ namespace formseher{
             line.AddMember("start", start, allocator);
             line.AddMember("end", end, allocator);
 
-//            lines[rapidjson::SizeType(i)] = line;
-//            lines.AddMember("line", line, allocator);
             rapidjson::Value lineName;
             lineName.SetObject();
             lineName.AddMember("line", line, allocator);
@@ -127,8 +130,6 @@ namespace formseher{
         rapidjson::Value objName;
         objName.SetObject();
         objName.AddMember("object", obj, allocator);
-//        obj.
-//        objects.AddMember("object", obj, allocator);
         objects.PushBack(objName, allocator);
     }
 
@@ -140,11 +141,12 @@ namespace formseher{
 
         for (rapidjson::SizeType i = 0; i < objects.Size(); i++){
 
-            rapidjson::Value& object = objects[i];
-            assert(object.IsObject());
+            if(!objects[i]["object"].IsObject()){
+                continue;
+            }
 
-            if(objectToRemove.getName().compare(object["name"].GetString()) == 0){
-                object.Clear();
+            if(objectToRemove.getName().compare(objects[i]["object"]["name"].GetString()) == 0){
+                objects[i].RemoveMember("object");
             }
         }
     }
