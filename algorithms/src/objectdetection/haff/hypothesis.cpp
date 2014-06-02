@@ -14,9 +14,8 @@ void Hypothesis::calculateRating()
 {
     // Calculate angle rating
 
-    // Calculate cover rating
-
-    // Calculate scale rating
+    // Calculate scale factor and cover rating
+    calculateScaleAndCoverage();
 }
 
 double Hypothesis::getRating() const
@@ -87,6 +86,30 @@ double Hypothesis::calculateAngleRating()
 double Hypothesis::calculateCoverageRating(double scaleFactor)
 {
     return 0.0;
+}
+
+void Hypothesis::calculateScaleAndCoverage()
+{
+    double bestScale = -1;
+    double bestCoverage = -1;
+
+    double currentScale = -1;
+    double currentCoverage = -1;
+
+    for(auto lineMatch : lineMatchMap)
+    {
+        currentScale = lineMatch.first->getLength() / lineMatch.second->getLength();
+        currentCoverage = calculateCoverageRating(currentScale);
+
+        if(currentCoverage > bestCoverage)
+        {
+            bestScale = currentScale;
+            bestCoverage = currentCoverage;
+        }
+    }
+
+    this->scaleFactor = bestScale;
+    this->coverRating = bestCoverage;
 }
 
 } // namespace formseher

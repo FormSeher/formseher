@@ -63,6 +63,13 @@ private:
     double calculateCoverageRating(double scaleFactor);
 
     /**
+     * @brief Calculates the scaleFactor and coverageRating at once.
+     *
+     * Coverage calculation internally relies on calculateCoverageRating().
+     */
+    void calculateScaleAndCoverage();
+
+    /**
      * @brief The scaling of the object related to the matching object.
      */
     double scaleFactor;
