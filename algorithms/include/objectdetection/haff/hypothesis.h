@@ -9,16 +9,43 @@ namespace formseher
 class Hypothesis
 {
 public:
+    /**
+     * @brief Hypothesis constructor
+     * @param angleWeight Weight factor for angleRating.
+     * @param coverWeight Weight factor for coverRating.
+     */
     Hypothesis(double angleWeight = 1.0, double coverWeight = 1.0);
 
+    /**
+     * @brief Calculates the rating of this Hypothesis.
+     */
     void calculateRating();
 
+    /**
+     * @brief Returns the rating calculated by calculateRating().
+     * @return The weighted rating for this Hypothesis.
+     */
     double getRating() const;
 
+    /**
+     * @brief Checks if the input image Line line was added previously.
+     * @param line A Line detected on the input image.
+     * @return True if line was added before otherwise false.
+     */
     bool containsLine(const Line* line) const;
 
+    /**
+     * @brief Add a new line match.
+     * @param pictureLine Line detected on the input image
+     * @param databaseLine Line from a database Model.
+     */
     void addLineMatch(const Line *pictureLine, const Line *databaseLine);
 
+    /**
+     * @brief Compares two Hypothesis by their rating.
+     * @param hypo The Hypothesis to compare with this one.
+     * @return True if rating of this is less rating of hypo, false otherwise.
+     */
     bool operator<(const Hypothesis& hypo) const;
     	
 private:
