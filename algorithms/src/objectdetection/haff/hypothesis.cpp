@@ -84,4 +84,9 @@ double Hypothesis::calculateAngleRating()
     return 1.0d - (totalError / lineMatchMap.size());
 }
 
+double Hypothesis::calculateCoverageRating(double scaleFactor)
+{
+    return 0.0;
+}
+
 } // namespace formseher

@@ -56,6 +56,13 @@ private:
     double calculateAngleRating();
 
     /**
+     * @brief Calculates the coverage rating for given scale factor.
+     * @param scaleFactor Scale factor for which the coverage is calculated.
+     * @return Rating of coverage between 0 (0%) and 1 (100%).
+     */
+    double calculateCoverageRating(double scaleFactor);
+
+    /**
      * @brief The scaling of the object related to the matching object.
      */
     double scaleFactor;
