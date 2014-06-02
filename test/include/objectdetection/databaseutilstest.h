@@ -39,6 +39,24 @@ private slots:
 
         dbu.write();
     }
+
+    void removeObjectTest(){
+
+        DatabaseUtils dbu("/home/michl/utilTest/db.txt");
+        std::vector<Model> models = dbu.read();
+
+        uint currSize = models.size();
+
+        Object obj;
+        obj.setName("objToRemove");
+
+        dbu.removeObject(obj);
+
+        dbu.write();
+        models = dbu.read();
+
+        QVERIFY(models.size() < currSize);
+    }
 };
 
 #endif // DATABASEUTILSTEST_H
