@@ -6,6 +6,7 @@
 
 #include "gui/linedetectionalgorithmconfigdialog.h"
 #include "gui/edl/edlconfigdialog.h"
+#include "gui/edl2/edl2configdialog.h"
 #include "gui/hough/houghconfigdialog.h"
 
 #include "objectdetection/olga/objectgraph.h"
@@ -18,6 +19,9 @@ int main(int argc, char *argv[])
     formseher::EDLConfigDialog edlDialog1;
     formseher::EDLConfigDialog edlDialog2;
 
+    formseher::EDL2ConfigDialog edl2Dialog1;
+    formseher::EDL2ConfigDialog edl2Dialog2;
+
     formseher::HoughConfigDialog houghDialog1;
     formseher::HoughConfigDialog houghDialog2;
 
@@ -26,6 +30,8 @@ int main(int argc, char *argv[])
 
     w.registerAlgorithmConfigDialog(1, "EDL", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&edlDialog1));
     w.registerAlgorithmConfigDialog(2, "EDL", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&edlDialog2));
+    w.registerAlgorithmConfigDialog(1, "EDL2", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&edl2Dialog1));
+    w.registerAlgorithmConfigDialog(2, "EDL2", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&edl2Dialog2));
     w.registerAlgorithmConfigDialog(1, "Hough", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&houghDialog1));
     w.registerAlgorithmConfigDialog(2, "Hough", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&houghDialog2));
 

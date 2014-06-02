@@ -24,6 +24,7 @@ SOURCES += \
         # gui - linedetection
         $${APP_SRC_DIR}/gui/linedetectionalgorithmconfigdialog.cpp \
         $${APP_SRC_DIR}/gui/edl/edlconfigdialog.cpp \
+        $${APP_SRC_DIR}/gui/edl2/edl2configdialog.cpp \
         $${APP_SRC_DIR}/gui/hough/houghconfigdialog.cpp \
         # gui - objectdetection
         $${APP_SRC_DIR}/gui/objectdetection/olga/objectgraphvisualizer.cpp \
@@ -38,6 +39,7 @@ HEADERS  += \
         # gui - linedetection
         $${APP_INCL_DIR}/gui/linedetectionalgorithmconfigdialog.h \
         $${APP_INCL_DIR}/gui/edl/edlconfigdialog.h \
+        $${APP_INCL_DIR}/gui/edl2/edl2configdialog.h \
         $${APP_INCL_DIR}/gui/hough/houghconfigdialog.h \
         # gui - objectdetection
         $${APP_INCL_DIR}/gui/objectdetection/olga/objectgraphvisualizer.h \
@@ -51,6 +53,7 @@ FORMS    += \
         $${APP_FORM_DIR}/algorithmcontrolwidget.ui \
         # linedetection forms
         $${APP_FORM_DIR}/edl/edlconfigdialog.ui \
+        $${APP_FORM_DIR}/edl2/edl2configdialog.ui \
         $${APP_FORM_DIR}/hough/houghconfigdialog.ui
 
 INCLUDEPATH += $${APP_INCL_DIR}\
