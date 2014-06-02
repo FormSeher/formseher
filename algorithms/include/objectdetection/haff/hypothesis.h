@@ -26,6 +26,11 @@ private:
      */
     double calculateAngleRating();
 
+    /**
+     * @brief The scaling of the object related to the matching object.
+     */
+    double scaleFactor;
+
     double angleRating;
     double coverRating;
 
