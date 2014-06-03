@@ -204,15 +204,24 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
 
 void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects, std::string objectName){
 
-    Object bestRatedObject;
-    bestRatedObject.setRating(0);
+//    Object bestRatedObject;
+//    bestRatedObject.setRating(0);
+
+//    int bestRatedObjectIndex = 0;
 
     for(uint currentObjectIndex = 0; currentObjectIndex < unfinishedObjects.size(); currentObjectIndex++){
-        if(unfinishedObjects[currentObjectIndex].getRating() > bestRatedObject.getRating()){
-            bestRatedObject = unfinishedObjects[currentObjectIndex];
+
+        // skipped as many objects of same type can be in a picture
+//        if(unfinishedObjects[currentObjectIndex].getRating() > bestRatedObject.getRating()){
+//            bestRatedObject = unfinishedObjects[currentObjectIndex];
+//        }
+
+        // 70 == 70%
+        if(unfinishedObjects[currentObjectIndex].getRating() > 70){
+            foundObjects.push_back(unfinishedObjects[currentObjectIndex]);
         }
     }
-    bestRatedObject.setName(objectName);
+//    bestRatedObject.setName(objectName);
     foundObjects.push_back(bestRatedObject);
 }
 
