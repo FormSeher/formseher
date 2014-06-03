@@ -24,7 +24,7 @@ private slots:
         std::vector<Model> models = dbu.read();
 
         QVERIFY(models[0].getName() == "name");
-        QVERIFY(models.size() > 2);
+        QVERIFY(models.size() == 2);
     }
 
     void addObjectTest(){
@@ -32,12 +32,17 @@ private slots:
         DatabaseUtils dbu("/home/michl/utilTest/db.txt");
         std::vector<Model> models = dbu.read();
 
+        uint currSize = models.size();
         Object obj;
         obj.setName("testObj");
         obj.addLine(Line(4,5,6,7));
         dbu.addObject(obj);
 
         dbu.write();
+
+        models = dbu.read();
+
+        QVERIFY(models.size() > currSize);
     }
 
     void removeObjectTest(){
