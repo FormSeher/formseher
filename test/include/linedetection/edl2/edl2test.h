@@ -100,7 +100,7 @@ private slots:
         short pixDy;
         short pixTestDy;
 
-        // run over the matrices
+        // run over the matrices and check each pixel
 
         for( ; itGradMag != itGradMag_end; ++itGradMag, ++itTestGradMag, ++itDx, ++itTestDx, ++itDy, ++itTestDy)
             {
@@ -125,12 +125,14 @@ private slots:
                                                             0,      12,     254,     22,       0,
                                                             0,       0,       0,      0,       0);
         //Check the image
+
         QVERIFY(image(cv::Point(0, 1)) == 1);
         QVERIFY(image(cv::Point(1, 1)) == 11);
         QVERIFY(image(cv::Point(2, 1)) == 255);
         QVERIFY(image(cv::Point(3, 1)) == 21);
 
         //get the variables ready and set them
+
         edl->image = image;
         edl->gradientMagnitudes = cv::Mat::zeros(image.rows, image.cols, CV_8U);
         edl->dx = cv::Mat::zeros(image.rows, image.cols, CV_16S);
@@ -141,7 +143,17 @@ private slots:
         edl->calcGrad();
         edl->findAnchors(anchors);
 
-        cv::Mat_<uchar> test_gradientMagnitudes = edl->gradientMagnitudes;
+        // Point which should be found
+
+        cv::Point a1 = cv::Point(1, 1);
+        cv::Point a2 = cv::Point(3, 1);
+
+        // check the found anchors
+
+        QVERIFY(a1 == anchors[0]);
+        QVERIFY(a2 == anchors[1]);
+
+
      }
 
     void getOrientationTest()
