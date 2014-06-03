@@ -15,7 +15,7 @@ namespace formseher{
 
     std::vector<Model> DatabaseUtils::read(){
 
-
+        std::vector<Model> objectsToReturn;
         std::ifstream dbFile(pathToDatabase);
 
         // read file
@@ -24,8 +24,11 @@ namespace formseher{
         // parse read file
         document.Parse<0>(databaseString.c_str());
 
-        // get objects here
-        std::vector<Model> objectsToReturn;
+        // if read in file is empty or corrupted return empty vector
+        if(document.HasParseError()){
+            return objectsToReturn;
+        }
+
         // object array
         const rapidjson::Value& objects = document["objects"];
         assert(objects.IsArray());
@@ -85,7 +88,12 @@ namespace formseher{
 
     void DatabaseUtils::addObject(Object objectToAdd){
 
-        assert(document.HasMember("objects"));
+        // create objects array if database is empty
+        if(document.HasParseError()){
+
+            document.Parse<0>("{\"objects\":[]}");
+        }
+
         rapidjson::Value& objects = document["objects"];
         assert(objects.IsArray());
 
