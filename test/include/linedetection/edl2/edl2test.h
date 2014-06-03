@@ -5,6 +5,7 @@
 #include <QtTest/QtTest>
 
 #include <opencv2/core/core.hpp>
+#include <iostream>
 
 // brute force everything public (don't do this at home kids!)
 #undef private
@@ -39,24 +40,81 @@ private slots:
                                                             1,      11,     255,     21,       0,
                                                             0,      12,     254,     22,       0,
                                                             0,       0,       0,      0,       0);
+
         //Check the image
-        QVERIFY(image(cv::Point(0, 1)) == 1);
-        QVERIFY(image(cv::Point(1, 1)) == 11);
-        QVERIFY(image(cv::Point(2, 1)) == 255);
-        QVERIFY(image(cv::Point(3, 1)) == 21);
+
+        QVERIFY(image(cv::Point(0, 1)) == 1);       // use this if you are unsure how what x,y and row,column are
+        QVERIFY(image(cv::Point(1, 1)) == 11);      // and to recheck the settings of your input image
+        QVERIFY(image(cv::Point(2, 1)) == 255);     // try remeber:  point(x,y) == point(colum, row)
+        QVERIFY(image(cv::Point(3, 1)) == 21);      //               mat(row, column) == mat(y,x)
+
+        // devine output
+
+        cv::Mat_<uchar> test_gradientMagnitudes = (cv::Mat_<uchar>(image.rows,image.cols) <<     0,    0,      0,      0,      0,
+                                                                                                 0,    65,     31,     72,     0,
+                                                                                                 0,    65,     31,     71,     0,
+                                                                                                 0,    0,      0,      0,      0);
+
+        cv::Mat_<short> test_dx = (cv::Mat_<short>(image.rows,image.cols) <<                     0,     0,     0,       0,      0,
+                                                                                                 0,     278,   542,     298,    0,
+                                                                                                 0,     -278, -542,     -297,   0,
+                                                                                                 0,     0,      0,      0,      0);
+
+        cv::Mat_<short> test_dy = (cv::Mat_<short>(image.rows,image.cols) <<                     0,     0,      0,      0,      0,
+                                                                                                 0,     762,    30,     -764,   0,
+                                                                                                 0,     762,    30,     -763,   0,
+                                                                                                 0,     0,      0,      0,      0);
+
 
         //get the variables ready and set them
+
         edl->image = image;
         edl->gradientMagnitudes = cv::Mat::zeros(image.rows, image.cols, CV_8U);
         edl->dx = cv::Mat::zeros(image.rows, image.cols, CV_16S);
         edl->dy = cv::Mat::zeros(image.rows, image.cols, CV_16S);
 
         //call the method
+
         edl->calcGrad();
 
-        cv::Mat_<uchar> test_gradientMagnitudes = edl->gradientMagnitudes;
-        cv::Mat_<uchar> test_dx = edl->dx;
-        cv::Mat_<uchar> test_dy = edl->dy;
+        // get the iterators
+
+        cv::MatIterator_<uchar> itGradMag = edl->gradientMagnitudes.begin<uchar>();
+        cv::MatIterator_<uchar> itTestGradMag = test_gradientMagnitudes.begin();
+        cv::MatIterator_<short> itDx = edl->dx.begin<short>();
+        cv::MatIterator_<short> itTestDx = test_dx.begin();
+        cv::MatIterator_<short> itDy = edl->dy.begin<short>();
+        cv::MatIterator_<short> itTestDy = test_dy.begin();
+
+        // get an end
+
+        cv::MatIterator_<uchar> itGradMag_end = edl->gradientMagnitudes.end<uchar>();
+
+
+        // define pixels
+
+        uchar pixGradMag;
+        uchar pixTestGradMag;
+        short pixDx;
+        short pixTestDx;
+        short pixDy;
+        short pixTestDy;
+
+        // run over the matrices
+
+        for( ; itGradMag != itGradMag_end; ++itGradMag, ++itTestGradMag, ++itDx, ++itTestDx, ++itDy, ++itTestDy)
+            {
+                pixGradMag = *itGradMag;
+                pixTestGradMag = *itTestGradMag;
+                pixDx = *itDx;
+                pixTestDx = *itTestDx;
+                pixDy = *itDy;
+                pixTestDy = *itTestDy;
+
+                QVERIFY(pixGradMag == pixTestGradMag);
+                QVERIFY(pixDx == pixTestDx);
+                QVERIFY(pixDy == pixTestDy);
+            }
     }
 
     void findAnchorsTest()
