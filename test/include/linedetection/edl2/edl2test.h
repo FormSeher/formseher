@@ -128,32 +128,32 @@ private slots:
         //simple walk
 
         nextPoint = edl->getNextPoint(currentPoint, right);
-        QVERIFY(gradientMagnitudes(*nextPoint) == 80);
+        QVERIFY(*nextPoint == cv::Point(2,2) && gradientMagnitudes(*nextPoint) == 80);
 
         nextPoint = edl->getNextPoint(currentPoint, left);
-        QVERIFY(gradientMagnitudes(*nextPoint) == 21);
+        QVERIFY(*nextPoint == cv::Point(0,2) && gradientMagnitudes(*nextPoint) == 21);
 
         nextPoint = edl->getNextPoint(currentPoint, up);
-        QVERIFY(gradientMagnitudes(*nextPoint) == 3);
+        QVERIFY(*nextPoint == cv::Point(2,0) && gradientMagnitudes(*nextPoint) == 3);
 
         nextPoint = edl->getNextPoint(currentPoint, down);
-        QVERIFY(gradientMagnitudes(*nextPoint) == 80);
+        QVERIFY(*nextPoint == cv::Point(2,2) && gradientMagnitudes(*nextPoint) == 80);
 
         //corner walk!
 
         currentPoint = cv::Point(0, 3);
 
         nextPoint = edl->getNextPoint(currentPoint, right);
-        QVERIFY(gradientMagnitudes(*nextPoint) == 42);
+        QVERIFY(*nextPoint == cv::Point(1,4) && gradientMagnitudes(*nextPoint) == 42);
 
         nextPoint = edl->getNextPoint(currentPoint, left);
-        QVERIFY(gradientMagnitudes(*nextPoint) == 31);
+        QVERIFY(*nextPoint == cv::Point(0,3) && gradientMagnitudes(*nextPoint) == 31);
 
         nextPoint = edl->getNextPoint(currentPoint, up);
-        QVERIFY(gradientMagnitudes(*nextPoint) == 22);
+        QVERIFY(*nextPoint == cv::Point(1,2) && gradientMagnitudes(*nextPoint) == 22);
 
         nextPoint = edl->getNextPoint(currentPoint, down);
-        QVERIFY(gradientMagnitudes(*nextPoint) == 42);
+        QVERIFY(*nextPoint == cv::Point(1,4) && gradientMagnitudes(*nextPoint) == 42);
     }
 
     void walkFromAnchorTest()
