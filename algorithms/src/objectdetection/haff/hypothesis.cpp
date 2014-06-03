@@ -85,7 +85,24 @@ double Hypothesis::calculateAngleRating()
 
 double Hypothesis::calculateCoverageRating(double scaleFactor)
 {
-    return 0.0;
+    double coverageRaiting = 0.0;
+    double endPointCoverageRaiting = 0.0;
+    double startPointCoverageRaiting = 0.0;
+    int counter = 0;
+
+    for(auto lineMatch : lineMatchMap)
+    {
+        startPointCoverageRaiting = lineMatch.second->getPerpendicularDistanceToStart() * scaleFactor
+                                    / lineMatch.first->getPerpendicularDistanceToStart();
+
+        endPointCoverageRaiting = lineMatch.second->getPerpendicularDistanceToEnd() * scaleFactor
+                                  / lineMatch.first->getPerpendicularDistanceToEnd();
+
+        coverageRaiting += (startPointCoverageRaiting * endPointCoverageRaiting);
+        counter++;
+    }
+
+    return coverageRaiting/(counter * 2);
 }
 
 void Hypothesis::calculateScaleAndCoverage()
