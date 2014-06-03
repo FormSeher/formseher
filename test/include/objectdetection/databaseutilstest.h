@@ -20,21 +20,21 @@ private slots:
 
     void readTest(){
 
-        DatabaseUtils dbu("/home/michl/utilTest/db.txt");
+        DatabaseUtils dbu("db.txt");
         std::vector<Model> models = dbu.read();
 
-        QVERIFY(models[0].getName() == "name");
-        QVERIFY(models.size() == 2);
+        QVERIFY(models.empty());
     }
 
     void addObjectTest(){
 
-        DatabaseUtils dbu("/home/michl/utilTest/db.txt");
+        DatabaseUtils dbu("db.txt");
         std::vector<Model> models = dbu.read();
 
         uint currSize = models.size();
+
         Object obj;
-        obj.setName("testObj");
+        obj.setName("objToRemove");
         obj.addLine(Line(4,5,6,7));
         dbu.addObject(obj);
 
@@ -47,7 +47,7 @@ private slots:
 
     void removeObjectTest(){
 
-        DatabaseUtils dbu("/home/michl/utilTest/db.txt");
+        DatabaseUtils dbu("db.txt");
         std::vector<Model> models = dbu.read();
 
         uint currSize = models.size();
