@@ -115,7 +115,7 @@ void Hypothesis::calculateScaleAndCoverage()
 
     for(auto lineMatch : lineMatchMap)
     {
-        currentScale = lineMatch.first->getLength() / lineMatch.second->getLength();
+        currentScale = lineMatch.first->getPerpendicularDistanceToOrigin() / lineMatch.second->getPerpendicularDistanceToOrigin();
         currentCoverage = calculateCoverageRating(currentScale);
 
         if(currentCoverage > bestCoverage)
