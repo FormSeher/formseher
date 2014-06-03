@@ -222,7 +222,7 @@ void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfin
         }
     }
 //    bestRatedObject.setName(objectName);
-    foundObjects.push_back(bestRatedObject);
+//    foundObjects.push_back(bestRatedObject);
 }
 
 std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> lines){
