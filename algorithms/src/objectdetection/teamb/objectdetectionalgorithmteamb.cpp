@@ -76,13 +76,19 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
     cv::Point2i vectorDbPoint;
     cv::Point2i vectorDbPointLast;
 
-    //the vector of the the start and end point, for current and next line
+    cv::Point2i vectorBetweenDBLines;
+    cv::Point2i vectorBetweenObjectLines;
+    //the vector of the the start and end point, for current and last line
     //b - a
     vectorCurrentPoint = pointToCheckEnd - pointToCheckStart;
     vectorCurrentPointLast = lastPointToCheckEnd - lastPointToCheckStart;
 
     vectorDbPoint = dbEndPoint - dbStartPoint;
     vectorDbPointLast = lastDBPointEnd - lastDBPointStart;
+
+    //space beetwen the two lines
+    vectorBetweenDBLines = dbStartPoint - lastDBPointEnd;
+    vectorBetweenObjectLines = pointToCheckStart - lastPointToCheckEnd;
 
     //calculate angle between current and last line, skalarprodukt without cos
     //phi = (a1*b1) + (an * bn) / |a| * |b|
@@ -124,15 +130,16 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
     double lengthDbCurrentLine = formseher::math::sqrtFast(vectorDbPoint.x * vectorDbPoint.x + vectorDbPoint.y * vectorDbPoint.y);
     double lengthDbLineLast = formseher::math::sqrtFast(vectorDbPointLast.x * vectorDbPointLast.x + vectorDbPointLast.y * vectorDbPointLast.y);
 
-    //now compare and set the rating, the current line to db current line, because next should be the same
+    double distanceBetweenDBLines = formseher::math::sqrtFast(vectorBetweenDBLines.x * vectorBetweenDBLines.x + vectorBetweenDBLines.y * vectorBetweenDBLines.y);
+    double distanceBetweenObjectLines = formseher::math::sqrtFast(vectorBetweenObjectLines.x * vectorBetweenObjectLines.x + vectorBetweenObjectLines.y * vectorBetweenObjectLines.y);
+
+    //now compare and set the rating, the current line to db current line
 
     double smallerThenDbThreshold = 1.2;// the dbline is 1.2 so big as the lineToCheck
     double biggerThenDbThreshold = 0.8;// the lineToCheck is 1.2 so big as the dbline
-    double coordinateThresholdMax = 1.2;
-    double coordinateThresholdMin = 0.85;
-    // @reminder
-    // myRating has to be <= maxRatingPerLine
-    // as maxRatingPerLine is maximum(100)/lines of object
+    double distanceThresholdMax = 1.2;
+    double distanceThresholdMin = 0.85;
+
     //set rating
     //check for the point coordinates start and end if distance is to high ==>first
 
@@ -140,19 +147,16 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
     double lengthAndPosiRating = tenPointRating;
 
 
-    if(pointToCheckStart.x / dbStartPoint.x < coordinateThresholdMax && pointToCheckStart.y / dbStartPoint.y < coordinateThresholdMax
-            && pointToCheckEnd.x / dbEndPoint.x < coordinateThresholdMax && pointToCheckEnd.y / dbEndPoint.y < coordinateThresholdMax
-            ||pointToCheckStart.x / dbStartPoint.x > coordinateThresholdMin && pointToCheckStart.y / dbStartPoint.y > coordinateThresholdMin
-            && pointToCheckEnd.x / dbEndPoint.x > coordinateThresholdMin && pointToCheckEnd.y / dbEndPoint.y > coordinateThresholdMin)//check the point coordinates
+    if(distanceBetweenDBLines / distanceBetweenObjectLines < distanceThresholdMax || distanceBetweenDBLines / distanceBetweenObjectLines > distanceThresholdMin)//check the distance
     {
         lengthAndPosiRating = tenPointRating * 3;
 
-        if(lengthDbCurrentLine / lengthCurrentLine > smallerThenDbThreshold || lengthDbCurrentLine / lengthCurrentLine < biggerThenDbThreshold)// check the length
+        if(lengthDbCurrentLine / lengthCurrentLine < smallerThenDbThreshold || lengthDbCurrentLine / lengthCurrentLine > biggerThenDbThreshold)// check the length
         {
             lengthAndPosiRating = tenPointRating;
             lengthAndPosiRating = tenPointRating * 4;
 
-            if(lengthDbLineLast / lengthCurrentLineLast > smallerThenDbThreshold || lengthDbLineLast / lengthCurrentLineLast < biggerThenDbThreshold)
+            if(lengthDbLineLast / lengthCurrentLineLast < smallerThenDbThreshold || lengthDbLineLast / lengthCurrentLineLast > biggerThenDbThreshold)
             {
                 lengthAndPosiRating = tenPointRating;
                 lengthAndPosiRating = tenPointRating * 6;
