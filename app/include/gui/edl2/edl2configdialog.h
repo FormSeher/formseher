@@ -42,7 +42,7 @@ private slots:
     // These slots just trigger the AlgorithmConfigDialog.configChanged() signal.
     void on_gaussianKernelSize_valueChanged(int);
     void on_minAnchorThreshold_valueChanged(int);
-    void on_anchorStepping_valueChanged(double);
+    void on_anchorStepping_valueChanged(int);
     void on_anchorThreshold_valueChanged(int);
     void on_angleTolerance_valueChanged(double);
     void on_minLineLength_valueChanged(int);

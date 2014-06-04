@@ -34,7 +34,7 @@ void EDL2ConfigDialog::on_minAnchorThreshold_valueChanged(int)
     emit configChanged();
 }
 
-void EDL2ConfigDialog::on_anchorStepping_valueChanged(double)
+void EDL2ConfigDialog::on_anchorStepping_valueChanged(int)
 {
     emit configChanged();
 }
