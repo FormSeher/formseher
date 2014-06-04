@@ -152,8 +152,6 @@ private slots:
 
         QVERIFY(a1 == anchors[0]);
         QVERIFY(a2 == anchors[1]);
-
-
      }
 
     void getOrientationTest()
@@ -229,25 +227,54 @@ private slots:
     void walkFromAnchorTest()
     {
         //Create an image
+
         cv::Mat_<uchar> image = (cv::Mat_<uchar>(4,5) <<    0,       0,       0,      0,       0,
                                                             1,      11,     255,     21,       0,
                                                             0,      12,     254,     22,       0,
                                                             0,       0,       0,      0,       0);
 
+        // set another minLineLength
+
+        edl->minLineLength = 1;
+
         //get the variables ready and set them
+
         edl->image = image;
         edl->gradientMagnitudes = cv::Mat::zeros(image.rows, image.cols, CV_8U);
         edl->dx = cv::Mat::zeros(image.rows, image.cols, CV_16S);
         edl->dy = cv::Mat::zeros(image.rows, image.cols, CV_16S);
         std::vector<cv::Point> anchors;
+        std::vector<std::list<cv::Point*>*> lineSegments;
 
         //call the previous methods
+
         edl->calcGrad();
         edl->findAnchors(anchors);
 
-        //call walkFromAnchor
-        std::vector<std::list<cv::Point*>*> lineSegments;
-        edl->walkFromAnchor(anchors[0], lineSegments);
+        // define stuff to work with
+
+        cv::Point anchorPoint;
+        std::list<cv::Point*>* lineSegment1;
+        std::list<cv::Point*>* lineSegment2;
+        std::list<cv::Point*>* test_lineSegment1;
+        std::list<cv::Point*>* test_lineSegment2;
+
+        //call walkFromAnchor 1
+
+        anchorPoint = anchors[0];
+
+        test_lineSegment1 = new std::list<cv::Point*>;
+        test_lineSegment2 = new std::list<cv::Point*>;
+        test_lineSegment1->push_back(new cv::Point(1,1));
+        test_lineSegment2->push_back(new cv::Point(1,2));
+
+        edl->walkFromAnchor(anchorPoint, lineSegments);
+
+        lineSegment1 = lineSegments.at(0);
+        QVERIFY(*lineSegment1->front() == *test_lineSegment1->front());
+        lineSegment2 = lineSegments.at(1);
+        QVERIFY(*lineSegment2->front() == *test_lineSegment2->front());
+
     }
 
     void getAngleBetweenVectorsTest()
