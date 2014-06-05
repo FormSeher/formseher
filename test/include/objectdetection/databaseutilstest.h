@@ -3,6 +3,11 @@
 
 #include <QtTest/QtTest>
 #include <QObject>
+#include <QDir>
+#include <QString>
+#include <QFile>
+#include <QTextStream>
+
 #include "objectdetection/databaseutils.h"
 #include "objectdetection/model.h"
 #include "objectdetection/object.h"
@@ -17,24 +22,29 @@ class DatabaseUtilsTest : public QObject
     Q_OBJECT
 
 private slots:
+    void initTestCase()
+    {
+        dbFileName = "formseherdatabase";
+        dbFilePath = QDir::temp().absoluteFilePath(dbFileName);
+    }
 
     void readTest(){
 
-        DatabaseUtils dbu("/home/michl/utilTest/db.txt");
+        DatabaseUtils dbu(dbFilePath.toStdString());
         std::vector<Model> models = dbu.read();
 
-        QVERIFY(models[0].getName() == "name");
-        QVERIFY(models.size() == 2);
+        QVERIFY(models.empty());
     }
 
     void addObjectTest(){
 
-        DatabaseUtils dbu("/home/michl/utilTest/db.txt");
+        DatabaseUtils dbu(dbFilePath.toStdString());
         std::vector<Model> models = dbu.read();
 
         uint currSize = models.size();
+
         Object obj;
-        obj.setName("testObj");
+        obj.setName("objToRemove");
         obj.addLine(Line(4,5,6,7));
         dbu.addObject(obj);
 
@@ -43,11 +53,22 @@ private slots:
         models = dbu.read();
 
         QVERIFY(models.size() > currSize);
+
+        // Check database content
+        QFile file(dbFilePath);
+        QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
+
+        QTextStream in(&file);
+        QString line = in.readLine();
+
+        QCOMPARE(line, QString(R"({"objects":[{"object":{"name":"objToRemove","lines":[{"line":{"start":{"x":4,"y":5},"end":{"x":6,"y":7}}}]}}]})"));
+
+        file.close();
     }
 
     void removeObjectTest(){
 
-        DatabaseUtils dbu("/home/michl/utilTest/db.txt");
+        DatabaseUtils dbu(dbFilePath.toStdString());
         std::vector<Model> models = dbu.read();
 
         uint currSize = models.size();
@@ -61,7 +82,27 @@ private slots:
         models = dbu.read();
 
         QVERIFY(models.size() < currSize);
+
+        // Check database content
+        QFile file(dbFilePath);
+        QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
+
+        QTextStream in(&file);
+        QString line = in.readLine();
+
+        QCOMPARE(line, QString(R"({"objects":[{}]})"));
+
+        file.close();
     }
+
+    void cleanupTestCase()
+    {
+        QDir::temp().remove(dbFileName);
+    }
+
+private:
+    QString dbFileName;
+    QString dbFilePath;
 };
 
 #endif // DATABASEUTILSTEST_H
