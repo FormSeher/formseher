@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <iostream>
+#include "mathutil.h"
 
 using namespace cv;
 using namespace std;
@@ -40,7 +41,7 @@ std::vector<Line> Hough::calculate(cv::InputArray _image)
 
     getCannyImage(cannyImage, image);
 
-    HoughLines(cannyImage, lines, 1, M_PI/180, minimalHoughVotes);
+    HoughLines(cannyImage, lines, 1, math::m_pi/180, minimalHoughVotes);
 
     compareHoughLinesWithCannyEdges(result, lines, cannyImage);
 
