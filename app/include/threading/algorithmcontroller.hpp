@@ -2,7 +2,6 @@
 #define FS_ALGORITHMCONTROLLER_HPP
 
 #include "linedetection/linedetectionalgorithm.h"
-#include "gui/linedetectionalgorithmconfigdialog.h"
 #include "line.h"
 #include "algorithmworker.h"
 
@@ -11,6 +10,8 @@
 #include <vector>
 
 namespace formseher {
+
+class LineDetectionAlgorithmConfigDialog;
 
 /**
  * @brief The AlgorithmController class which controls the execution of AlgorithmWorkers.
@@ -76,6 +77,12 @@ private:
      * @brief Used to manage connections to AlgorithmConfigDialog instances.
      */
     QMetaObject::Connection configChangedConnection;
+
+    /**
+     * @brief The LineDetectionAlgorithmConfigDialog currently used to create LineAlgorithm instances.
+     */
+    LineDetectionAlgorithmConfigDialog* lineConfigDialog;
+
     /**
      * @brief The AlgorithmConfigDialog currently used to create Algorithm instances.
      */

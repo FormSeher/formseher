@@ -1,12 +1,13 @@
 #include "threading/algorithmcontroller.hpp"
 
+#include "gui/linedetectionalgorithmconfigdialog.h"
 #include "threading/algorithmworker.h"
 
 namespace formseher
 {
 
 AlgorithmController::AlgorithmController()
-    : configDialog(0),
+    : lineConfigDialog(0),
       queuedAlgorithm(0),
       scheduledAlgorithm(0)
 {}
@@ -19,11 +20,11 @@ AlgorithmController::~AlgorithmController()
 
 void AlgorithmController::setAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog *dialog)
 {
-    if(configDialog)
+    if(lineConfigDialog)
         disconnect(configChangedConnection);
 
-    configDialog = dialog;
-    configChangedConnection = connect(configDialog, &LineDetectionAlgorithmConfigDialog::configChanged,
+    lineConfigDialog = dialog;
+    configChangedConnection = connect(lineConfigDialog, &LineDetectionAlgorithmConfigDialog::configChanged,
                                       this, &AlgorithmController::enqueueAlgorithm);
 }
 
@@ -41,10 +42,10 @@ std::vector<Line> AlgorithmController::getLatestResult()
 
 void AlgorithmController::enqueueAlgorithm()
 {
-    if(!configDialog)
+    if(!lineConfigDialog)
         return;
 
-    LineDetectionAlgorithm* newAlgorithm = configDialog->createAlgorithm();
+    LineDetectionAlgorithm* newAlgorithm = lineConfigDialog->createAlgorithm();
 
     queueMutex.lock();
     if(queuedAlgorithm != 0)
