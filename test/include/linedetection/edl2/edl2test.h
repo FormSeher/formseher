@@ -41,15 +41,7 @@ private slots:
                                                             0,      12,     254,     22,       0,
                                                             0,       0,       0,      0,       0);
 
-        //Check the image
-
-        QVERIFY(image(cv::Point(0, 1)) == 1);       // use this if you are unsure how what x,y and row,column are
-        QVERIFY(image(cv::Point(1, 1)) == 11);      // and to recheck the settings of your input image
-        QVERIFY(image(cv::Point(2, 1)) == 255);     // try remeber:  point(x,y) == point(colum, row)
-        QVERIFY(image(cv::Point(3, 1)) == 21);      //               mat(row, column) == mat(y,x)
-
-        // devine output
-
+        // define output
         cv::Mat_<uchar> test_gradientMagnitudes = (cv::Mat_<uchar>(image.rows,image.cols) <<     0,    0,      0,      0,      0,
                                                                                                  0,    65,     31,     72,     0,
                                                                                                  0,    65,     31,     71,     0,
@@ -67,18 +59,15 @@ private slots:
 
 
         //get the variables ready and set them
-
         edl->image = image;
         edl->gradientMagnitudes = cv::Mat::zeros(image.rows, image.cols, CV_8U);
         edl->dx = cv::Mat::zeros(image.rows, image.cols, CV_16S);
         edl->dy = cv::Mat::zeros(image.rows, image.cols, CV_16S);
 
         //call the method
-
         edl->calcGrad();
 
         // get the iterators
-
         cv::MatIterator_<uchar> itGradMag = edl->gradientMagnitudes.begin<uchar>();
         cv::MatIterator_<uchar> itTestGradMag = test_gradientMagnitudes.begin();
         cv::MatIterator_<short> itDx = edl->dx.begin<short>();
@@ -87,12 +76,9 @@ private slots:
         cv::MatIterator_<short> itTestDy = test_dy.begin();
 
         // get an end
-
         cv::MatIterator_<uchar> itGradMag_end = edl->gradientMagnitudes.end<uchar>();
 
-
         // define pixels
-
         uchar pixGradMag;
         uchar pixTestGradMag;
         short pixDx;
@@ -101,7 +87,6 @@ private slots:
         short pixTestDy;
 
         // run over the matrices and check each pixel
-
         for( ; itGradMag != itGradMag_end; ++itGradMag, ++itTestGradMag, ++itDx, ++itTestDx, ++itDy, ++itTestDy)
             {
                 pixGradMag = *itGradMag;
@@ -124,15 +109,7 @@ private slots:
                                                             1,      11,     255,     21,       0,
                                                             0,      12,     254,     22,       0,
                                                             0,       0,       0,      0,       0);
-        //Check the image
-
-        QVERIFY(image(cv::Point(0, 1)) == 1);
-        QVERIFY(image(cv::Point(1, 1)) == 11);
-        QVERIFY(image(cv::Point(2, 1)) == 255);
-        QVERIFY(image(cv::Point(3, 1)) == 21);
-
         //get the variables ready and set them
-
         edl->image = image;
         edl->gradientMagnitudes = cv::Mat::zeros(image.rows, image.cols, CV_8U);
         edl->dx = cv::Mat::zeros(image.rows, image.cols, CV_16S);
@@ -143,13 +120,11 @@ private slots:
         edl->calcGrad();
         edl->findAnchors(anchors);
 
-        // Point which should be found
-
+        // Points which should be found
         cv::Point a1 = cv::Point(1, 1);
         cv::Point a2 = cv::Point(3, 1);
 
         // check the found anchors
-
         QVERIFY(a1 == anchors[0]);
         QVERIFY(a2 == anchors[1]);
      }
@@ -184,7 +159,6 @@ private slots:
         cv::Point currentPoint = cv::Point(1, 1);
         cv::Point *nextPoint;
 
-
         cv::Mat_<uchar> gradientMagnitudes = (cv::Mat_<uchar>(5,4) <<        1        ,2      ,3    ,4
                                                                             ,11       ,255    ,13   ,14
                                                                             ,21       ,22     ,80   ,15
@@ -194,7 +168,6 @@ private slots:
         edl->gradientMagnitudes = gradientMagnitudes;
 
         //simple walk
-
         nextPoint = edl->getNextPoint(currentPoint, right);
         QVERIFY(*nextPoint == cv::Point(2,2) && gradientMagnitudes(*nextPoint) == 80);
 
@@ -207,8 +180,7 @@ private slots:
         nextPoint = edl->getNextPoint(currentPoint, down);
         QVERIFY(*nextPoint == cv::Point(2,2) && gradientMagnitudes(*nextPoint) == 80);
 
-        //corner walk!
-
+        //corner walk
         currentPoint = cv::Point(0, 3);
 
         nextPoint = edl->getNextPoint(currentPoint, right);
@@ -227,18 +199,15 @@ private slots:
     void walkFromAnchorTest()
     {
         //Create an image
-
         cv::Mat_<uchar> image = (cv::Mat_<uchar>(4,5) <<    0,       0,       0,      0,       0,
                                                             1,      11,     255,     21,       0,
                                                             0,      12,     254,     22,       0,
                                                             0,       0,       0,      0,       0);
 
         // set another minLineLength
-
         edl->minLineLength = 1;
 
         //get the variables ready and set them
-
         edl->image = image;
         edl->gradientMagnitudes = cv::Mat::zeros(image.rows, image.cols, CV_8U);
         edl->dx = cv::Mat::zeros(image.rows, image.cols, CV_16S);
@@ -247,34 +216,23 @@ private slots:
         std::vector<std::list<cv::Point*>*> lineSegments;
 
         //call the previous methods
-
         edl->calcGrad();
         edl->findAnchors(anchors);
 
         // define stuff to work with
-
         cv::Point anchorPoint;
         std::list<cv::Point*>* lineSegment1;
         std::list<cv::Point*>* lineSegment2;
-        std::list<cv::Point*>* test_lineSegment1;
-        std::list<cv::Point*>* test_lineSegment2;
 
         //call walkFromAnchor 1
-
         anchorPoint = anchors[0];
-
-        test_lineSegment1 = new std::list<cv::Point*>;
-        test_lineSegment2 = new std::list<cv::Point*>;
-        test_lineSegment1->push_back(new cv::Point(1,1));
-        test_lineSegment2->push_back(new cv::Point(1,2));
 
         edl->walkFromAnchor(anchorPoint, lineSegments);
 
         lineSegment1 = lineSegments.at(0);
-        QVERIFY(*lineSegment1->front() == *test_lineSegment1->front());
         lineSegment2 = lineSegments.at(1);
-        QVERIFY(*lineSegment2->front() == *test_lineSegment2->front());
-
+        QCOMPARE(*lineSegment1->front(), cv::Point(1,1));
+        QCOMPARE(*lineSegment2->front(), cv::Point(1,2));
     }
 
     void getAngleBetweenVectorsTest()
