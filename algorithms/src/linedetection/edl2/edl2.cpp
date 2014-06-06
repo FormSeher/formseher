@@ -16,11 +16,11 @@ namespace formseher
 
 EDL2::EDL2(int gaussianKernelSize, int minAnchorThreshold, int anchorStepping, int anchorThreshold, double angleTolerance, unsigned int minLineLength)
     : gaussianKernelSize(gaussianKernelSize),
-      minAnchorThreshold(minAnchorThreshold),
       anchorThreshold(anchorThreshold),
-      anchorStepping(anchorStepping),
       angleTolerance(angleTolerance),
-      minLineLength(minLineLength)
+      minLineLength(minLineLength),
+      minAnchorThreshold(minAnchorThreshold),
+      anchorStepping(anchorStepping)
 {
 }
 
