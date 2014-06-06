@@ -370,9 +370,9 @@ cv::Vec2s* EDL2::getSobelVector(cv::Point &point)
     return new cv::Vec2s(dx.at<short>(point), dy.at<short>(point));
 }
 
-cv::Vec2s* EDL2::getSobelVector(int x, int y)
+cv::Vec2s* EDL2::getSobelVector(int row, int column)
 {
-    return new cv::Vec2s(dx.at<short>(x, y), dy.at<short>(x, y));
+    return new cv::Vec2s(dx.at<short>(row, column), dy.at<short>(row, column));
 }
 
 bool EDL2::getOrientation(cv::Vec2s &v1)

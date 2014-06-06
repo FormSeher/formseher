@@ -49,7 +49,7 @@ private:
 
     cv::Vec2s* getSobelVector(cv::Point &point);
 
-    cv::Vec2s* getSobelVector(int x, int y);
+    cv::Vec2s* getSobelVector(int row, int column);
 
     double getAngleBetweenVectors(cv::Vec2s &v1, cv::Vec2s &v2);
 
