@@ -5,6 +5,8 @@
 #include "object.h"
 #include "utils/rapidjson/document.h"
 
+typedef unsigned int uint;
+
 namespace formseher
 {
 

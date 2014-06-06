@@ -6,6 +6,8 @@
 #include "objectdetection/model.h"
 #include "objectdetection/object.h"
 
+typedef unsigned int uint;
+
 namespace formseher
 {
 
