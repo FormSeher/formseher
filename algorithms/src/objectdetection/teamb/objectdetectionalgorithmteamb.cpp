@@ -187,18 +187,26 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
 
     //now compare the angle
 
-    double angleThreshold = 0.1;//its allmost 10° +-2
+    double angleThreshold1 = 0.1;//its allmost 10° +-2
+    double angleThreshold2 = 0.2;//its allmost 20° +-2
+    double angleThreshold3 = 0.3;//its allmost 30° +-2
     double angleRating;
 
-    if(dbPointAngle - currentPointAngle > angleThreshold || dbPointAngle - currentPointAngle < -angleThreshold);
+    if(dbPointAngle - currentPointAngle <= angleThreshold1 || dbPointAngle - currentPointAngle >= -angleThreshold1);
     {
-        // @reminder
-        // myRating has to be <= maxRatingPerLine
-        // as maxRatingPerLine is maximum(100)/lines of object
-//        *rating = 0;
         angleRating = tenPointRating * 4;
-
-
+    }
+    else if(dbPointAngle - currentPointAngle <= angleThreshold2 || dbPointAngle - currentPointAngle >= -angleThreshold2)
+    {
+         angleRating = tenPointRating * 3;
+    }
+    else if(dbPointAngle - currentPointAngle <= angleThreshold3 || dbPointAngle - currentPointAngle >= -angleThreshold3)
+    {
+        angleRating = tenPointRating * 2;
+    }
+    else
+    {
+        angleRating = tenPointRating;
     }
 
     double completeRating = lengthAndPosiRating + angleRating;
