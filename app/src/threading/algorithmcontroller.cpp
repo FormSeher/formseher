@@ -79,10 +79,13 @@ void AlgorithmController::enqueueAlgorithm(bool lineConfigChanged)
         queuedAlgorithms.first = lineConfigDialog->createAlgorithm();
     }
 
-    // Always enqueue ObjectDetectionAlgorithm
-    if(queuedAlgorithms.second != 0)
-        delete queuedAlgorithms.second;
-    queuedAlgorithms.second = objectConfigDialog->createAlgorithm();
+    // Enqueue ObjectDetectionAlgorithm
+    if(objectConfigDialog)
+    {
+        if(queuedAlgorithms.second != 0)
+            delete queuedAlgorithms.second;
+        queuedAlgorithms.second = objectConfigDialog->createAlgorithm();
+    }
 
     queueMutex.unlock();
 
