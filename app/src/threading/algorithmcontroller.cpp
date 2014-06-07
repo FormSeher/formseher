@@ -125,7 +125,10 @@ void AlgorithmController::handleResult()
 
     latestResult = worker->getResult();
 
+    // Clean up schedule
+    delete scheduledAlgorithms.first;
     scheduledAlgorithms.first = 0;
+    delete scheduledAlgorithms.second;
     scheduledAlgorithms.second = 0;
     emit newResultAvailable();
 

@@ -12,7 +12,6 @@ AlgorithmWorker::AlgorithmWorker(LineDetectionAlgorithm* algorithm, cv::InputArr
 
 AlgorithmWorker::~AlgorithmWorker()
 {
-    delete algorithm;
 }
 
 void AlgorithmWorker::run()
