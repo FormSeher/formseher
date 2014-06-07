@@ -66,9 +66,14 @@ signals:
 
 public slots:
     /**
-     * @brief Enqueue a new Algorithm.
+     * @brief Called if line detection config changed.
+     **/
+    void lineDetectionChanged();
+
+    /**
+     * @brief Called if object detection config changed.
      */
-    void enqueueAlgorithm();
+    void objectDetectionChanged();
 
 private slots:
     /**
@@ -82,6 +87,11 @@ private slots:
     void handleResult();
 
 private:
+    /**
+     * @brief Enqueue a new Algorithm.
+     */
+    void enqueueAlgorithm(bool lineConfigChanged);
+
     /**
      * @brief Used to manage connections to AlgorithmConfigDialog instances.
      */

@@ -109,7 +109,6 @@ void AlgorithmControlWidget::on_openPicture_clicked()
         image = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_COLOR);
 
         controller.setImage(cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE));
-        controller.enqueueAlgorithm();
     }
     catch(int e)
     {

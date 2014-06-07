@@ -36,7 +36,7 @@ void AlgorithmController::setAlgorithmConfigDialog(LineDetectionAlgorithmConfigD
 
     lineConfigDialog = dialog;
     configChangedConnection = connect(lineConfigDialog, &LineDetectionAlgorithmConfigDialog::configChanged,
-                                      this, &AlgorithmController::enqueueAlgorithm);
+                                      this, &AlgorithmController::lineDetectionChanged);
 }
 
 void AlgorithmController::setImage(cv::InputArray image)
@@ -44,6 +44,7 @@ void AlgorithmController::setImage(cv::InputArray image)
     queueMutex.lock();
     this->image = image.getMat();
     queueMutex.unlock();
+    enqueueAlgorithm(true);
 }
 
 std::vector<Line> AlgorithmController::getLatestResult()
@@ -51,25 +52,33 @@ std::vector<Line> AlgorithmController::getLatestResult()
     return latestResult;
 }
 
-void AlgorithmController::enqueueAlgorithm()
+void AlgorithmController::lineDetectionChanged()
 {
-    if(!lineConfigDialog)
-        return;
+    enqueueAlgorithm(true);
+}
 
-    LineDetectionAlgorithm* newLineAlgorithm = lineConfigDialog->createAlgorithm();
-    ObjectDetectionAlgorithm* newObjectAlgorithm = objectConfigDialog->createAlgorithm();
+void AlgorithmController::objectDetectionChanged()
+{
+    enqueueAlgorithm(false);
+}
 
+void AlgorithmController::enqueueAlgorithm(bool lineConfigChanged)
+{
     queueMutex.lock();
 
-    // Clean queue if necessary
-    if(queuedAlgorithms.first != 0)
-        delete queuedAlgorithms.first;
+    // Enqueue LineDetectionAlgorithm
+    if(lineConfigChanged && lineConfigDialog)
+    {
+        if(queuedAlgorithms.first != 0)
+            delete queuedAlgorithms.first;
+
+        queuedAlgorithms.first = lineConfigDialog->createAlgorithm();
+    }
+
+    // Always enqueue ObjectDetectionAlgorithm
     if(queuedAlgorithms.second != 0)
         delete queuedAlgorithms.second;
-
-    // Enqueue new algorithms
-    queuedAlgorithms.first = newLineAlgorithm;
-    queuedAlgorithms.second = newObjectAlgorithm;
+    queuedAlgorithms.second = objectConfigDialog->createAlgorithm();
 
     queueMutex.unlock();
 
