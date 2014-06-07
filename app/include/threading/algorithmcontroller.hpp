@@ -56,7 +56,7 @@ public:
      * @brief Get the result of the latest executed AlgorithmWorker.
      * @return The result @see Algorithm.calculate()
      */
-    std::vector<Line> getLatestResult();
+    algorithmworker_result getLatestResult();
 
 signals:
     /**
@@ -135,7 +135,7 @@ private:
     /**
      * @brief The latest result returned by one of the AlgorithmWorkers.
      */
-    std::vector<Line> latestResult;
+    algorithmworker_result latestResult;
 };
 
 } // namespace formseher

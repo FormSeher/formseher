@@ -52,7 +52,7 @@ private:
     LineDetectionAlgorithmConfigDialog* selectedAlgorithmDialog;
     AlgorithmController controller;
 
-    std::vector<Line> latestResult;
+    algorithmworker_result latestResult;
 
     cv::Mat image;
     cv::Mat resultImage;

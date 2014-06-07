@@ -3,6 +3,9 @@
 #include "linedetection/linedetectionalgorithm.h"
 #include "objectdetection/objectdetectionalgorithm.h"
 
+#include "line.h"
+#include "objectdetection/object.h"
+
 namespace formseher
 {
 
@@ -14,7 +17,7 @@ AlgorithmWorker::AlgorithmWorker(LineDetectionAlgorithm* lineAlgorithm, ObjectDe
     this->image = image.getMat();
 
     if(!presetLines.empty())
-        this->result = presetLines;
+        this->result.first = presetLines;
 }
 
 AlgorithmWorker::~AlgorithmWorker()
@@ -24,13 +27,13 @@ AlgorithmWorker::~AlgorithmWorker()
 void AlgorithmWorker::run()
 {
     if(lineAlgorithm)
-        result = lineAlgorithm->calculate(image);
+        result.first = lineAlgorithm->calculate(image);
     if(objectAlgorithm)
-        objectAlgorithm->calculate(result);
+        result.second = objectAlgorithm->calculate(result.first);
     emit resultReady();
 }
 
-std::vector<Line> AlgorithmWorker::getResult()
+algorithmworker_result AlgorithmWorker::getResult()
 {
     return result;
 }

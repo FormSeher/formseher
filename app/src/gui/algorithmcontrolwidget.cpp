@@ -12,6 +12,8 @@
 
 #include <iostream>
 
+#include "objectdetection/object.h"
+
 namespace formseher
 {
 
@@ -69,7 +71,7 @@ void AlgorithmControlWidget::updateResultImage()
 
     if(ui->displayConfig->currentIndex() != 0)
     {
-        for(auto line : latestResult)
+        for(auto line : latestResult.first)
         {
             cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
             cv::line(resultImage, line.getStart(), line.getEnd(), color);

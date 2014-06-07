@@ -47,9 +47,13 @@ void AlgorithmController::setImage(cv::InputArray image)
     enqueueAlgorithm(true);
 }
 
-std::vector<Line> AlgorithmController::getLatestResult()
+algorithmworker_result AlgorithmController::getLatestResult()
 {
-    return latestResult;
+    queueMutex.lock();
+    algorithmworker_result returnValue = latestResult;
+    queueMutex.unlock();
+
+    return returnValue;
 }
 
 void AlgorithmController::lineDetectionChanged()
@@ -114,7 +118,7 @@ void AlgorithmController::scheduleAlgorithm()
 
     // Scheduling is possible so schedule
     worker = new AlgorithmWorker(queuedAlgorithms.first, queuedAlgorithms.second,
-                                 image.clone(),latestResult, this);
+                                 image.clone(), latestResult.first, this);
     scheduledAlgorithms = queuedAlgorithms;
 
     // Clean queue
