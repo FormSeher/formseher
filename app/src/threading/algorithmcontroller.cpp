@@ -147,9 +147,10 @@ void AlgorithmController::handleResult()
     scheduledAlgorithms.first = 0;
     delete scheduledAlgorithms.second;
     scheduledAlgorithms.second = 0;
-    emit newResultAvailable();
 
     queueMutex.unlock();
+
+    emit newResultAvailable();
 }
 
 } // namespace formseher
