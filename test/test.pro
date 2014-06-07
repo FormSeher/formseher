@@ -23,9 +23,13 @@ HEADERS += $${TEST_INCL_DIR}/linetest.h \
            $${TEST_INCL_DIR}/objectdetection/olga/objectgraphedgetest.h \
            $${TEST_INCL_DIR}/objectdetection/olga/objectgraphtest.h \
            $${TEST_INCL_DIR}/objectdetection/olga/objectgraphnodetest.h \
+           $${TEST_INCL_DIR}/objectdetection/haff/haffdatabasetest.h \
+           $${TEST_INCL_DIR}/objectdetection/haff/hypothesistest.h \
            $${TEST_INCL_DIR}/objectdetection/modeltest.h \
            $${TEST_INCL_DIR}/objectdetection/objecttest.h \
            $${TEST_INCL_DIR}/objectdetection/databaseutilstest.h
+
+OTHER_FILES += $${TEST_INCL_DIR}/../../res/test/hafftestdatabase
 
 INCLUDEPATH += $${TEST_INCL_DIR} \
                $${ALG_INCL_DIR}

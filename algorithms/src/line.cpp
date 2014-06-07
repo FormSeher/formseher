@@ -37,19 +37,80 @@ const cv::Point2i& Line::getEnd() const
     return end;
 }
 
-const cv::Vec2i Line::getPositionVector()
+const cv::Vec2i Line::getPositionVector() const
 {
     return cv::Vec2i(start.x, start.y);
 }
 
-const cv::Vec2i& Line::getDirectionVector()
+const cv::Vec2d& Line::getDirectionVector() const
 {
     return directionVector;
 }
 
-double Line::getLength()
+double Line::getLength() const
 {
     return length;
 }
 
+
+double Line::getPerpendicularDistanceToOrigin()
+{
+    if( ! perpendicularAlreadyDone )
+        calculatePerpendicular();
+
+    return perpendicularDistanceToOrigin;
+}
+
+double Line::getPerpendicularDistanceToStart()
+{
+    if( ! perpendicularAlreadyDone )
+        calculatePerpendicular();
+
+    return perpendicularDistanceToStart;
+}
+
+double Line::getPerpendicularDistanceToEnd()
+{
+    if( ! perpendicularAlreadyDone )
+        calculatePerpendicular();
+
+    return perpendicularDistanceToEnd;
+}
+
+const cv::Point2i& Line::getPerpendicularPoint()
+{
+    if( ! perpendicularAlreadyDone )
+        calculatePerpendicular();
+
+    return perpendicularPoint;
+}
+
+void Line::setPerpendicular(double perpendicularDistance, cv::Point2i& perpendicularPoint)
+{
+    this->perpendicularDistanceToOrigin = perpendicularDistance;
+    this->perpendicularPoint = perpendicularPoint;
+
+    perpendicularDistanceToStart = cv::norm(start - perpendicularPoint);
+    perpendicularDistanceToEnd = cv::norm(end - perpendicularPoint);
+
+    perpendicularAlreadyDone = true;
+}
+
+void Line::calculatePerpendicular()
+{
+    double lambda = - ( (double)start.x * (end.x - start.x) + start.y * (end.y - start.y) ) /
+                      ( (end.x - start.x) * (end.x - start.x) + (end.y - start.y) * (end.y - start.y) );
+
+    perpendicularPoint.x = start.x + lambda * (end.x - start.x);
+    perpendicularPoint.y = start.y + lambda * (end.y - start.y);
+
+    perpendicularDistanceToOrigin = cv::norm(perpendicularPoint);
+
+    perpendicularDistanceToStart = cv::norm(start - perpendicularPoint);
+    perpendicularDistanceToEnd = cv::norm(end - perpendicularPoint);
+
+    perpendicularAlreadyDone = true;
+}
+
 } // namespace formseher
+
