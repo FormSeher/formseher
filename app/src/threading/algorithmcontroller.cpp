@@ -10,6 +10,7 @@ AlgorithmController::AlgorithmController()
     : lineConfigDialog(0),
       queuedAlgorithm(0),
       scheduledAlgorithm(0)
+      objectConfigDialog(0)
 {}
 
 AlgorithmController::~AlgorithmController()
