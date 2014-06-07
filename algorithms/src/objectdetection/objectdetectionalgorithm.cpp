@@ -8,4 +8,8 @@ ObjectDetectionAlgorithm::ObjectDetectionAlgorithm(const std::vector<Model>& dat
 {
 }
 
+ObjectDetectionAlgorithm::~ObjectDetectionAlgorithm()
+{
+}
+
 } // namespace formseher

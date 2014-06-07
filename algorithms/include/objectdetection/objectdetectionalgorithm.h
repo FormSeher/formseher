@@ -12,6 +12,7 @@ class ObjectDetectionAlgorithm
 {
 public:
     ObjectDetectionAlgorithm(const std::vector<Model>& databaseModels);
+    virtual ~ObjectDetectionAlgorithm();
 
     virtual std::vector<Object> calculate(std::vector<Line>) = 0;
 
