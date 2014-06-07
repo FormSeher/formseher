@@ -16,6 +16,8 @@ class ObjectDetectionAlgorithmConfigDialog;
 class LineDetectionAlgorithm;
 class ObjectDetectionAlgorithm;
 
+class Model;
+
 /**
  * @brief Used to form pairs of line and object detection algorithms which are
  * scheduled or put into the queue.
@@ -57,6 +59,12 @@ public:
      * @return The result @see Algorithm.calculate()
      */
     algorithmworker_result getLatestResult();
+
+    /**
+     * @brief Set models which are passed to ObjectDetectionAlgorithms.
+     * @param models Vector of Models.
+     */
+    void setDatabaseModels(const std::vector<Model>& models);
 
 signals:
     /**
@@ -136,6 +144,11 @@ private:
      * @brief The latest result returned by one of the AlgorithmWorkers.
      */
     algorithmworker_result latestResult;
+
+    /**
+     * @brief Models from a database which are passed to ObjectDetectionAlgorithms.
+     */
+    std::vector<Model> databaseModels;
 };
 
 } // namespace formseher

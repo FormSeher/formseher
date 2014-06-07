@@ -85,12 +85,18 @@ void AlgorithmController::enqueueAlgorithm(bool lineConfigChanged)
         if(queuedAlgorithms.second != 0)
             delete queuedAlgorithms.second;
         queuedAlgorithms.second = objectConfigDialog->createAlgorithm();
+        queuedAlgorithms.second->setModels(databaseModels);
     }
 
     queueMutex.unlock();
 
     // Try to schedule new queue
     scheduleAlgorithm();
+}
+
+void AlgorithmController::setDatabaseModels(const std::vector<Model>& models)
+{
+    databaseModels = models;
 }
 
 void AlgorithmController::scheduleAlgorithm()
