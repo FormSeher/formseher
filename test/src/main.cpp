@@ -15,6 +15,8 @@
 #include "objectdetection/haff/haffdatabasetest.h"
 #include "objectdetection/haff/hypothesistest.h"
 
+#include "objectdetection/databaseutilstest.h"
+
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
 
@@ -33,6 +35,8 @@ int main(int argc, char** argv) {
     HaffDatabaseTest haffDatabaseTest;
     HypothesisTest hypothesisTest;
 
+    DatabaseUtilsTest databaseUtilsTest;
+
     return   QTest::qExec(&lineTest, argc, argv)
            | QTest::qExec(&pointerCompareTest, argc, argv)
            | QTest::qExec(&edlTest, argc, argv)
@@ -43,5 +47,6 @@ int main(int argc, char** argv) {
            | QTest::qExec(&haffDatabaseTest, argc, argv)
            | QTest::qExec(&hypothesisTest, argc, argv)
            | QTest::qExec(&modelTest, argc, argv)
-           | QTest::qExec(&objectTest, argc, argv);
+           | QTest::qExec(&objectTest, argc, argv)
+           | QTest::qExec(&databaseUtilsTest, argc, argv);
 }
