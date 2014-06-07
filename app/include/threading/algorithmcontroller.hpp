@@ -1,7 +1,6 @@
 #ifndef FS_ALGORITHMCONTROLLER_HPP
 #define FS_ALGORITHMCONTROLLER_HPP
 
-#include "linedetection/linedetectionalgorithm.h"
 #include "line.h"
 #include "algorithmworker.h"
 
@@ -13,6 +12,15 @@ namespace formseher {
 
 class LineDetectionAlgorithmConfigDialog;
 class ObjectDetectionAlgorithmConfigDialog;
+
+class LineDetectionAlgorithm;
+class ObjectDetectionAlgorithm;
+
+/**
+ * @brief Used to form pairs of line and object detection algorithms which are
+ * scheduled or put into the queue.
+ */
+typedef std::pair<LineDetectionAlgorithm*, ObjectDetectionAlgorithm*> algorithm_pair;
 
 /**
  * @brief The AlgorithmController class which controls the execution of AlgorithmWorkers.
@@ -95,14 +103,14 @@ private:
     cv::Mat image;
 
     /**
-     * @brief The next algorithm waiting for execution.
+     * @brief The next algorithms waiting for execution.
      */
-    LineDetectionAlgorithm* queuedAlgorithm;
+    algorithm_pair queuedAlgorithms;
 
     /**
-     * @brief The currently running algorithm.
+     * @brief The currently running algorithms.
      */
-    LineDetectionAlgorithm* scheduledAlgorithm;
+    algorithm_pair scheduledAlgorithms;
 
     /**
      * @brief The currently running AlgorithmWorker.
