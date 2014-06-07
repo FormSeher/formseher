@@ -6,18 +6,14 @@
 
 namespace formseher {
 
-class Model;
-
 class ObjectDetectionAlgorithm
 {
 public:
-    ObjectDetectionAlgorithm(const std::vector<Model>& databaseModels);
+    ObjectDetectionAlgorithm();
     virtual ~ObjectDetectionAlgorithm();
 
     virtual std::vector<Object> calculate(std::vector<Line>) = 0;
 
-protected:
-    std::vector<Model> databaseModels;
 };
 
 }   //  namespace formseher

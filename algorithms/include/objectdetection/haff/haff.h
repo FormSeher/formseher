@@ -8,17 +8,16 @@
 namespace formseher
 {
 
-class Model;
-
 class Haff : public ObjectDetectionAlgorithm
 {
 
 public:
-    Haff(const std::vector<Model>& databaseModels);
+    Haff(const HaffDatabase& database);
 
     std::vector<Object> calculate(std::vector<Line> detectedLines);
 
 private:
+    const HaffDatabase& database;
 };
 
 }   //  namespace formseher
