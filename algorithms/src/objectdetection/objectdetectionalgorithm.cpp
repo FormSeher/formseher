@@ -3,7 +3,8 @@
 namespace formseher
 {
 
-ObjectDetectionAlgorithm::ObjectDetectionAlgorithm()
+ObjectDetectionAlgorithm::ObjectDetectionAlgorithm(const std::vector<Model>& databaseModels)
+    : databaseModels(databaseModels)
 {
 }
 

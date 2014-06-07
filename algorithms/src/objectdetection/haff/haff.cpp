@@ -6,8 +6,8 @@
 
 namespace formseher {
 
-Haff::Haff(const HaffDatabase& database)
-    : database(database)
+Haff::Haff(const std::vector<Model>& databaseModels)
+    : ObjectDetectionAlgorithm(databaseModels)
 {
 }
 
@@ -17,9 +17,9 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
     std::multiset<Hypothesis*> newHypotheses;
     std::multiset<Hypothesis*> likelyHypotheses;
 
-    for(auto model : database.getObjects())
+    for(auto model : databaseModels)
     {
-        for(auto modelLine : model->getLines())
+        for(auto modelLine : model.getLines())
         {
             // TODO: Clearify how to construct a "non-matching" hypothesis value-key pair?
 
@@ -33,7 +33,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
                 // TODO: Ugly code duplication. How to improve?
 
                 // Construct newHypotheses in first iteration step.
-                if ( modelLine == model->getLines().front() )
+                if ( modelLine == model.getLines().front() )
                 {
                     // Create new Hypothesis
                     Hypothesis* newHypothesis = new Hypothesis();

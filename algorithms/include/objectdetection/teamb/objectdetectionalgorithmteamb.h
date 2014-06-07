@@ -15,7 +15,7 @@ class ObjectDetectionAlgorithmTeamB : public ObjectDetectionAlgorithm
 {
 
 public:
-    ObjectDetectionAlgorithmTeamB();
+    ObjectDetectionAlgorithmTeamB(std::vector<Model>& databaseModels);
 
     std::vector<Object> calculate(std::vector<Line> lines) = 0;
 

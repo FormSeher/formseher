@@ -9,7 +9,8 @@
 namespace formseher
 {
 
-ObjectDetectionAlgorithmTeamB::ObjectDetectionAlgorithmTeamB()
+ObjectDetectionAlgorithmTeamB::ObjectDetectionAlgorithmTeamB(std::vector<Model> &databaseModels)
+    : ObjectDetectionAlgorithm(databaseModels)
 {
     getAllDatabaseObjects();
 }
