@@ -113,7 +113,8 @@ void AlgorithmController::scheduleAlgorithm()
     }
 
     // Scheduling is possible so schedule
-    worker = new AlgorithmWorker(queuedAlgorithms.first, image.clone(), this);
+    worker = new AlgorithmWorker(queuedAlgorithms.first, queuedAlgorithms.second,
+                                 image.clone(),latestResult, this);
     scheduledAlgorithms = queuedAlgorithms;
 
     // Clean queue

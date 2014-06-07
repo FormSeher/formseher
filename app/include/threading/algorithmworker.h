@@ -1,7 +1,6 @@
 #ifndef FS_ALGORITHMWORKER_H
 #define FS_ALGORITHMWORKER_H
 
-#include "linedetection/linedetectionalgorithm.h"
 #include "line.h"
 
 #include <QThread>
@@ -10,6 +9,9 @@
 
 namespace formseher
 {
+
+class LineDetectionAlgorithm;
+class ObjectDetectionAlgorithm;
 
 /**
  * @brief The AlgorithmWorker class
@@ -26,7 +28,11 @@ public:
      * @param image The image on which the Algorithm is executed.
      * @param parent The parent.
      */
-    explicit AlgorithmWorker(LineDetectionAlgorithm* algorithm, cv::InputArray image, QObject *parent = 0);
+    explicit AlgorithmWorker(LineDetectionAlgorithm* lineAlgorithm,
+                             ObjectDetectionAlgorithm* objectAlgorithm,
+                             cv::InputArray image,
+                             std::vector<Line> presetLines,
+                             QObject *parent = 0);
 
     /**
      * @brief Destructor
@@ -52,7 +58,8 @@ signals:
     void resultReady();
 
 private:
-    LineDetectionAlgorithm* algorithm;
+    LineDetectionAlgorithm* lineAlgorithm;
+    ObjectDetectionAlgorithm* objectAlgorithm;
     cv::Mat image;
     std::vector<Line> result;
 };
