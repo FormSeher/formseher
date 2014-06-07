@@ -105,7 +105,7 @@ void AlgorithmController::scheduleAlgorithm()
         schedulingPossible = false;
 
     // Queue is empty
-    if(queuedAlgorithms.first == 0 || queuedAlgorithms.second == 0)
+    if(queuedAlgorithms.first == 0 && queuedAlgorithms.second == 0)
         schedulingPossible = false;
 
     // Line detection enqueued, but no image is present
