@@ -12,6 +12,7 @@
 namespace formseher {
 
 class LineDetectionAlgorithmConfigDialog;
+class ObjectDetectionAlgorithmConfigDialog;
 
 /**
  * @brief The AlgorithmController class which controls the execution of AlgorithmWorkers.
@@ -84,9 +85,9 @@ private:
     LineDetectionAlgorithmConfigDialog* lineConfigDialog;
 
     /**
-     * @brief The AlgorithmConfigDialog currently used to create Algorithm instances.
+     * @brief The ObjectDetectionAlgorithmConfigDialog currently used to create ObjectAlgorithm instances.
      */
-    LineDetectionAlgorithmConfigDialog* configDialog;
+    ObjectDetectionAlgorithmConfigDialog* objectConfigDialog;
 
     /**
      * @brief The currently used image
