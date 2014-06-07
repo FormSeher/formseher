@@ -192,7 +192,7 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
     double angleThreshold3 = 0.3;//its allmost 30° +-2
     double angleRating;
 
-    if(dbPointAngle - currentPointAngle <= angleThreshold1 || dbPointAngle - currentPointAngle >= -angleThreshold1);
+    if(dbPointAngle - currentPointAngle <= angleThreshold1 || dbPointAngle - currentPointAngle >= -angleThreshold1)
     {
         angleRating = tenPointRating * 4;
     }
