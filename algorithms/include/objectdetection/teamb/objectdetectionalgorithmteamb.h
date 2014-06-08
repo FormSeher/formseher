@@ -27,6 +27,11 @@ private:
     int rateObject(Object consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine);
     void getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects, std::string objectName);
 
+    double getLineLength(int x, int y);
+    double getAngleOfLines(cv::Point2i vectorCurrentPoint, cv::Point2i vectorCurrentPointLast);
+
+
+
 };   //  namespace formseher
 }
 #endif // OBJECTDETECTIONALGORITHMTEAMB_H

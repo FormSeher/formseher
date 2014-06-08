@@ -93,28 +93,8 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
 
     //calculate angle between current and last line, skalarprodukt without cos
     //phi = (a1*b1) + (an * bn) / |a| * |b|
-    double currentPointAngle;
-    double dbPointAngle;
-
-    int numeratorCurrentVector;
-    double denominatorCurrentVector;
-
-    int numeratorDbVector;
-    double denominatorDbVector;
-
-    //angle for current and next line
-    numeratorCurrentVector = vectorCurrentPoint.x * vectorCurrentPointLast.x + vectorCurrentPoint.y * vectorCurrentPointLast.y;
-    denominatorCurrentVector = formseher::math::sqrtFast(vectorCurrentPoint.x * vectorCurrentPoint.x + vectorCurrentPoint.y * vectorCurrentPoint.y)
-                                * formseher::math::sqrtFast(vectorCurrentPointLast.x * vectorCurrentPointLast.x + vectorCurrentPointLast.y * vectorCurrentPointLast.y);
-
-    currentPointAngle = numeratorCurrentVector / denominatorCurrentVector;
-
-    //angle for current and next db line
-    numeratorDbVector = vectorDbPoint.x * vectorDbPointLast.x + vectorDbPoint.y * vectorDbPointLast.y;
-    denominatorDbVector = formseher::math::sqrtFast(vectorDbPoint.x * vectorDbPoint.x + vectorDbPoint.y * vectorDbPoint.y)
-                            * formseher::math::sqrtFast(vectorDbPointLast.x * vectorDbPointLast.x + vectorDbPointLast.y * vectorDbPointLast.y);
-
-    dbPointAngle = numeratorDbVector / denominatorDbVector;
+    double currentPointAngle = getAngleOfLines(vectorCurrentPoint, vectorCurrentPointLast);
+    double dbPointAngle = getAngleOfLines(vectorDbPoint, vectorDbPointLast);
 
     //now make with the vector dimension and angle rating values
 
@@ -125,14 +105,13 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     //|a|= sqrt(a1^2+an^2)
 
     //get the length
-    double lengthCurrentLine = formseher::math::sqrtFast(vectorCurrentPoint.x * vectorCurrentPoint.x + vectorCurrentPoint.y * vectorCurrentPoint.y);
-    double lengthCurrentLineLast = formseher::math::sqrtFast(vectorCurrentPointLast.x * vectorCurrentPointLast.x + vectorCurrentPointLast.y * vectorCurrentPointLast.y);
+    double lengthCurrentLine = getLineLength(vectorCurrentPoint.x, vectorCurrentPoint.y);
+    double lengthCurrentLineLast = getLineLength(vectorCurrentPointLast.x, vectorCurrentPointLast.y);
+    double lengthDbCurrentLine = getLineLength(vectorDbPoint.x, vectorDbPoint.y);
+    double lengthDbLineLast = getLineLength(vectorDbPointLast.x, vectorDbPointLast.y);
+    double distanceBetweenDBLines = getLineLength(vectorBetweenDBLines.x, vectorBetweenDBLines.y);
+    double distanceBetweenObjectLines = getLineLength(vectorBetweenObjectLines.x, vectorBetweenObjectLines.y);
 
-    double lengthDbCurrentLine = formseher::math::sqrtFast(vectorDbPoint.x * vectorDbPoint.x + vectorDbPoint.y * vectorDbPoint.y);
-    double lengthDbLineLast = formseher::math::sqrtFast(vectorDbPointLast.x * vectorDbPointLast.x + vectorDbPointLast.y * vectorDbPointLast.y);
-
-    double distanceBetweenDBLines = formseher::math::sqrtFast(vectorBetweenDBLines.x * vectorBetweenDBLines.x + vectorBetweenDBLines.y * vectorBetweenDBLines.y);
-    double distanceBetweenObjectLines = formseher::math::sqrtFast(vectorBetweenObjectLines.x * vectorBetweenObjectLines.x + vectorBetweenObjectLines.y * vectorBetweenObjectLines.y);
 
     //now compare and set the rating, the current line to db current line
 
@@ -150,7 +129,7 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
 
     if(distanceBetweenDBLines / distanceBetweenObjectLines < distanceThresholdMax || distanceBetweenDBLines / distanceBetweenObjectLines > distanceThresholdMin)//check the distance
     {
-        lengthAndPosiRating = tenPointRating * 5;
+        lengthAndPosiRating = tenPointRating ;
 
         if(lengthDbCurrentLine / lengthCurrentLine < smallerThenDbThreshold || lengthDbCurrentLine / lengthCurrentLine > biggerThenDbThreshold)// check the length
         {
@@ -193,30 +172,48 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     double angleThreshold3 = 0.3;//its allmost 30° +-2
     double angleRating;
 
-    if(dbPointAngle - currentPointAngle <= angleThreshold1 || dbPointAngle - currentPointAngle >= -angleThreshold1)
-    {
-        angleRating = tenPointRating * 4;
-    }
-    if(dbPointAngle - currentPointAngle <= angleThreshold2 || dbPointAngle - currentPointAngle >= -angleThreshold2)
-    {
-         angleRating = tenPointRating * 3;
-    }
     if(dbPointAngle - currentPointAngle <= angleThreshold3 || dbPointAngle - currentPointAngle >= -angleThreshold3)
     {
         angleRating = tenPointRating * 2;
+    }
+    else if(dbPointAngle - currentPointAngle <= angleThreshold2 || dbPointAngle - currentPointAngle >= -angleThreshold2)
+    {
+         angleRating = tenPointRating * 4;
+    }
+    else if(dbPointAngle - currentPointAngle <= angleThreshold1 || dbPointAngle - currentPointAngle >= -angleThreshold1)
+    {
+        angleRating = tenPointRating * 6;
     }
     else
     {
         angleRating = tenPointRating;
     }
 
-//    double completeRating = lengthAndPosiRating + angleRating;
+ //   double completeRating = lengthAndPosiRating + angleRating;
 
-//    std::cout << "maxrating: "<< maxRatingPerLine << " setrating: "<<completeRating << std::endl;
+   // std::cout << "maxrating: "<< maxRatingPerLine << " setrating: "<<completeRating << std::endl;
 
 //    consideredObject.setRating(consideredObject.getRating()+completeRating);
 
     return lengthAndPosiRating + angleRating;
+}
+
+double ObjectDetectionAlgorithmTeamB::getLineLength(int x, int y)
+{
+    return formseher::math::sqrtFast(x * x + y * y);
+}
+
+double ObjectDetectionAlgorithmTeamB::getAngleOfLines(cv::Point2i vectorCurrentPoint, cv::Point2i vectorCurrentPointLast)
+{
+    int numeratorCurrentVector;
+    double denominatorCurrentVector;
+
+    numeratorCurrentVector = vectorCurrentPoint.x * vectorCurrentPointLast.x + vectorCurrentPoint.y * vectorCurrentPointLast.y;
+
+    denominatorCurrentVector = formseher::math::sqrtFast(vectorCurrentPoint.x * vectorCurrentPoint.x + vectorCurrentPoint.y * vectorCurrentPoint.y)
+                                * formseher::math::sqrtFast(vectorCurrentPointLast.x * vectorCurrentPointLast.x + vectorCurrentPointLast.y * vectorCurrentPointLast.y);
+
+    return numeratorCurrentVector / denominatorCurrentVector;
 }
 
 void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects, std::string objectName){
