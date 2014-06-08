@@ -30,8 +30,7 @@ SOURCES += \
         $${APP_SRC_DIR}/gui/objectdetection/olga/objectgraphvisualizer.cpp \
         # threading
         $${APP_SRC_DIR}/threading/algorithmcontroller.cpp \
-        $${APP_SRC_DIR}/threading/algorithmworker.cpp \
-    src/gui/objectdetectionalgorithmconfigdialog.cpp
+        $${APP_SRC_DIR}/threading/algorithmworker.cpp
 
 HEADERS  += \
         # gui
@@ -46,8 +45,7 @@ HEADERS  += \
         $${APP_INCL_DIR}/gui/objectdetection/olga/objectgraphvisualizer.h \
         # threading
         $${APP_INCL_DIR}/threading/algorithmcontroller.hpp \
-        $${APP_INCL_DIR}/threading/algorithmworker.h \
-    include/gui/objectdetectionalgorithmconfigdialog.h
+        $${APP_INCL_DIR}/threading/algorithmworker.h
 
 FORMS    += \
         # common forms
