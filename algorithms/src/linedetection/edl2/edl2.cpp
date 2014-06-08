@@ -366,7 +366,7 @@ bool EDL2::isOutOfBounds(int x, int y)
 
 cv::Vec2s* EDL2::getSobelVector(cv::Point &point)
 {
-    return new cv::Vec2s(dx.at<short>(point), dy.at<short>(point));
+    return getSobelVector(point.y, point.x);
 }
 
 cv::Vec2s* EDL2::getSobelVector(int row, int column)
