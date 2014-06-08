@@ -15,16 +15,16 @@ class ObjectDetectionAlgorithmTeamB : public ObjectDetectionAlgorithm
 {
 
 public:
-    ObjectDetectionAlgorithmTeamB();
+    ObjectDetectionAlgorithmTeamB(std::string pathToDB);
 
-    std::vector<Object> calculate(std::vector<Line> lines) = 0;
+    std::vector<Object> calculate(std::vector<Line> lines);
 
 private:
     int databaseSize;
     std::vector<Model> databaseObjects;
 
-    void getAllDatabaseObjects();
-    void rateObject(Object& consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine);
+    void getAllDatabaseObjects(std::string pathToDB);
+    int rateObject(Object consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine);
     void getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects, std::string objectName);
 
 };   //  namespace formseher
