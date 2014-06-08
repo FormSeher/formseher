@@ -127,7 +127,7 @@ void AlgorithmControlWidget::on_controller_newResultAvailable()
 void AlgorithmControlWidget::on_algorithmSelectBox_currentIndexChanged(const QString &algorithmId)
 {
     selectedAlgorithmDialog = algorithmConfigDialogs[algorithmId.toStdString()];
-    controller.setAlgorithmConfigDialog(selectedAlgorithmDialog);
+    controller.setLineAlgorithmConfigDialog(selectedAlgorithmDialog);
 }
 
 void AlgorithmControlWidget::on_configureAlgorithm_clicked()

@@ -29,7 +29,7 @@ AlgorithmController::~AlgorithmController()
         delete queuedAlgorithms.second;
 }
 
-void AlgorithmController::setAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog *dialog)
+void AlgorithmController::setLineAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog *dialog)
 {
     if(lineConfigDialog)
         disconnect(lineConfigChangedConnection);

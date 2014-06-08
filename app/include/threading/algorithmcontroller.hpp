@@ -46,7 +46,7 @@ public:
      * @brief Set the AlgorithmConfigDialog which is used to create new Algorithm instances.
      * @param dialog Pointer to an AlgorithmConfigDialog.
      */
-    void setAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog* dialog);
+    void setLineAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog* dialog);
 
     /**
      * @brief Set the image on which the AlgorithmWorkers should operate.
