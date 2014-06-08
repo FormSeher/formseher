@@ -124,6 +124,11 @@ void AlgorithmControlWidget::updateResultImage()
         {
             cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
             cv::rectangle(resultImage,object.getBoundingBox(), color);
+            for(auto line : object.getLines())
+            {
+                cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+                cv::line(resultImage, line->getStart(), line->getEnd(), color);
+            }
         }
     }
 
