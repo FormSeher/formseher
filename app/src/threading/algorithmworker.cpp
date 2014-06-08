@@ -20,14 +20,6 @@ AlgorithmWorker::AlgorithmWorker(LineDetectionAlgorithm* lineAlgorithm, ObjectDe
         this->result.first = presetLines;
 }
 
-AlgorithmWorker::AlgorithmWorker(ObjectDetectionAlgorithm* algorithm, cv::InputArray image, QObject *parent)
-    : QThread(parent),
-      algorithm(algorithm)
-{
-    this->image = image.getMat();
-}
-
-
 AlgorithmWorker::~AlgorithmWorker()
 {
 }
