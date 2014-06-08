@@ -190,8 +190,8 @@ void AlgorithmControlWidget::on_algorithmSelectBox_currentIndexChanged(const QSt
 
 void AlgorithmControlWidget::on_algorithmSelectBox_2_currentIndexChanged(const QString &algorithmId)
 {
-    selectedLineAlgorithmConfigDialog = lineAlgorithmConfigDialogs[algorithmId.toStdString()];
-    controller.setLineAlgorithmConfigDialog(selectedLineAlgorithmConfigDialog);
+    selectedObjectAlgorithmConfigDialog = objectAlgorithmConfigDialogs[algorithmId.toStdString()];
+    controller.setObjectAlgorithmConfigDialog(selectedObjectAlgorithmConfigDialog);
 }
 
 
