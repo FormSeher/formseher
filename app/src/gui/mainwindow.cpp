@@ -30,7 +30,28 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/*
 bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, LineDetectionAlgorithmConfigDialog* dialog)
+{
+    if (slot < 1 || slot > 2)
+        return false;
+
+    return algorithmControlWidgets[slot - 1]->registerAlgorithmConfigDialog(id, dialog);
+}
+
+} // namespace formseher
+*/
+
+
+bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, LineDetectionAlgorithmConfigDialog* dialog)
+{
+    if (slot < 1 || slot > 2)
+        return false;
+
+    return algorithmControlWidgets[slot - 1]->registerAlgorithmConfigDialog(id, dialog);
+}
+
+bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, ObjectDetectionAlgorithmConfigDialog* dialog)
 {
     if (slot < 1 || slot > 2)
         return false;

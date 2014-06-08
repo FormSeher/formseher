@@ -7,6 +7,8 @@
 
 #include "linedetection/linedetectionalgorithm.h"
 #include "linedetectionalgorithmconfigdialog.h"
+#include "objectdetection/objectdetectionalgorithm.h"
+#include "objectdetectionalgorithmconfigdialog.h"
 #include "threading/algorithmcontroller.hpp"
 
 namespace Ui {
@@ -25,6 +27,7 @@ public:
     ~AlgorithmControlWidget();
 
     bool registerAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog* dialog);
+    bool registerAlgorithmConfigDialog(std::string id, ObjectDetectionAlgorithmConfigDialog* dialog);
 
     void setCvWindowName(const std::string &value);
 
@@ -40,6 +43,14 @@ private slots:
 
     void on_benchmarkButton_clicked();
 
+    void on_algorithmSelectBox_2_currentIndexChanged(const QString &arg1);
+
+    void on_showoriginalcheckBox_clicked(bool checked);
+
+    void on_showlinescheckBox_clicked(bool checked);
+
+    void on_showpropabilitycheckBox_clicked(bool checked);
+
 private:
     void updateImageLabel();
     void updateResultImage();
@@ -50,6 +61,8 @@ private:
 
     std::map<std::string, LineDetectionAlgorithmConfigDialog*> algorithmConfigDialogs;
     LineDetectionAlgorithmConfigDialog* selectedAlgorithmDialog;
+    std::map<std::string, ObjectDetectionAlgorithmConfigDialog*> algorithmConfigDialogs;
+    ObjectDetectionAlgorithmConfigDialog* selectedAlgorithmDialog;
     AlgorithmController controller;
 
     algorithmworker_result latestResult;

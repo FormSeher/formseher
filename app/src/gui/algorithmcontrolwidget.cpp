@@ -59,6 +59,7 @@ void AlgorithmControlWidget::updateImageLabel()
     ui->imageLabel->setPixmap(QPixmap::fromImage(scaledImage));
 }
 
+/*
 void AlgorithmControlWidget::updateResultImage()
 {
     // Random number generator for colorful lines
@@ -82,6 +83,34 @@ void AlgorithmControlWidget::updateResultImage()
         cv::imshow(cvWindowName, resultImage);
     updateImageLabel();
 }
+*/
+
+void AlgorithmControlWidget::updateResultImage()
+{
+    // Random number generator for colorful lines
+    cv::RNG rng(0xFFFFFFFF);
+
+    if(ui->showoriginalcheckBox->isChecked() || ui->showlinescheckBox->isChecked() || ui->showpropabilitycheckBox)
+
+        resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
+    else
+        resultImage = image.clone();
+
+    if(!ui->showoriginalcheckBox->isChecked() && !ui->showlinescheckBox->isChecked() && !ui->showpropabilitycheckBox)
+    {
+        for(auto line : latestResult)
+        {
+            cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+            cv::line(resultImage, line.getStart(), line.getEnd(), color);
+        }
+    }
+
+    if(ui->showWindowCheckBox->checkState() == Qt::Checked)
+        cv::imshow(cvWindowName, resultImage);
+    updateImageLabel();
+}
+
+
 
 void AlgorithmControlWidget::setCvWindowName(const std::string &value)
 {
@@ -130,6 +159,14 @@ void AlgorithmControlWidget::on_algorithmSelectBox_currentIndexChanged(const QSt
     controller.setAlgorithmConfigDialog(selectedAlgorithmDialog);
 }
 
+
+void AlgorithmControlWidget::on_algorithmSelectBox_2_currentIndexChanged(const QString &algorithmId)
+{
+    selectedAlgorithmDialog = algorithmConfigDialogs[algorithmId.toStdString()];
+    controller.setAlgorithmConfigDialog(selectedAlgorithmDialog);
+}
+
+
 void AlgorithmControlWidget::on_configureAlgorithm_clicked()
 {
     selectedAlgorithmDialog->show();
@@ -141,10 +178,14 @@ void AlgorithmControlWidget::on_showWindowCheckBox_toggled(bool checked)
         cv::imshow(cvWindowName, resultImage);
 }
 
+/*
 void AlgorithmControlWidget::on_displayConfig_currentIndexChanged(int)
 {
     updateResultImage();
 }
+*/
+
+
 
 double AlgorithmControlWidget::getTime()
 {
@@ -191,3 +232,20 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
 }
 
 } // namespace formseher
+
+void formseher::AlgorithmControlWidget::on_showoriginalcheckBox_clicked(bool checked)
+{
+
+}
+
+
+void formseher::AlgorithmControlWidget::on_showlinescheckBox_clicked(bool checked)
+{
+
+}
+
+
+void formseher::AlgorithmControlWidget::on_showpropabilitycheckBox_clicked(bool checked)
+{
+
+}
