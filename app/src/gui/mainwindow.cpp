@@ -43,20 +43,20 @@ bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, LineDet
 */
 
 
-bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, LineDetectionAlgorithmConfigDialog* dialog)
+bool MainWindow::registerLineAlgoirthmConfigDialog(int slot, std::string id, LineDetectionAlgorithmConfigDialog* dialog)
 {
     if (slot < 1 || slot > 2)
         return false;
 
-    return algorithmControlWidgets[slot - 1]->registerAlgorithmConfigDialog(id, dialog);
+    return algorithmControlWidgets[slot - 1]->registerLineAlgoirthmConfigDialog(id, dialog);
 }
 
-bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, ObjectDetectionAlgorithmConfigDialog* dialog)
+bool MainWindow::registerObjectAlgorithmConfigDialog(int slot, std::string id, ObjectDetectionAlgorithmConfigDialog* dialog)
 {
     if (slot < 1 || slot > 2)
         return false;
 
-    return algorithmControlWidgets[slot - 1]->registerAlgorithmConfigDialog(id, dialog);
+    return algorithmControlWidgets[slot - 1]->registerObjectAlgorithmConfigDialog(id, dialog);
 }
 
 } // namespace formseher
