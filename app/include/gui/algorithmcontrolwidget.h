@@ -8,7 +8,7 @@
 #include "linedetection/linedetectionalgorithm.h"
 #include "linedetectionalgorithmconfigdialog.h"
 #include "objectdetection/objectdetectionalgorithm.h"
-#include "objectdetectionalgorithmconfigdialog.h"
+#include "gui/objectdetection/objectdetectionalgorithmconfigdialog.h"
 #include "threading/algorithmcontroller.hpp"
 
 namespace Ui {
