@@ -31,7 +31,7 @@ AlgorithmControlWidget::~AlgorithmControlWidget()
     delete ui;
 }
 
-bool AlgorithmControlWidget::registerAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog *dialog)
+bool AlgorithmControlWidget::registerLineAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog *dialog)
 {
     // Only register if id is still free
     if(lineAlgorithmConfigDialogs.find(id) != lineAlgorithmConfigDialogs.end())
@@ -39,6 +39,18 @@ bool AlgorithmControlWidget::registerAlgorithmConfigDialog(std::string id, LineD
 
     lineAlgorithmConfigDialogs[id] = dialog;
     ui->algorithmSelectBox->addItem(QString(id.c_str()));
+
+    return true;
+}
+
+bool AlgorithmControlWidget::registerObjectAlgorithmConfigDialog(std::string id, ObjectDetectionAlgorithmConfigDialog *dialog)
+{
+    // Only register if id is still free
+    if(objectAlgorithmConfigDialogs.find(id) != objectAlgorithmConfigDialogs.end())
+        return false;
+
+    objectAlgorithmConfigDialogs[id] = dialog;
+    ui->algorithmSelectBox_2->addItem(QString(id.c_str()));
 
     return true;
 }

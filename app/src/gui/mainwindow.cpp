@@ -48,7 +48,7 @@ bool MainWindow::registerLineAlgorithmConfigDialog(int slot, std::string id, Lin
     if (slot < 1 || slot > 2)
         return false;
 
-    return algorithmControlWidgets[slot - 1]->registerLineAlgoirthmConfigDialog(id, dialog);
+    return algorithmControlWidgets[slot - 1]->registerLineAlgorithmConfigDialog(id, dialog);
 }
 
 bool MainWindow::registerObjectAlgorithmConfigDialog(int slot, std::string id, ObjectDetectionAlgorithmConfigDialog* dialog)

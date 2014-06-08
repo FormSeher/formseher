@@ -26,8 +26,8 @@ public:
     explicit AlgorithmControlWidget(QWidget *parent = 0);
     ~AlgorithmControlWidget();
 
-    bool registerAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog* dialog);
-    bool registerAlgorithmConfigDialog(std::string id, ObjectDetectionAlgorithmConfigDialog* dialog);
+    bool registerLineAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog* dialog);
+    bool registerObjectAlgorithmConfigDialog(std::string id, ObjectDetectionAlgorithmConfigDialog* dialog);
 
     void setCvWindowName(const std::string &value);
 
