@@ -18,7 +18,7 @@ public:
 
     void setModels(const std::vector<Model>& databaseModels);
 
-private:
+protected:
     std::vector<Model> databaseModels;
 };
 
