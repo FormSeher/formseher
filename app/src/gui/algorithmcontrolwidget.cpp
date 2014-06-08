@@ -31,14 +31,26 @@ AlgorithmControlWidget::~AlgorithmControlWidget()
     delete ui;
 }
 
-bool AlgorithmControlWidget::registerAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog *dialog)
+bool AlgorithmControlWidget::registerLineAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog *dialog)
 {
     // Only register if id is still free
-    if(algorithmConfigDialogs.find(id) != algorithmConfigDialogs.end())
+    if(lineAlgorithmConfigDialogs.find(id) != lineAlgorithmConfigDialogs.end())
         return false;
 
-    algorithmConfigDialogs[id] = dialog;
+    lineAlgorithmConfigDialogs[id] = dialog;
     ui->algorithmSelectBox->addItem(QString(id.c_str()));
+
+    return true;
+}
+
+bool AlgorithmControlWidget::registerObjectAlgorithmConfigDialog(std::string id, ObjectDetectionAlgorithmConfigDialog *dialog)
+{
+    // Only register if id is still free
+    if(objectAlgorithmConfigDialogs.find(id) != objectAlgorithmConfigDialogs.end())
+        return false;
+
+    objectAlgorithmConfigDialogs[id] = dialog;
+    ui->algorithmSelectBox_2->addItem(QString(id.c_str()));
 
     return true;
 }
@@ -59,6 +71,7 @@ void AlgorithmControlWidget::updateImageLabel()
     ui->imageLabel->setPixmap(QPixmap::fromImage(scaledImage));
 }
 
+/*
 void AlgorithmControlWidget::updateResultImage()
 {
     // Random number generator for colorful lines
@@ -82,6 +95,50 @@ void AlgorithmControlWidget::updateResultImage()
         cv::imshow(cvWindowName, resultImage);
     updateImageLabel();
 }
+*/
+
+void AlgorithmControlWidget::updateResultImage()
+{
+    // Random number generator for colorful lines
+    cv::RNG rng(0xFFFFFFFF);
+
+    if(!ui->showoriginalcheckBox->isChecked())
+
+        resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
+    else
+        resultImage = image.clone();
+
+
+    if(ui->showlinescheckBox->isChecked())
+    {
+        for(auto line : latestResult.first)
+        {
+            cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+            cv::line(resultImage, line.getStart(), line.getEnd(), color);
+        }
+    }
+
+    if(ui->showobjectcheckBox->isChecked())
+    {
+        for(auto object : latestResult.second)
+        {
+            cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+            // Draw bounding box
+            cv::rectangle(resultImage,object.getBoundingBox(), color);
+            // Draw lines of object
+            for(auto line : object.getLines())
+            {
+                cv::line(resultImage, line->getStart(), line->getEnd(), color);
+            }
+        }
+    }
+
+    if(ui->showWindowCheckBox->checkState() == Qt::Checked)
+        cv::imshow(cvWindowName, resultImage);
+    updateImageLabel();
+}
+
+
 
 void AlgorithmControlWidget::setCvWindowName(const std::string &value)
 {
@@ -126,13 +183,21 @@ void AlgorithmControlWidget::on_controller_newResultAvailable()
 
 void AlgorithmControlWidget::on_algorithmSelectBox_currentIndexChanged(const QString &algorithmId)
 {
-    selectedAlgorithmDialog = algorithmConfigDialogs[algorithmId.toStdString()];
-    controller.setLineAlgorithmConfigDialog(selectedAlgorithmDialog);
+    selectedLineAlgorithmConfigDialog = lineAlgorithmConfigDialogs[algorithmId.toStdString()];
+    controller.setLineAlgorithmConfigDialog(selectedLineAlgorithmConfigDialog);
 }
+
+
+void AlgorithmControlWidget::on_algorithmSelectBox_2_currentIndexChanged(const QString &algorithmId)
+{
+    selectedLineAlgorithmConfigDialog = lineAlgorithmConfigDialogs[algorithmId.toStdString()];
+    controller.setLineAlgorithmConfigDialog(selectedLineAlgorithmConfigDialog);
+}
+
 
 void AlgorithmControlWidget::on_configureAlgorithm_clicked()
 {
-    selectedAlgorithmDialog->show();
+    selectedLineAlgorithmConfigDialog->show();
 }
 
 void AlgorithmControlWidget::on_showWindowCheckBox_toggled(bool checked)
@@ -141,10 +206,14 @@ void AlgorithmControlWidget::on_showWindowCheckBox_toggled(bool checked)
         cv::imshow(cvWindowName, resultImage);
 }
 
+/*
 void AlgorithmControlWidget::on_displayConfig_currentIndexChanged(int)
 {
     updateResultImage();
 }
+*/
+
+
 
 double AlgorithmControlWidget::getTime()
 {
@@ -160,7 +229,7 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
     if(resultImage.empty())
             return;
 
-    LineDetectionAlgorithm* algorithm = selectedAlgorithmDialog->createAlgorithm();
+    LineDetectionAlgorithm* algorithm = selectedLineAlgorithmConfigDialog->createAlgorithm();
 
     double startTime;
     double endTime;
@@ -191,3 +260,20 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
 }
 
 } // namespace formseher
+
+void formseher::AlgorithmControlWidget::on_showoriginalcheckBox_clicked()
+{
+    updateResultImage();
+}
+
+
+void formseher::AlgorithmControlWidget::on_showlinescheckBox_clicked()
+{
+    updateResultImage();
+}
+
+
+void formseher::AlgorithmControlWidget::on_showobjectcheckBox_clicked()
+{
+    updateResultImage();
+}
