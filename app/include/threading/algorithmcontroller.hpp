@@ -50,6 +50,13 @@ public:
     void setLineAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog* dialog);
 
     /**
+     * @brief Set the ObjectDetectionAlgorithmConfigDialog which is used to create new
+     * ObjectDetectionAlgorithm instances.
+     * @param dialog Pointer to the ObjectDetectionConfigDialog.
+     */
+    void setObjectAlgorithmConfigDialog(ObjectDetectionAlgorithmConfigDialog* dialog);
+
+    /**
      * @brief Set the image on which the AlgorithmWorkers should operate.
      * @param image The image.
      */
@@ -110,6 +117,11 @@ private:
      * @brief The LineDetectionAlgorithmConfigDialog currently used to create LineAlgorithm instances.
      */
     LineDetectionAlgorithmConfigDialog* lineConfigDialog;
+
+    /**
+     * @brief Used to manage connections to ObjectDetectionConfigDialog instances.
+     */
+    QMetaObject::Connection objectConfigChangedConnection;
 
     /**
      * @brief The ObjectDetectionAlgorithmConfigDialog currently used to create ObjectAlgorithm instances.

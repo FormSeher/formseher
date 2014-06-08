@@ -40,6 +40,18 @@ void AlgorithmController::setLineAlgorithmConfigDialog(LineDetectionAlgorithmCon
     lineDetectionChanged();
 }
 
+void AlgorithmController::setObjectAlgorithmConfigDialog(ObjectDetectionAlgorithmConfigDialog *dialog)
+{
+    if(objectConfigDialog)
+        disconnect(objectConfigChangedConnection);
+
+    objectConfigDialog = dialog;
+    objectConfigChangedConnection = connect(objectConfigDialog, &ObjectDetectionAlgorithmConfigDialog::configChanged,
+                                            this, &AlgorithmController::objectDetectionChanged);
+
+    objectDetectionChanged();
+}
+
 void AlgorithmController::setImage(cv::InputArray image)
 {
     queueMutex.lock();
