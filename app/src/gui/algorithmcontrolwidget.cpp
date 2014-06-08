@@ -123,7 +123,7 @@ void AlgorithmControlWidget::updateResultImage()
         for(auto object : latestResult.second)
         {
             cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-            cv::object(resultImage, object.getStart(), object.getEnd(), color);
+            cv::rectangle(resultImage,object.getBoundingBox(), color);
         }
     }
 
