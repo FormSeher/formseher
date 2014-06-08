@@ -43,8 +43,9 @@ public:
     ~AlgorithmController();
 
     /**
-     * @brief Set the AlgorithmConfigDialog which is used to create new Algorithm instances.
-     * @param dialog Pointer to an AlgorithmConfigDialog.
+     * @brief Set the AlgorithmConfigDialog which is used to create new
+     * LineDetectionAlgorithm instances.
+     * @param dialog Pointer to an LineDetectionAlgorithmConfigDialog.
      */
     void setLineAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog* dialog);
 
@@ -101,7 +102,7 @@ private:
     void enqueueAlgorithm(bool lineConfigChanged);
 
     /**
-     * @brief Used to manage connections to AlgorithmConfigDialog instances.
+     * @brief Used to manage connections to LineDetectionAlgorithmConfigDialog instances.
      */
     QMetaObject::Connection lineConfigChangedConnection;
 
