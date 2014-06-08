@@ -103,7 +103,7 @@ private:
     /**
      * @brief Used to manage connections to AlgorithmConfigDialog instances.
      */
-    QMetaObject::Connection configChangedConnection;
+    QMetaObject::Connection lineConfigChangedConnection;
 
     /**
      * @brief The LineDetectionAlgorithmConfigDialog currently used to create LineAlgorithm instances.

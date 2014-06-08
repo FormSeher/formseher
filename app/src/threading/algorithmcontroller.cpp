@@ -32,10 +32,10 @@ AlgorithmController::~AlgorithmController()
 void AlgorithmController::setAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog *dialog)
 {
     if(lineConfigDialog)
-        disconnect(configChangedConnection);
+        disconnect(lineConfigChangedConnection);
 
     lineConfigDialog = dialog;
-    configChangedConnection = connect(lineConfigDialog, &LineDetectionAlgorithmConfigDialog::configChanged,
+    lineConfigChangedConnection = connect(lineConfigDialog, &LineDetectionAlgorithmConfigDialog::configChanged,
                                       this, &AlgorithmController::lineDetectionChanged);
     lineDetectionChanged();
 }
