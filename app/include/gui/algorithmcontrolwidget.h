@@ -59,10 +59,10 @@ private:
 
     Ui::AlgorithmControlWidget *ui;
 
-    std::map<std::string, LineDetectionAlgorithmConfigDialog*> algorithmConfigDialogs;
-    LineDetectionAlgorithmConfigDialog* selectedAlgorithmDialog;
-    std::map<std::string, ObjectDetectionAlgorithmConfigDialog*> algorithmConfigDialogs;
-    ObjectDetectionAlgorithmConfigDialog* selectedAlgorithmDialog;
+    std::map<std::string, LineDetectionAlgorithmConfigDialog*> lineAlgorithmConfigDialogs;
+    LineDetectionAlgorithmConfigDialog* selectedLineAlgorithmConfigDialog;
+    std::map<std::string, ObjectDetectionAlgorithmConfigDialog*> objectAlgorithmConfigDialogs;
+    ObjectDetectionAlgorithmConfigDialog* selectedObjectAlgorithmConfigDialog;
     AlgorithmController controller;
 
     algorithmworker_result latestResult;

@@ -34,10 +34,10 @@ AlgorithmControlWidget::~AlgorithmControlWidget()
 bool AlgorithmControlWidget::registerAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog *dialog)
 {
     // Only register if id is still free
-    if(algorithmConfigDialogs.find(id) != algorithmConfigDialogs.end())
+    if(lineAlgorithmConfigDialogs.find(id) != lineAlgorithmConfigDialogs.end())
         return false;
 
-    algorithmConfigDialogs[id] = dialog;
+    lineAlgorithmConfigDialogs[id] = dialog;
     ui->algorithmSelectBox->addItem(QString(id.c_str()));
 
     return true;
@@ -155,21 +155,21 @@ void AlgorithmControlWidget::on_controller_newResultAvailable()
 
 void AlgorithmControlWidget::on_algorithmSelectBox_currentIndexChanged(const QString &algorithmId)
 {
-    selectedAlgorithmDialog = algorithmConfigDialogs[algorithmId.toStdString()];
-    controller.setAlgorithmConfigDialog(selectedAlgorithmDialog);
+    selectedLineAlgorithmConfigDialog = lineAlgorithmConfigDialogs[algorithmId.toStdString()];
+    controller.setAlgorithmConfigDialog(selectedLineAlgorithmConfigDialog);
 }
 
 
 void AlgorithmControlWidget::on_algorithmSelectBox_2_currentIndexChanged(const QString &algorithmId)
 {
-    selectedAlgorithmDialog = algorithmConfigDialogs[algorithmId.toStdString()];
-    controller.setAlgorithmConfigDialog(selectedAlgorithmDialog);
+    selectedLineAlgorithmConfigDialog = lineAlgorithmConfigDialogs[algorithmId.toStdString()];
+    controller.setAlgorithmConfigDialog(selectedLineAlgorithmConfigDialog);
 }
 
 
 void AlgorithmControlWidget::on_configureAlgorithm_clicked()
 {
-    selectedAlgorithmDialog->show();
+    selectedLineAlgorithmConfigDialog->show();
 }
 
 void AlgorithmControlWidget::on_showWindowCheckBox_toggled(bool checked)
@@ -201,7 +201,7 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
     if(resultImage.empty())
             return;
 
-    LineDetectionAlgorithm* algorithm = selectedAlgorithmDialog->createAlgorithm();
+    LineDetectionAlgorithm* algorithm = selectedLineAlgorithmConfigDialog->createAlgorithm();
 
     double startTime;
     double endTime;
