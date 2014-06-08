@@ -39,8 +39,6 @@ private slots:
     void on_configureAlgorithm_clicked();
     void on_showWindowCheckBox_toggled(bool checked);
 
-    void on_displayConfig_currentIndexChanged(int);
-
     void on_benchmarkButton_clicked();
 
     void on_algorithmSelectBox_2_currentIndexChanged(const QString &arg1);
