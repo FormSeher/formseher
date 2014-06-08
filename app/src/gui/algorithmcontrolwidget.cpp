@@ -98,7 +98,7 @@ void AlgorithmControlWidget::updateResultImage()
 
     if(!ui->showoriginalcheckBox->isChecked() && !ui->showlinescheckBox->isChecked() && !ui->showpropabilitycheckBox)
     {
-        for(auto line : latestResult)
+        for(auto line : latestResult.first)
         {
             cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
             cv::line(resultImage, line.getStart(), line.getEnd(), color);
