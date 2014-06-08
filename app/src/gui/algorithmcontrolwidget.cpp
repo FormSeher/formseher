@@ -102,18 +102,28 @@ void AlgorithmControlWidget::updateResultImage()
     // Random number generator for colorful lines
     cv::RNG rng(0xFFFFFFFF);
 
-    if(ui->showoriginalcheckBox->isChecked() || ui->showlinescheckBox->isChecked() || ui->showpropabilitycheckBox)
+    if(!ui->showoriginalcheckBox->isChecked())
 
         resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
     else
         resultImage = image.clone();
 
-    if(!ui->showoriginalcheckBox->isChecked() && !ui->showlinescheckBox->isChecked() && !ui->showpropabilitycheckBox)
+
+    if(ui->showlinescheckBox->isChecked())
     {
         for(auto line : latestResult.first)
         {
             cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
             cv::line(resultImage, line.getStart(), line.getEnd(), color);
+        }
+    }
+
+    if(ui->showobjectcheckBox->isChecked())
+    {
+        for(auto object : latestResult.second)
+        {
+            cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+            cv::object(resultImage, object.getStart(), object.getEnd(), color);
         }
     }
 
@@ -245,19 +255,19 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
 
 } // namespace formseher
 
-void formseher::AlgorithmControlWidget::on_showoriginalcheckBox_clicked(bool checked)
+void formseher::AlgorithmControlWidget::on_showoriginalcheckBox_clicked()
 {
-
+    updateResultImage();
 }
 
 
-void formseher::AlgorithmControlWidget::on_showlinescheckBox_clicked(bool checked)
+void formseher::AlgorithmControlWidget::on_showlinescheckBox_clicked()
 {
-
+    updateResultImage();
 }
 
 
-void formseher::AlgorithmControlWidget::on_showpropabilitycheckBox_clicked(bool checked)
+void formseher::AlgorithmControlWidget::on_showobjectcheckBox_clicked()
 {
-
+    updateResultImage();
 }

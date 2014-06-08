@@ -475,7 +475,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="commonTab">
        <attribute name="title">
@@ -527,7 +527,7 @@
           </widget>
          </item>
          <item row="2" column="2">
-          <widget class="QCheckBox" name="showpropabilitycheckBox">
+          <widget class="QCheckBox" name="showobjectcheckBox">
            <property name="text">
             <string>Show Probability</string>
            </property>

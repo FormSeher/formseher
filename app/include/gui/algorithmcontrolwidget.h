@@ -43,11 +43,11 @@ private slots:
 
     void on_algorithmSelectBox_2_currentIndexChanged(const QString &arg1);
 
-    void on_showoriginalcheckBox_clicked(bool checked);
+    void on_showoriginalcheckBox_clicked();
 
-    void on_showlinescheckBox_clicked(bool checked);
+    void on_showlinescheckBox_clicked();
 
-    void on_showpropabilitycheckBox_clicked(bool checked);
+    void on_showobjectcheckBox_clicked();
 
 private:
     void updateImageLabel();
