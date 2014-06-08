@@ -5,24 +5,25 @@
 #include "line.h"
 #include "objectdetection/databaseutils.h"
 #include "mathutil.h"
+#include "iostream"
 
 namespace formseher
 {
 
-ObjectDetectionAlgorithmTeamB::ObjectDetectionAlgorithmTeamB()
+ObjectDetectionAlgorithmTeamB::ObjectDetectionAlgorithmTeamB(std::string pathToDB)
 {
-    getAllDatabaseObjects();
+    getAllDatabaseObjects(pathToDB);
 }
 
-void ObjectDetectionAlgorithmTeamB::getAllDatabaseObjects(){
+void ObjectDetectionAlgorithmTeamB::getAllDatabaseObjects(std::string pathToDB){
 
-    DatabaseUtils dbu("pathToDB");
+    DatabaseUtils dbu(pathToDB);
     databaseObjects = dbu.read();
 
     databaseSize = databaseObjects.size();
 }
 
-void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine){
+int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine){
 
     const Line* lastFoundLine = consideredObject.getLines()[currentLineNumber-1];
 
@@ -209,9 +210,13 @@ void ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line li
         angleRating = tenPointRating;
     }
 
-    double completeRating = lengthAndPosiRating + angleRating;
+//    double completeRating = lengthAndPosiRating + angleRating;
 
-    consideredObject.setRating(consideredObject.getRating()+completeRating);
+//    std::cout << "maxrating: "<< maxRatingPerLine << " setrating: "<<completeRating << std::endl;
+
+//    consideredObject.setRating(consideredObject.getRating()+completeRating);
+
+    return lengthAndPosiRating + angleRating;
 }
 
 void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects, std::string objectName){
@@ -230,6 +235,7 @@ void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfin
 
         // 70 == 70%
         if(unfinishedObjects[currentObjectIndex].getRating() > 70){
+            unfinishedObjects[currentObjectIndex].setName(objectName);
             foundObjects.push_back(unfinishedObjects[currentObjectIndex]);
         }
     }
@@ -268,15 +274,16 @@ std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> l
                 // get possible next line
                 for(uint nextLineIndex = 0; nextLineIndex < lines.size(); nextLineIndex++){
 
-                    rateObject(unfinishedObjects[foundObjectsIndex], lines[nextLineIndex], databaseObjects[currentObjectIndex], objectLineIndex, maxRatingPerLine);
+                    int receivedRating = rateObject(unfinishedObjects[foundObjectsIndex], lines[nextLineIndex], databaseObjects[currentObjectIndex], objectLineIndex, maxRatingPerLine);
 
                     // if rating is not high enough continue
                     // rating has to be atleast 60% of maximum
-                    if(unfinishedObjects[foundObjectsIndex].getRating() > (maxRatingPerLine * (objectLineIndex + 1)) * 0.6){
+                    if(unfinishedObjects[foundObjectsIndex].getRating() + receivedRating > (maxRatingPerLine * (objectLineIndex + 1)) * 0.6){
 
                         // if rating was ok add line to object
                         Object newObj = unfinishedObjects[foundObjectsIndex];
                         newObj.addLine(lines[nextLineIndex]);
+                        newObj.setRating(newObj.getRating() + receivedRating);
 
                         newUnfinishedObjects.push_back(newObj);
                     }
