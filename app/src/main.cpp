@@ -29,11 +29,6 @@ int main(int argc, char *argv[])
     w.registerLineAlgorithmConfigDialog(1, "Hough", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&houghDialog1));
     w.registerLineAlgorithmConfigDialog(2, "Hough", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&houghDialog2));
 
-    w.registerObjectAlgorithmConfigDialog(1, "EDL", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&edlDialog1));
-    w.registerObjectAlgorithmConfigDialog(2, "EDL", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&edlDialog2));
-    w.registerObjectAlgorithmConfigDialog(1, "Hough", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&houghDialog1));
-    w.registerObjectAlgorithmConfigDialog(2, "Hough", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&houghDialog2));
-
     w.show();
 
     return a.exec();
