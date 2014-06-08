@@ -129,28 +129,16 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
 
     if(distanceBetweenDBLines / distanceBetweenObjectLines < distanceThresholdMax || distanceBetweenDBLines / distanceBetweenObjectLines > distanceThresholdMin)//check the distance
     {
-        lengthAndPosiRating = tenPointRating ;
+        lengthAndPosiRating = tenPointRating * 4.5;
 
         if(lengthDbCurrentLine / lengthCurrentLine < smallerThenDbThreshold || lengthDbCurrentLine / lengthCurrentLine > biggerThenDbThreshold)// check the length
         {
-            lengthAndPosiRating = tenPointRating;
-            lengthAndPosiRating = tenPointRating * 5.25;
+            lengthAndPosiRating = tenPointRating * 4.75;
 
             if(lengthDbLineLast / lengthCurrentLineLast < smallerThenDbThreshold || lengthDbLineLast / lengthCurrentLineLast > biggerThenDbThreshold)
             {
-                lengthAndPosiRating = tenPointRating;
-                lengthAndPosiRating = tenPointRating * 6;
+                lengthAndPosiRating = tenPointRating * 5;
             }
-            else//point coord. ok, length ok but dbline length is wrong
-            {
-                lengthAndPosiRating = tenPointRating;
-                lengthAndPosiRating = tenPointRating * 5.25;
-            }
-        }
-        else//when point coord. is ok but length of lineToCheck is wrong
-        {
-            lengthAndPosiRating = tenPointRating;
-            lengthAndPosiRating = tenPointRating * 5.125;
         }
     }
     else//rate when point coord. are very wrong
@@ -174,15 +162,17 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
 
     if(dbPointAngle - currentPointAngle <= angleThreshold3 || dbPointAngle - currentPointAngle >= -angleThreshold3)
     {
-        angleRating = tenPointRating * 2;
-    }
-    else if(dbPointAngle - currentPointAngle <= angleThreshold2 || dbPointAngle - currentPointAngle >= -angleThreshold2)
-    {
-         angleRating = tenPointRating * 4;
-    }
-    else if(dbPointAngle - currentPointAngle <= angleThreshold1 || dbPointAngle - currentPointAngle >= -angleThreshold1)
-    {
-        angleRating = tenPointRating * 6;
+        angleRating = tenPointRating * 3;
+
+        if(dbPointAngle - currentPointAngle <= angleThreshold2 || dbPointAngle - currentPointAngle >= -angleThreshold2)
+        {
+             angleRating = tenPointRating * 4;
+
+             if(dbPointAngle - currentPointAngle <= angleThreshold1 || dbPointAngle - currentPointAngle >= -angleThreshold1)
+             {
+                 angleRating = tenPointRating * 5;
+             }
+        }
     }
     else
     {
