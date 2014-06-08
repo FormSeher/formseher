@@ -12,12 +12,9 @@ class Haff : public ObjectDetectionAlgorithm
 {
 
 public:
-    Haff(const HaffDatabase& database);
+    Haff();
 
     std::vector<Object> calculate(std::vector<Line> detectedLines);
-
-private:
-    const HaffDatabase& database;
 };
 
 }   //  namespace formseher
