@@ -43,7 +43,7 @@ bool MainWindow::registerAlgorithmConfigDialog(int slot, std::string id, LineDet
 */
 
 
-bool MainWindow::registerLineAlgoirthmConfigDialog(int slot, std::string id, LineDetectionAlgorithmConfigDialog* dialog)
+bool MainWindow::registerLineAlgorithmConfigDialog(int slot, std::string id, LineDetectionAlgorithmConfigDialog* dialog)
 {
     if (slot < 1 || slot > 2)
         return false;
