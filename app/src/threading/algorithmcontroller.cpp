@@ -37,6 +37,7 @@ void AlgorithmController::setAlgorithmConfigDialog(LineDetectionAlgorithmConfigD
     lineConfigDialog = dialog;
     configChangedConnection = connect(lineConfigDialog, &LineDetectionAlgorithmConfigDialog::configChanged,
                                       this, &AlgorithmController::lineDetectionChanged);
+    lineDetectionChanged();
 }
 
 void AlgorithmController::setImage(cv::InputArray image)
