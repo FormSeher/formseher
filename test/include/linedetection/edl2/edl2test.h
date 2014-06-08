@@ -297,16 +297,6 @@ private:
     {
         return std::acos(v1.dot(v2) / ((std::sqrt(v1[0]*v1[0]+v1[1]*v1[1])) * (std::sqrt(v2[0]*v2[0]+v2[1]*v2[1]))));
     }
-
-    double degreeToRadiant(double angle)
-    {
-        return angle * M_PI / 180.0d;
-    }
-
-    double radiantToDegree(double radiant)
-    {
-        return radiant * 180.0d / M_PI;
-    }
 };
 
 #endif // EDLTEST_H
