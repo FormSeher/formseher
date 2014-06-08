@@ -355,8 +355,7 @@ cv::Point* EDL2::getNextPoint(cv::Point& currentPoint, cv::Point& direction)
 
 bool EDL2::isOutOfBounds(cv::Point &point)
 {
-    return (point.x < 0) || (point.x > gradientMagnitudes.cols)
-            || (point.y < 0) || (point.y > gradientMagnitudes.rows);
+    return isOutOfBounds(point.x, point.y);
 }
 
 bool EDL2::isOutOfBounds(int x, int y)
