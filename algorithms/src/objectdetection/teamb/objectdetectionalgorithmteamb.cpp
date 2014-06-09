@@ -154,7 +154,7 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     }
     else//rate when point coord. are very wrong
     {
-        lengthAndPosiRating = tenPointRating;
+        lengthAndPosiRating = 0;
     }
 
     // @toDo:
@@ -187,7 +187,7 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     }
     else
     {
-        angleRating = tenPointRating;
+        angleRating = 0;
     }
 
     double completeRating = lengthAndPosiRating + angleRating;
