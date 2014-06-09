@@ -1,27 +1,39 @@
 #include "threading/algorithmworker.h"
 
+#include "linedetection/linedetectionalgorithm.h"
+#include "objectdetection/objectdetectionalgorithm.h"
+
+#include "line.h"
+#include "objectdetection/object.h"
+
 namespace formseher
 {
 
-AlgorithmWorker::AlgorithmWorker(LineDetectionAlgorithm* algorithm, cv::InputArray image, QObject *parent)
+AlgorithmWorker::AlgorithmWorker(LineDetectionAlgorithm* lineAlgorithm, ObjectDetectionAlgorithm *objectAlgorithm, cv::InputArray image, std::vector<Line> presetLines, QObject *parent)
     : QThread(parent),
-      algorithm(algorithm)
+      lineAlgorithm(lineAlgorithm),
+      objectAlgorithm(objectAlgorithm)
 {
     this->image = image.getMat();
+
+    if(!presetLines.empty())
+        this->result.first = presetLines;
 }
 
 AlgorithmWorker::~AlgorithmWorker()
 {
-    delete algorithm;
 }
 
 void AlgorithmWorker::run()
 {
-    result = algorithm->calculate(image);
+    if(lineAlgorithm)
+        result.first = lineAlgorithm->calculate(image);
+    if(objectAlgorithm)
+        result.second = objectAlgorithm->calculate(result.first);
     emit resultReady();
 }
 
-std::vector<Line> AlgorithmWorker::getResult()
+algorithmworker_result AlgorithmWorker::getResult()
 {
     return result;
 }

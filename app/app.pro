@@ -26,7 +26,9 @@ SOURCES += \
         $${APP_SRC_DIR}/gui/edl/edlconfigdialog.cpp \
         $${APP_SRC_DIR}/gui/hough/houghconfigdialog.cpp \
         # gui - objectdetection
+        $${APP_SRC_DIR}/gui/objectdetection/objectdetectionalgorithmconfigdialog.cpp \
         $${APP_SRC_DIR}/gui/objectdetection/olga/objectgraphvisualizer.cpp \
+        $${APP_SRC_DIR}/gui/objectdetection/stub/stubconfigdialog.cpp \
         # threading
         $${APP_SRC_DIR}/threading/algorithmcontroller.cpp \
         $${APP_SRC_DIR}/threading/algorithmworker.cpp
@@ -40,7 +42,9 @@ HEADERS  += \
         $${APP_INCL_DIR}/gui/edl/edlconfigdialog.h \
         $${APP_INCL_DIR}/gui/hough/houghconfigdialog.h \
         # gui - objectdetection
+        $${APP_INCL_DIR}/gui/objectdetection/objectdetectionalgorithmconfigdialog.h \
         $${APP_INCL_DIR}/gui/objectdetection/olga/objectgraphvisualizer.h \
+        $${APP_INCL_DIR}/gui/objectdetection/stub/stubconfigdialog.h \
         # threading
         $${APP_INCL_DIR}/threading/algorithmcontroller.hpp \
         $${APP_INCL_DIR}/threading/algorithmworker.h
