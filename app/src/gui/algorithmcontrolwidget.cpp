@@ -288,7 +288,9 @@ void AlgorithmControlWidget::on_openDatabaseButton_clicked()
     controller.setDatabaseModels(models);
 
     ui->databaseLabel->setText(fileName.left(5) + "..." + fileName.right(20));
-    emit statusUpdate("Read " + QString::number(models.size()) + " models from " + fileName);
+    emit statusUpdate(QString("Read %1 models from database %2")
+                      .arg(models.size())
+                      .arg(fileName));
 }
 
 void AlgorithmControlWidget::on_configureObjectAlgorithm_clicked()
