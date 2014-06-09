@@ -506,14 +506,14 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_8">
           <item row="0" column="1">
-           <widget class="QCheckBox" name="showlinescheckBox">
+           <widget class="QCheckBox" name="showLinesCheckBox">
             <property name="text">
              <string>Show lines</string>
             </property>
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QCheckBox" name="showobjectcheckBox">
+           <widget class="QCheckBox" name="showObjectsCheckBox">
             <property name="text">
              <string>Show objects</string>
             </property>
@@ -523,7 +523,7 @@
            </widget>
           </item>
           <item row="0" column="0">
-           <widget class="QCheckBox" name="showoriginalcheckBox">
+           <widget class="QCheckBox" name="showOriginalCheckBox">
             <property name="text">
              <string>Show original image</string>
             </property>
@@ -563,17 +563,17 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_6">
           <item row="0" column="1">
-           <widget class="QPushButton" name="configureAlgorithm">
+           <widget class="QPushButton" name="configureLineAlgorithm">
             <property name="text">
              <string>Configure</string>
             </property>
            </widget>
           </item>
           <item row="0" column="0">
-           <widget class="QComboBox" name="algorithmSelectBox"/>
+           <widget class="QComboBox" name="lineAlgorithmSelectBox"/>
           </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="benchmarkResult">
+           <widget class="QLabel" name="lineBenchmarkResult">
             <property name="maximumSize">
              <size>
               <width>16777215</width>
@@ -1013,7 +1013,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QPushButton" name="benchmarkButton">
+           <widget class="QPushButton" name="lineBenchmarkButton">
             <property name="text">
              <string>Benchmark</string>
             </property>
@@ -1051,7 +1051,7 @@
           <item row="0" column="1">
            <widget class="QPushButton" name="openDatabaseButton">
             <property name="text">
-             <string>Choose database</string>
+             <string>Open database</string>
             </property>
            </widget>
           </item>
@@ -1502,14 +1502,14 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
           <item row="1" column="1">
-           <widget class="QPushButton" name="benchmarkButton_2">
+           <widget class="QPushButton" name="objectBenchmarkButton">
             <property name="text">
              <string>Benchmark</string>
             </property>
            </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="benchmarkResult_2">
+           <widget class="QLabel" name="objectBenchmarkResult">
             <property name="maximumSize">
              <size>
               <width>16777215</width>
@@ -1956,7 +1956,7 @@
            </widget>
           </item>
           <item row="0" column="0">
-           <widget class="QComboBox" name="algorithmSelectBox_2"/>
+           <widget class="QComboBox" name="objectAlgorithmSelectBox"/>
           </item>
          </layout>
         </widget>

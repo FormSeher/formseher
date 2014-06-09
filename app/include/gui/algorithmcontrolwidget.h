@@ -35,19 +35,19 @@ private slots:
     void on_saveResult_clicked();
     void on_openPicture_clicked();
     void on_controller_newResultAvailable();
-    void on_algorithmSelectBox_currentIndexChanged(const QString &algorithmId);
-    void on_configureAlgorithm_clicked();
+    void on_lineAlgorithmSelectBox_currentIndexChanged(const QString &algorithmId);
+    void on_configureLineAlgorithm_clicked();
     void on_showWindowCheckBox_toggled(bool checked);
 
-    void on_benchmarkButton_clicked();
+    void on_lineBenchmarkButton_clicked();
 
-    void on_algorithmSelectBox_2_currentIndexChanged(const QString &arg1);
+    void on_objectAlgorithmSelectBox_currentIndexChanged(const QString &arg1);
 
-    void on_showoriginalcheckBox_clicked();
+    void on_showOriginalCheckBox_clicked();
 
-    void on_showlinescheckBox_clicked();
+    void on_showLinesCheckBox_clicked();
 
-    void on_showobjectcheckBox_clicked();
+    void on_showObjectsCheckBox_clicked();
 
     void on_openDatabaseButton_clicked();
 

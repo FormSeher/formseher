@@ -39,7 +39,7 @@ bool AlgorithmControlWidget::registerLineAlgorithmConfigDialog(std::string id, L
         return false;
 
     lineAlgorithmConfigDialogs[id] = dialog;
-    ui->algorithmSelectBox->addItem(QString(id.c_str()));
+    ui->lineAlgorithmSelectBox->addItem(QString(id.c_str()));
 
     return true;
 }
@@ -51,7 +51,7 @@ bool AlgorithmControlWidget::registerObjectAlgorithmConfigDialog(std::string id,
         return false;
 
     objectAlgorithmConfigDialogs[id] = dialog;
-    ui->algorithmSelectBox_2->addItem(QString(id.c_str()));
+    ui->objectAlgorithmSelectBox->addItem(QString(id.c_str()));
 
     return true;
 }
@@ -103,14 +103,14 @@ void AlgorithmControlWidget::updateResultImage()
     // Random number generator for colorful lines
     cv::RNG rng(0xFFFFFFFF);
 
-    if(!ui->showoriginalcheckBox->isChecked())
+    if(!ui->showOriginalCheckBox->isChecked())
 
         resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
     else
         resultImage = image.clone();
 
 
-    if(ui->showlinescheckBox->isChecked())
+    if(ui->showLinesCheckBox->isChecked())
     {
         for(auto line : latestResult.first)
         {
@@ -119,7 +119,7 @@ void AlgorithmControlWidget::updateResultImage()
         }
     }
 
-    if(ui->showobjectcheckBox->isChecked())
+    if(ui->showObjectsCheckBox->isChecked())
     {
         for(auto object : latestResult.second)
         {
@@ -185,21 +185,21 @@ void AlgorithmControlWidget::on_controller_newResultAvailable()
                       .arg(latestResult.second.size()));
 }
 
-void AlgorithmControlWidget::on_algorithmSelectBox_currentIndexChanged(const QString &algorithmId)
+void AlgorithmControlWidget::on_lineAlgorithmSelectBox_currentIndexChanged(const QString &algorithmId)
 {
     selectedLineAlgorithmConfigDialog = lineAlgorithmConfigDialogs[algorithmId.toStdString()];
     controller.setLineAlgorithmConfigDialog(selectedLineAlgorithmConfigDialog);
 }
 
 
-void AlgorithmControlWidget::on_algorithmSelectBox_2_currentIndexChanged(const QString &algorithmId)
+void AlgorithmControlWidget::on_objectAlgorithmSelectBox_currentIndexChanged(const QString &algorithmId)
 {
     selectedObjectAlgorithmConfigDialog = objectAlgorithmConfigDialogs[algorithmId.toStdString()];
     controller.setObjectAlgorithmConfigDialog(selectedObjectAlgorithmConfigDialog);
 }
 
 
-void AlgorithmControlWidget::on_configureAlgorithm_clicked()
+void AlgorithmControlWidget::on_configureLineAlgorithm_clicked()
 {
     selectedLineAlgorithmConfigDialog->show();
 }
@@ -228,7 +228,7 @@ double AlgorithmControlWidget::getTime()
     return (double) ts.tv_sec + (double) ts.tv_nsec * 1e-9;
 }
 
-void AlgorithmControlWidget::on_benchmarkButton_clicked()
+void AlgorithmControlWidget::on_lineBenchmarkButton_clicked()
 {
     if(resultImage.empty())
             return;
@@ -259,23 +259,23 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
 
     double elapsedTime = endTime - startTime;
 
-    ui->benchmarkResult->setText(QString::number(elapsedTime / executionCount) + " s");
+    ui->lineBenchmarkResult->setText(QString::number(elapsedTime / executionCount) + " s");
     benchmarkDialog.close();
 }
 
-void AlgorithmControlWidget::on_showoriginalcheckBox_clicked()
+void AlgorithmControlWidget::on_showOriginalCheckBox_clicked()
 {
     updateResultImage();
 }
 
 
-void AlgorithmControlWidget::on_showlinescheckBox_clicked()
+void AlgorithmControlWidget::on_showLinesCheckBox_clicked()
 {
     updateResultImage();
 }
 
 
-void AlgorithmControlWidget::on_showobjectcheckBox_clicked()
+void AlgorithmControlWidget::on_showObjectsCheckBox_clicked()
 {
     updateResultImage();
 }
