@@ -79,6 +79,11 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
 
     cv::Point2i vectorBetweenDBLines;
     cv::Point2i vectorBetweenObjectLines;
+
+    cv::Point2i vectorBetweenDBLinesReverse;
+    cv::Point2i vectorBetweenObjectLinesReverse;
+
+
     //the vector of the the start and end point, for current and last line
     //b - a
     vectorCurrentPoint = pointToCheckEnd - pointToCheckStart;
@@ -90,6 +95,9 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     //space beetwen the two lines
     vectorBetweenDBLines = dbStartPoint - lastDBPointEnd;
     vectorBetweenObjectLines = pointToCheckStart - lastPointToCheckEnd;
+
+    vectorBetweenDBLinesReverse = lastDBPointEnd - dbStartPoint;
+    vectorBetweenObjectLinesReverse = lastPointToCheckEnd - pointToCheckStart;
 
     //calculate angle between current and last line, skalarprodukt without cos
     //phi = (a1*b1) + (an * bn) / |a| * |b|
@@ -112,12 +120,14 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     double distanceBetweenDBLines = getLineLength(vectorBetweenDBLines.x, vectorBetweenDBLines.y);
     double distanceBetweenObjectLines = getLineLength(vectorBetweenObjectLines.x, vectorBetweenObjectLines.y);
 
+    double distanceBetweenDBLinesReverse = getLineLength(vectorBetweenDBLinesReverse.x, vectorBetweenDBLinesReverse.y);
+    double distanceBetweenObjectLinesReverse = getLineLength(vectorBetweenObjectLinesReverse.x, vectorBetweenObjectLinesReverse.y);
 
     //now compare and set the rating, the current line to db current line
 
     double smallerThenDbThreshold = 1.2;// the dbline is 1.2 so big as the lineToCheck
     double biggerThenDbThreshold = 0.8;// the lineToCheck is 1.2 so big as the dbline
-    double distanceThresholdMax = 1.5;
+    double distanceThresholdMax = 1.2;
     double distanceThresholdMin = 0.85;
 
     //set rating
@@ -127,7 +137,8 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     double lengthAndPosiRating = tenPointRating;
 
 
-    if(distanceBetweenDBLines / distanceBetweenObjectLines < distanceThresholdMax && distanceBetweenDBLines / distanceBetweenObjectLines > distanceThresholdMin)//check the distance
+    if(distanceBetweenDBLines / distanceBetweenObjectLines < distanceThresholdMax && distanceBetweenDBLines / distanceBetweenObjectLines > distanceThresholdMin ||
+            distanceBetweenDBLinesReverse / distanceBetweenObjectLinesReverse < distanceThresholdMax && distanceBetweenDBLinesReverse / distanceBetweenObjectLinesReverse > distanceThresholdMin)//check the distance
     {
         lengthAndPosiRating = tenPointRating * 4.5;
 
