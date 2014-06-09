@@ -13,13 +13,14 @@ std::vector<Object> Stub::calculate(std::vector<Line>)
 
     for(auto model : databaseModels)
     {
-        Object o;
-        o.setName(model.getName());
+        Object object;
+        object.setName(model.getName());
 
         for(auto line : model.getLines())
         {
-            o.addLine(*line);
+            object.addLine(*line);
         }
+        objects.push_back(object);
     }
 
     return objects;
