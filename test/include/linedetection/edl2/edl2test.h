@@ -8,6 +8,7 @@
 #include <iostream>
 
 // brute force everything public (don't do this at home kids!)
+
 #undef private
 #undef protected
 #define private public
@@ -16,6 +17,7 @@
 #include "linedetection/edl2/edl2.h"
 
 // Restore visibilities
+
 #undef private
 #undef protected
 #define protected protected
@@ -36,12 +38,14 @@ private slots:
     void calcGradTest()
     {
         //Create an image
+
         cv::Mat_<uchar> image = (cv::Mat_<uchar>(4,5) <<    0,       0,       0,      0,       0,
                                                             1,      11,     255,     21,       0,
                                                             0,      12,     254,     22,       0,
                                                             0,       0,       0,      0,       0);
 
         // define output
+
         cv::Mat_<uchar> test_gradientMagnitudes = (cv::Mat_<uchar>(image.rows,image.cols) <<     0,    0,      0,      0,      0,
                                                                                                  0,    65,     31,     72,     0,
                                                                                                  0,    65,     31,     71,     0,
@@ -59,15 +63,18 @@ private slots:
 
 
         //get the variables ready and set them
+
         edl->image = image;
         edl->gradientMagnitudes = cv::Mat::zeros(image.rows, image.cols, CV_8U);
         edl->dx = cv::Mat::zeros(image.rows, image.cols, CV_16S);
         edl->dy = cv::Mat::zeros(image.rows, image.cols, CV_16S);
 
         //call the method
+
         edl->calcGrad();
 
         // get the iterators
+
         cv::MatIterator_<uchar> itGradMag = edl->gradientMagnitudes.begin<uchar>();
         cv::MatIterator_<uchar> itTestGradMag = test_gradientMagnitudes.begin();
         cv::MatIterator_<short> itDx = edl->dx.begin<short>();
@@ -76,9 +83,11 @@ private slots:
         cv::MatIterator_<short> itTestDy = test_dy.begin();
 
         // get an end
+
         cv::MatIterator_<uchar> itGradMag_end = edl->gradientMagnitudes.end<uchar>();
 
         // define pixels
+
         uchar pixGradMag;
         uchar pixTestGradMag;
         short pixDx;
@@ -87,6 +96,7 @@ private slots:
         short pixTestDy;
 
         // run over the matrices and check each pixel
+
         for( ; itGradMag != itGradMag_end; ++itGradMag, ++itTestGradMag, ++itDx, ++itTestDx, ++itDy, ++itTestDy)
             {
                 pixGradMag = *itGradMag;
@@ -105,11 +115,13 @@ private slots:
     void findAnchorsTest()
     {
         //Create an image
+
         cv::Mat_<uchar> image = (cv::Mat_<uchar>(4,5) <<    0,       0,       0,      0,       0,
                                                             1,      11,     255,     21,       0,
                                                             0,      12,     254,     22,       0,
                                                             0,       0,       0,      0,       0);
         //get the variables ready and set them
+
         edl->image = image;
         edl->gradientMagnitudes = cv::Mat::zeros(image.rows, image.cols, CV_8U);
         edl->dx = cv::Mat::zeros(image.rows, image.cols, CV_16S);
@@ -117,14 +129,17 @@ private slots:
         std::vector<cv::Point> anchors;
 
         //call the method
+
         edl->calcGrad();
         edl->findAnchors(anchors);
 
         // Points which should be found
+
         cv::Point a1 = cv::Point(1, 1);
         cv::Point a2 = cv::Point(3, 1);
 
         // check the found anchors
+
         QVERIFY(a1 == anchors[0]);
         QVERIFY(a2 == anchors[1]);
      }
@@ -150,12 +165,17 @@ private slots:
     void getNextPointTest()
     {
         // HORIZONTAL
+
         cv::Point left = cv::Point(-1, 0);
         cv::Point right = cv::Point(1, 0);
+
         // VERTICAL
+
         cv::Point up = cv::Point(0, -1);
         cv::Point down = cv::Point(0, 1);
+
         // start/end
+
         cv::Point currentPoint = cv::Point(1, 1);
         cv::Point *nextPoint;
 
@@ -168,6 +188,7 @@ private slots:
         edl->gradientMagnitudes = gradientMagnitudes;
 
         //simple walk
+
         nextPoint = edl->getNextPoint(currentPoint, right);
         QVERIFY(*nextPoint == cv::Point(2,2) && gradientMagnitudes(*nextPoint) == 80);
 
@@ -181,6 +202,7 @@ private slots:
         QVERIFY(*nextPoint == cv::Point(2,2) && gradientMagnitudes(*nextPoint) == 80);
 
         //corner walk
+
         currentPoint = cv::Point(0, 3);
 
         nextPoint = edl->getNextPoint(currentPoint, right);
@@ -199,15 +221,18 @@ private slots:
     void walkFromAnchorTest()
     {
         //Create an image
+
         cv::Mat_<uchar> image = (cv::Mat_<uchar>(4,5) <<    0,       0,       0,      0,       0,
                                                             1,      11,     255,     21,       0,
                                                             0,      12,     254,     22,       0,
                                                             0,       0,       0,      0,       0);
 
         // set another minLineLength
+
         edl->minLineLength = 1;
 
         //get the variables ready and set them
+
         edl->image = image;
         edl->gradientMagnitudes = cv::Mat::zeros(image.rows, image.cols, CV_8U);
         edl->dx = cv::Mat::zeros(image.rows, image.cols, CV_16S);
@@ -216,15 +241,18 @@ private slots:
         std::vector<std::list<cv::Point*>*> lineSegments;
 
         //call the previous methods
+
         edl->calcGrad();
         edl->findAnchors(anchors);
 
         // define stuff to work with
+
         cv::Point anchorPoint;
         std::list<cv::Point*>* lineSegment1;
         std::list<cv::Point*>* lineSegment2;
 
         //call walkFromAnchor 1
+
         anchorPoint = anchors[0];
 
         edl->walkFromAnchor(anchorPoint, lineSegments);
@@ -283,6 +311,66 @@ private slots:
         point= cv::Point(1, -1);
         QVERIFY(true == edl->isOutOfBounds(point));
         QVERIFY(true == edl->isOutOfBounds(1, -1));
+    }
+
+    void getSobelVectorTest()
+    {
+        // define matrices
+
+        cv::Mat_<short> dx = (cv::Mat_<short>(4,5) <<                 0,      0,    0,        0,     0,
+                                                                     01,     11,    21,      31,    41,
+                                                                     02,     21,    22,      32,    42,
+                                                                     03,     31,    32,      33,    43);
+
+        cv::Mat_<short> dy = (cv::Mat_<short>(4,5) <<                03,     31,    32,      33,     43,
+                                                                     02,     21,    22,      32,     42,
+                                                                     01,     11,    12,      31,     41,
+                                                                      0,     0,      0,      0,      0);
+
+        // define stuff to work with
+
+        cv::Point point;
+        cv::Vec2s test_vector;
+
+        // set the parameters
+
+        edl->dx = dx;
+        edl->dy = dy;
+
+        // do the testing
+
+        point = cv::Point(1, 1);
+        test_vector = cv::Vec2s(11, 21);
+
+
+        QVERIFY(*(edl->getSobelVector(point)) == test_vector);
+        QVERIFY(*(edl->getSobelVector(1, 1)) == test_vector);
+
+        point = cv::Point(1, 2);
+        test_vector = cv::Vec2s(21, 11);
+
+        QVERIFY(*(edl->getSobelVector(point)) == test_vector);
+        QVERIFY(*(edl->getSobelVector(2, 1)) == test_vector);
+
+        point = cv::Point(1, 3);
+        test_vector = cv::Vec2s(31, 0);
+
+        QVERIFY(*(edl->getSobelVector(point)) == test_vector);
+        QVERIFY(*(edl->getSobelVector(3, 1)) == test_vector);
+
+        point = cv::Point(3, 1);
+        test_vector = cv::Vec2s(31, 32);
+
+        QVERIFY(*(edl->getSobelVector(point)) == test_vector);
+        QVERIFY(*(edl->getSobelVector(1, 3)) == test_vector);
+
+        point = cv::Point(3, 3);
+        test_vector = cv::Vec2s(33, 0);
+
+        QVERIFY(*(edl->getSobelVector(point)) == test_vector);
+        QVERIFY(*(edl->getSobelVector(3, 3)) == test_vector);
+
+
     }
 
     void cleanupTestCase()
