@@ -53,6 +53,9 @@ private slots:
 
     void on_configureObjectAlgorithm_clicked();
 
+signals:
+    void statusUpdate(QString statusString);
+
 private:
     void updateImageLabel();
     void updateResultImage();
