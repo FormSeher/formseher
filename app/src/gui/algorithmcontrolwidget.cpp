@@ -259,21 +259,21 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
     benchmarkDialog.close();
 }
 
+void AlgorithmControlWidget::on_showoriginalcheckBox_clicked()
+{
+    updateResultImage();
+}
+
+
+void AlgorithmControlWidget::on_showlinescheckBox_clicked()
+{
+    updateResultImage();
+}
+
+
+void AlgorithmControlWidget::on_showobjectcheckBox_clicked()
+{
+    updateResultImage();
+}
+
 } // namespace formseher
-
-void formseher::AlgorithmControlWidget::on_showoriginalcheckBox_clicked()
-{
-    updateResultImage();
-}
-
-
-void formseher::AlgorithmControlWidget::on_showlinescheckBox_clicked()
-{
-    updateResultImage();
-}
-
-
-void formseher::AlgorithmControlWidget::on_showobjectcheckBox_clicked()
-{
-    updateResultImage();
-}
