@@ -28,6 +28,7 @@ SOURCES += \
         # gui - objectdetection
         $${APP_SRC_DIR}/gui/objectdetection/objectdetectionalgorithmconfigdialog.cpp \
         $${APP_SRC_DIR}/gui/objectdetection/olga/objectgraphvisualizer.cpp \
+        $${APP_SRC_DIR}/gui/objectdetection/stub/stubconfigdialog.cpp \
         # threading
         $${APP_SRC_DIR}/threading/algorithmcontroller.cpp \
         $${APP_SRC_DIR}/threading/algorithmworker.cpp
@@ -43,6 +44,7 @@ HEADERS  += \
         # gui - objectdetection
         $${APP_INCL_DIR}/gui/objectdetection/objectdetectionalgorithmconfigdialog.h \
         $${APP_INCL_DIR}/gui/objectdetection/olga/objectgraphvisualizer.h \
+        $${APP_INCL_DIR}/gui/objectdetection/stub/stubconfigdialog.h \
         # threading
         $${APP_INCL_DIR}/threading/algorithmcontroller.hpp \
         $${APP_INCL_DIR}/threading/algorithmworker.h
