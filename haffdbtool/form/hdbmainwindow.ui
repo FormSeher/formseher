@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HDBMainWindow</class>
+ <widget class="QMainWindow" name="HDBMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>949</width>
+    <height>519</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>HDBMainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="objectTab">
+       <attribute name="title">
+        <string>Object</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="1" column="1">
+         <widget class="LineListWidget" name="allLineListWidget" native="true"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="LineListWidget" name="selectedLineListWidget" native="true"/>
+        </item>
+        <item row="0" column="0" rowspan="3">
+         <widget class="ImageWidget" name="imageWidget" native="true"/>
+        </item>
+        <item row="0" column="1">
+         <widget class="ColorChooserWidget" name="colorChooserWidget" native="true"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="databaseTab">
+       <attribute name="title">
+        <string>Database</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>949</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>Formseher Menu</string>
+    </property>
+    <addaction name="openImageAction"/>
+    <addaction name="separator"/>
+    <addaction name="openDatabaseAction"/>
+    <addaction name="separator"/>
+    <addaction name="exitAction"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="openDatabaseAction">
+   <property name="text">
+    <string>Open Database...</string>
+   </property>
+  </action>
+  <action name="openImageAction">
+   <property name="text">
+    <string>Open Image...</string>
+   </property>
+  </action>
+  <action name="exitAction">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ImageWidget</class>
+   <extends>QWidget</extends>
+   <header>imagewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>LineListWidget</class>
+   <extends>QWidget</extends>
+   <header>linelistwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ColorChooserWidget</class>
+   <extends>QWidget</extends>
+   <header>colorchooserwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>exitAction</sender>
+   <signal>triggered()</signal>
+   <receiver>HDBMainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>343</x>
+     <y>265</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
