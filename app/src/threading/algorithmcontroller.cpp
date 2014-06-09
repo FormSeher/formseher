@@ -110,6 +110,7 @@ void AlgorithmController::enqueueAlgorithm(bool lineConfigChanged)
 void AlgorithmController::setDatabaseModels(const std::vector<Model>& models)
 {
     databaseModels = models;
+    objectDetectionChanged();
 }
 
 void AlgorithmController::scheduleAlgorithm()
