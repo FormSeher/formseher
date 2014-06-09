@@ -51,6 +51,8 @@ private slots:
 
     void on_openDatabaseButton_clicked();
 
+    void on_configureObjectAlgorithm_clicked();
+
 private:
     void updateImageLabel();
     void updateResultImage();

@@ -1484,7 +1484,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QPushButton" name="configureAlgorithm_2">
+           <widget class="QPushButton" name="configureObjectAlgorithm">
             <property name="text">
              <string>Configure</string>
             </property>

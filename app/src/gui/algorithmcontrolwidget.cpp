@@ -284,4 +284,9 @@ void AlgorithmControlWidget::on_openDatabaseButton_clicked()
     controller.setDatabaseModels(dbu.read());
 }
 
+void AlgorithmControlWidget::on_configureObjectAlgorithm_clicked()
+{
+    selectedObjectAlgorithmConfigDialog->show();
+}
+
 } // namespace formseher
