@@ -37,9 +37,9 @@ SOURCES += \
     $${ALG_SRC_DIR}/objectdetection/haff/haffdatabase.cpp \
     # object detection - teamB
     $${ALG_SRC_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.cpp \
-    $${ALG_SRC_DIR}/objectdetection/teamb/objectreader.cpp
+    $${ALG_SRC_DIR}/objectdetection/teamb/objectreader.cpp \
     # database utils
-    $${ALG_SRC_DIR}/objectdetection/databaseutils.cpp \
+    $${ALG_SRC_DIR}/objectdetection/databaseutils.cpp
 
 HEADERS += \
     # common
@@ -64,10 +64,10 @@ HEADERS += \
     $${ALG_INCL_DIR}/objectdetection/haff/haff.h \
     $${ALG_INCL_DIR}/objectdetection/haff/haffdatabase.h \
     # object detection - teamB
-    $${ALG_INCL_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.h\
-    $${ALG_INCL_DIR}/objectdetection/teamb/objectreader.h
+    $${ALG_INCL_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.h \
+    $${ALG_INCL_DIR}/objectdetection/teamb/objectreader.h \
     #database utils
-    $${ALG_INCL_DIR}/objectdetection/databaseutils.h\
+    $${ALG_INCL_DIR}/objectdetection/databaseutils.h \
 
     #utils include - fu cpp :<
     $${ALG_INCL_DIR}/utils/rapidjson/document.h
