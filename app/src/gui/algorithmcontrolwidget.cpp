@@ -13,6 +13,7 @@
 #include <iostream>
 
 #include "objectdetection/object.h"
+#include "objectdetection/databaseutils.h"
 
 namespace formseher
 {
@@ -274,6 +275,13 @@ void AlgorithmControlWidget::on_showlinescheckBox_clicked()
 void AlgorithmControlWidget::on_showobjectcheckBox_clicked()
 {
     updateResultImage();
+}
+
+void AlgorithmControlWidget::on_openDatabaseButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open database"), QDir::homePath(), tr("Database file (*.json)"));
+    DatabaseUtils dbu(fileName.toStdString());
+    controller.setDatabaseModels(dbu.read());
 }
 
 } // namespace formseher
