@@ -117,7 +117,7 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
 
     double smallerThenDbThreshold = 1.2;// the dbline is 1.2 so big as the lineToCheck
     double biggerThenDbThreshold = 0.8;// the lineToCheck is 1.2 so big as the dbline
-    double distanceThresholdMax = 1.2;
+    double distanceThresholdMax = 1.5;
     double distanceThresholdMin = 0.85;
 
     //set rating
@@ -164,7 +164,7 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     {
         angleRating = tenPointRating * 3;
 
-        if(dbPointAngle - currentPointAngle <= angleThreshold2 || dbPointAngle - currentPointAngle >= -angleThreshold2)
+       if(dbPointAngle - currentPointAngle <= angleThreshold2 || dbPointAngle - currentPointAngle >= -angleThreshold2)
         {
              angleRating = tenPointRating * 4;
 
