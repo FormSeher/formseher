@@ -49,6 +49,8 @@ private slots:
 
     void on_showobjectcheckBox_clicked();
 
+    void on_openDatabaseButton_clicked();
+
 private:
     void updateImageLabel();
     void updateResultImage();

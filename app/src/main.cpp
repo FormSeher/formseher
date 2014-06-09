@@ -4,12 +4,8 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include "gui/linedetectionalgorithmconfigdialog.h"
 #include "gui/edl/edlconfigdialog.h"
 #include "gui/hough/houghconfigdialog.h"
-
-#include "objectdetection/olga/objectgraph.h"
-#include "gui/objectdetection/olga/objectgraphvisualizer.h"
 
 int main(int argc, char *argv[])
 {
