@@ -31,7 +31,9 @@ SOURCES += \
         $${APP_SRC_DIR}/gui/objectdetection/stub/stubconfigdialog.cpp \
         # threading
         $${APP_SRC_DIR}/threading/algorithmcontroller.cpp \
-        $${APP_SRC_DIR}/threading/algorithmworker.cpp
+        $${APP_SRC_DIR}/threading/algorithmworker.cpp \
+        # teamb dialog
+        $${APP_SRC_DIR}/gui/objectdetection/teamb/objectdetectionalgorithmteambdialog.cpp
 
 HEADERS  += \
         # gui
@@ -47,7 +49,9 @@ HEADERS  += \
         $${APP_INCL_DIR}/gui/objectdetection/stub/stubconfigdialog.h \
         # threading
         $${APP_INCL_DIR}/threading/algorithmcontroller.hpp \
-        $${APP_INCL_DIR}/threading/algorithmworker.h
+        $${APP_INCL_DIR}/threading/algorithmworker.h \
+        # teamb dialog
+        $${APP_INCL_DIR}/gui/objectdetection/teamb/objectdetectionalgorithmteambdialog.h
 
 FORMS    += \
         # common forms
