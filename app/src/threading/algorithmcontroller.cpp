@@ -1,30 +1,55 @@
 #include "threading/algorithmcontroller.hpp"
 
+#include "gui/linedetectionalgorithmconfigdialog.h"
+#include "gui/objectdetection/objectdetectionalgorithmconfigdialog.h"
+
 #include "threading/algorithmworker.h"
+
+#include "linedetection/linedetectionalgorithm.h"
+#include "objectdetection/objectdetectionalgorithm.h"
 
 namespace formseher
 {
 
 AlgorithmController::AlgorithmController()
-    : configDialog(0),
-      queuedAlgorithm(0),
-      scheduledAlgorithm(0)
-{}
+    : lineConfigDialog(0),
+      objectConfigDialog(0)
+{
+    queuedAlgorithms.first = 0;
+    queuedAlgorithms.second = 0;
+    scheduledAlgorithms.first = 0;
+    scheduledAlgorithms.second = 0;
+}
 
 AlgorithmController::~AlgorithmController()
 {
-    if(queuedAlgorithm)
-        delete queuedAlgorithm;
+    if(queuedAlgorithms.first)
+        delete queuedAlgorithms.first;
+    if(queuedAlgorithms.second)
+        delete queuedAlgorithms.second;
 }
 
-void AlgorithmController::setAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog *dialog)
+void AlgorithmController::setLineAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog *dialog)
 {
-    if(configDialog)
-        disconnect(configChangedConnection);
+    if(lineConfigDialog)
+        disconnect(lineConfigChangedConnection);
 
-    configDialog = dialog;
-    configChangedConnection = connect(configDialog, &LineDetectionAlgorithmConfigDialog::configChanged,
-                                      this, &AlgorithmController::enqueueAlgorithm);
+    lineConfigDialog = dialog;
+    lineConfigChangedConnection = connect(lineConfigDialog, &LineDetectionAlgorithmConfigDialog::configChanged,
+                                      this, &AlgorithmController::lineDetectionChanged);
+    lineDetectionChanged();
+}
+
+void AlgorithmController::setObjectAlgorithmConfigDialog(ObjectDetectionAlgorithmConfigDialog *dialog)
+{
+    if(objectConfigDialog)
+        disconnect(objectConfigChangedConnection);
+
+    objectConfigDialog = dialog;
+    objectConfigChangedConnection = connect(objectConfigDialog, &ObjectDetectionAlgorithmConfigDialog::configChanged,
+                                            this, &AlgorithmController::objectDetectionChanged);
+
+    objectDetectionChanged();
 }
 
 void AlgorithmController::setImage(cv::InputArray image)
@@ -32,42 +57,98 @@ void AlgorithmController::setImage(cv::InputArray image)
     queueMutex.lock();
     this->image = image.getMat();
     queueMutex.unlock();
+    enqueueAlgorithm(true);
 }
 
-std::vector<Line> AlgorithmController::getLatestResult()
+algorithmworker_result AlgorithmController::getLatestResult()
 {
-    return latestResult;
-}
-
-void AlgorithmController::enqueueAlgorithm()
-{
-    if(!configDialog)
-        return;
-
-    LineDetectionAlgorithm* newAlgorithm = configDialog->createAlgorithm();
-
     queueMutex.lock();
-    if(queuedAlgorithm != 0)
-        delete queuedAlgorithm;
-    queuedAlgorithm = newAlgorithm;
+    algorithmworker_result returnValue = latestResult;
     queueMutex.unlock();
 
+    return returnValue;
+}
+
+void AlgorithmController::lineDetectionChanged()
+{
+    enqueueAlgorithm(true);
+}
+
+void AlgorithmController::objectDetectionChanged()
+{
+    enqueueAlgorithm(false);
+}
+
+void AlgorithmController::enqueueAlgorithm(bool lineConfigChanged)
+{
+    queueMutex.lock();
+
+    // Enqueue LineDetectionAlgorithm
+    if(lineConfigChanged && lineConfigDialog)
+    {
+        if(queuedAlgorithms.first != 0)
+            delete queuedAlgorithms.first;
+
+        queuedAlgorithms.first = lineConfigDialog->createAlgorithm();
+    }
+
+    // Enqueue ObjectDetectionAlgorithm
+    if(objectConfigDialog)
+    {
+        if(queuedAlgorithms.second != 0)
+            delete queuedAlgorithms.second;
+        queuedAlgorithms.second = objectConfigDialog->createAlgorithm();
+        queuedAlgorithms.second->setModels(databaseModels);
+    }
+
+    queueMutex.unlock();
+
+    // Try to schedule new queue
     scheduleAlgorithm();
+}
+
+void AlgorithmController::setDatabaseModels(const std::vector<Model>& models)
+{
+    databaseModels = models;
+    objectDetectionChanged();
 }
 
 void AlgorithmController::scheduleAlgorithm()
 {
     queueMutex.lock();
 
-    if(scheduledAlgorithm != 0 || queuedAlgorithm == 0 || image.empty())
+    // Check conditions for schedule
+    bool schedulingPossible = true;
+
+    // Something is running
+    if(scheduledAlgorithms.first != 0 || scheduledAlgorithms.second != 0)
+        schedulingPossible = false;
+
+    // Queue is empty
+    if(queuedAlgorithms.first == 0 && queuedAlgorithms.second == 0)
+        schedulingPossible = false;
+
+    // Line detection enqueued, but no image is present
+    if(queuedAlgorithms.first != 0 && image.empty())
+        schedulingPossible = false;
+
+    // Return if it is not possible to schedule
+    if(!schedulingPossible)
     {
         queueMutex.unlock();
         return;
     }
 
-    worker = new AlgorithmWorker(queuedAlgorithm, image.clone(), this);
-    scheduledAlgorithm = queuedAlgorithm;
-    queuedAlgorithm = 0;
+    // Scheduling is possible so schedule
+    worker = new AlgorithmWorker(queuedAlgorithms.first, queuedAlgorithms.second,
+                                 image.clone(), latestResult.first, this);
+    scheduledAlgorithms = queuedAlgorithms;
+
+    // Clean queue
+    queuedAlgorithms.first = 0;
+    queuedAlgorithms.second = 0;
+
+    // Execute worker
     connect(worker, &AlgorithmWorker::resultReady, this, &AlgorithmController::handleResult);
     connect(worker, &QThread::finished, worker, &QObject::deleteLater);
     worker->start();
@@ -81,10 +162,15 @@ void AlgorithmController::handleResult()
 
     latestResult = worker->getResult();
 
-    scheduledAlgorithm = 0;
-    emit newResultAvailable();
+    // Clean up schedule
+    delete scheduledAlgorithms.first;
+    scheduledAlgorithms.first = 0;
+    delete scheduledAlgorithms.second;
+    scheduledAlgorithms.second = 0;
 
     queueMutex.unlock();
+
+    emit newResultAvailable();
 }
 
 } // namespace formseher

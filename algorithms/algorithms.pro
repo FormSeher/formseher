@@ -27,6 +27,8 @@ SOURCES += \
     $${ALG_SRC_DIR}/objectdetection/model.cpp \
     $${ALG_SRC_DIR}/objectdetection/object.cpp \
     $${ALG_SRC_DIR}/objectdetection/objectdetectionalgorithm.cpp \
+    # object detection - stub
+    $${ALG_SRC_DIR}/objectdetection/stub/stub.cpp \
     # object detection - OLGA
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraph.cpp \
     $${ALG_SRC_DIR}/objectdetection/olga/objectgraphnode.cpp \
@@ -55,6 +57,8 @@ HEADERS += \
     $${ALG_INCL_DIR}/objectdetection/model.h \
     $${ALG_INCL_DIR}/objectdetection/object.h \
     $${ALG_INCL_DIR}/objectdetection/objectdetectionalgorithm.h \
+    # object detection - stub
+    $${ALG_INCL_DIR}/objectdetection/stub/stub.h \
     # object detection - OLGA
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraph.h \
     $${ALG_INCL_DIR}/objectdetection/olga/objectgraphnode.h \

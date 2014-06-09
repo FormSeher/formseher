@@ -1,8 +1,6 @@
 #ifndef FS_ALGORITHMCONTROLLER_HPP
 #define FS_ALGORITHMCONTROLLER_HPP
 
-#include "linedetection/linedetectionalgorithm.h"
-#include "gui/linedetectionalgorithmconfigdialog.h"
 #include "line.h"
 #include "algorithmworker.h"
 
@@ -11,6 +9,20 @@
 #include <vector>
 
 namespace formseher {
+
+class LineDetectionAlgorithmConfigDialog;
+class ObjectDetectionAlgorithmConfigDialog;
+
+class LineDetectionAlgorithm;
+class ObjectDetectionAlgorithm;
+
+class Model;
+
+/**
+ * @brief Used to form pairs of line and object detection algorithms which are
+ * scheduled or put into the queue.
+ */
+typedef std::pair<LineDetectionAlgorithm*, ObjectDetectionAlgorithm*> algorithm_pair;
 
 /**
  * @brief The AlgorithmController class which controls the execution of AlgorithmWorkers.
@@ -31,10 +43,18 @@ public:
     ~AlgorithmController();
 
     /**
-     * @brief Set the AlgorithmConfigDialog which is used to create new Algorithm instances.
-     * @param dialog Pointer to an AlgorithmConfigDialog.
+     * @brief Set the AlgorithmConfigDialog which is used to create new
+     * LineDetectionAlgorithm instances.
+     * @param dialog Pointer to an LineDetectionAlgorithmConfigDialog.
      */
-    void setAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog* dialog);
+    void setLineAlgorithmConfigDialog(LineDetectionAlgorithmConfigDialog* dialog);
+
+    /**
+     * @brief Set the ObjectDetectionAlgorithmConfigDialog which is used to create new
+     * ObjectDetectionAlgorithm instances.
+     * @param dialog Pointer to the ObjectDetectionConfigDialog.
+     */
+    void setObjectAlgorithmConfigDialog(ObjectDetectionAlgorithmConfigDialog* dialog);
 
     /**
      * @brief Set the image on which the AlgorithmWorkers should operate.
@@ -46,7 +66,13 @@ public:
      * @brief Get the result of the latest executed AlgorithmWorker.
      * @return The result @see Algorithm.calculate()
      */
-    std::vector<Line> getLatestResult();
+    algorithmworker_result getLatestResult();
+
+    /**
+     * @brief Set models which are passed to ObjectDetectionAlgorithms.
+     * @param models Vector of Models.
+     */
+    void setDatabaseModels(const std::vector<Model>& models);
 
 signals:
     /**
@@ -56,9 +82,14 @@ signals:
 
 public slots:
     /**
-     * @brief Enqueue a new Algorithm.
+     * @brief Called if line detection config changed.
+     **/
+    void lineDetectionChanged();
+
+    /**
+     * @brief Called if object detection config changed.
      */
-    void enqueueAlgorithm();
+    void objectDetectionChanged();
 
 private slots:
     /**
@@ -73,13 +104,29 @@ private slots:
 
 private:
     /**
-     * @brief Used to manage connections to AlgorithmConfigDialog instances.
+     * @brief Enqueue a new Algorithm.
      */
-    QMetaObject::Connection configChangedConnection;
+    void enqueueAlgorithm(bool lineConfigChanged);
+
     /**
-     * @brief The AlgorithmConfigDialog currently used to create Algorithm instances.
+     * @brief Used to manage connections to LineDetectionAlgorithmConfigDialog instances.
      */
-    LineDetectionAlgorithmConfigDialog* configDialog;
+    QMetaObject::Connection lineConfigChangedConnection;
+
+    /**
+     * @brief The LineDetectionAlgorithmConfigDialog currently used to create LineAlgorithm instances.
+     */
+    LineDetectionAlgorithmConfigDialog* lineConfigDialog;
+
+    /**
+     * @brief Used to manage connections to ObjectDetectionConfigDialog instances.
+     */
+    QMetaObject::Connection objectConfigChangedConnection;
+
+    /**
+     * @brief The ObjectDetectionAlgorithmConfigDialog currently used to create ObjectAlgorithm instances.
+     */
+    ObjectDetectionAlgorithmConfigDialog* objectConfigDialog;
 
     /**
      * @brief The currently used image
@@ -87,14 +134,14 @@ private:
     cv::Mat image;
 
     /**
-     * @brief The next algorithm waiting for execution.
+     * @brief The next algorithms waiting for execution.
      */
-    LineDetectionAlgorithm* queuedAlgorithm;
+    algorithm_pair queuedAlgorithms;
 
     /**
-     * @brief The currently running algorithm.
+     * @brief The currently running algorithms.
      */
-    LineDetectionAlgorithm* scheduledAlgorithm;
+    algorithm_pair scheduledAlgorithms;
 
     /**
      * @brief The currently running AlgorithmWorker.
@@ -109,7 +156,12 @@ private:
     /**
      * @brief The latest result returned by one of the AlgorithmWorkers.
      */
-    std::vector<Line> latestResult;
+    algorithmworker_result latestResult;
+
+    /**
+     * @brief Models from a database which are passed to ObjectDetectionAlgorithms.
+     */
+    std::vector<Model> databaseModels;
 };
 
 } // namespace formseher

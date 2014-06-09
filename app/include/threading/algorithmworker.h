@@ -1,15 +1,22 @@
 #ifndef FS_ALGORITHMWORKER_H
 #define FS_ALGORITHMWORKER_H
 
-#include "linedetection/linedetectionalgorithm.h"
-#include "line.h"
-
 #include <QThread>
 #include <opencv2/core/core.hpp>
 #include <vector>
 
 namespace formseher
 {
+
+class LineDetectionAlgorithm;
+class ObjectDetectionAlgorithm;
+class Line;
+class Object;
+
+/**
+ * @brief Used to return result of AlgorithmWorker easier.
+ */
+typedef std::pair<std::vector<Line>, std::vector<Object>> algorithmworker_result;
 
 /**
  * @brief The AlgorithmWorker class
@@ -26,7 +33,11 @@ public:
      * @param image The image on which the Algorithm is executed.
      * @param parent The parent.
      */
-    explicit AlgorithmWorker(LineDetectionAlgorithm* algorithm, cv::InputArray image, QObject *parent = 0);
+    explicit AlgorithmWorker(LineDetectionAlgorithm* lineAlgorithm,
+                             ObjectDetectionAlgorithm* objectAlgorithm,
+                             cv::InputArray image,
+                             std::vector<Line> presetLines,
+                             QObject *parent = 0);
 
     /**
      * @brief Destructor
@@ -43,7 +54,7 @@ public:
      * @brief Get the result of the Algorithm.
      * @return The result of the Algorithm @see Algorithm.calculate()
      */
-    std::vector<Line> getResult();
+    algorithmworker_result getResult();
 
 signals:
     /**
@@ -52,9 +63,10 @@ signals:
     void resultReady();
 
 private:
-    LineDetectionAlgorithm* algorithm;
+    LineDetectionAlgorithm* lineAlgorithm;
+    ObjectDetectionAlgorithm* objectAlgorithm;
     cv::Mat image;
-    std::vector<Line> result;
+    algorithmworker_result result;
 };
 
 } // namespace formseher
