@@ -256,7 +256,7 @@ void AlgorithmControlWidget::on_benchmarkButton_clicked()
 
     double elapsedTime = endTime - startTime;
 
-    ui->benchmarkResult->setText(QString::number(elapsedTime / executionCount) + " sec");
+    ui->benchmarkResult->setText(QString::number(elapsedTime / executionCount) + " s");
     benchmarkDialog.close();
 }
 
@@ -282,6 +282,8 @@ void AlgorithmControlWidget::on_openDatabaseButton_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open database"), QDir::homePath(), tr("Database file (*.json)"));
     DatabaseUtils dbu(fileName.toStdString());
     controller.setDatabaseModels(dbu.read());
+
+    ui->databaseLabel->setText(fileName.left(5) + "..." + fileName.right(20));
 }
 
 void AlgorithmControlWidget::on_configureObjectAlgorithm_clicked()
