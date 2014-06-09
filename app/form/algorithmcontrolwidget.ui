@@ -1967,6 +1967,22 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>openPicture</tabstop>
+  <tabstop>saveResult</tabstop>
+  <tabstop>showOriginalCheckBox</tabstop>
+  <tabstop>showLinesCheckBox</tabstop>
+  <tabstop>showObjectsCheckBox</tabstop>
+  <tabstop>showWindowCheckBox</tabstop>
+  <tabstop>lineAlgorithmSelectBox</tabstop>
+  <tabstop>configureLineAlgorithm</tabstop>
+  <tabstop>lineBenchmarkButton</tabstop>
+  <tabstop>objectAlgorithmSelectBox</tabstop>
+  <tabstop>configureObjectAlgorithm</tabstop>
+  <tabstop>objectBenchmarkButton</tabstop>
+  <tabstop>openDatabaseButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
