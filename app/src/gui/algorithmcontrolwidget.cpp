@@ -180,6 +180,9 @@ void AlgorithmControlWidget::on_controller_newResultAvailable()
 {
     latestResult = controller.getLatestResult();
     updateResultImage();
+    emit statusUpdate(QString("Found %1 lines and %2 objects.")
+                      .arg(latestResult.first.size())
+                      .arg(latestResult.second.size()));
 }
 
 void AlgorithmControlWidget::on_algorithmSelectBox_currentIndexChanged(const QString &algorithmId)
@@ -281,9 +284,11 @@ void AlgorithmControlWidget::on_openDatabaseButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open database"), QDir::homePath(), tr("Database file (*.json)"));
     DatabaseUtils dbu(fileName.toStdString());
-    controller.setDatabaseModels(dbu.read());
+    std::vector<Model> models = dbu.read();
+    controller.setDatabaseModels(models);
 
     ui->databaseLabel->setText(fileName.left(5) + "..." + fileName.right(20));
+    emit statusUpdate("Read " + QString::number(models.size()) + " models from " + fileName);
 }
 
 void AlgorithmControlWidget::on_configureObjectAlgorithm_clicked()
