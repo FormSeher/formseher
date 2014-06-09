@@ -179,9 +179,9 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
         angleRating = tenPointRating;
     }
 
- //   double completeRating = lengthAndPosiRating + angleRating;
+    double completeRating = lengthAndPosiRating + angleRating;
 
-   // std::cout << "maxrating: "<< maxRatingPerLine << " setrating: "<<completeRating << std::endl;
+    std::cout << "maxrating: "<< maxRatingPerLine << " setrating: "<<completeRating << std::endl;
 
 //    consideredObject.setRating(consideredObject.getRating()+completeRating);
 
