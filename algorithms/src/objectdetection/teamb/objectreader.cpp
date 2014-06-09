@@ -1,4 +1,4 @@
-#include "objectreader.h"
+#include "objectdetection/teamb/objectreader.h"
 
 
 namespace formseher
