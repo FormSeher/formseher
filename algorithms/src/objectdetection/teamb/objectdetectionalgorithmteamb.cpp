@@ -207,7 +207,7 @@ void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfin
     for(uint currentObjectIndex = 0; currentObjectIndex < unfinishedObjects.size(); currentObjectIndex++){
 
         // 70 == 70%
-        if(unfinishedObjects[currentObjectIndex].getRating() > 70){
+        if(unfinishedObjects[currentObjectIndex].getRating() > 65){
             unfinishedObjects[currentObjectIndex].setName(objectName);
             foundObjects.push_back(unfinishedObjects[currentObjectIndex]);
         }
@@ -217,10 +217,11 @@ void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfin
 std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> lines){
 
     std::vector<Object> foundObjects;
-    std::vector<Object> unfinishedObjects;
 
     // iterate through database objects
     for(auto model : databaseModels){
+
+        std::vector<Object> unfinishedObjects;
 
         // maximum rating for 1 line
         float maxRatingPerLine = 100 / model.getLines().size();
