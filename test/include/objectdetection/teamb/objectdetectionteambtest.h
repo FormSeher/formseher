@@ -5,6 +5,7 @@
 #include "line.h"
 #include "objectdetection/object.h"
 #include "objectdetection/databaseutils.h"
+#include "objectdetection/model.h"
 
 #include <QtTest/QtTest>
 #include <QObject>
@@ -46,6 +47,8 @@ class ObjectDetectionTeamBTest : public QObject
 
         dbu.write();
 
+        std::vector<Model> models = dbu.read();
+
         // simulate lines from edl
         std::vector<Line> linesFromEDL;
 
@@ -55,8 +58,9 @@ class ObjectDetectionTeamBTest : public QObject
         linesFromEDL.push_back(Line(9,9,1,9));
 
         // now test the calculate
-        ObjectDetectionAlgorithmTeamB objDATb(dbFilePath.toStdString());
+        ObjectDetectionAlgorithmTeamB objDATb;
 
+        objDATb.setModels(models);
         std::vector<Object> receivedObjects = objDATb.calculate(linesFromEDL);
 
         std::cout << receivedObjects.size() << std::endl;
