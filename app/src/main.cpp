@@ -8,6 +8,7 @@
 #include "gui/hough/houghconfigdialog.h"
 
 #include "gui/objectdetection/stub/stubconfigdialog.h"
+#include "gui/objectdetection/haff/haffconfigdialog.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +23,9 @@ int main(int argc, char *argv[])
     formseher::StubConfigDialog stubDialog1;
     formseher::StubConfigDialog stubDialog2;
 
+    formseher::HaffConfigDialog haffDialog1;
+    formseher::HaffConfigDialog haffDialog2;
+
     formseher::MainWindow w;
 
     w.registerLineAlgorithmConfigDialog(1, "EDL", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&edlDialog1));
@@ -31,6 +35,8 @@ int main(int argc, char *argv[])
 
     w.registerObjectAlgorithmConfigDialog(1, "Stub", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&stubDialog1));
     w.registerObjectAlgorithmConfigDialog(2, "Stub", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&stubDialog2));
+    w.registerObjectAlgorithmConfigDialog(1, "Haff", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&haffDialog1));
+    w.registerObjectAlgorithmConfigDialog(2, "Haff", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&haffDialog2));
 
     w.show();
 
