@@ -7,6 +7,8 @@
 
 #include "linedetection/linedetectionalgorithm.h"
 #include "linedetectionalgorithmconfigdialog.h"
+#include "objectdetection/objectdetectionalgorithm.h"
+#include "gui/objectdetection/objectdetectionalgorithmconfigdialog.h"
 #include "threading/algorithmcontroller.hpp"
 
 namespace Ui {
@@ -24,7 +26,8 @@ public:
     explicit AlgorithmControlWidget(QWidget *parent = 0);
     ~AlgorithmControlWidget();
 
-    bool registerAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog* dialog);
+    bool registerLineAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog* dialog);
+    bool registerObjectAlgorithmConfigDialog(std::string id, ObjectDetectionAlgorithmConfigDialog* dialog);
 
     void setCvWindowName(const std::string &value);
 
@@ -32,13 +35,26 @@ private slots:
     void on_saveResult_clicked();
     void on_openPicture_clicked();
     void on_controller_newResultAvailable();
-    void on_algorithmSelectBox_currentIndexChanged(const QString &algorithmId);
-    void on_configureAlgorithm_clicked();
+    void on_lineAlgorithmSelectBox_currentIndexChanged(const QString &algorithmId);
+    void on_configureLineAlgorithm_clicked();
     void on_showWindowCheckBox_toggled(bool checked);
 
-    void on_displayConfig_currentIndexChanged(int);
+    void on_lineBenchmarkButton_clicked();
 
-    void on_benchmarkButton_clicked();
+    void on_objectAlgorithmSelectBox_currentIndexChanged(const QString &arg1);
+
+    void on_showOriginalCheckBox_clicked();
+
+    void on_showLinesCheckBox_clicked();
+
+    void on_showObjectsCheckBox_clicked();
+
+    void on_openDatabaseButton_clicked();
+
+    void on_configureObjectAlgorithm_clicked();
+
+signals:
+    void statusUpdate(QString statusString);
 
 private:
     void updateImageLabel();
@@ -48,11 +64,13 @@ private:
 
     Ui::AlgorithmControlWidget *ui;
 
-    std::map<std::string, LineDetectionAlgorithmConfigDialog*> algorithmConfigDialogs;
-    LineDetectionAlgorithmConfigDialog* selectedAlgorithmDialog;
+    std::map<std::string, LineDetectionAlgorithmConfigDialog*> lineAlgorithmConfigDialogs;
+    LineDetectionAlgorithmConfigDialog* selectedLineAlgorithmConfigDialog;
+    std::map<std::string, ObjectDetectionAlgorithmConfigDialog*> objectAlgorithmConfigDialogs;
+    ObjectDetectionAlgorithmConfigDialog* selectedObjectAlgorithmConfigDialog;
     AlgorithmController controller;
 
-    std::vector<Line> latestResult;
+    algorithmworker_result latestResult;
 
     cv::Mat image;
     cv::Mat resultImage;
