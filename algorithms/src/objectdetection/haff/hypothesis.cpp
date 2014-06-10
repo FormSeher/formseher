@@ -88,21 +88,30 @@ double Hypothesis::calculateCoverageRating(double scaleFactor)
     double coverageRaiting = 0.0;
     double endPointCoverageRaiting = 0.0;
     double startPointCoverageRaiting = 0.0;
-    int counter = 0;
+    int counter = lineMatchMap.size();
 
     for(auto lineMatch : lineMatchMap)
     {
-        startPointCoverageRaiting = lineMatch.second->getPerpendicularDistanceToStart() * scaleFactor
+        startPointCoverageRaiting = lineMatch.second->getPerpendicularDistanceToStart() * (scaleFactor * 0.5)
                                     / lineMatch.first->getPerpendicularDistanceToStart();
 
-        endPointCoverageRaiting = lineMatch.second->getPerpendicularDistanceToEnd() * scaleFactor
+        endPointCoverageRaiting = lineMatch.second->getPerpendicularDistanceToEnd() * (scaleFactor * 0.5)
                                   / lineMatch.first->getPerpendicularDistanceToEnd();
 
-        coverageRaiting += (startPointCoverageRaiting * endPointCoverageRaiting);
-        counter++;
+        if(startPointCoverageRaiting > 1)
+        {
+            startPointCoverageRaiting = 1;
+        }
+
+        if(endPointCoverageRaiting > 1)
+        {
+            endPointCoverageRaiting = 1;
+
+        }
+        coverageRaiting += ((startPointCoverageRaiting + endPointCoverageRaiting) / 2);
     }
 
-    return coverageRaiting/(counter * 2);
+    return coverageRaiting/counter;
 }
 
 void Hypothesis::calculateScaleAndCoverage()
@@ -115,7 +124,7 @@ void Hypothesis::calculateScaleAndCoverage()
 
     for(auto lineMatch : lineMatchMap)
     {
-        currentScale = lineMatch.first->getPerpendicularDistanceToOrigin() / lineMatch.second->getPerpendicularDistanceToOrigin();
+        currentScale = lineMatch.first->getLength() / lineMatch.second->getLength();
         currentCoverage = calculateCoverageRating(currentScale);
 
         if(currentCoverage > bestCoverage)
