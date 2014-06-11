@@ -88,12 +88,50 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
                 newHypotheses.clear();
             }
         }
+        std::multiset<Hypothesis*>::iterator itr;
+        int counter = 0;
+        for(itr = oldHypotheses.begin();
+            itr != oldHypotheses.end() && counter < 10;
+            ++itr)
+        {
+            likelyHypotheses.insert(*itr);
+            ++counter;
+        }
+
+        int trimCounter = 0;
+        for(itr = likelyHypotheses.begin();
+            itr != likelyHypotheses.end();
+            ++itr)
+        {
+            if(trimCounter >= 10)
+            {
+                likelyHypotheses.erase(itr);
+                delete *itr;
+            }
+            trimCounter++;
+        }
 
         // TODO: Add likliest hypothesis to likelyHyptohesis set.
     }
 
     std::vector<Object> detectedObjects;
+    std::multiset<Hypothesis*>::iterator itr;
 
+    for(itr = likelyHypotheses.begin();
+        itr != likelyHypotheses.end();
+        ++itr)
+    {
+        Object tmp;
+        tmp.setName((*itr)->getModel()->getName());
+        tmp.setRating((*itr)->getRating());
+        for(auto lineMatch : (*itr)->getLineMatchMap())
+        {
+
+            tmp.addLine(*lineMatch.first);
+        }
+
+        detectedObjects.push_back(tmp);
+    }
     // Create Objects
 
     return detectedObjects;

@@ -54,6 +54,12 @@ public:
      */
     const Model* getModel() const;
 
+    /**
+     * @brief getLineMatchMap
+     * @return Map of matching line pairs.
+     */
+    const std::map<Line*, Line*> getLineMatchMap() const;
+
 private:
     /**
      * @brief Calculates rating of angles.

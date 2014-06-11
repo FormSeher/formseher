@@ -23,7 +23,7 @@ Q_OBJECT
 private slots:
     void containsLineTest()
     {
-        Hypothesis h;
+        Hypothesis h(0);
 
         Line l1(1, 2, 3, 4);
         Line l2(1, 2, 3, 4);
@@ -36,7 +36,7 @@ private slots:
 
     void calculateAngleRating_perfectMatch()
     {
-        Hypothesis h;
+        Hypothesis h(0);
 
         Line modelLine1(1, 1, 1, 5);
         Line modelLine2(3, 4, 6, 1);
@@ -53,7 +53,7 @@ private slots:
 
     void calculateAngleRating_noMatch()
     {
-        Hypothesis h;
+        Hypothesis h(0);
 
         Line modelLine1(2, 4, 7, 4);
         Line modelLine2(2, 2, 7, 2);
@@ -70,7 +70,7 @@ private slots:
 
     void calculateAngleRationg_partialMatch()
     {
-        Hypothesis h;
+        Hypothesis h(0);
 
         Line modelLine1(2, 3, 2, 7);
         Line modelLine2(3, 3, 7, 3);

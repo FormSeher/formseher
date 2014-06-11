@@ -146,9 +146,14 @@ void Hypothesis::calculateScaleAndCoverage()
     this->coverRating = bestCoverage;
 }
 
-const Model *Hypothesis::getModel() const
+const Model* Hypothesis::getModel() const
 {
     return model;
+}
+
+const std::map<Line*, Line*> Hypothesis::getLineMatchMap() const
+{
+    return lineMatchMap;
 }
 
 } // namespace formseher

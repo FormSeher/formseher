@@ -16,7 +16,6 @@ public:
 
     std::vector<Object> calculate(std::vector<Line> detectedLines);
 };
-
 }   //  namespace formseher
 
 #endif // HAFF_H
