@@ -3,8 +3,9 @@
 namespace formseher
 {
 
-Hypothesis::Hypothesis(double angleWeight, double coverWeight)
-    : angleWeight(angleWeight),
+Hypothesis::Hypothesis(const Model *model, double angleWeight, double coverWeight)
+    : model(model),
+      angleWeight(angleWeight),
       coverWeight(coverWeight)
 {
 
@@ -32,7 +33,14 @@ bool Hypothesis::containsLine(const Line* line) const
 
 void Hypothesis::addLineMatch(const Line* pictureLine, const Line* databaseLine)
 {
-    lineMatchMap.insert( std::pair<Line*, Line*>((Line*)pictureLine, (Line*)databaseLine) );
+    if (pictureLine == nullptr)
+    {
+        notMatchingLines.push_back(databaseLine);
+    }
+    else
+    {
+        lineMatchMap.insert( std::pair<Line*, Line*>((Line*)pictureLine, (Line*)databaseLine) );
+    }
 }
 
 bool Hypothesis::operator<(const Hypothesis& hypo) const
@@ -136,6 +144,11 @@ void Hypothesis::calculateScaleAndCoverage()
 
     this->scaleFactor = bestScale;
     this->coverRating = bestCoverage;
+}
+
+const Model *Hypothesis::getModel() const
+{
+    return model;
 }
 
 } // namespace formseher

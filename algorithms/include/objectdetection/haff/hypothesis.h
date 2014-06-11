@@ -14,7 +14,7 @@ public:
      * @param angleWeight Weight factor for angleRating.
      * @param coverWeight Weight factor for coverRating.
      */
-    Hypothesis(double angleWeight = 1.0, double coverWeight = 1.0);
+    Hypothesis(const Model *model, double angleWeight = 1.0, double coverWeight = 1.0);
 
     /**
      * @brief Calculates the rating of this Hypothesis.
@@ -47,7 +47,13 @@ public:
      * @return True if rating of this is less rating of hypo, false otherwise.
      */
     bool operator<(const Hypothesis& hypo) const;
-    	
+
+    /**
+     * @brief getModel
+     * @return Returns the Model which is associated with the Hypothesis.
+     */
+    const Model* getModel() const;
+
 private:
     /**
      * @brief Calculates rating of angles.
@@ -77,6 +83,8 @@ private:
     double angleRating;
     double coverRating;
 
+    const Model* model;
+
     /**
      * @brief Factor with which the angleRating is weighted.
      */
@@ -89,9 +97,8 @@ private:
 
     //<PictureLine, DB-Line>
     std::map<Line*, Line*> lineMatchMap;
-    
-    const Object* object;
 
+    std::vector<const Line*> notMatchingLines;
 };
 
 }   // namespace formseher

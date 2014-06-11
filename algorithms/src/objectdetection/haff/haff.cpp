@@ -35,7 +35,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
                 if ( modelLine == model.getLines().front() )
                 {
                     // Create new Hypothesis
-                    Hypothesis* newHypothesis = new Hypothesis();
+                    Hypothesis* newHypothesis = new Hypothesis(&model);
                     newHypothesis->addLineMatch(&detectedLine, modelLine);
 
                     // Rate new Hypothesis
