@@ -182,7 +182,8 @@ void EDL2::routeAnchors(std::vector<cv::Point>& anchorPoints, std::vector<Line> 
 void EDL2::walkFromAnchor(cv::Point& anchorPoint, std::vector<std::list<cv::Point*>*>& lineSegments)
 {
     //save the results to
-    std::list<cv::Point*>* currentLineSegment = new std::list<cv::Point*>;
+    std::list<cv::Point*>* firstLineSegment = new std::list<cv::Point*>;
+    std::list<cv::Point*>* currentLineSegment = firstLineSegment;
     cv::Vec2s *currentLineVector;
 
     // two points to work with
@@ -288,13 +289,15 @@ void EDL2::walkFromAnchor(cv::Point& anchorPoint, std::vector<std::list<cv::Poin
             {
                 subDirection = right;
                 *currentPoint = anchorPoint;
+                currentLineSegment = firstLineSegment;
                 stopWalk = false;
             }
 
-            if (subDirection == up) // change from up to down
+            else if (subDirection == up) // change from up to down
             {
                 subDirection = down;
                 *currentPoint = anchorPoint;
+                currentLineSegment = firstLineSegment;
                 stopWalk = false;
             }
         }
