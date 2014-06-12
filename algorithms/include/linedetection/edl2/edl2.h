@@ -1,5 +1,5 @@
-#ifndef EDL_H
-#define EDL_H
+#ifndef FS_EDL2_H
+#define FS_EDL2_H
 
 #ifndef M_PI
 #define M_PI 3.141592654
