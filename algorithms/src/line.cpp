@@ -77,10 +77,10 @@ double Line::getPerpendicularDistanceToEnd()
     return perpendicularDistanceToEnd;
 }
 
-const cv::Point2i& Line::getPerpendicularPoint()
+const cv::Point2i& Line::getPerpendicularPoint() const
 {
     if( ! perpendicularAlreadyDone )
-        calculatePerpendicular();
+        ((Line*)this)->calculatePerpendicular();
 
     return perpendicularPoint;
 }
