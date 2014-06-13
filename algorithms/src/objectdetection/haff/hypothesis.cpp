@@ -146,6 +146,37 @@ void Hypothesis::calculateScaleAndCoverage()
     this->coverRating = bestCoverage;
 }
 
+std::pair<cv::Point2d, cv::Point2d> Hypothesis::calculateCenters()
+{
+    unsigned int lineCount = 0;
+
+    cv::Point2d objectLineSum;
+    cv::Point2d modelLineSum;
+
+    for(auto iter : lineMatchMap)
+    {
+        objectLineSum += iter.first->getCenterPoint();
+        modelLineSum += iter.second->getCenterPoint();
+        ++lineCount;
+    }
+
+    cv::Point2d objectCenter;
+    objectCenter.x = objectLineSum.x / (double)lineCount;
+    objectCenter.y = objectLineSum.y / (double)lineCount;
+
+    for(auto line : notMatchingLines)
+    {
+        modelLineSum += line->getCenterPoint();
+        ++lineCount;
+    }
+
+    cv::Point2d modelCenter;
+    modelCenter.x = modelLineSum.x / (double)lineCount;
+    modelCenter.y = modelLineSum.y / (double)lineCount;
+
+    return std::make_pair(objectCenter, modelCenter);
+}
+
 const Model* Hypothesis::getModel() const
 {
     return model;

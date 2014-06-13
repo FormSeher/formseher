@@ -88,6 +88,27 @@ private slots:
 
         QCOMPARE(h.calculateAngleRating(), 0.780999056761673);
     }
+
+    void calculateCentersTest()
+    {
+        Line objectLine1(1, 1, 3, 1);
+        Line objectLine2(3, 2, 3, 4);
+
+        Line modelLine1(1, 1, 4, 1);
+        Line modelLine2(4, 1, 2, 3);
+        Line modelLine3(2, 3, 1, 1);
+
+        Hypothesis h(0);
+        h.addLineMatch(&objectLine1, &modelLine1);
+        h.addLineMatch(&objectLine2, &modelLine2);
+        h.addLineMatch(nullptr,      &modelLine3);
+
+        std::pair<cv::Point2d, cv::Point2d> centers = h.calculateCenters();
+
+        QCOMPARE(centers.first, cv::Point2d(2.5, 2.0));
+        // Result has to be 2.33... and 1.66..
+        QCOMPARE(centers.second, cv::Point2d(7.0/3.0, 5.0/3.0));
+    }
 };
 
 #endif // FS_HYPOTHESISTEST_H

@@ -82,6 +82,12 @@ private:
     void calculateScaleAndCoverage();
 
     /**
+     * @brief Calculate the centers of object and model lines.
+     * @return Pair which contains center of object as first and center of model as second value.
+     */
+    std::pair<cv::Point2d, cv::Point2d> calculateCenters();
+
+    /**
      * @brief The scaling of the object related to the matching object.
      */
     double scaleFactor;
