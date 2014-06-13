@@ -79,7 +79,7 @@ void EDL2::findAnchors(std::vector<cv::Point> &anchors)
         {
             if ((center = gradMag[column]) > minAnchorThreshold)  // check if the current Point might be an anchor
             {
-                direction = getOrientation(*getSobelVector(row, column));
+                direction = getOrientation(getSobelVector(row, column));
                 if (direction == HORIZONTAL)
                 {
                     if (center - (gradientMagnitudes.at<uchar>(row, column - 1)) >= anchorThreshold && center - (gradientMagnitudes.at<uchar>(row, column + 1) >= anchorThreshold ))
@@ -184,13 +184,13 @@ void EDL2::walkFromAnchor(cv::Point& anchorPoint, std::vector<std::list<cv::Poin
     //save the results to
     std::list<cv::Point*>* firstLineSegment = new std::list<cv::Point*>;
     std::list<cv::Point*>* currentLineSegment = firstLineSegment;
-    cv::Vec2s *currentLineVector;
+    cv::Vec2s currentLineVector;
 
     // two points to work with
 
     cv::Point *currentPoint = new cv::Point(anchorPoint);
     cv::Point *nextPoint;
-    cv::Vec2s *nextVector;
+    cv::Vec2s nextVector;
 
     // Directions to walk to
 
@@ -210,7 +210,7 @@ void EDL2::walkFromAnchor(cv::Point& anchorPoint, std::vector<std::list<cv::Poin
     // ####
 
     bool stopWalk = false;
-    mainDirection = getOrientation(*getSobelVector(*currentPoint));
+    mainDirection = getOrientation(getSobelVector(*currentPoint));
 
     if (mainDirection == HORIZONTAL)
     {
@@ -249,11 +249,11 @@ void EDL2::walkFromAnchor(cv::Point& anchorPoint, std::vector<std::list<cv::Poin
         else
         {
             //still same orientation and still usefull grad?
-            if (mainDirection == getOrientation(*nextVector)
+            if (mainDirection == getOrientation(nextVector)
                     && gradientMagnitudes.at<uchar>(*nextPoint) > 0)
             {
                 // check if the angle is in tolerance
-                if(getAngleBetweenVectors(*currentLineVector, *nextVector) <= angleTolerance)
+                if(getAngleBetweenVectors(currentLineVector, nextVector) <= angleTolerance)
                 {
                     if(subDirection == left || subDirection == up)
                     {
@@ -276,6 +276,7 @@ void EDL2::walkFromAnchor(cv::Point& anchorPoint, std::vector<std::list<cv::Poin
             else
             {
                 stopWalk = true;
+                delete nextPoint;
             }
         }
 
@@ -329,7 +330,7 @@ cv::Point* EDL2::getNextPoint(cv::Point& currentPoint, cv::Point& direction)
         nCols = 3;
     }
 
-    cv::Point* nextPoint = &currentPoint; //return the currentPoint if no nextPoint could be found
+    cv::Point* nextPoint = 0; //return the currentPoint if no nextPoint could be found
     uchar currentMag = 0;
 
     for(int i = 0 ; i < nRows; ++i)
@@ -347,13 +348,18 @@ cv::Point* EDL2::getNextPoint(cv::Point& currentPoint, cv::Point& direction)
                 // check if mag is larger
                 if (currentMag < gradMag[curCol])
                 {
+                    if(nextPoint)
+                        delete nextPoint;
                     currentMag = gradMag[curCol];
                     nextPoint = new cv::Point(curCol, curRow);
                 }
             }
         }
     }
-    return nextPoint;
+    if(nextPoint)
+        return nextPoint;
+    else
+        return &currentPoint;
 }
 
 bool EDL2::isOutOfBounds(cv::Point &point)
@@ -367,17 +373,17 @@ bool EDL2::isOutOfBounds(int x, int y)
             || (y < 0) || (y > gradientMagnitudes.rows);
 }
 
-cv::Vec2s* EDL2::getSobelVector(cv::Point &point)
+cv::Vec2s EDL2::getSobelVector(cv::Point &point)
 {
     return getSobelVector(point.y, point.x);
 }
 
-cv::Vec2s* EDL2::getSobelVector(int row, int column)
+cv::Vec2s EDL2::getSobelVector(int row, int column)
 {
-    return new cv::Vec2s(dx.at<short>(row, column), dy.at<short>(row, column));
+    return cv::Vec2s(dx.at<short>(row, column), dy.at<short>(row, column));
 }
 
-bool EDL2::getOrientation(cv::Vec2s &v1)
+bool EDL2::getOrientation(cv::Vec2s v1)
 {
     bool orientation = VERTICAL;
 

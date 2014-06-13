@@ -67,7 +67,7 @@ private:
     * @param Vector with all found lineSegments
     */
 
-    bool getOrientation(cv::Vec2s &v1);
+    bool getOrientation(cv::Vec2s v1);
 
     /**
     * @brief finds the nextPoint to walk to, considering the orientation.
@@ -101,7 +101,7 @@ private:
     * @return Vector of the given point
     */
 
-    cv::Vec2s* getSobelVector(cv::Point &point);
+    cv::Vec2s getSobelVector(cv::Point &point);
 
     /**
     * @brief helper method to get the the vector from the sobel image
@@ -110,7 +110,7 @@ private:
     * @return Vector of the given coordinate
     */
 
-    cv::Vec2s* getSobelVector(int row, int column);
+    cv::Vec2s getSobelVector(int row, int column);
 
     /**
     * @brief gets the angle beetween two vectors as radiant value
