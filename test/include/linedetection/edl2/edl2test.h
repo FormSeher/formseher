@@ -191,15 +191,19 @@ private slots:
 
         nextPoint = edl->getNextPoint(currentPoint, right);
         QVERIFY(*nextPoint == cv::Point(2,2) && gradientMagnitudes(*nextPoint) == 80);
+        delete nextPoint;
 
         nextPoint = edl->getNextPoint(currentPoint, left);
         QVERIFY(*nextPoint == cv::Point(0,2) && gradientMagnitudes(*nextPoint) == 21);
+        delete nextPoint;
 
         nextPoint = edl->getNextPoint(currentPoint, up);
         QVERIFY(*nextPoint == cv::Point(2,0) && gradientMagnitudes(*nextPoint) == 3);
+        delete nextPoint;
 
         nextPoint = edl->getNextPoint(currentPoint, down);
         QVERIFY(*nextPoint == cv::Point(2,2) && gradientMagnitudes(*nextPoint) == 80);
+        delete nextPoint;
 
         //corner walk
 
@@ -207,15 +211,19 @@ private slots:
 
         nextPoint = edl->getNextPoint(currentPoint, right);
         QVERIFY(*nextPoint == cv::Point(1,4) && gradientMagnitudes(*nextPoint) == 42);
+        delete nextPoint;
 
         nextPoint = edl->getNextPoint(currentPoint, left);
         QVERIFY(*nextPoint == cv::Point(0,3) && gradientMagnitudes(*nextPoint) == 31);
+        // nextPoint == currentPoint so do not delete nextPoint!
 
         nextPoint = edl->getNextPoint(currentPoint, up);
         QVERIFY(*nextPoint == cv::Point(1,2) && gradientMagnitudes(*nextPoint) == 22);
+        delete nextPoint;
 
         nextPoint = edl->getNextPoint(currentPoint, down);
         QVERIFY(*nextPoint == cv::Point(1,4) && gradientMagnitudes(*nextPoint) == 42);
+        delete nextPoint;
     }
 
     void walkFromAnchorTest()
@@ -261,6 +269,14 @@ private slots:
         lineSegment2 = lineSegments.at(1);
         QCOMPARE(*lineSegment1->front(), cv::Point(1,1));
         QCOMPARE(*lineSegment2->front(), cv::Point(1,2));
+
+        for(auto point : *lineSegment1)
+            delete point;
+        delete lineSegment1;
+
+        for(auto point : *lineSegment2)
+            delete point;
+        delete lineSegment2;
     }
 
     void getAngleBetweenVectorsTest()
@@ -343,34 +359,32 @@ private slots:
         test_vector = cv::Vec2s(11, 21);
 
 
-        QVERIFY(*(edl->getSobelVector(point)) == test_vector);
-        QVERIFY(*(edl->getSobelVector(1, 1)) == test_vector);
+        QVERIFY(edl->getSobelVector(point) == test_vector);
+        QVERIFY(edl->getSobelVector(1, 1) == test_vector);
 
         point = cv::Point(1, 2);
         test_vector = cv::Vec2s(21, 11);
 
-        QVERIFY(*(edl->getSobelVector(point)) == test_vector);
-        QVERIFY(*(edl->getSobelVector(2, 1)) == test_vector);
+        QVERIFY(edl->getSobelVector(point) == test_vector);
+        QVERIFY(edl->getSobelVector(2, 1) == test_vector);
 
         point = cv::Point(1, 3);
         test_vector = cv::Vec2s(31, 0);
 
-        QVERIFY(*(edl->getSobelVector(point)) == test_vector);
-        QVERIFY(*(edl->getSobelVector(3, 1)) == test_vector);
+        QVERIFY(edl->getSobelVector(point) == test_vector);
+        QVERIFY(edl->getSobelVector(3, 1) == test_vector);
 
         point = cv::Point(3, 1);
         test_vector = cv::Vec2s(31, 32);
 
-        QVERIFY(*(edl->getSobelVector(point)) == test_vector);
-        QVERIFY(*(edl->getSobelVector(1, 3)) == test_vector);
+        QVERIFY(edl->getSobelVector(point) == test_vector);
+        QVERIFY(edl->getSobelVector(1, 3) == test_vector);
 
         point = cv::Point(3, 3);
         test_vector = cv::Vec2s(33, 0);
 
-        QVERIFY(*(edl->getSobelVector(point)) == test_vector);
-        QVERIFY(*(edl->getSobelVector(3, 3)) == test_vector);
-
-
+        QVERIFY(edl->getSobelVector(point) == test_vector);
+        QVERIFY(edl->getSobelVector(3, 3) == test_vector);
     }
 
     void cleanupTestCase()
