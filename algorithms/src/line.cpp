@@ -16,6 +16,10 @@ Line::Line(int x1, int y1, int x2, int y2)
 
     //Normalize line to length 1
     directionVector = cv::normalize(directionVector);
+
+    // Calculate center point
+    centerPoint.x = (x1 + x2) / 2;
+    centerPoint.y = (y1 + y2) / 2;
 }
 
 Line::Line(const cv::Point2i& start, const cv::Point2i& end)
@@ -83,6 +87,11 @@ const cv::Point2i& Line::getPerpendicularPoint() const
         ((Line*)this)->calculatePerpendicular();
 
     return perpendicularPoint;
+}
+
+const cv::Point2f &Line::getCenterPoint() const
+{
+    return centerPoint;
 }
 
 void Line::setPerpendicular(double perpendicularDistance, cv::Point2i& perpendicularPoint)
