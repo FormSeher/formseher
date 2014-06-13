@@ -1,5 +1,7 @@
 #include <QtTest>
 
+#include <iostream>
+
 #include "linetest.h"
 #include "pointercomparetest.h"
 
@@ -37,7 +39,8 @@ int main(int argc, char** argv) {
 
     DatabaseUtilsTest databaseUtilsTest;
 
-    return   QTest::qExec(&lineTest, argc, argv)
+    bool testsFailed =
+             QTest::qExec(&lineTest, argc, argv)
            | QTest::qExec(&pointerCompareTest, argc, argv)
            | QTest::qExec(&edlTest, argc, argv)
            | QTest::qExec(&objectGraphEdgeTest, argc, argv)
@@ -49,4 +52,11 @@ int main(int argc, char** argv) {
            | QTest::qExec(&modelTest, argc, argv)
            | QTest::qExec(&objectTest, argc, argv)
            | QTest::qExec(&databaseUtilsTest, argc, argv);
+
+    if(testsFailed)
+        std::cerr << "Some tests failed. Fix them! ò.Ó" << std::endl;
+    else
+        std::cout << "All tests successful." << std::endl;
+
+    return testsFailed;
 }
