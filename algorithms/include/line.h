@@ -18,7 +18,7 @@ public:
     const cv::Point2i& getStart() const;
     const cv::Point2i& getEnd() const;
     const cv::Point2i& getPerpendicularPoint() const;
-    const cv::Point2f& getCenterPoint() const;
+    const cv::Point2d& getCenterPoint() const;
 
     const cv::Vec2i getPositionVector() const;
     const cv::Vec2d &getDirectionVector() const;
@@ -35,7 +35,7 @@ private:
     cv::Point2i start;
     cv::Point2i end;
     cv::Point2i perpendicularPoint;
-    cv::Point2f centerPoint;
+    cv::Point2d centerPoint;
 
     cv::Vec2d directionVector;
 

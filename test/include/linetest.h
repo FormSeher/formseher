@@ -75,11 +75,15 @@ private slots:
     void centerPointTest()
     {
         Line line1(0, 0, 2, 2);
-        QCOMPARE(line1.getCenterPoint(), cv::Point2f(1, 1));
+        QCOMPARE(line1.getCenterPoint(), cv::Point2d(1, 1));
 
         Line line2(-1, 1, 1, -1);
-        QCOMPARE(line2.getCenterPoint(), cv::Point2f(0, 0));
+        QCOMPARE(line2.getCenterPoint(), cv::Point2d(0, 0));
+
+        Line line3(1, 1, 4, 1);
+        QCOMPARE(line3.getCenterPoint(), cv::Point2d(2.5, 1));
     }
+
     void getPerpendicularDistanceToOriginTest()
     {
         Line line1(-4, 20, 4, 20);

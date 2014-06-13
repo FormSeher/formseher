@@ -18,8 +18,8 @@ Line::Line(int x1, int y1, int x2, int y2)
     directionVector = cv::normalize(directionVector);
 
     // Calculate center point
-    centerPoint.x = (x1 + x2) / 2;
-    centerPoint.y = (y1 + y2) / 2;
+    centerPoint.x = (x1 + x2) / 2.0;
+    centerPoint.y = (y1 + y2) / 2.0;
 }
 
 Line::Line(const cv::Point2i& start, const cv::Point2i& end)
@@ -89,7 +89,7 @@ const cv::Point2i& Line::getPerpendicularPoint() const
     return perpendicularPoint;
 }
 
-const cv::Point2f &Line::getCenterPoint() const
+const cv::Point2d &Line::getCenterPoint() const
 {
     return centerPoint;
 }
