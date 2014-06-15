@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>529</width>
-    <height>537</height>
+    <height>565</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -479,7 +479,7 @@
        <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox_4">
          <property name="title">
-          <string>Input image</string>
+          <string>Input</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_7">
           <item row="1" column="0">
@@ -489,10 +489,20 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QPushButton" name="saveResult">
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="imageRadioButton">
             <property name="text">
-             <string>Save result</string>
+             <string>Image</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QRadioButton" name="webcamRadioButton">
+            <property name="text">
+             <string>Webcam</string>
             </property>
            </widget>
           </item>
@@ -543,6 +553,13 @@
            <widget class="Line" name="line">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="saveResult">
+            <property name="text">
+             <string>Save result</string>
             </property>
            </widget>
           </item>
@@ -1970,7 +1987,6 @@
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>openPicture</tabstop>
-  <tabstop>saveResult</tabstop>
   <tabstop>showOriginalCheckBox</tabstop>
   <tabstop>showLinesCheckBox</tabstop>
   <tabstop>showObjectsCheckBox</tabstop>
