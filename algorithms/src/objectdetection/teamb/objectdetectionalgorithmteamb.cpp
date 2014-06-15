@@ -10,7 +10,10 @@
 namespace formseher
 {
 
-ObjectDetectionAlgorithmTeamB::ObjectDetectionAlgorithmTeamB()
+ObjectDetectionAlgorithmTeamB::ObjectDetectionAlgorithmTeamB(int minRating, double maxAngleThreshold, double maxDistanceThreshold):
+    minRating(minRating),
+    maxAngleThreshold(maxAngleThreshold),
+    maxDistanceThreshold(maxDistanceThreshold)
 {
 
 }
@@ -176,9 +179,9 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line&
 
     double smallerThenDbThreshold = 1.2;// the dbline is 1.2 so big as the lineToCheck
     double biggerThenDbThreshold = 0.8;// the lineToCheck is 1.2 so big as the dbline;
-    double distanceThreshold1 = 0.2;
-    double distanceThreshold2 = 0.15;
-    double distanceThreshold3 = 0.1;
+    double distanceThreshold1 = maxDistanceThreshold;
+    double distanceThreshold2 = maxDistanceThreshold - (maxDistanceThreshold/3);
+    double distanceThreshold3 = maxDistanceThreshold - (maxDistanceThreshold/3*2);
 
 
     double tenPointRating = maxRatingPerLine / 10;
@@ -230,9 +233,9 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line&
     }
 
     //now compare the angle
-    double angleThreshold1 = 0.05;//its almost 5° +-2
-    double angleThreshold2 = 0.1; //its almost 10° +-2
-    double angleThreshold3 = 0.15;//its almost 15° +-2
+    double angleThreshold1 = maxAngleThreshold - (maxAngleThreshold/3*2);
+    double angleThreshold2 = maxAngleThreshold - (maxAngleThreshold/3);
+    double angleThreshold3 = maxAngleThreshold;
     double angleRating;
 
     // as angle can be positive and negative consider both
@@ -285,9 +288,7 @@ void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfin
 
     for(uint currentObjectIndex = 0; currentObjectIndex < unfinishedObjects.size(); currentObjectIndex++){
         // 80 == 80%
-        if(unfinishedObjects[currentObjectIndex].getRating() > 80){
-//            std::cout << unfinishedObjects[currentObjectIndex].getRating() << std::endl;
-            std::cout << unfinishedObjects[currentObjectIndex].getLines().size() << "   " << objectName << std::endl;
+        if(unfinishedObjects[currentObjectIndex].getRating() > minRating){
             unfinishedObjects[currentObjectIndex].setName(objectName);
             foundObjects.push_back(unfinishedObjects[currentObjectIndex]);
 
