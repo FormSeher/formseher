@@ -62,7 +62,8 @@ FORMS    += \
         # linedetection forms
         $${APP_FORM_DIR}/edl/edlconfigdialog.ui \
         $${APP_FORM_DIR}/edl2/edl2configdialog.ui \
-        $${APP_FORM_DIR}/hough/houghconfigdialog.ui
+        $${APP_FORM_DIR}/hough/houghconfigdialog.ui \
+        $${APP_FORM_DIR}/teamb/objectdetectionalgorithmteambdialog.ui
 
 INCLUDEPATH += $${APP_INCL_DIR}\
              $${ALG_INCL_DIR}
@@ -86,3 +87,5 @@ LIBS += -llibopencv_core248 -llibopencv_imgproc248 -llibopencv_highgui248
 unix{
 LIBS += -lopencv_core -lopencv_imgproc -lopencv_highgui
 }
+
+OTHER_FILES +=
