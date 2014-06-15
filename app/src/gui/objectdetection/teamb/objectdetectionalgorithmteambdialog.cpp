@@ -1,21 +1,37 @@
-#ifndef OBJECTDETECTIONALGORITHMTEAMBDIALOG_CPP
-#define OBJECTDETECTIONALGORITHMTEAMBDIALOG_CPP
-
 #include "gui/objectdetection/teamb/objectdetectionalgorithmteambdialog.h"
+#include "ui_objectdetectionalgorithmteambdialog.h"
 #include "objectdetection/teamb/objectdetectionalgorithmteamb.h"
 
 namespace formseher
 {
-
-ObjectDetectionAlgorithmTeamBDialog::ObjectDetectionAlgorithmTeamBDialog()
+ObjectDetectionAlgorithmTeamBDialog::ObjectDetectionAlgorithmTeamBDialog(QWidget *parent) :
+    ObjectDetectionAlgorithmConfigDialog(parent),
+    ui(new Ui::ObjectDetectionAlgorithmTeamBDialog)
 {
+    ui->setupUi(this);
+}
+
+ObjectDetectionAlgorithmTeamBDialog::~ObjectDetectionAlgorithmTeamBDialog()
+{
+    delete ui;
 }
 
 ObjectDetectionAlgorithm *ObjectDetectionAlgorithmTeamBDialog::createAlgorithm()
 {
-    return new ObjectDetectionAlgorithmTeamB();
+    return new ObjectDetectionAlgorithmTeamB(ui->minRating->value(),
+                                             ui->maxAngleThreshold->value(),
+                                             ui->maxDistanceThreshold->value());
 }
 
-} // namespace formseher
+void ObjectDetectionAlgorithmTeamBDialog::on_minRating_valueChanged(int){
+    emit configChanged();
+}
 
-#endif // OBJECTDETECTIONALGORITHMTEAMBDIALOG_CPP
+void ObjectDetectionAlgorithmTeamBDialog::on_maxAngleThreshold_valueChanged(double){
+    emit configChanged();
+}
+
+void ObjectDetectionAlgorithmTeamBDialog::on_maxDistanceThreshold_valueChanged(double){
+    emit configChanged();
+}
+}
