@@ -357,3 +357,38 @@ void AlgorithmControlWidget::on_imageRadioButton_clicked()
 }
 
 } // namespace formseher
+
+void formseher::AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
+{
+    if(resultImage.empty())
+            return;
+
+    ObjectDetectionAlgorithm* algorithm = selectedObjectAlgorithmConfigDialog->createAlgorithm();
+
+    double startTime;
+    double endTime;
+    int executionCount = 100;
+
+    // Open Dialog if Benchmarking starts
+    QDialog benchmarkDialog;
+    benchmarkDialog.setWindowTitle("Benchmarking..");
+    benchmarkDialog.autoFillBackground();
+    benchmarkDialog.resize(300,0);
+    benchmarkDialog.setWindowFlags(Qt::WindowStaysOnTopHint);
+    benchmarkDialog.show();
+
+    // Begin time measurement and execute algorithm n-times
+
+    startTime = getTime();
+
+    for(int i = 0; i < executionCount; ++i)
+        algorithm->calculate(image.clone());
+
+    endTime = getTime();
+    // End of time measurement
+
+    double elapsedTime = endTime - startTime;
+
+    ui->objectBenchmarkResult->setText(QString::number(elapsedTime / executionCount) + " s");
+    benchmarkDialog.close();
+}

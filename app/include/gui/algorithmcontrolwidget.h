@@ -59,6 +59,8 @@ private slots:
 
     void on_imageRadioButton_clicked();
 
+    void on_objectBenchmarkButton_clicked();
+
 signals:
     void statusUpdate(QString statusString);
 
