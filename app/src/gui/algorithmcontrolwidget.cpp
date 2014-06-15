@@ -75,39 +75,12 @@ void AlgorithmControlWidget::updateImageLabel()
     ui->imageLabel->setPixmap(QPixmap::fromImage(scaledImage));
 }
 
-/*
-void AlgorithmControlWidget::updateResultImage()
-{
-    // Random number generator for colorful lines
-    cv::RNG rng(0xFFFFFFFF);
-
-    if(ui->displayConfig->currentIndex() == 1)
-        resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
-    else
-        resultImage = image.clone();
-
-    if(ui->displayConfig->currentIndex() != 0)
-    {
-        for(auto line : latestResult.first)
-        {
-            cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-            cv::line(resultImage, line.getStart(), line.getEnd(), color);
-        }
-    }
-
-    if(ui->showWindowCheckBox->checkState() == Qt::Checked)
-        cv::imshow(cvWindowName, resultImage);
-    updateImageLabel();
-}
-*/
-
 void AlgorithmControlWidget::updateResultImage()
 {
     // Random number generator for colorful lines
     cv::RNG rng(0xFFFFFFFF);
 
     if(!ui->showOriginalCheckBox->isChecked())
-
         resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
     else
         resultImage = image.clone();
