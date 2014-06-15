@@ -22,16 +22,6 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     const Line* lastDBLine = databaseObject.getLines()[currentLineNumber-1];
     const Line* currentDBLine = databaseObject.getLines()[currentLineNumber];
 
-    //currentDbline = linTocheck; lastdbline = lastFoundline, -1 is the line before line to check
-    // @reminder
-    // myRating has to be <= maxRatingPerLine
-    // as maxRatingPerLine is maximum(100)/lines of object
-
-    // @howTo
-    // consideredObject.setRating(consideredObject.getRating()+myRating);
-
-    //calculate the vector between line.start and line.end for both objects and angle
-
     //points from lineToCheck
     cv::Point2i pointToCheckStart;
     cv::Point2i pointToCheckEnd;
@@ -62,7 +52,6 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
 
 
     //make vector between start and end point
-
     cv::Point2i vectorCurrentPoint;
     cv::Point2i vectorCurrentPointLast;
 
@@ -72,7 +61,6 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     cv::Point2i vectorBetweenDBLines;
     cv::Point2i vectorBetweenObjectLines;
 
-    cv::Point2i vectorBetweenDBLinesReverse;
     cv::Point2i vectorBetweenObjectLinesReverse;
 
 
@@ -87,24 +75,12 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     //space beetwen the two lines
     vectorBetweenDBLines = dbStartPoint - lastDBPointEnd;
     vectorBetweenObjectLines = pointToCheckStart - lastPointToCheckEnd;
-
-
-//    vectorBetweenDBLinesReverse = lastDBPointEnd - dbStartPoint;
-    vectorBetweenDBLinesReverse = dbStartPoint - lastDBPointEnd;
     vectorBetweenObjectLinesReverse = pointToCheckEnd - lastPointToCheckEnd;
 
     //calculate angle between current and last line, skalarprodukt without cos
     //phi = (a1*b1) + (an * bn) / |a| * |b|
     double currentPointAngle = getAngleOfLines(vectorCurrentPoint, vectorCurrentPointLast);
     double dbPointAngle = getAngleOfLines(vectorDbPoint, vectorDbPointLast);
-
-    //now make with the vector dimension and angle rating values
-
-
-    // @toDo:
-    // compare the distance between start and end points
-    // if distance if too high return with 0
-    //|a|= sqrt(a1^2+an^2)
 
     //get the length
     double lengthCurrentLine = getLineLength(vectorCurrentPoint.x, vectorCurrentPoint.y);
@@ -113,26 +89,26 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     double lengthDbLineLast = getLineLength(vectorDbPointLast.x, vectorDbPointLast.y);
     double distanceBetweenDBLines = getLineLength(vectorBetweenDBLines.x, vectorBetweenDBLines.y);
     double distanceBetweenObjectLines = getLineLength(vectorBetweenObjectLines.x, vectorBetweenObjectLines.y);
-
-    double distanceBetweenDBLinesReverse = getLineLength(vectorBetweenDBLinesReverse.x, vectorBetweenDBLinesReverse.y);
     double distanceBetweenObjectLinesReverse = getLineLength(vectorBetweenObjectLinesReverse.x, vectorBetweenObjectLinesReverse.y);
 
     //now compare and set the rating, the current line to db current line
 
     double smallerThenDbThreshold = 1.2;// the dbline is 1.2 so big as the lineToCheck
-    double biggerThenDbThreshold = 0.8;// the lineToCheck is 1.2 so big as the dbline
-    double distanceThresholdMax = 1.3;
-    double distanceThresholdMin = 0.7;
+    double biggerThenDbThreshold = 0.8;// the lineToCheck is 1.2 so big as the dbline;
+    double distanceThreshold = 0.3;
 
-    //set rating
-    //check for the point coordinates start and end if distance is to high ==>first
 
     double tenPointRating = maxRatingPerLine / 10;
     double lengthAndPosiRating = 0;// tenPointRating;
 
+    // get a relative value of distance that says how much space is between end of last line and start of new line compared to the length of new line
+    double relDistanceBetweenDBPoints = distanceBetweenDBLines/lengthDbCurrentLine;
+    double relDistanceBetweenLinePoints = distanceBetweenObjectLines/lengthCurrentLine;
+    double relDistanceBetweenLinePointsRevert = distanceBetweenObjectLinesReverse/lengthCurrentLine;
 
-    if(distanceBetweenDBLines / distanceBetweenObjectLines < distanceThresholdMax && distanceBetweenDBLines / distanceBetweenObjectLines > distanceThresholdMin ||
-            distanceBetweenDBLinesReverse / distanceBetweenObjectLinesReverse < distanceThresholdMax && distanceBetweenDBLinesReverse / distanceBetweenObjectLinesReverse > distanceThresholdMin)//check the distance
+    //check the distance
+    if(relDistanceBetweenDBPoints - relDistanceBetweenLinePoints < distanceThreshold && relDistanceBetweenDBPoints - relDistanceBetweenLinePoints > -distanceThreshold
+            || relDistanceBetweenDBPoints - relDistanceBetweenLinePointsRevert < distanceThreshold && relDistanceBetweenDBPoints - relDistanceBetweenLinePointsRevert > -distanceThreshold)
     {
         lengthAndPosiRating = tenPointRating * 4.5;
 
@@ -151,15 +127,7 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
         lengthAndPosiRating = 0;
     }
 
-    // @toDo:
-    // compare the angle of given lines with the angle of first and second line of object
-    // do not calculate angles ! takes to much time !
-    //      use comparisons instead
-    // keep in mind that angles will never match
-    //      -> small variances are ok
-
     //now compare the angle
-
     double angleThreshold1 = 0.1;//its allmost 10° +-2
     double angleThreshold2 = 0.2;//its allmost 20° +-2
     double angleThreshold3 = 0.5;//its allmost 30° +-2
@@ -209,8 +177,8 @@ void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfin
 
     for(uint currentObjectIndex = 0; currentObjectIndex < unfinishedObjects.size(); currentObjectIndex++){
 
-        // 70 == 70%
-        if(unfinishedObjects[currentObjectIndex].getRating() > 70){
+        // 80 == 80%
+        if(unfinishedObjects[currentObjectIndex].getRating() > 80){
             unfinishedObjects[currentObjectIndex].setName(objectName);
             foundObjects.push_back(unfinishedObjects[currentObjectIndex]);
         }
