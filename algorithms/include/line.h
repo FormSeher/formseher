@@ -30,6 +30,8 @@ public:
 
     void setPerpendicular(double perpendicularDistanceToOrigin, cv::Point2i& perpendicularPoint);
 
+    void switchStartAndEnd() ;
+
 private:
     cv::Point2i start;
     cv::Point2i end;
