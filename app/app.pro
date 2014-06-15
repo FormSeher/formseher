@@ -18,6 +18,7 @@ DESTDIR = bin
 SOURCES += \
         # common
         $${APP_SRC_DIR}/main.cpp \
+        $${APP_SRC_DIR}/videoinput.cpp \
         # gui
         $${APP_SRC_DIR}/gui/mainwindow.cpp \
         $${APP_SRC_DIR}/gui/algorithmcontrolwidget.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
         $${APP_SRC_DIR}/threading/algorithmworker.cpp
 
 HEADERS  += \
+        $${APP_INCL_DIR}/videoinput.h \
         # gui
         $${APP_INCL_DIR}/gui/mainwindow.h \
         $${APP_INCL_DIR}/gui/algorithmcontrolwidget.h \
