@@ -88,8 +88,10 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     vectorBetweenDBLines = dbStartPoint - lastDBPointEnd;
     vectorBetweenObjectLines = pointToCheckStart - lastPointToCheckEnd;
 
-    vectorBetweenDBLinesReverse = lastDBPointEnd - dbStartPoint;
-    vectorBetweenObjectLinesReverse = lastPointToCheckEnd - pointToCheckStart;
+
+//    vectorBetweenDBLinesReverse = lastDBPointEnd - dbStartPoint;
+    vectorBetweenDBLinesReverse = dbStartPoint - lastDBPointEnd;
+    vectorBetweenObjectLinesReverse = pointToCheckEnd - lastPointToCheckEnd;
 
     //calculate angle between current and last line, skalarprodukt without cos
     //phi = (a1*b1) + (an * bn) / |a| * |b|
@@ -119,14 +121,14 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
 
     double smallerThenDbThreshold = 1.2;// the dbline is 1.2 so big as the lineToCheck
     double biggerThenDbThreshold = 0.8;// the lineToCheck is 1.2 so big as the dbline
-    double distanceThresholdMax = 1.2;
-    double distanceThresholdMin = 0.85;
+    double distanceThresholdMax = 1.3;
+    double distanceThresholdMin = 0.7;
 
     //set rating
     //check for the point coordinates start and end if distance is to high ==>first
 
     double tenPointRating = maxRatingPerLine / 10;
-    double lengthAndPosiRating = tenPointRating;
+    double lengthAndPosiRating = 0;// tenPointRating;
 
 
     if(distanceBetweenDBLines / distanceBetweenObjectLines < distanceThresholdMax && distanceBetweenDBLines / distanceBetweenObjectLines > distanceThresholdMin ||
@@ -160,7 +162,7 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
 
     double angleThreshold1 = 0.1;//its allmost 10° +-2
     double angleThreshold2 = 0.2;//its allmost 20° +-2
-    double angleThreshold3 = 0.3;//its allmost 30° +-2
+    double angleThreshold3 = 0.5;//its allmost 30° +-2
     double angleRating;
 
     if(dbPointAngle - currentPointAngle <= angleThreshold3 && dbPointAngle - currentPointAngle >= -angleThreshold3)
@@ -181,6 +183,7 @@ int ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line line
     {
         angleRating = 0;
     }
+    if(lengthAndPosiRating > 0 && angleRating > 0)
     return lengthAndPosiRating + angleRating;
 }
 
@@ -191,7 +194,7 @@ double ObjectDetectionAlgorithmTeamB::getLineLength(int x, int y)
 
 double ObjectDetectionAlgorithmTeamB::getAngleOfLines(cv::Point2i vectorCurrentPoint, cv::Point2i vectorCurrentPointLast)
 {
-    int numeratorCurrentVector;
+    double numeratorCurrentVector;
     double denominatorCurrentVector;
 
     numeratorCurrentVector = vectorCurrentPoint.x * vectorCurrentPointLast.x + vectorCurrentPoint.y * vectorCurrentPointLast.y;
@@ -207,7 +210,7 @@ void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfin
     for(uint currentObjectIndex = 0; currentObjectIndex < unfinishedObjects.size(); currentObjectIndex++){
 
         // 70 == 70%
-        if(unfinishedObjects[currentObjectIndex].getRating() > 65){
+        if(unfinishedObjects[currentObjectIndex].getRating() > 70){
             unfinishedObjects[currentObjectIndex].setName(objectName);
             foundObjects.push_back(unfinishedObjects[currentObjectIndex]);
         }
@@ -235,10 +238,11 @@ std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> l
             unfinishedObjects.push_back(obj);
         }
 
+        std::vector<Object> newUnfinishedObjects;
         // iterate through lines of an object starting at 2nd line (as first lines are already in) to check all other lines
         for(uint objectLineIndex = 1; objectLineIndex < model.getLines().size(); objectLineIndex++){
 
-            std::vector<Object> newUnfinishedObjects;
+            newUnfinishedObjects.clear();
 
             // check other object lines with found lines
             for(uint foundObjectsIndex = 0; foundObjectsIndex < unfinishedObjects.size(); foundObjectsIndex++){
@@ -250,10 +254,10 @@ std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> l
 
                     // if rating is not high enough continue
                     // rating has to be atleast 60% of maximum
-                    if(unfinishedObjects[foundObjectsIndex].getRating() + receivedRating > (maxRatingPerLine * (objectLineIndex + 1)) * 0.6){
+                    if(unfinishedObjects[foundObjectsIndex].getRating() + receivedRating >= (maxRatingPerLine * (objectLineIndex + 1)) * 0.6){
 
                         // if rating was ok add line to object
-                        Object newObj = unfinishedObjects[foundObjectsIndex];
+                        Object newObj(unfinishedObjects[foundObjectsIndex]);
                         newObj.addLine(lines[nextLineIndex]);
                         newObj.setRating(newObj.getRating() + receivedRating);
 
@@ -264,7 +268,10 @@ std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> l
                     }
                 }
             }
-            unfinishedObjects = newUnfinishedObjects;
+            unfinishedObjects.clear();
+            for(auto newObj : newUnfinishedObjects){
+                unfinishedObjects.push_back(newObj);
+            }
         }
         getBestRatedObject(unfinishedObjects, foundObjects, model.getName());
     }
