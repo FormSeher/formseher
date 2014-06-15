@@ -24,4 +24,8 @@ float Object::getRating()
     return rating;
 }
 
+void Object::clearLines(){
+    lines.clear();
+}
+
 } // namespace formseher

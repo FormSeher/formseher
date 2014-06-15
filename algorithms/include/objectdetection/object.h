@@ -25,6 +25,8 @@ public:
      */
     float getRating();
 
+    void clearLines();
+
 private:
     float rating;
 };
