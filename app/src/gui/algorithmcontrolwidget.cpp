@@ -363,7 +363,9 @@ void formseher::AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
     if(resultImage.empty())
             return;
 
+    LineDetectionAlgorithm* lines = selectedLineAlgorithmConfigDialog->createAlgorithm();
     ObjectDetectionAlgorithm* algorithm = selectedObjectAlgorithmConfigDialog->createAlgorithm();
+    std::vector<formseher::Line> line = lines->calculate(image.clone());
 
     double startTime;
     double endTime;
@@ -381,8 +383,12 @@ void formseher::AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
 
     startTime = getTime();
 
+/*    for(int i = 0; i < executionCount; ++i)
+        algorithm->calculate(lines->calculate(image.clone()));
+*/
+
     for(int i = 0; i < executionCount; ++i)
-        algorithm->calculate(image.clone());
+        algorithm->calculate(line);
 
     endTime = getTime();
     // End of time measurement
