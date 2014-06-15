@@ -5,6 +5,9 @@
 #include <QDir>
 #include <QString>
 #include <QFileDialog>
+#include <QMessageBox>
+
+#include <iostream>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -323,13 +326,17 @@ void AlgorithmControlWidget::on_webcamRadioButton_clicked()
     if(webcam)
         return;
 
-    webcam = new VideoInput("/home/pommes/Videos/staplerfahrerklaus.avi");
+    webcam = new VideoInput(0);
     webcam->set(CV_CAP_PROP_FORMAT, CV_8UC1);
 
     if(!webcam->isOpened())
     {
         delete webcam;
         webcam = 0;
+        // Display error message and reset radio buttons.
+        QMessageBox::warning(this, "Error opening webcam", "Could not open default webcam '0'.");
+        ui->imageRadioButton->toggle();
+
         return;
     }
 
