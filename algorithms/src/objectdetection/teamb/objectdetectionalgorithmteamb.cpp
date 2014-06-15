@@ -15,12 +15,20 @@ ObjectDetectionAlgorithmTeamB::ObjectDetectionAlgorithmTeamB()
 
 }
 
-double ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine){
+double ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line& lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine){
 
     const Line* lastFoundLine = consideredObject.getLines()[currentLineNumber-1];
 
     const Line* lastDBLine = databaseObject.getLines()[currentLineNumber-1];
     const Line* currentDBLine = databaseObject.getLines()[currentLineNumber];
+
+    // if incoming line is already part of object return
+    for(uint i = 0; i < consideredObject.getLines().size(); i++){
+        if(consideredObject.getLines()[i]->getStart() == lineToCheck.getStart() && consideredObject.getLines()[i]->getEnd() == lineToCheck.getEnd()){
+            return 0;
+        }
+    }
+
 
     //points from lineToCheck
     cv::Point2i pointToCheckStart;
@@ -50,7 +58,6 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line l
     lastDBPointStart = lastDBLine->getStart();
     lastDBPointEnd = lastDBLine->getEnd();
 
-
     //make vector between start and end point
     cv::Point2i vectorCurrentPoint;
     cv::Point2i vectorCurrentPointLast;
@@ -62,8 +69,7 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line l
     cv::Point2i vectorBetweenObjectLines;
 
     cv::Point2i vectorBetweenObjectLinesReverse;
-    cv::Point2i vectorBetweenObjectLinesReverse2;
-    cv::Point2i vectorBetweenObjectLinesReverse3;
+
 
 
     //the vector of the the start and end point, for current and last line
@@ -77,10 +83,78 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line l
     //space beetwen the two lines
     vectorBetweenDBLines = dbStartPoint - lastDBPointEnd;
 
+    // ******************************************************************************
+    // rotate first and second line of considered object if neccessary to match model
+    // ******************************************************************************
+    if(currentLineNumber == 1){
+
+        cv::Point2i vToStart;
+        cv::Point2i vToEnd;
+
+        // if this vector length matches with model rotate only first line
+        vToStart = pointToCheckStart - lastPointToCheckStart;
+        // if this vector length matches with model rotate both lines
+        vToEnd = pointToCheckEnd - lastPointToCheckStart;
+
+        // get lengths of vectors
+        double vToStartLength = getLineLength(vToStart.x, vToStart.y);
+        double vToEndLength = getLineLength(vToEnd.x, vToEnd.y);
+
+        // get relative length compared to current line
+        double lengthCurrentLine = getLineLength(vectorCurrentPoint.x, vectorCurrentPoint.y);
+        double relVStartLength = vToStartLength/lengthCurrentLine;
+        double relVEndLength = vToEndLength/lengthCurrentLine;
+
+        // get realtive length compared to current line of model
+        double distanceBetweenDBLines = getLineLength(vectorBetweenDBLines.x, vectorBetweenDBLines.y);
+        double lengthDbCurrentLine = getLineLength(vectorDbPoint.x, vectorDbPoint.y);
+        double relDistanceBetweenDBPoints = distanceBetweenDBLines/lengthDbCurrentLine;
+
+        // calc the variance from lines to db lines
+        double var1 = relDistanceBetweenDBPoints - relVStartLength;
+        double var2 = relDistanceBetweenDBPoints - relVEndLength;
+
+        // maximum variance
+        double threshold = 0.2;
+
+        // check if a line has to be rotated
+        if(var1 < threshold && var1 > -threshold){
+            // rotate only first line -> cannot switch lines of object as they are saved -> delete line and create new
+            cv::Point2i start = consideredObject.getLines()[0]->getEnd();
+            cv::Point2i end = consideredObject.getLines()[0]->getStart();
+            consideredObject.clearLines();
+            consideredObject.addLine(Line(start, end));
+
+            // fix old values
+            lastPointToCheckStart = consideredObject.getLines()[0]->getStart();
+            lastPointToCheckEnd = consideredObject.getLines()[0]->getEnd();
+            vectorCurrentPointLast = lastPointToCheckEnd - lastPointToCheckStart;
+
+        }else if(var2 < threshold && var2 > -threshold){
+            // rotate both lines
+            // first line -> cannot switch lines of object as they are saved -> delete line and create new
+            cv::Point2i start = consideredObject.getLines()[0]->getEnd();
+            cv::Point2i end = consideredObject.getLines()[0]->getStart();
+            consideredObject.clearLines();
+            consideredObject.addLine(Line(start, end));
+
+            // current line
+            lineToCheck.switchStartAndEnd();
+
+            // fix old values
+            pointToCheckStart = lineToCheck.getStart();
+            pointToCheckEnd = lineToCheck.getEnd();
+            vectorCurrentPoint = pointToCheckEnd - pointToCheckStart;
+
+            lastPointToCheckStart = consideredObject.getLines()[0]->getStart();
+            lastPointToCheckEnd = consideredObject.getLines()[0]->getEnd();
+            vectorCurrentPointLast = lastPointToCheckEnd - lastPointToCheckStart;
+        }
+    }
+
     vectorBetweenObjectLines = pointToCheckStart - lastPointToCheckEnd;
+    // if this suits later line has to be rotated
     vectorBetweenObjectLinesReverse = pointToCheckEnd - lastPointToCheckEnd;
-    vectorBetweenObjectLinesReverse2 = pointToCheckStart - lastPointToCheckStart;
-    vectorBetweenObjectLinesReverse3 = pointToCheckEnd - lastPointToCheckStart;
 
     //calculate angle between current and last line, skalarprodukt without cos
     //phi = (a1*b1) + (an * bn) / |a| * |b|
@@ -92,11 +166,11 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line l
     double lengthCurrentLineLast = getLineLength(vectorCurrentPointLast.x, vectorCurrentPointLast.y);
     double lengthDbCurrentLine = getLineLength(vectorDbPoint.x, vectorDbPoint.y);
     double lengthDbLineLast = getLineLength(vectorDbPointLast.x, vectorDbPointLast.y);
+
     double distanceBetweenDBLines = getLineLength(vectorBetweenDBLines.x, vectorBetweenDBLines.y);
     double distanceBetweenObjectLines = getLineLength(vectorBetweenObjectLines.x, vectorBetweenObjectLines.y);
     double distanceBetweenObjectLinesReverse = getLineLength(vectorBetweenObjectLinesReverse.x, vectorBetweenObjectLinesReverse.y);
-    double distanceBetweenObjectLinesReverse2 = getLineLength(vectorBetweenObjectLinesReverse2.x, vectorBetweenObjectLinesReverse2.y);
-    double distanceBetweenObjectLinesReverse3 = getLineLength(vectorBetweenObjectLinesReverse3.x, vectorBetweenObjectLinesReverse3.y);
+
 
     //now compare and set the rating, the current line to db current line
 
@@ -114,27 +188,26 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line l
     double relDistanceBetweenDBPoints = distanceBetweenDBLines/lengthDbCurrentLine;
     double relDistanceBetweenLinePoints = distanceBetweenObjectLines/lengthCurrentLine;
     double relDistanceBetweenLinePointsRevert = distanceBetweenObjectLinesReverse/lengthCurrentLine;
-    double relDistanceBetweenLinePointsRevert2 = distanceBetweenObjectLinesReverse2/lengthCurrentLine;
-    double relDistanceBetweenLinePointsRevert3 = distanceBetweenObjectLinesReverse3/lengthCurrentLine;
+
 
     double relValNorm = relDistanceBetweenDBPoints - relDistanceBetweenLinePoints;
     double relValRev = relDistanceBetweenDBPoints - relDistanceBetweenLinePointsRevert;
-    double relValRev2 = relDistanceBetweenDBPoints - relDistanceBetweenLinePointsRevert2;
-    double relValRev3 = relDistanceBetweenDBPoints - relDistanceBetweenLinePointsRevert3;
+
+    // rotate line if vector between end of last line and end of current line fits in order to match model
+    if(relValRev < distanceThreshold1 && relValRev > -distanceThreshold1){
+        lineToCheck.switchStartAndEnd();
+    }
 
     //check the distance
-    if((relValNorm < distanceThreshold1 && relValNorm > -distanceThreshold1) || (relValRev < distanceThreshold1 && relValRev > -distanceThreshold1)
-            ||(relValRev2 < distanceThreshold1 && relValRev2 > -distanceThreshold1) || (relValRev3 < distanceThreshold1 && relValRev3 > -distanceThreshold1))
+    if((relValNorm < distanceThreshold1 && relValNorm > -distanceThreshold1) || (relValRev < distanceThreshold1 && relValRev > -distanceThreshold1))
     {
         lengthAndPosiRating = tenPointRating * 2.0;
 
-        if((relValNorm < distanceThreshold2 && relValNorm > -distanceThreshold2) || (relValRev < distanceThreshold2 && relValRev > -distanceThreshold2)
-            ||(relValRev2 < distanceThreshold2 && relValRev2 > -distanceThreshold2) || (relValRev3 < distanceThreshold2 && relValRev3 > -distanceThreshold2))
+        if((relValNorm < distanceThreshold2 && relValNorm > -distanceThreshold2) || (relValRev < distanceThreshold2 && relValRev > -distanceThreshold2))
         {
             lengthAndPosiRating = tenPointRating * 3.0;
 
-            if((relValNorm < distanceThreshold3 && relValNorm > -distanceThreshold3) || (relValRev < distanceThreshold3 && relValRev > -distanceThreshold3)
-               ||(relValRev2 < distanceThreshold3 && relValRev2 > -distanceThreshold3) || (relValRev3 < distanceThreshold3 && relValRev3 > -distanceThreshold3))
+            if((relValNorm < distanceThreshold3 && relValNorm > -distanceThreshold3) || (relValRev < distanceThreshold3 && relValRev > -distanceThreshold3))
             {
                 lengthAndPosiRating = tenPointRating * 4.0;
             }
@@ -212,7 +285,9 @@ void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfin
 
     for(uint currentObjectIndex = 0; currentObjectIndex < unfinishedObjects.size(); currentObjectIndex++){
         // 80 == 80%
-        if(unfinishedObjects[currentObjectIndex].getRating() > 85){
+        if(unfinishedObjects[currentObjectIndex].getRating() > 80){
+//            std::cout << unfinishedObjects[currentObjectIndex].getRating() << std::endl;
+            std::cout << unfinishedObjects[currentObjectIndex].getLines().size() << "   " << objectName << std::endl;
             unfinishedObjects[currentObjectIndex].setName(objectName);
             foundObjects.push_back(unfinishedObjects[currentObjectIndex]);
 
