@@ -22,6 +22,7 @@ SOURCES += \
     # line detection
     $${ALG_SRC_DIR}/linedetection/linedetectionalgorithm.cpp \
     $${ALG_SRC_DIR}/linedetection/edl/edl.cpp \
+    $${ALG_SRC_DIR}/linedetection/edl2/edl2.cpp \
     $${ALG_SRC_DIR}/linedetection/hough/hough.cpp \
     # object detection - common
     $${ALG_SRC_DIR}/objectdetection/model.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
     # line detection
     $${ALG_INCL_DIR}/linedetection/linedetectionalgorithm.h \
     $${ALG_INCL_DIR}/linedetection/edl/edl.h \
+    $${ALG_INCL_DIR}/linedetection/edl2/edl2.h \
     $${ALG_INCL_DIR}/linedetection/hough/hough.h \
     # object detection - common
     $${ALG_INCL_DIR}/objectdetection/model.h \
