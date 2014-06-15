@@ -104,14 +104,14 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line&
         double vToEndLength = getLineLength(vToEnd.x, vToEnd.y);
 
         // get relative length compared to current line
-        double lengthCurrentLine = getLineLength(vectorCurrentPoint.x, vectorCurrentPoint.y);
-        double relVStartLength = vToStartLength/lengthCurrentLine;
-        double relVEndLength = vToEndLength/lengthCurrentLine;
+        double lengthCurrentLineLast = getLineLength(vectorCurrentPointLast.x, vectorCurrentPointLast.y);
+        double relVStartLength = vToStartLength/lengthCurrentLineLast;
+        double relVEndLength = vToEndLength/lengthCurrentLineLast;
 
         // get realtive length compared to current line of model
         double distanceBetweenDBLines = getLineLength(vectorBetweenDBLines.x, vectorBetweenDBLines.y);
-        double lengthDbCurrentLine = getLineLength(vectorDbPoint.x, vectorDbPoint.y);
-        double relDistanceBetweenDBPoints = distanceBetweenDBLines/lengthDbCurrentLine;
+        double lengthDbLineLast = getLineLength(vectorDbPointLast.x, vectorDbPointLast.y);
+        double relDistanceBetweenDBPoints = distanceBetweenDBLines/lengthDbLineLast;
 
         // calc the variance from lines to db lines
         double var1 = relDistanceBetweenDBPoints - relVStartLength;
@@ -187,10 +187,10 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line&
     double tenPointRating = maxRatingPerLine / 10;
     double lengthAndPosiRating = 0;// tenPointRating;
 
-    // get a relative value of distance that says how much space is between end of last line and start of new line compared to the length of new line
-    double relDistanceBetweenDBPoints = distanceBetweenDBLines/lengthDbCurrentLine;
-    double relDistanceBetweenLinePoints = distanceBetweenObjectLines/lengthCurrentLine;
-    double relDistanceBetweenLinePointsRevert = distanceBetweenObjectLinesReverse/lengthCurrentLine;
+    // get a relative value of distance that says how much space is between end of last line and start of new line compared to the length of line
+    double relDistanceBetweenDBPoints = distanceBetweenDBLines/lengthDbLineLast;
+    double relDistanceBetweenLinePoints = distanceBetweenObjectLines/lengthCurrentLineLast;
+    double relDistanceBetweenLinePointsRevert = distanceBetweenObjectLinesReverse/lengthCurrentLineLast;
 
 
     double relValNorm = relDistanceBetweenDBPoints - relDistanceBetweenLinePoints;
