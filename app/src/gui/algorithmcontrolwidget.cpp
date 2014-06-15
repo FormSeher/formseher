@@ -144,7 +144,7 @@ void AlgorithmControlWidget::on_openPicture_clicked()
 
         image = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_COLOR);
 
-        controller.setImage(cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE));
+        controller.setImage(image);
     }
     catch(int e)
     {
@@ -300,7 +300,6 @@ void AlgorithmControlWidget::on_webcamRadioButton_clicked()
         return;
 
     webcam = new VideoInput(0);
-    webcam->set(CV_CAP_PROP_FORMAT, CV_8UC1);
 
     if(!webcam->isOpened())
     {

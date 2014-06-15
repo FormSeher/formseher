@@ -1,5 +1,7 @@
 #include "threading/algorithmcontroller.hpp"
 
+#include <opencv2/imgproc/imgproc.hpp>
+
 #include "gui/linedetectionalgorithmconfigdialog.h"
 #include "gui/objectdetection/objectdetectionalgorithmconfigdialog.h"
 
@@ -52,10 +54,17 @@ void AlgorithmController::setObjectAlgorithmConfigDialog(ObjectDetectionAlgorith
     objectDetectionChanged();
 }
 
-void AlgorithmController::setImage(cv::InputArray image)
+void AlgorithmController::setImage(cv::InputArray _image)
 {
+    cv::Mat image;
+
+    if(_image.channels() == 1)
+        image = _image.getMat().clone();
+    else
+        cv::cvtColor(_image, image, CV_BGR2GRAY);
+
     queueMutex.lock();
-    this->image = image.getMat();
+    this->image = image;
     queueMutex.unlock();
     enqueueAlgorithm(true);
 }

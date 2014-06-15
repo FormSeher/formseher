@@ -58,9 +58,9 @@ public:
 
     /**
      * @brief Set the image on which the AlgorithmWorkers should operate.
-     * @param image The image.
+     * @param _image The image which is automatically converted to grayscale.
      */
-    void setImage(cv::InputArray image);
+    void setImage(cv::InputArray _image);
 
     /**
      * @brief Get the result of the latest executed AlgorithmWorker.
