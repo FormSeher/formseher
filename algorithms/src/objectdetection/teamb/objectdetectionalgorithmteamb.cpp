@@ -102,8 +102,8 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line l
 
     double smallerThenDbThreshold = 1.2;// the dbline is 1.2 so big as the lineToCheck
     double biggerThenDbThreshold = 0.8;// the lineToCheck is 1.2 so big as the dbline;
-    double distanceThreshold1 = 0.5;
-    double distanceThreshold2 = 0.3;
+    double distanceThreshold1 = 0.2;
+    double distanceThreshold2 = 0.15;
     double distanceThreshold3 = 0.1;
 
 
@@ -157,9 +157,9 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object consideredObject, Line l
     }
 
     //now compare the angle
-    double angleThreshold1 = 0.1;//its allmost 10° +-2
-    double angleThreshold2 = 0.2;//its allmost 20° +-2
-    double angleThreshold3 = 0.3;//its allmost 30° +-2
+    double angleThreshold1 = 0.05;//its almost 5° +-2
+    double angleThreshold2 = 0.1; //its almost 10° +-2
+    double angleThreshold3 = 0.15;//its almost 15° +-2
     double angleRating;
 
     // as angle can be positive and negative consider both
