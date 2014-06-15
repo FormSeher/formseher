@@ -58,19 +58,19 @@ class ObjectDetectionTeamBTest : public QObject
         linesFromEDL.push_back(Line(9,9,1,9));
 
         // now test the calculate
-        ObjectDetectionAlgorithmTeamB objDATb;
+//        ObjectDetectionAlgorithmTeamB objDATb;
 
-        objDATb.setModels(models);
-        std::vector<Object> receivedObjects = objDATb.calculate(linesFromEDL);
+//        objDATb.setModels(models);
+//        std::vector<Object> receivedObjects = objDATb.calculate(linesFromEDL);
 
-        std::cout << receivedObjects.size() << std::endl;
-        for(int i = 0; i < receivedObjects.size(); i++){
-            // @bartosch
-            // hier siehst wie alle linien das selbe rating bekommen und daher 4⁴ moeglichkeiten entstehen weil keins aussortiert wird
-            std::cout << receivedObjects[i].getName() << "|" << receivedObjects[i].getRating() << "|" << receivedObjects[i].getLines().size()<<std::endl;
-        }
+//        std::cout << receivedObjects.size() << std::endl;
+//        for(int i = 0; i < receivedObjects.size(); i++){
+//            // @bartosch
+//            // hier siehst wie alle linien das selbe rating bekommen und daher 4⁴ moeglichkeiten entstehen weil keins aussortiert wird
+//            std::cout << receivedObjects[i].getName() << "|" << receivedObjects[i].getRating() << "|" << receivedObjects[i].getLines().size()<<std::endl;
+//        }
 
-        QVERIFY(receivedObjects[0].getName().compare("Quader") == 0);
+//        QVERIFY(receivedObjects[0].getName().compare("Quader") == 0);
     }
 
     void cleanupTestCase()
