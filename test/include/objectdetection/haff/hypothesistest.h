@@ -109,6 +109,34 @@ private slots:
         // Result has to be 2.33... and 1.66..
         QCOMPARE(centers.second, cv::Point2d(7.0/3.0, 5.0/3.0));
     }
+
+    void calculateCoverageRatingPerfectMatch()
+    {
+        Line objectLine1(3,1,7,1);
+
+        Line modelLine1(3,1,7,1);
+
+        Hypothesis h(0);
+        h.addLineMatch(&objectLine1,&modelLine1);
+
+        double resultFromCoverageRating = h.calculateCoverageRating(1);
+
+        QCOMPARE(resultFromCoverageRating,1.0);
+    }
+
+    void calculateCoverageRatingHalfMatch()
+    {
+        Line objectLine1(1,1,9,1);
+
+        Line modelLine1(3,1,7,1);
+
+        Hypothesis h(0);
+        h.addLineMatch(&objectLine1,&modelLine1);
+
+        double resultFromCoverageRating = h.calculateCoverageRating(1);
+
+        QCOMPARE(resultFromCoverageRating,0.5);
+    }
 };
 
 #endif // FS_HYPOTHESISTEST_H
