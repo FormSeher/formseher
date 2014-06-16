@@ -12,9 +12,17 @@ class Haff : public ObjectDetectionAlgorithm
 {
 
 public:
-    Haff();
+    Haff(int numberOfBestHypotheses = 10, int numberOfDetectedObjects = 10,
+         double minimalObjectRating = 60.0, double coverageWeight = 1.0, double angleWeight = 1.0);
 
     std::vector<Object> calculate(std::vector<Line> detectedLines);
+
+private:
+    int numberOfBestHypotheses;
+    int numberOfDetectedObjects;
+    double minimalObjectRating;
+    double coverageWeight;
+    double angleWeight;
 };
 }   //  namespace formseher
 

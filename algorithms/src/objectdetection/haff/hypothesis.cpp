@@ -8,7 +8,6 @@ Hypothesis::Hypothesis(const Model *model, double angleWeight, double coverWeigh
       angleWeight(angleWeight),
       coverWeight(coverWeight)
 {
-
 }
 
 void Hypothesis::calculateRating()
