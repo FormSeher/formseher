@@ -28,6 +28,7 @@ public:
     double getPerpendicularDistanceToStart();
     double getPerpendicularDistanceToEnd();
 
+    bool operator==(const Line& line) const;
 
     void setPerpendicular(double perpendicularDistanceToOrigin, cv::Point2i& perpendicularPoint);
 

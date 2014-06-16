@@ -121,5 +121,12 @@ void Line::calculatePerpendicular()
     perpendicularAlreadyDone = true;
 }
 
+bool Line::operator==(const Line& line) const
+{
+    return (this->start == line.getStart() && this->end == line.getEnd()) ||
+           (this->start == line.getEnd() && this->end == line.getStart()) ;
+}
+
+
 } // namespace formseher
 
