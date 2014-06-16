@@ -96,7 +96,7 @@ double Hypothesis::calculateAngleRating()
     }
 
     // match = 100% - error
-    return 1.0d - (totalError / lineMatchMap.size());
+    return 1.0d - (totalError / (double)lineMatchMap.size());
 }
 
 double Hypothesis::calculateCoverageRating(double scaleFactor)
@@ -104,7 +104,6 @@ double Hypothesis::calculateCoverageRating(double scaleFactor)
     double coverageRaiting = 0.0;
     double endPointCoverageRaiting = 0.0;
     double startPointCoverageRaiting = 0.0;
-    int counter = lineMatchMap.size();
 
     std::pair<cv::Point2d, cv::Point2d> centers = calculateCenters();
 
@@ -158,7 +157,7 @@ double Hypothesis::calculateCoverageRating(double scaleFactor)
         coverageRaiting += ((startPointCoverageRaiting + endPointCoverageRaiting) / 2);
     }
 
-    return coverageRaiting/counter;
+    return coverageRaiting / (double)lineMatchMap.size();
 }
 
 void Hypothesis::calculateScaleAndCoverage()
