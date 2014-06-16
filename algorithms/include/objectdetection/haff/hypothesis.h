@@ -104,9 +104,19 @@ private:
      */
     double scaleFactor;
 
+    /**
+     * @brief Rating value of the line angles.
+     */
     double angleRating;
+
+    /**
+     * @brief Rating value of the line coverage.
+     */
     double coverRating;
 
+    /**
+     * @brief The database model this hypothesis gets compared with.
+     */
     const Model* model;
 
     /**
@@ -119,9 +129,14 @@ private:
      */
     const double coverWeight;
 
-    //<PictureLine, DB-Line>
+    /**
+     * @brief Contains hypothetical matching line pairs (<PictureLine, DB-Line>)
+     */
     std::map<Line*, Line*> lineMatchMap;
 
+    /**
+     * @brief Contains all model lines that do not match with the image.
+     */
     std::vector<const Line*> notMatchingLines;
 };
 
