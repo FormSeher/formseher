@@ -66,6 +66,12 @@ public:
      */
     const std::map<Line*, Line*> getLineMatchMap() const;
 
+    /**
+     * @brief Adds the given line as a line that does not match with the model.
+     * @param line Line that gets added.
+     */
+    void addNotMatchingLines(const Line* line);
+
 private:
     /**
      * @brief Calculates rating of angles.

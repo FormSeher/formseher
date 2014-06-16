@@ -235,4 +235,9 @@ const std::map<Line*, Line*> Hypothesis::getLineMatchMap() const
     return lineMatchMap;
 }
 
+void Hypothesis::addNotMatchingLines(const Line* line)
+{
+    notMatchingLines.push_back(line);
+}
+
 } // namespace formseher
