@@ -1,8 +1,7 @@
 #include "objectdetection/haff/haff.h"
+#include "objectdetection/haff/hypothesis.h"
 
 #include <set>
-
-#include "objectdetection/haff/hypothesis.h"
 
 namespace formseher {
 
@@ -26,80 +25,79 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
     {
         for(auto modelLine : model.getLines())
         {
-            // TODO: Clearify how to construct a "non-matching" hypothesis value-key pair?
-
-            // Hypothesis h;
-            // h.addLineMatch(0, modelLine);
-            // h.calculateRating()
-            // newHypotheses.insert(h);
-
             for(auto detectedLine : detectedLines)
             {
-                // TODO: Ugly code duplication. How to improve?
-
-                // Construct newHypotheses in first iteration step.
                 if ( modelLine == model.getLines().front() )
                 {
-                    // Create new Hypothesis
-                    Hypothesis* newHypothesis = new Hypothesis(&model);
+                    if( detectedLine == detectedLines.at(0) )
+                    {
+                        Hypothesis* newHypothesis = new Hypothesis(&model, angleWeight, coverageWeight);
+                        newHypothesis->addNotMatchingLines(&detectedLine);
+                        newHypotheses.insert(newHypothesis);
+                    }
+
+                    Hypothesis* newHypothesis = new Hypothesis(&model, angleWeight, coverageWeight);
                     newHypothesis->addLineMatch(&detectedLine, modelLine);
-
-                    // Rate new Hypothesis
                     newHypothesis->calculateRating();
-
-                    // Store new Hypothesis in newHypotheses set
                     newHypotheses.insert(newHypothesis);
                 }
 
-                // Construct newHypotheses in other iteration steps.
                 else
                 {
                     for(auto oldHypothesis : oldHypotheses)
                     {
                         if ( ! oldHypothesis->containsLine( &detectedLine ) )
                         {
-                            // TODO: Create a copy of oldHypothesis
+                            if( detectedLine == detectedLines.at(0) )
+                            {
+                                Hypothesis* newHypothesis = new Hypothesis(*oldHypothesis);
+                                newHypothesis->addNotMatchingLines(&detectedLine);
+                                newHypotheses.insert(newHypothesis);
+                            }
 
-                            // Create new Hypothesis
-                            oldHypothesis->addLineMatch(&detectedLine, modelLine);
-
-                            // Rate new Hypothesis
-                            oldHypothesis->calculateRating();
-
-                            // Store new Hypothesis in newHypotheses set
-                            newHypotheses.insert(oldHypothesis);
+                            Hypothesis* newHypothesis = new Hypothesis(*oldHypothesis);
+                            newHypothesis->addLineMatch(&detectedLine, modelLine);
+                            newHypothesis->calculateRating();
+                            newHypotheses.insert(newHypothesis);
                         }
                     }
                 }
 
-                // Clear old hypotheses witch are no longer required
-                for(auto oldHypothesis : oldHypotheses)
-                    delete oldHypothesis;
-                oldHypotheses.clear();
+            } // FOREACH detectedline
 
-                // Copy best rated new hypotheses to oldHyptoheses
-                int counter = 0;
-                std::multiset<Hypothesis*>::iterator itr;
-                for(itr = newHypotheses.begin();
-                    itr != newHypotheses.end() && counter < 10;
-                    ++itr)
-                {
-                    oldHypotheses.insert(*itr);
-                    ++counter;
-                }
+            // Clear old hypotheses witch are no longer required
+            for(auto oldHypothesis : oldHypotheses)
+                delete oldHypothesis;
+            oldHypotheses.clear();
+            // Copy best rated new hypotheses to oldHyptoheses
+            int counter = 0;
 
-                // Delete rest of newHypotheses which is no longer needed
-                for(; itr != newHypotheses.end(); ++itr)
-                    delete *itr;
-                newHypotheses.clear();
+            std::multiset<Hypothesis*>::iterator itr;
+            for(itr = newHypotheses.begin();
+                itr != newHypotheses.end() && counter < numberOfBestHypotheses;
+                ++itr)
+            {
+                oldHypotheses.insert(*itr);
+                ++counter;
+
             }
-        }
+
+            // Delete rest of newHypotheses which is no longer needed
+            for(; itr != newHypotheses.end(); ++itr)
+                delete *itr;
+            newHypotheses.clear();
+
+        } // FOREACH modelline
+
         std::multiset<Hypothesis*>::iterator itr;
         int counter = 0;
         for(itr = oldHypotheses.begin();
-            itr != oldHypotheses.end() && counter < 10;
+            itr != oldHypotheses.end() && counter < numberOfDetectedObjects;
             ++itr)
         {
+            if ( (*itr)->getRating() < minimalObjectRating)
+                break;
+
             likelyHypotheses.insert(*itr);
             ++counter;
         }
@@ -109,17 +107,17 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             itr != likelyHypotheses.end();
             ++itr)
         {
-            if(trimCounter >= 10)
+            if(trimCounter >= numberOfDetectedObjects)
             {
                 likelyHypotheses.erase(itr);
                 delete *itr;
             }
             trimCounter++;
         }
+    } // FOREACH model
 
-        // TODO: Add likliest hypothesis to likelyHyptohesis set.
-    }
 
+    // Create Objects
     std::vector<Object> detectedObjects;
     std::multiset<Hypothesis*>::iterator itr;
 
@@ -129,16 +127,13 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
     {
         Object tmp;
         tmp.setName((*itr)->getModel()->getName());
-        tmp.setRating((*itr)->getRating());
+        tmp.setRating((double)(*itr)->getRating());
         for(auto lineMatch : (*itr)->getLineMatchMap())
         {
-
             tmp.addLine(*lineMatch.first);
         }
-
         detectedObjects.push_back(tmp);
     }
-    // Create Objects
 
     return detectedObjects;
 }
