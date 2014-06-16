@@ -18,6 +18,15 @@ void Hypothesis::calculateRating()
     calculateScaleAndCoverage();
 }
 
+Hypothesis::Hypothesis(const Hypothesis& hypothesis)
+    : model(hypothesis.model),
+      angleWeight(hypothesis.angleWeight),
+      coverWeight(hypothesis.coverWeight),
+      lineMatchMap(hypothesis.lineMatchMap),
+      notMatchingLines(hypothesis.notMatchingLines)
+{
+}
+
 double Hypothesis::getRating() const
 {
     return ( angleRating * angleWeight

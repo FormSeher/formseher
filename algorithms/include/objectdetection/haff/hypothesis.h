@@ -17,6 +17,12 @@ public:
     Hypothesis(const Model *model, double angleWeight = 1.0, double coverWeight = 1.0);
 
     /**
+     * @brief Hypothesis copy constructor
+     * @param hypothesis Hypothesis where the current should my copied from.
+     */
+    Hypothesis(const Hypothesis& hypothesis);
+
+    /**
      * @brief Calculates the rating of this Hypothesis.
      */
     void calculateRating();

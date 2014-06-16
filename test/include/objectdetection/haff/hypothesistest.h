@@ -137,6 +137,35 @@ private slots:
 
         QCOMPARE(resultFromCoverageRating,0.5);
     }
+
+    void copyConstructorTest()
+    {
+
+
+        const Model model;
+        Hypothesis h1(&model, 1.5, 2.5);
+        Line l1(0,0,10,10), l2(10,10,20,20), l3(20,20,30,30), l4(30,30,40,40);
+
+        h1.addLineMatch(&l1, &l2);
+
+        Hypothesis h2(h1);
+
+        h1.addLineMatch(&l3, &l4);
+
+        QCOMPARE (h1.getModel(), &model);
+        QCOMPARE (h2.getModel(), &model);
+
+        QCOMPARE(h1.angleWeight, 1.5);
+        QCOMPARE(h2.angleWeight, 1.5);
+
+        QCOMPARE(h1.coverWeight, 2.5);
+        QCOMPARE(h2.coverWeight, 2.5);
+
+        QVERIFY(h1.containsLine(&l1));
+        QVERIFY(h2.containsLine(&l1));
+        QVERIFY(h1.containsLine(&l3));
+        QVERIFY( ! h2.containsLine(&l3));
+    }
 };
 
 #endif // FS_HYPOTHESISTEST_H
