@@ -32,13 +32,13 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             {
                 Hypothesis* newHypothesis = new Hypothesis(&model, angleWeight, coverageWeight);
                 newHypothesis->addNotMatchingLines(*modelLineIter);
-                newHypotheses.insert(newHypothesis);
+                oldHypotheses.insert(newHypothesis);
             }
 
             Hypothesis* newHypothesis = new Hypothesis(&model, angleWeight, coverageWeight);
             newHypothesis->addLineMatch(&detectedLine, *modelLineIter);
             newHypothesis->calculateRating();
-            newHypotheses.insert(newHypothesis);
+            oldHypotheses.insert(newHypothesis);
         }
 
         // Run iterations
