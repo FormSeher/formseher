@@ -23,46 +23,46 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
 
     for(auto model : databaseModels)
     {
-        for(auto modelLine : model.getLines())
+        auto modelLineIter = model.getLines().begin();
+
+        // Initialisation step
+        for(auto detectedLine : detectedLines)
+        {
+            if( detectedLine == detectedLines.at(0) )
+            {
+                Hypothesis* newHypothesis = new Hypothesis(&model, angleWeight, coverageWeight);
+                newHypothesis->addNotMatchingLines(*modelLineIter);
+                newHypotheses.insert(newHypothesis);
+            }
+
+            Hypothesis* newHypothesis = new Hypothesis(&model, angleWeight, coverageWeight);
+            newHypothesis->addLineMatch(&detectedLine, *modelLineIter);
+            newHypothesis->calculateRating();
+            newHypotheses.insert(newHypothesis);
+        }
+
+        // Run iterations
+        for(; modelLineIter != model.getLines().end(); ++modelLineIter)
         {
             for(auto detectedLine : detectedLines)
             {
-                if ( modelLine == model.getLines().front() )
+                for(auto oldHypothesis : oldHypotheses)
                 {
-                    if( detectedLine == detectedLines.at(0) )
+                    if ( ! oldHypothesis->containsLine( &detectedLine ) )
                     {
-                        Hypothesis* newHypothesis = new Hypothesis(&model, angleWeight, coverageWeight);
-                        newHypothesis->addNotMatchingLines(modelLine);
-                        newHypotheses.insert(newHypothesis);
-                    }
-
-                    Hypothesis* newHypothesis = new Hypothesis(&model, angleWeight, coverageWeight);
-                    newHypothesis->addLineMatch(&detectedLine, modelLine);
-                    newHypothesis->calculateRating();
-                    newHypotheses.insert(newHypothesis);
-                }
-
-                else
-                {
-                    for(auto oldHypothesis : oldHypotheses)
-                    {
-                        if ( ! oldHypothesis->containsLine( &detectedLine ) )
+                        if( detectedLine == detectedLines.at(0) )
                         {
-                            if( detectedLine == detectedLines.at(0) )
-                            {
-                                Hypothesis* newHypothesis = new Hypothesis(*oldHypothesis);
-                                newHypothesis->addNotMatchingLines(modelLine);
-                                newHypotheses.insert(newHypothesis);
-                            }
-
                             Hypothesis* newHypothesis = new Hypothesis(*oldHypothesis);
-                            newHypothesis->addLineMatch(&detectedLine, modelLine);
-                            newHypothesis->calculateRating();
+                            newHypothesis->addNotMatchingLines(*modelLineIter);
                             newHypotheses.insert(newHypothesis);
                         }
+
+                        Hypothesis* newHypothesis = new Hypothesis(*oldHypothesis);
+                        newHypothesis->addLineMatch(&detectedLine, *modelLineIter);
+                        newHypothesis->calculateRating();
+                        newHypotheses.insert(newHypothesis);
                     }
                 }
-
             } // FOREACH detectedline
 
             // Clear old hypotheses witch are no longer required
