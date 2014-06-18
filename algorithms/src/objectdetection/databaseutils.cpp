@@ -31,7 +31,9 @@ namespace formseher{
 
         // object array
         const rapidjson::Value& objects = document["objects"];
-        assert(objects.IsArray());
+        if(!objects.IsArray()){
+            return objectsToReturn;
+        }
 
         // get every object from objects-array
         for (rapidjson::SizeType i = 0; i < objects.Size(); i++){
@@ -45,24 +47,27 @@ namespace formseher{
             Model model;
 
             // set name for model
-            assert((object["name"].IsString()));
-            model.setName(object["name"].GetString());
+            if(object["name"].IsString()){
+                model.setName(object["name"].GetString());
+            }
 
             // get lines of object
             const rapidjson::Value& lines = object["lines"];
-            assert(lines.IsArray());
+            if(!lines.IsArray()){
+                continue;
+            }
             for (rapidjson::SizeType lineCounter = 0; lineCounter < lines.Size(); lineCounter++){
 
                 const rapidjson::Value& line = lines[lineCounter]["line"];
-                assert(line.HasMember("start"));
-                assert(line.HasMember("end"));
 
-                const rapidjson::Value& start = line["start"];
-                const rapidjson::Value& end = line["end"];
+                if(line.HasMember("start") && line.HasMember("end")){
+                    const rapidjson::Value& start = line["start"];
+                    const rapidjson::Value& end = line["end"];
 
-                // add line to model
-                Line lineToAdd(start["x"].GetInt(), start["y"].GetInt(), end["x"].GetInt(), end["y"].GetInt());
-                model.addLine(lineToAdd);
+                    // add line to model
+                    Line lineToAdd(start["x"].GetInt(), start["y"].GetInt(), end["x"].GetInt(), end["y"].GetInt());
+                    model.addLine(lineToAdd);
+                }
             }
             objectsToReturn.push_back(model);
         }
@@ -95,7 +100,9 @@ namespace formseher{
         }
 
         rapidjson::Value& objects = document["objects"];
-        assert(objects.IsArray());
+        if(!objects.IsArray()){
+            return;
+        }
 
         rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
 
@@ -143,9 +150,13 @@ namespace formseher{
 
     void DatabaseUtils::removeObject(Object objectToRemove){
 
-        assert(document.HasMember("objects"));
+        if(!document.HasMember("objects")){
+            return;
+        }
         rapidjson::Value& objects = document["objects"];
-        assert(objects.IsArray());
+        if(!objects.IsArray()){
+            return;
+        }
 
         for (rapidjson::SizeType i = 0; i < objects.Size(); i++){
 
