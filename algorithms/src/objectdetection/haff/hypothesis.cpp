@@ -12,10 +12,15 @@ Hypothesis::Hypothesis(const Model *model, double angleWeight, double coverWeigh
 
 void Hypothesis::calculateRating()
 {
-    // Calculate angle rating
+    // Calculate scale for Ratings
+    calculateScale();
 
-    // Calculate scale factor and cover rating
-    calculateScaleAndCoverage();
+    // Calculate angle rating
+    calculateAngleRating();
+
+    // Calculate cover rating
+    calculateCoverageRating();
+
 }
 
 Hypothesis::Hypothesis(const Hypothesis& hypothesis)
@@ -99,7 +104,7 @@ double Hypothesis::calculateAngleRating()
     return 1.0d - (totalError / (double)lineMatchMap.size());
 }
 
-double Hypothesis::calculateCoverageRating(double scaleFactor)
+double Hypothesis::calculateCoverageRating()
 {
     double coverageRaiting = 0.0;
     double endPointCoverageRaiting = 0.0;
@@ -138,11 +143,11 @@ double Hypothesis::calculateCoverageRating(double scaleFactor)
         ModelDistanceToEnd[1] = (double)lineMatch.first->getEnd().y - lineMatch.first->getCenterPoint().y;
 
 
-        startPointCoverageRaiting = norm(ObjectDistanceToStart) * scaleFactor
-                                    / norm(ModelDistanceToStart);
+        startPointCoverageRaiting = cv::norm(ObjectDistanceToStart) * scaleFactor
+                                    / cv::norm(ModelDistanceToStart);
 
-        endPointCoverageRaiting = norm(ObjectDistanceToEnd) * scaleFactor
-                                  / norm(ModelDistanceToEnd);
+        endPointCoverageRaiting = cv::norm(ObjectDistanceToEnd) * scaleFactor
+                                  / cv::norm(ModelDistanceToEnd);
 
         if(startPointCoverageRaiting > 1)
         {
@@ -154,10 +159,10 @@ double Hypothesis::calculateCoverageRating(double scaleFactor)
             endPointCoverageRaiting = 1;
 
         }
-        coverageRaiting += ((startPointCoverageRaiting + endPointCoverageRaiting) / 2);
+        coverageRaiting += ((startPointCoverageRaiting + endPointCoverageRaiting) / 2.0);
     }
 
-    return coverageRaiting / (double)lineMatchMap.size();
+    this->coverRating =  coverageRaiting / (double)lineMatchMap.size();
 }
 
 void Hypothesis::calculateScale()
@@ -183,39 +188,6 @@ void Hypothesis::calculateScale()
     }
 
     this->scaleFactor = scale / (double)lineMatchMap.size();
-}
-
-void Hypothesis::calculateScaleAndCoverage()
-{
-    double bestScale = -1;
-    double bestCoverage = -1;
-
-    double currentScale = -1;
-    double currentCoverage = -1;
-
-    std::pair<cv::Point2d, cv::Point2d> centers = calculateCenters();
-
-    for(auto lineMatch : lineMatchMap)
-    {
-        cv::Point2d LineCenterToObjectCenter = centers.first - lineMatch.first->getCenterPoint();
-        double objectDistanceToCenter = cv::norm(LineCenterToObjectCenter);
-
-        cv::Point2d LineCenterToModelCenter = centers.second - lineMatch.second->getCenterPoint();
-        double modelDistanceToCenter = cv::norm(LineCenterToModelCenter);
-
-        currentScale = objectDistanceToCenter / modelDistanceToCenter;
-
-        currentCoverage = calculateCoverageRating(currentScale);
-
-        if(currentCoverage > bestCoverage)
-        {
-            bestScale = currentScale;
-            bestCoverage = currentCoverage;
-        }
-    }
-
-    this->scaleFactor = bestScale;
-    this->coverRating = bestCoverage;
 }
 
 std::pair<cv::Point2d, cv::Point2d> Hypothesis::calculateCenters()

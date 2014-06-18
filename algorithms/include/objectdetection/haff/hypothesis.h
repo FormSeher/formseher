@@ -84,16 +84,12 @@ private:
      * @param scaleFactor Scale factor for which the coverage is calculated.
      * @return Rating of coverage between 0 (0%) and 1 (100%).
      */
-    double calculateCoverageRating(double scaleFactor);
-
-    void calculateScale();
+    double calculateCoverageRating();
 
     /**
-     * @brief Calculates the scaleFactor and coverageRating at once.
-     *
-     * Coverage calculation internally relies on calculateCoverageRating().
+     * @brief Calculates the scaleFactor.
      */
-    void calculateScaleAndCoverage();
+    void calculateScale();
 
     /**
      * @brief Calculate the centers of object and model lines.

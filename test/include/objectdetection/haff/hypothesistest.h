@@ -119,9 +119,10 @@ private slots:
         Hypothesis h(0);
         h.addLineMatch(&objectLine1,&modelLine1);
 
-        double resultFromCoverageRating = h.calculateCoverageRating(1);
+        h.scaleFactor = 1;
+        h.calculateCoverageRating();
 
-        QCOMPARE(resultFromCoverageRating,1.0);
+        QCOMPARE(h.coverRating,1.0);
     }
 
     void calculateCoverageRatingHalfMatch()
@@ -133,9 +134,10 @@ private slots:
         Hypothesis h(0);
         h.addLineMatch(&objectLine1,&modelLine1);
 
-        double resultFromCoverageRating = h.calculateCoverageRating(1);
+        h.scaleFactor = 1;
+        h.calculateCoverageRating();
 
-        QCOMPARE(resultFromCoverageRating,0.5);
+        QCOMPARE(h.coverRating, 0.5);
     }
 
     void copyConstructorTest()
