@@ -32,7 +32,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
                     if( detectedLine == detectedLines.at(0) )
                     {
                         Hypothesis* newHypothesis = new Hypothesis(&model, angleWeight, coverageWeight);
-                        newHypothesis->addNotMatchingLines(&modelLine);
+                        newHypothesis->addNotMatchingLines(modelLine);
                         newHypotheses.insert(newHypothesis);
                     }
 
@@ -51,7 +51,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
                             if( detectedLine == detectedLines.at(0) )
                             {
                                 Hypothesis* newHypothesis = new Hypothesis(*oldHypothesis);
-                                newHypothesis->addNotMatchingLines(&modelLine);
+                                newHypothesis->addNotMatchingLines(modelLine);
                                 newHypotheses.insert(newHypothesis);
                             }
 
