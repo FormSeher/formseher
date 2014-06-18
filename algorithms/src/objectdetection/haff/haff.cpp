@@ -21,36 +21,42 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
     std::multiset<Hypothesis*> newHypotheses;
     std::multiset<Hypothesis*> likelyHypotheses;
 
-    for(auto model : databaseModels)
+    for(auto modelIter = databaseModels.begin(); modelIter != databaseModels.end(); ++modelIter)
     {
-        auto modelLineIter = model.getLines().begin();
+        Model* model = &(*modelIter);
+        auto modelLineIter = model->getLines().begin();
 
         // Initialisation step
-        for(auto detectedLine : detectedLines)
+        for(auto detectedLinesIter = detectedLines.begin(); detectedLinesIter != detectedLines.end(); ++detectedLinesIter)
         {
-            if( detectedLine == detectedLines.at(0) )
+            Line* detectedLine = &(*detectedLinesIter);
+
+            if( *detectedLine == detectedLines.at(0) )
             {
-                Hypothesis* newHypothesis = new Hypothesis(&model, angleWeight, coverageWeight);
+                Hypothesis* newHypothesis = new Hypothesis(model, angleWeight, coverageWeight);
                 newHypothesis->addNotMatchingLines(*modelLineIter);
                 oldHypotheses.insert(newHypothesis);
             }
 
-            Hypothesis* newHypothesis = new Hypothesis(&model, angleWeight, coverageWeight);
-            newHypothesis->addLineMatch(&detectedLine, *modelLineIter);
+            Hypothesis* newHypothesis = new Hypothesis(model, angleWeight, coverageWeight);
+            newHypothesis->addLineMatch(detectedLine, *modelLineIter);
             newHypothesis->calculateRating();
             oldHypotheses.insert(newHypothesis);
+
         }
 
         // Run iterations
-        for(; modelLineIter != model.getLines().end(); ++modelLineIter)
+        for(; modelLineIter != model->getLines().end(); ++modelLineIter)
         {
-            for(auto detectedLine : detectedLines)
+            for(auto detectedLinesIter = detectedLines.begin(); detectedLinesIter != detectedLines.end(); ++detectedLinesIter)
             {
+                Line* detectedLine = &(*detectedLinesIter);
+
                 for(auto oldHypothesis : oldHypotheses)
                 {
-                    if ( ! oldHypothesis->containsLine( &detectedLine ) )
+                    if ( ! oldHypothesis->containsLine( detectedLine ) )
                     {
-                        if( detectedLine == detectedLines.at(0) )
+                        if( *detectedLine == detectedLines.at(0) )
                         {
                             Hypothesis* newHypothesis = new Hypothesis(*oldHypothesis);
                             newHypothesis->addNotMatchingLines(*modelLineIter);
@@ -58,7 +64,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
                         }
 
                         Hypothesis* newHypothesis = new Hypothesis(*oldHypothesis);
-                        newHypothesis->addLineMatch(&detectedLine, *modelLineIter);
+                        newHypothesis->addLineMatch(detectedLine, *modelLineIter);
                         newHypothesis->calculateRating();
                         newHypotheses.insert(newHypothesis);
                     }
