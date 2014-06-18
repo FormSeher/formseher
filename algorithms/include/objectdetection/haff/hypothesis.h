@@ -84,7 +84,7 @@ private:
      * @param scaleFactor Scale factor for which the coverage is calculated.
      * @return Rating of coverage between 0 (0%) and 1 (100%).
      */
-    double calculateCoverageRating();
+    void calculateCoverageRating();
 
     /**
      * @brief Calculates the scaleFactor.

@@ -104,7 +104,7 @@ double Hypothesis::calculateAngleRating()
     return 1.0d - (totalError / (double)lineMatchMap.size());
 }
 
-double Hypothesis::calculateCoverageRating()
+void Hypothesis::calculateCoverageRating()
 {
     double coverageRaiting = 0.0;
     double endPointCoverageRaiting = 0.0;
