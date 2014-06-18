@@ -160,6 +160,31 @@ double Hypothesis::calculateCoverageRating(double scaleFactor)
     return coverageRaiting / (double)lineMatchMap.size();
 }
 
+void Hypothesis::calculateScale()
+{
+    double scale = 0;
+
+    std::pair<cv::Point2d, cv::Point2d> centers = calculateCenters();
+
+    if(lineMatchMap.size() == 1){
+        this->scaleFactor = (*lineMatchMap.begin()).first->getLength() / (*lineMatchMap.begin()).second->getLength();
+        return;
+    }
+
+    for(auto lineMatch : lineMatchMap)
+    {
+            cv::Point2d LineCenterToObjectCenter = centers.first - lineMatch.first->getCenterPoint();
+            double objectDistanceToCenter = cv::norm(LineCenterToObjectCenter);
+
+            cv::Point2d LineCenterToModelCenter = centers.second - lineMatch.second->getCenterPoint();
+            double modelDistanceToCenter = cv::norm(LineCenterToModelCenter);
+
+           scale += objectDistanceToCenter / modelDistanceToCenter;
+    }
+
+    this->scaleFactor = scale / (double)lineMatchMap.size();
+}
+
 void Hypothesis::calculateScaleAndCoverage()
 {
     double bestScale = -1;

@@ -140,8 +140,6 @@ private slots:
 
     void copyConstructorTest()
     {
-
-
         const Model model;
         Hypothesis h1(&model, 1.5, 2.5);
         Line l1(0,0,10,10), l2(10,10,20,20), l3(20,20,30,30), l4(30,30,40,40);
@@ -165,6 +163,47 @@ private slots:
         QVERIFY(h2.containsLine(&l1));
         QVERIFY(h1.containsLine(&l3));
         QVERIFY( ! h2.containsLine(&l3));
+    }
+
+    void lineMatchMapTest()
+    {
+        Hypothesis h(0);
+        Line l1(0,0,10,10), l2(10,10,20,20), l3(20,20,30,30), l4(30,30,40,40);
+
+        h.addLineMatch(&l1, &l2);
+        h.addLineMatch(&l2, &l3);
+        h.addLineMatch(&l3, &l4);
+
+        QVERIFY(*(*h.lineMatchMap.begin()).first == l1);
+        QVERIFY(*(*h.lineMatchMap.begin()).second == l2);
+
+        QVERIFY(*(*++h.lineMatchMap.begin()).first == l2);
+        QVERIFY(*(*++h.lineMatchMap.begin()).second == l3);
+
+        QVERIFY(*(*++++h.lineMatchMap.begin()).first == l3);
+        QVERIFY(*(*++++h.lineMatchMap.begin()).second == l4);
+    }
+
+    void scaleFactorTest()
+    {
+        Hypothesis h1(0);
+        Line ol1(0,0,10,10), ml1(0,0,10,10);
+
+        h1.addLineMatch(&ol1, &ml1);
+        h1.calculateScale();
+        QVERIFY(h1.scaleFactor == 1);
+
+        Hypothesis h2(0);
+        Line ol2(0,0,0,10), ml2(0,0,0,20);
+        Line ol3(0,0,10,0), ml3(0,0,20,0);
+
+        h2.addLineMatch(&ol2, &ml2);
+        h2.addLineMatch(&ol3, &ml3);
+        h2.calculateScale();
+
+        qDebug() << h2.scaleFactor;
+
+        QVERIFY(h2.scaleFactor == 0.5);
     }
 };
 

@@ -86,6 +86,8 @@ private:
      */
     double calculateCoverageRating(double scaleFactor);
 
+    void calculateScale();
+
     /**
      * @brief Calculates the scaleFactor and coverageRating at once.
      *
@@ -102,17 +104,17 @@ private:
     /**
      * @brief The scaling of the object related to the matching object.
      */
-    double scaleFactor;
+    double scaleFactor = 0;
 
     /**
      * @brief Rating value of the line angles.
      */
-    double angleRating;
+    double angleRating = 0;
 
     /**
      * @brief Rating value of the line coverage.
      */
-    double coverRating;
+    double coverRating = 0;
 
     /**
      * @brief The database model this hypothesis gets compared with.
