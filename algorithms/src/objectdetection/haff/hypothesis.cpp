@@ -35,8 +35,7 @@ Hypothesis::Hypothesis(const Hypothesis& hypothesis)
 double Hypothesis::getRating() const
 {
     return ( angleRating * angleWeight
-           + coverRating * coverWeight
-    );
+           + coverRating * coverWeight ) * 100.0;
 }
 
 bool Hypothesis::containsLine(const Line* line) const
