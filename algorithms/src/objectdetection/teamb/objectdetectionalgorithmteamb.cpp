@@ -286,13 +286,54 @@ double ObjectDetectionAlgorithmTeamB::getAngleOfLines(cv::Point2i vectorCurrentP
 
 void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects, std::string objectName){
 
+    std::vector<Object> objectsToAdd;
+
     for(uint currentObjectIndex = 0; currentObjectIndex < unfinishedObjects.size(); currentObjectIndex++){
         // 80 == 80%
         if(unfinishedObjects[currentObjectIndex].getRating() > minRating){
-            unfinishedObjects[currentObjectIndex].setName(objectName);
-            foundObjects.push_back(unfinishedObjects[currentObjectIndex]);
 
+            // do not check midpoint for first obj
+            if(currentObjectIndex == 0){
+                objectsToAdd.push_back(unfinishedObjects[currentObjectIndex]);
+                continue;
+            }
+
+            // midpoint of new obj
+            cv::Point2i midPoint;
+            midPoint.x = (unfinishedObjects[currentObjectIndex].getBoundingBox().x + unfinishedObjects[currentObjectIndex].getBoundingBox().width) / 2;
+            midPoint.y = (unfinishedObjects[currentObjectIndex].getBoundingBox().y + unfinishedObjects[currentObjectIndex].getBoundingBox().height) / 2;
+
+            bool objWithNewMid = true;
+            // check if obj's midpoint is near to other objs' midpoint
+            // if so do not add obj to list
+            for(uint i = 0; i < objectsToAdd.size(); i++){
+
+                cv::Point2i midPointOfAddedObj;
+                midPointOfAddedObj.x = (objectsToAdd[i].getBoundingBox().x + objectsToAdd[i].getBoundingBox().width) / 2;
+                midPointOfAddedObj.y = (objectsToAdd[i].getBoundingBox().y + objectsToAdd[i].getBoundingBox().height) / 2;
+
+                cv::Point2i diff = midPoint - midPointOfAddedObj;
+                // if midpoints are in +-10px check for higher rating and break loop
+                if(diff.x > -10 && diff.x < 10 && diff.y > -10 && diff.y < 10){
+
+                    // if rating of new obj is higher replace it with old one
+                    if(objectsToAdd[i].getRating() < unfinishedObjects[currentObjectIndex].getRating()){
+                        objectsToAdd[i] = unfinishedObjects[currentObjectIndex];
+                    }
+                    objWithNewMid = false;
+                    break;
+                }
+            }
+
+            if(objWithNewMid){
+                objectsToAdd.push_back(unfinishedObjects[currentObjectIndex]);
+            }
         }
+    }
+
+    for(uint i = 0; i < objectsToAdd.size(); i++){
+        objectsToAdd[i].setName(objectName);
+        foundObjects.push_back(objectsToAdd[i]);
     }
 }
 
