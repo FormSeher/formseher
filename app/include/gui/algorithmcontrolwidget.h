@@ -2,6 +2,7 @@
 #define FS_ALGORITHMCONTROLWIDGET_H
 
 #include <QWidget>
+#include <QTimer>
 #include <opencv2/core/core.hpp>
 #include <map>
 
@@ -17,6 +18,7 @@ class AlgorithmControlWidget;
 
 namespace formseher
 {
+class VideoInput;
 
 class AlgorithmControlWidget : public QWidget
 {
@@ -53,6 +55,12 @@ private slots:
 
     void on_configureObjectAlgorithm_clicked();
 
+    void on_webcamRadioButton_clicked();
+
+    void on_imageRadioButton_clicked();
+
+    void on_objectBenchmarkButton_clicked();
+
 signals:
     void statusUpdate(QString statusString);
 
@@ -75,6 +83,8 @@ private:
     cv::Mat image;
     cv::Mat resultImage;
     std::string cvWindowName;
+
+    VideoInput* webcam;
 };
 
 } // namespace formseher

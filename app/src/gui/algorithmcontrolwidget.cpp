@@ -5,13 +5,15 @@
 #include <QDir>
 #include <QString>
 #include <QFileDialog>
+#include <QMessageBox>
+
+#include <iostream>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include <iostream>
-
+#include "videoinput.h"
 #include "objectdetection/object.h"
 #include "objectdetection/databaseutils.h"
 
@@ -20,7 +22,8 @@ namespace formseher
 
 AlgorithmControlWidget::AlgorithmControlWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::AlgorithmControlWidget)
+    ui(new Ui::AlgorithmControlWidget),
+    webcam(0)
 {
     ui->setupUi(this);
 
@@ -72,39 +75,12 @@ void AlgorithmControlWidget::updateImageLabel()
     ui->imageLabel->setPixmap(QPixmap::fromImage(scaledImage));
 }
 
-/*
-void AlgorithmControlWidget::updateResultImage()
-{
-    // Random number generator for colorful lines
-    cv::RNG rng(0xFFFFFFFF);
-
-    if(ui->displayConfig->currentIndex() == 1)
-        resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
-    else
-        resultImage = image.clone();
-
-    if(ui->displayConfig->currentIndex() != 0)
-    {
-        for(auto line : latestResult.first)
-        {
-            cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-            cv::line(resultImage, line.getStart(), line.getEnd(), color);
-        }
-    }
-
-    if(ui->showWindowCheckBox->checkState() == Qt::Checked)
-        cv::imshow(cvWindowName, resultImage);
-    updateImageLabel();
-}
-*/
-
 void AlgorithmControlWidget::updateResultImage()
 {
     // Random number generator for colorful lines
     cv::RNG rng(0xFFFFFFFF);
 
     if(!ui->showOriginalCheckBox->isChecked())
-
         resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
     else
         resultImage = image.clone();
@@ -168,7 +144,7 @@ void AlgorithmControlWidget::on_openPicture_clicked()
 
         image = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_COLOR);
 
-        controller.setImage(cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE));
+        controller.setImage(image);
     }
     catch(int e)
     {
@@ -179,6 +155,26 @@ void AlgorithmControlWidget::on_openPicture_clicked()
 void AlgorithmControlWidget::on_controller_newResultAvailable()
 {
     latestResult = controller.getLatestResult();
+
+    // Special stuff when using webcam
+    if(webcam)
+    {
+        // Update this->image
+        cv::Mat webcamImage = webcam->getLastImage();
+
+        if(!webcamImage.empty())
+            image = webcam->getLastImage();
+
+        // Get a new image and update controller
+        (*webcam) >> webcamImage;
+
+        if(!webcamImage.empty())
+            controller.setImage(webcamImage);
+        else
+            // disable video playback and reset radioButtons
+            on_imageRadioButton_clicked();
+    }
+
     updateResultImage();
     emit statusUpdate(QString("Found %1 lines and %2 objects.")
                       .arg(latestResult.first.size())
@@ -298,4 +294,79 @@ void AlgorithmControlWidget::on_configureObjectAlgorithm_clicked()
     selectedObjectAlgorithmConfigDialog->show();
 }
 
+void AlgorithmControlWidget::on_webcamRadioButton_clicked()
+{
+    if(webcam)
+        return;
+
+    webcam = new VideoInput(0);
+
+    if(!webcam->isOpened())
+    {
+        delete webcam;
+        webcam = 0;
+        // Display error message and reset radio buttons.
+        QMessageBox::warning(this, "Error opening webcam", "Could not open default webcam '0'.");
+        ui->imageRadioButton->toggle();
+
+        return;
+    }
+
+    cv::Mat webcamImage;
+    (*webcam) >> webcamImage;
+
+    if(!webcamImage.empty())
+        controller.setImage(webcamImage);
+}
+
+void AlgorithmControlWidget::on_imageRadioButton_clicked()
+{
+    if(webcam)
+    {
+        delete webcam;
+        webcam = 0;
+    }
+}
+
 } // namespace formseher
+
+void formseher::AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
+{
+    if(resultImage.empty())
+            return;
+
+    LineDetectionAlgorithm* lines = selectedLineAlgorithmConfigDialog->createAlgorithm();
+    ObjectDetectionAlgorithm* algorithm = selectedObjectAlgorithmConfigDialog->createAlgorithm();
+    std::vector<formseher::Line> line = lines->calculate(image.clone());
+
+    double startTime;
+    double endTime;
+    int executionCount = 100;
+
+    // Open Dialog if Benchmarking starts
+    QDialog benchmarkDialog;
+    benchmarkDialog.setWindowTitle("Benchmarking..");
+    benchmarkDialog.autoFillBackground();
+    benchmarkDialog.resize(300,0);
+    benchmarkDialog.setWindowFlags(Qt::WindowStaysOnTopHint);
+    benchmarkDialog.show();
+
+    // Begin time measurement and execute algorithm n-times
+
+    startTime = getTime();
+
+/*    for(int i = 0; i < executionCount; ++i)
+        algorithm->calculate(lines->calculate(image.clone()));
+*/
+
+    for(int i = 0; i < executionCount; ++i)
+        algorithm->calculate(line);
+
+    endTime = getTime();
+    // End of time measurement
+
+    double elapsedTime = endTime - startTime;
+
+    ui->objectBenchmarkResult->setText(QString::number(elapsedTime / executionCount) + " s");
+    benchmarkDialog.close();
+}
