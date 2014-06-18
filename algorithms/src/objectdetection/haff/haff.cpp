@@ -45,7 +45,8 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
 
         }
 
-        // Run iterations
+         // Run iterations
+        ++modelLineIter;
         for(; modelLineIter != model->getLines().end(); ++modelLineIter)
         {
             for(auto detectedLinesIter = detectedLines.begin(); detectedLinesIter != detectedLines.end(); ++detectedLinesIter)
