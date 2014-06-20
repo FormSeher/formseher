@@ -178,9 +178,6 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line&
 
 
     //now compare and set the rating, the current line to db current line
-
-    double smallerThenDbThreshold = 1.2;// the dbline is 1.2 so big as the lineToCheck
-    double biggerThenDbThreshold = 0.8;// the lineToCheck is 1.2 so big as the dbline;
     double distanceThreshold1 = maxDistanceThreshold;
     double distanceThreshold2 = maxDistanceThreshold - (maxDistanceThreshold/3);
     double distanceThreshold3 = maxDistanceThreshold - (maxDistanceThreshold/3*2);
@@ -206,25 +203,28 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line&
     //check the distance
     if((relValNorm < distanceThreshold1 && relValNorm > -distanceThreshold1) || (relValRev < distanceThreshold1 && relValRev > -distanceThreshold1))
     {
-        lengthAndPosiRating = tenPointRating * 2.0;
+        lengthAndPosiRating = tenPointRating;
 
         if((relValNorm < distanceThreshold2 && relValNorm > -distanceThreshold2) || (relValRev < distanceThreshold2 && relValRev > -distanceThreshold2))
         {
-            lengthAndPosiRating = tenPointRating * 3.0;
+            lengthAndPosiRating = tenPointRating * 2.0;
 
             if((relValNorm < distanceThreshold3 && relValNorm > -distanceThreshold3) || (relValRev < distanceThreshold3 && relValRev > -distanceThreshold3))
             {
-                lengthAndPosiRating = tenPointRating * 4.0;
+                lengthAndPosiRating = tenPointRating * 3.0;
             }
         }
 
-        if(lengthDbCurrentLine / lengthCurrentLine < smallerThenDbThreshold && lengthDbCurrentLine / lengthCurrentLine > biggerThenDbThreshold)// check the length
+        // check length of currLine/lastLine compared to db lines
+        if((lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) > -distanceThreshold2 &&
+                (lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) < distanceThreshold2)
         {
-            lengthAndPosiRating += tenPointRating * 0.75;
+            lengthAndPosiRating += tenPointRating ;
 
-            if(lengthDbLineLast / lengthCurrentLineLast < smallerThenDbThreshold && lengthDbLineLast / lengthCurrentLineLast > biggerThenDbThreshold)
+            if((lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) > -distanceThreshold3 &&
+                    (lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) < distanceThreshold3)
             {
-                lengthAndPosiRating += tenPointRating * 0.25;
+                lengthAndPosiRating += tenPointRating * 2;
             }
         }
 
