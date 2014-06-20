@@ -21,7 +21,8 @@ ObjectDetectionAlgorithm *ObjectDetectionAlgorithmTeamBDialog::createAlgorithm()
     return new ObjectDetectionAlgorithmTeamB(ui->minRating->value(),
                                              ui->maxAngleThreshold->value(),
                                              ui->maxDistanceThreshold->value(),
-                                             ui->midPointEnvironment->value());
+                                             ui->midPointEnvironment->value(),
+                                             ui->fastMode->isChecked());
 }
 
 void ObjectDetectionAlgorithmTeamBDialog::on_minRating_valueChanged(int){
@@ -37,6 +38,10 @@ void ObjectDetectionAlgorithmTeamBDialog::on_maxDistanceThreshold_valueChanged(d
 }
 
 void ObjectDetectionAlgorithmTeamBDialog::on_midPointEnvironment_valueChanged(int){
+    emit configChanged();
+}
+
+void ObjectDetectionAlgorithmTeamBDialog::on_fastMode_toggled(bool){
     emit configChanged();
 }
 }
