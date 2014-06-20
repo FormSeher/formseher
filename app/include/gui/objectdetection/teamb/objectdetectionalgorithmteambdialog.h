@@ -25,6 +25,7 @@ private slots:
     void on_minRating_valueChanged(int);
     void on_maxAngleThreshold_valueChanged(double);
     void on_maxDistanceThreshold_valueChanged(double);
+    void on_midPointEnvironment_valueChanged(int);
 
 private:
     Ui::ObjectDetectionAlgorithmTeamBDialog *ui;
