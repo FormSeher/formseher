@@ -10,11 +10,12 @@
 namespace formseher
 {
 
-ObjectDetectionAlgorithmTeamB::ObjectDetectionAlgorithmTeamB(int minRating, double maxAngleThreshold, double maxDistanceThreshold, int midPointEnvironment):
+ObjectDetectionAlgorithmTeamB::ObjectDetectionAlgorithmTeamB(int minRating, double maxAngleThreshold, double maxDistanceThreshold, int midPointEnvironment, bool fastMode):
     minRating(minRating),
     maxAngleThreshold(maxAngleThreshold),
     maxDistanceThreshold(maxDistanceThreshold),
-    midPointEnvironment(midPointEnvironment)
+    midPointEnvironment(midPointEnvironment),
+    fastMode(fastMode)
 {
 
 }
@@ -261,10 +262,16 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line&
     {
         angleRating = 0;
     }
-    if(lengthAndPosiRating > 0 && angleRating > 0){
-        return lengthAndPosiRating + angleRating;
+
+    if(fastMode){
+        if(lengthAndPosiRating == 0 || angleRating == 0){
+            return 0;
+        }
     }
-    else return 0;
+//    if(lengthAndPosiRating > 0 && angleRating > 0){
+        return lengthAndPosiRating + angleRating;
+//    }
+//    else return 0;
 }
 
 double ObjectDetectionAlgorithmTeamB::getLineLength(int x, int y)
@@ -318,10 +325,10 @@ void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfin
                 if(diff.x > -midPointEnvironment && diff.x < midPointEnvironment && diff.y > -midPointEnvironment && diff.y < midPointEnvironment){
 
                     // if rating of new obj is higher replace it with old one
-                    if(objectsToAdd[i].getRating() < unfinishedObjects[currentObjectIndex].getRating()){
-                        objectsToAdd.erase(objectsToAdd.begin() + i +1);
-                        objectsToAdd.push_back(unfinishedObjects[currentObjectIndex]);
-                    }
+//                    if(objectsToAdd[i].getRating() < unfinishedObjects[currentObjectIndex].getRating()){
+//                        objectsToAdd.erase(objectsToAdd.begin() + i +1);
+//                        objectsToAdd.push_back(unfinishedObjects[currentObjectIndex]);
+//                    }
                     objWithNewMid = false;
                     break;
                 }
@@ -375,8 +382,19 @@ std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> l
 
                     double receivedRating = rateObject(unfinishedObjects[foundObjectsIndex], lines[nextLineIndex], model, objectLineIndex, maxRatingPerLine);
 
-                    // if rating is not null add object
-                    if(receivedRating > 0){
+                    bool addLine = false;
+                    // if rating is high enough add object
+                    if(fastMode){
+                        if(receivedRating > 0){
+                            addLine = true;
+                        }
+                    }else{
+                        if(receivedRating > 0 && unfinishedObjects[foundObjectsIndex].getRating() + receivedRating >= (maxRatingPerLine * (objectLineIndex + 1)) * 0.6){
+                            addLine = true;
+                        }
+                    }
+
+                    if(addLine){
 
                         // if rating was ok add line to object
                         Object newObj(unfinishedObjects[foundObjectsIndex]);
