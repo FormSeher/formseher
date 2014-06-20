@@ -16,7 +16,7 @@ namespace formseher
 
     public:
 
-        ObjectDetectionAlgorithmTeamB(int minRating, double maxAngleThreshold, double maxDistanceThreshold, int midPointEnvironment);
+        ObjectDetectionAlgorithmTeamB(int minRating, double maxAngleThreshold, double maxDistanceThreshold, int midPointEnvironment, bool fastMode);
 
         std::vector<Object> calculate(std::vector<Line> lines);
 
@@ -27,10 +27,11 @@ namespace formseher
         double getLineLength(int x, int y);
         double getAngleOfLines(cv::Point2i vectorCurrentPoint, cv::Point2i vectorCurrentPointLast);
 
-        int minRating = 80;
-        double maxAngleThreshold = 0.15;
+        int minRating = 60;
+        double maxAngleThreshold = 0.2;
         double maxDistanceThreshold = 0.2;
         int midPointEnvironment = 10;
+        bool fastMode = true;
     };
 
 } //  namespace formseher
