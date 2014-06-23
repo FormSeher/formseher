@@ -48,7 +48,8 @@ private slots:
         h.addLineMatch(&objectLine1, &modelLine1);
         h.addLineMatch(&objectLine2, &modelLine2);
 
-        QCOMPARE(h.calculateAngleRating(), 1.0d);
+        h.calculateAngleRating();
+        QCOMPARE(h.angleRating, 1.0d);
     }
 
     void calculateAngleRating_noMatch()
@@ -65,7 +66,8 @@ private slots:
         h.addLineMatch(&objectLine1, &modelLine1);
         h.addLineMatch(&objectLine2, &modelLine2);
 
-        QCOMPARE(h.calculateAngleRating(), 0.0d);
+        h.calculateAngleRating();
+        QCOMPARE(h.angleRating, 0.0d);
     }
 
     void calculateAngleRationg_partialMatch()
@@ -86,7 +88,8 @@ private slots:
         h.addLineMatch(&objectLine2, &modelLine2);
         h.addLineMatch(&objectLine3, &modelLine3);
 
-        QCOMPARE(h.calculateAngleRating(), 0.780999056761673);
+        h.calculateAngleRating();
+        QCOMPARE(h.angleRating, 0.780999056761673);
     }
 
     void calculateCentersTest()
