@@ -54,7 +54,6 @@ TeamBdbTool::TeamBdbTool(QWidget *parent) :
     scene->addItem(selectedLinesItem);
 
     ui->graphicsView->setScene(scene);
-    ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
     ui->graphicsView->show();
 }
 
@@ -165,11 +164,16 @@ void TeamBdbTool::runAlgorithm(QString fileName)
         allLinesModel->appendRow(item);
     }
 }
+void TeamBdbTool::resizeEvent (QResizeEvent * event)
+{
+    ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+}
 
 void TeamBdbTool::updateView()
 {
     updateAllLinesView();
     updateSelectedLinesView();
+    ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
 }
 
 void TeamBdbTool::updateAllLinesView()

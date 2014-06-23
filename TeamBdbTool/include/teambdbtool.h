@@ -39,6 +39,10 @@ private slots:
 
     void on_actionDatenschreiben_triggered();
 
+protected:
+
+    void resizeEvent (QResizeEvent * event);
+
 private:
 
     void runAlgorithm(QString filename);
