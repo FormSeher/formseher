@@ -6,77 +6,133 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>578</width>
+    <height>531</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>781</width>
-      <height>511</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="0" rowspan="3">
-      <widget class="QGraphicsView" name="graphicsView"/>
-     </item>
-     <item row="0" column="2">
-      <widget class="QCheckBox" name="showAllFoundLines">
-       <property name="text">
-        <string>Show all</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QCheckBox" name="showAllDetetectedLines">
-       <property name="text">
-        <string>Show all</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QCheckBox" name="showImage">
-       <property name="text">
-        <string>Show Image</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QListView" name="allLinesView">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QListView" name="selectedLinesView">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="showImage">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Show Image</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QGraphicsView" name="graphicsView">
+        <property name="minimumSize">
+         <size>
+          <width>400</width>
+          <height>400</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>640</width>
+          <height>480</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="1">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="2" column="0">
+       <widget class="QListView" name="allLinesView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QListView" name="selectedLinesView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="showAllDetetectedLines">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Show all</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="showAllFoundLines">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Show all</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+   <zorder>layoutWidget</zorder>
+   <zorder>showAllFoundLines</zorder>
+   <zorder>allLinesView</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>578</width>
      <height>21</height>
     </rect>
    </property>
@@ -122,7 +178,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNeu">
    <property name="icon">
-    <iconset>
+    <iconset resource="../myIcons.qrc">
      <normaloff>:/icons/icons/My-Documents-icon.png</normaloff>:/icons/icons/My-Documents-icon.png</iconset>
    </property>
    <property name="text">
@@ -131,7 +187,7 @@
   </action>
   <action name="actionDatei">
    <property name="icon">
-    <iconset>
+    <iconset resource="../myIcons.qrc">
      <normaloff>:/icons/icons/My-Pictures-icon.png</normaloff>:/icons/icons/My-Pictures-icon.png</iconset>
    </property>
    <property name="text">
@@ -140,7 +196,7 @@
   </action>
   <action name="actionOrdner">
    <property name="icon">
-    <iconset>
+    <iconset resource="../myIcons.qrc">
      <normaloff>:/icons/icons/Folder-Open-icon.png</normaloff>:/icons/icons/Folder-Open-icon.png</iconset>
    </property>
    <property name="text">
@@ -149,7 +205,7 @@
   </action>
   <action name="action_ffnen_Erstellen">
    <property name="icon">
-    <iconset>
+    <iconset resource="../myIcons.qrc">
      <normaloff>:/icons/icons/database-add-icon.png</normaloff>:/icons/icons/database-add-icon.png</iconset>
    </property>
    <property name="text">
@@ -161,7 +217,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../myIcons.qrc">
      <normaloff>:/icons/icons/database-arrow-down-icon.png</normaloff>:/icons/icons/database-arrow-down-icon.png</iconset>
    </property>
    <property name="text">
@@ -170,6 +226,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../myIcons.qrc"/>
+ </resources>
  <connections/>
 </ui>

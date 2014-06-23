@@ -242,7 +242,6 @@ void TeamBdbTool::on_action_ffnen_Erstellen_triggered()
      {
         ui->actionDatenschreiben->setEnabled(true);
      }
-
 }
 
 void TeamBdbTool::on_actionDatenschreiben_triggered()
