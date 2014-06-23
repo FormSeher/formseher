@@ -4,19 +4,16 @@
 #include "committodbdialog.h"
 
 #include <QFileDialog>
-#include <QStringListModel>
 #include <QWidgetItem>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QGraphicsItem>
 
 #include <line.h>
 #include <objectdetection/databaseutils.h>
-
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
-
-
 
 TeamBdbTool::TeamBdbTool(QWidget *parent) :
     QMainWindow(parent),
@@ -250,7 +247,6 @@ void TeamBdbTool::on_action_ffnen_Erstellen_triggered()
 
 void TeamBdbTool::on_actionDatenschreiben_triggered()
 {
-    formseher::DatabaseUtils dbu(dbFile.toStdString());
     formseher::Object obj;
 
     QStandardItem *item;
@@ -261,8 +257,10 @@ void TeamBdbTool::on_actionDatenschreiben_triggered()
         item = selectedLinesModel->item(row);
         line = item->data().toLine();
         obj.addLine(formseher::Line(line.x1(),line.y1(),line.x2(),line.y2()));
-        dbu.addObject(obj);
         obj.setName("justTesting");
     }
-    dbu.write();
+
+    commitToDBDialog commit(obj, dbFile, this);
+    commit.setModal(true);
+    commit.exec();
 }
