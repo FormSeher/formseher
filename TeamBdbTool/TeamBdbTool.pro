@@ -42,6 +42,21 @@ POST_TARGETDEPS += ../algorithms
 RESOURCES += \
     myIcons.qrc
 
+##-------------------------------------------------
+##               win32 specifics
+##-------------------------------------------------
+#win32{
+#INCLUDEPATH += $(OPENCV_DIR_INCLUDE)
+#LIBS += -L$(OPENCV_DIR_LIB)
+#LIBS += -llibopencv_core248 -llibopencv_imgproc248 -llibopencv_highgui248
+#}
+##-------------------------------------------------
+##               Linux/Unix specifics
+##-------------------------------------------------
+#linux{
+#LIBS += -lopencv_core -lopencv_imgproc
+#}
+
 #-------------------------------------------------
 #               win32 specifics
 #-------------------------------------------------
@@ -50,9 +65,10 @@ INCLUDEPATH += $(OPENCV_DIR_INCLUDE)
 LIBS += -L$(OPENCV_DIR_LIB)
 LIBS += -llibopencv_core248 -llibopencv_imgproc248 -llibopencv_highgui248
 }
+
 #-------------------------------------------------
 #               Linux/Unix specifics
 #-------------------------------------------------
-linux{
-LIBS += -lopencv_core -lopencv_imgproc
+unix{
+LIBS += -lopencv_core -lopencv_imgproc -lopencv_highgui
 }

@@ -7,7 +7,7 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QStandardItemModel>
-#include "myPoint.h"
+#include "mypoint.h"
 #include <line.h>
 #include <linedetection/linedetectionalgorithm.h>
 #include <linedetection/edl/edl.h>

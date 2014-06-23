@@ -6,7 +6,7 @@ ROOT_DIR = $$PWD
 ALG_DIR = $${ROOT_DIR}/algorithms
 APP_DIR = $${ROOT_DIR}/app
 TEST_DIR = $${ROOT_DIR}/test
-BDB_DIR = $${ROOT_DIR}/teambdbtool
+BDB_DIR = $${ROOT_DIR}/TeamBdbTool
 
 #src directories
 SRC_DIR = $${ROOT_DIR}/src
