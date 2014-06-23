@@ -1,13 +1,16 @@
 #include "teambdbtool.h"
 #include "ui_teambdbtool.h"
+#include "choosealgdialog.h"
+#include "committodbdialog.h"
+
 #include <QFileDialog>
 #include <QStringListModel>
 #include <QWidgetItem>
 #include <QTextStream>
 #include <QMessageBox>
-#include <line.h>
 
-#include "choosealgdialog.h"
+#include <line.h>
+#include <objectdetection/databaseutils.h>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -134,7 +137,7 @@ void TeamBdbTool::on_showAllFoundLines_clicked()
 
 void TeamBdbTool::on_showAllDetetectedLines_clicked()
 {
-    if (ui->showAllFoundLines->isChecked())
+    if (ui->showAllDetetectedLines->isChecked())
     {
         selectedLinesItem->setVisible(true);
     }
@@ -221,4 +224,33 @@ void TeamBdbTool::on_selectedLinesView_doubleClicked(const QModelIndex &index)
 {
     allLinesModel->appendRow(selectedLinesModel->takeRow(index.row()));
     updateView();
+}
+void TeamBdbTool::on_action_ffnen_Erstellen_triggered()
+{
+    dbFile = QFileDialog::getOpenFileName(
+                             this,
+                             tr("Datei öffnen"),
+                             "//",
+                             "All files (*.*)"
+                            );
+
+     if (dbFile.isEmpty())
+     {
+         QMessageBox::information(this, tr("TeamBdbTool"),
+                                  tr("Cannot load %1.").arg(dbFile));
+         return;
+
+      }
+     else
+     {
+        ui->actionDatenschreiben->setEnabled(true);
+     }
+
+}
+
+void TeamBdbTool::on_actionDatenschreiben_triggered()
+{
+
+//    choose.setModal(true);
+//    choose.exec();
 }

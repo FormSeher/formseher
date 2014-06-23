@@ -36,6 +36,10 @@ private slots:
 
     void on_selectedLinesView_doubleClicked(const QModelIndex &index);
 
+    void on_action_ffnen_Erstellen_triggered();
+
+    void on_actionDatenschreiben_triggered();
+
 private:
 
     void runAlgorithm(QString filename);
@@ -62,6 +66,8 @@ private:
     QStandardItemModel *selectedLinesModel;
 
     formseher::LineDetectionAlgorithm* lineDeteciontAlgorithm;
+
+    QString dbFile;
 
     myPoint *aPoint;
 
