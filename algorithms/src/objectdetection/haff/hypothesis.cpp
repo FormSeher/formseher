@@ -108,63 +108,26 @@ void Hypothesis::calculateAngleRating()
 
 void Hypothesis::calculateCoverageRating()
 {
-    double coverageRaiting = 0.0;
-    double endPointCoverageRaiting = 0.0;
-    double startPointCoverageRaiting = 0.0;
-
-    std::pair<cv::Point2d, cv::Point2d> centers = calculateCenters();
+    double coverageError = 0.0;
 
     for(auto lineMatch : lineMatchMap)
-    {
+        coverageError += 1.0 - fabs(lineMatch.first->getLength() / (lineMatch.second->getLength() * scaleFactor));
 
-        //vektor von modelmittelpunkt zum linienmittelpunk
+    coverageError = coverageError / (double)lineMatchMap.size();
 
-        cv::Point2d vectorFromModelCenterToLineCenter = lineMatch.first->getCenterPoint() - centers.first;
+    if(coverageError < 0 || coverageError > 2)
+        coverageError = 0;
+    if(coverageError > 1)
+        coverageError -= 1.0;
 
-
-        //vector mal scale  mit dem dann vom objektMTLP
-
-        vectorFromModelCenterToLineCenter.x *= scaleFactor;
-        vectorFromModelCenterToLineCenter.y *= scaleFactor;
-
-        //von dem Punkt zum start und endpunkt
-        cv::Point2d hypotheticleObjectLineCenter = centers.second + vectorFromModelCenterToLineCenter;
-
-        cv::Vec2d ObjectDistanceToStart;
-        ObjectDistanceToStart[0] = (double)lineMatch.second->getStart().x - hypotheticleObjectLineCenter.x;
-        ObjectDistanceToStart[1] = (double)lineMatch.second->getStart().y - hypotheticleObjectLineCenter.y;
-        cv::Vec2d ObjectDistanceToEnd;
-        ObjectDistanceToEnd[0] = (double)lineMatch.second->getEnd().x - hypotheticleObjectLineCenter.x;
-        ObjectDistanceToEnd[1] = (double)lineMatch.second->getEnd().y - hypotheticleObjectLineCenter.y;
-
-        cv::Vec2d ModelDistanceToStart;
-        ModelDistanceToStart[0] = (double)lineMatch.first->getStart().x - lineMatch.first->getCenterPoint().x;
-        ModelDistanceToStart[1] = (double)lineMatch.first->getStart().y - lineMatch.first->getCenterPoint().y;
-        cv::Vec2d ModelDistanceToEnd;
-        ModelDistanceToEnd[0] = (double)lineMatch.first->getEnd().x - lineMatch.first->getCenterPoint().x;
-        ModelDistanceToEnd[1] = (double)lineMatch.first->getEnd().y - lineMatch.first->getCenterPoint().y;
+    this->coverRating = 1.0 - coverageError;
 
 
-        startPointCoverageRaiting = cv::norm(ObjectDistanceToStart) * scaleFactor
-                                    / cv::norm(ModelDistanceToStart);
 
-        endPointCoverageRaiting = cv::norm(ObjectDistanceToEnd) * scaleFactor
-                                  / cv::norm(ModelDistanceToEnd);
 
-        if(startPointCoverageRaiting > 1)
-        {
-            startPointCoverageRaiting = 1;
-        }
 
-        if(endPointCoverageRaiting > 1)
-        {
-            endPointCoverageRaiting = 1;
 
-        }
-        coverageRaiting += ((startPointCoverageRaiting + endPointCoverageRaiting) / 2.0);
-    }
 
-    this->coverRating =  coverageRaiting / (double)lineMatchMap.size();
 }
 
 void Hypothesis::calculateScale()
