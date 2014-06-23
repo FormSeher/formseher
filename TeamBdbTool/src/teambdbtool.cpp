@@ -89,6 +89,7 @@ void TeamBdbTool::on_actionDatei_triggered()
 
         QPixmap pix = QPixmap(fileName);
         image->setPixmap(QPixmap(pix));
+        ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
 
         ChooseALGDialog choose(lineDeteciontAlgorithm, this);
         choose.setModal(true);
