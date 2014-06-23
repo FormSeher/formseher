@@ -250,7 +250,19 @@ void TeamBdbTool::on_action_ffnen_Erstellen_triggered()
 
 void TeamBdbTool::on_actionDatenschreiben_triggered()
 {
+    formseher::DatabaseUtils dbu(dbFile.toStdString());
+    formseher::Object obj;
 
-//    choose.setModal(true);
-//    choose.exec();
+    QStandardItem *item;
+    QLine line;
+
+    for (int row = 0; row < selectedLinesModel->rowCount(); ++row)
+    {
+        item = selectedLinesModel->item(row);
+        line = item->data().toLine();
+        obj.addLine(formseher::Line(line.x1(),line.y1(),line.x2(),line.y2()));
+        dbu.addObject(obj);
+        obj.setName("justTesting");
+    }
+    dbu.write();
 }
