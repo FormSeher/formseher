@@ -1,4 +1,4 @@
-#include "myPoint.h"
+#include "mypoint.h"
 
 myPoint::myPoint(QPoint point)
 {

@@ -91,10 +91,18 @@
      <addaction name="actionDatei"/>
      <addaction name="actionOrdner"/>
     </widget>
+    <widget class="QMenu" name="menuDatenbank">
+     <property name="title">
+      <string>Datenbank</string>
+     </property>
+     <addaction name="action_ffnen_Erstellen"/>
+     <addaction name="actionDatenschreiben"/>
+    </widget>
+    <addaction name="separator"/>
     <addaction name="actionNeu"/>
     <addaction name="separator"/>
     <addaction name="menu_ffnen"/>
-    <addaction name="separator"/>
+    <addaction name="menuDatenbank"/>
    </widget>
    <addaction name="menuDatei"/>
   </widget>
@@ -108,11 +116,13 @@
    <addaction name="actionDatei"/>
    <addaction name="actionOrdner"/>
    <addaction name="separator"/>
+   <addaction name="action_ffnen_Erstellen"/>
+   <addaction name="actionDatenschreiben"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNeu">
    <property name="icon">
-    <iconset resource="../myIcons.qrc">
+    <iconset>
      <normaloff>:/icons/icons/My-Documents-icon.png</normaloff>:/icons/icons/My-Documents-icon.png</iconset>
    </property>
    <property name="text">
@@ -121,7 +131,7 @@
   </action>
   <action name="actionDatei">
    <property name="icon">
-    <iconset resource="../myIcons.qrc">
+    <iconset>
      <normaloff>:/icons/icons/My-Pictures-icon.png</normaloff>:/icons/icons/My-Pictures-icon.png</iconset>
    </property>
    <property name="text">
@@ -130,17 +140,36 @@
   </action>
   <action name="actionOrdner">
    <property name="icon">
-    <iconset resource="../myIcons.qrc">
+    <iconset>
      <normaloff>:/icons/icons/Folder-Open-icon.png</normaloff>:/icons/icons/Folder-Open-icon.png</iconset>
    </property>
    <property name="text">
     <string>Ordner</string>
    </property>
   </action>
+  <action name="action_ffnen_Erstellen">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/icons/database-add-icon.png</normaloff>:/icons/icons/database-add-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Öffnen/Erstellen</string>
+   </property>
+  </action>
+  <action name="actionDatenschreiben">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/icons/database-arrow-down-icon.png</normaloff>:/icons/icons/database-arrow-down-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Daten schreiben</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="../myIcons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

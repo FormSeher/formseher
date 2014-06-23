@@ -7,7 +7,7 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QStandardItemModel>
-#include "myPoint.h"
+#include "mypoint.h"
 #include <line.h>
 #include <linedetection/linedetectionalgorithm.h>
 #include <linedetection/edl/edl.h>
@@ -36,6 +36,10 @@ private slots:
 
     void on_selectedLinesView_doubleClicked(const QModelIndex &index);
 
+    void on_action_ffnen_Erstellen_triggered();
+
+    void on_actionDatenschreiben_triggered();
+
 private:
 
     void runAlgorithm(QString filename);
@@ -62,6 +66,8 @@ private:
     QStandardItemModel *selectedLinesModel;
 
     formseher::LineDetectionAlgorithm* lineDeteciontAlgorithm;
+
+    QString dbFile;
 
     myPoint *aPoint;
 
