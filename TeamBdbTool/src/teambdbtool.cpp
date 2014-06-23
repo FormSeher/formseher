@@ -226,9 +226,9 @@ void TeamBdbTool::on_action_ffnen_Erstellen_triggered()
 {
     dbFile = QFileDialog::getOpenFileName(
                              this,
-                             tr("Datei öffnen"),
+                             tr("Datei aauswählen"),
                              "//",
-                             "All files (*.*)"
+                             "json files (*.json)"
                             );
 
      if (dbFile.isEmpty())

@@ -25,7 +25,8 @@ commitToDBDialog::~commitToDBDialog()
 void commitToDBDialog::on_buttonBox_accepted()
 {
      formseher::DatabaseUtils dbu(dbFile.toStdString());
-     dbu.read();
+
+     dbu.read(); //call read before we write
 
      dbu.addObject(obj);
      dbu.write();
