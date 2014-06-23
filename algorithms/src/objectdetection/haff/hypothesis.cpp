@@ -67,10 +67,13 @@ bool Hypothesis::operator<(const Hypothesis& hypo) const
     else return false;
 }
 
-double Hypothesis::calculateAngleRating()
+void Hypothesis::calculateAngleRating()
 {
     if(lineMatchMap.size() < 2)
-        return 1.0;
+    {
+        angleRating = 1.0;
+        return;
+    }
 
     double totalError = 0.0;
     // prevIter is last element of lines to get a cyclic match:
@@ -100,7 +103,7 @@ double Hypothesis::calculateAngleRating()
     }
 
     // match = 100% - error
-    return 1.0d - (totalError / (double)lineMatchMap.size());
+    angleRating = 1.0d - (totalError / (double)lineMatchMap.size());
 }
 
 void Hypothesis::calculateCoverageRating()

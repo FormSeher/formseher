@@ -13,7 +13,7 @@ class Haff : public ObjectDetectionAlgorithm
 
 public:
     Haff(int numberOfBestHypotheses = 10, int numberOfDetectedObjects = 10,
-         double minimalObjectRating = 60.0, double coverageWeight = 1.0, double angleWeight = 1.0);
+         double minimalObjectRating = 60.0, double coverageWeight = 0.5, double angleWeight = 0.5);
 
     std::vector<Object> calculate(std::vector<Line> detectedLines);
 

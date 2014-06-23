@@ -77,7 +77,7 @@ private:
      * @brief Calculates rating of angles.
      * @return Rating of angle match between 0 (0% match) and 1 (100% match).
      */
-    double calculateAngleRating();
+    void calculateAngleRating();
 
     /**
      * @brief Calculates the coverage rating for given scale factor.

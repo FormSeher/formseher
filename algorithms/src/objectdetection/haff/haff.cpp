@@ -3,6 +3,8 @@
 
 #include <set>
 
+#include "pointercompare.h"
+
 namespace formseher {
 
 Haff::Haff(int numberOfBestHypotheses, int numberOfDetectedObjects,
@@ -17,9 +19,9 @@ Haff::Haff(int numberOfBestHypotheses, int numberOfDetectedObjects,
 
 std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
 {
-    std::multiset<Hypothesis*> oldHypotheses;
-    std::multiset<Hypothesis*> newHypotheses;
-    std::multiset<Hypothesis*> likelyHypotheses;
+    std::multiset<Hypothesis*, PointerCompare<Hypothesis>> oldHypotheses;
+    std::multiset<Hypothesis*, PointerCompare<Hypothesis>> newHypotheses;
+    std::multiset<Hypothesis*, PointerCompare<Hypothesis>> likelyHypotheses;
 
     for(auto modelIter = databaseModels.begin(); modelIter != databaseModels.end(); ++modelIter)
     {
@@ -79,9 +81,9 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             // Copy best rated new hypotheses to oldHyptoheses
             int counter = 0;
 
-            std::multiset<Hypothesis*>::iterator itr;
-            for(itr = newHypotheses.begin();
-                itr != newHypotheses.end() && counter < numberOfBestHypotheses;
+            std::multiset<Hypothesis*>::reverse_iterator itr;
+            for(itr = newHypotheses.rbegin();
+                itr != newHypotheses.rend() && counter < numberOfBestHypotheses;
                 ++itr)
             {
                 oldHypotheses.insert(*itr);
@@ -90,16 +92,15 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             }
 
             // Delete rest of newHypotheses which is no longer needed
-            for(; itr != newHypotheses.end(); ++itr)
+            for(; itr != newHypotheses.rend(); ++itr)
                 delete *itr;
             newHypotheses.clear();
 
         } // FOREACH modelline
 
-        std::multiset<Hypothesis*>::iterator itr;
         int counter = 0;
-        for(itr = oldHypotheses.begin();
-            itr != oldHypotheses.end() && counter < numberOfDetectedObjects;
+        for(auto itr = oldHypotheses.rbegin();
+            itr != oldHypotheses.rend() && counter < numberOfDetectedObjects;
             ++itr)
         {
             if ( (*itr)->getRating() < minimalObjectRating)
@@ -110,7 +111,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
         }
 
         int trimCounter = 0;
-        for(itr = likelyHypotheses.begin();
+        for(auto itr = likelyHypotheses.begin();
             itr != likelyHypotheses.end();
             ++itr)
         {
