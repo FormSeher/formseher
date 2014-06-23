@@ -98,10 +98,9 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
 
         } // FOREACH modelline
 
-        std::multiset<Hypothesis*>::iterator itr;
         int counter = 0;
-        for(itr = oldHypotheses.begin();
-            itr != oldHypotheses.end() && counter < numberOfDetectedObjects;
+        for(auto itr = oldHypotheses.rbegin();
+            itr != oldHypotheses.rend() && counter < numberOfDetectedObjects;
             ++itr)
         {
             if ( (*itr)->getRating() < minimalObjectRating)
@@ -112,7 +111,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
         }
 
         int trimCounter = 0;
-        for(itr = likelyHypotheses.begin();
+        for(auto itr = likelyHypotheses.begin();
             itr != likelyHypotheses.end();
             ++itr)
         {
