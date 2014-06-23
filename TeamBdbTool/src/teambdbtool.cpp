@@ -23,12 +23,16 @@ TeamBdbTool::TeamBdbTool(QWidget *parent) :
 
     //set up the models and listviews
 
-    allLines = new QStandardItemModel(this);
-    selecteLines = new QStandardItemModel(this);
-    ui->allLinesView->setModel(allLines);
-    ui->selectedLinesView->setModel(selecteLines);
+    allLinesModel = new QStandardItemModel(this);
+    selectedLinesModel = new QStandardItemModel(this);
+    ui->allLinesView->setModel(allLinesModel);
+    ui->selectedLinesView->setModel(selectedLinesModel);
     ui->allLinesView->show();
     ui->selectedLinesView->show();
+
+    //set up color items
+    allLinesPen = QPen(Qt::red);
+    selectedLinesPen = QPen(Qt::green);
 
     //Set up the checkboxes
 
@@ -56,6 +60,12 @@ TeamBdbTool::TeamBdbTool(QWidget *parent) :
 
 TeamBdbTool::~TeamBdbTool()
 {
+    delete allLinesModel;
+    delete selectedLinesModel;
+    delete scene;
+    delete image;
+    delete allLinesItem;
+    delete selectedLinesItem;
     delete ui;
 }
 
@@ -85,6 +95,7 @@ void TeamBdbTool::on_actionDatei_triggered()
         choose.setModal(true);
         choose.exec();
         runAlgorithm(fileName);
+        updateView();
     }
 }
 
@@ -151,42 +162,63 @@ void TeamBdbTool::runAlgorithm(QString fileName)
 
         item = new QStandardItem(str);
         item->setData(QVariant(QLine(start.x, start.y, end.x, end.y)));
-        allLines->appendRow(item);
+        allLinesModel->appendRow(item);
     }
 }
 
-//void TeamBdbTool::runAlgorithm(QString fileName)
-//{
-//    cv::Mat input = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
+void TeamBdbTool::updateView()
+{
+    updateAllLinesView();
+    updateSelectedLinesView();
+}
 
-//    lineDeteciontAlgorithm = new formseher::EDL2();
-//    std::vector<formseher::Line> result = lineDeteciontAlgorithm->calculate(input);
+void TeamBdbTool::updateAllLinesView()
+{
+    QPixmap pix = QPixmap(image->pixmap().size());
+    pix.fill(Qt::transparent);
+    QPainter *painter = new QPainter(&pix);
+    painter->setPen(allLinesPen);
+    QStandardItem *item;
+    QLine line;
+    for (int row = 0; row < allLinesModel->rowCount(); ++row)
+    {
+        item = allLinesModel->item(row);
+        line = item->data().toLine();
+        painter->drawLine(line);
+    }
 
-//    QPixmap pix = QPixmap(image->pixmap().size());
-//    pix.fill(Qt::transparent);
-//    QPainter *painter = new QPainter(&pix);
-//    QPen pen(Qt::red);
-//    pen.setWidth(1);
-//    painter->setPen(pen);
+    delete painter;
+    allLinesItem->setPixmap(pix);
+}
 
-//    for(auto line : result)
-//    {
-//        cv::Point2i start = line.getStart();
-//        cv::Point2i end = line.getEnd();
-
-//        painter->drawLine(QPoint(start.x, start.y),QPoint(end.x, end.y));
-//    }
-//    delete painter;
-//    drawing->setPixmap(pix);
-//}
-
+void TeamBdbTool::updateSelectedLinesView()
+{
+    QPixmap pix = QPixmap(image->pixmap().size());
+    pix.fill(Qt::transparent);
+    QPainter *painter = new QPainter(&pix);
+    painter->setPen(selectedLinesPen);
+    QStandardItem *item;
+    QLine line;
+    for (int row = 0; row < selectedLinesModel->rowCount(); ++row)
+    {
+        item = selectedLinesModel->item(row);
+        line = item->data().toLine();
+        painter->drawPoint(line.p1());
+        painter->drawPoint(line.p2());
+        painter->drawLine(line);
+    }
+    delete painter;
+    selectedLinesItem->setPixmap(pix);
+}
 
 void TeamBdbTool::on_allLinesView_doubleClicked(const QModelIndex &index)
 {
-    selecteLines->appendRow(allLines->takeRow(index.row()));
+    selectedLinesModel->appendRow(allLinesModel->takeRow(index.row()));
+    updateView();
 }
 
 void TeamBdbTool::on_selectedLinesView_doubleClicked(const QModelIndex &index)
 {
-    allLines->appendRow(selecteLines->takeRow(index.row()));
+    allLinesModel->appendRow(selectedLinesModel->takeRow(index.row()));
+    updateView();
 }

@@ -39,6 +39,10 @@ private slots:
 private:
 
     void runAlgorithm(QString filename);
+    void updateView();
+    void updateAllLinesView();
+    void updateSelectedLinesView();
+
 
     Ui::TeamBdbTool *ui;
 
@@ -50,9 +54,12 @@ private:
     QGraphicsPixmapItem *pixAllFoundLines;
     QGraphicsPixmapItem *pixAllSelectedLines;
 
+    QPen allLinesPen;
+    QPen selectedLinesPen;
+
     //Listview
-    QStandardItemModel *allLines;
-    QStandardItemModel *selecteLines;
+    QStandardItemModel *allLinesModel;
+    QStandardItemModel *selectedLinesModel;
 
     formseher::LineDetectionAlgorithm* lineDeteciontAlgorithm;
 
