@@ -92,94 +92,27 @@ void AlgorithmControlWidget::updateResultImage()
 
 
     if(ui->showLinesCheckBox->isChecked())
-    {
-        for(auto line : latestResult.first)
         {
-<<<<<<< Updated upstream
-            double color1, color2, color3;
-
-                 color1 = rng.uniform(0, 255);
-                 color2 = rng.uniform(0, 255);
-                 color3 = rng.uniform(0, 255);
-
-                 if(abs(color1-color2)<50 && abs(color1-color3)<50 && abs(color2-color3)<50)
-                 {
-                     if((color1+color2+color3) > 382)
-                     {
-                         switch(rng.uniform(0, 2))
-                         {
-                         case 0: color1 = 0;
-                         case 1: color2 = 0;
-                         case 2: color3 = 0;
-                         }
-                     }
-                     else
-                     {
-                         switch(rng.uniform(0, 2))
-                         {
-                         case 0: color1 = 255;
-                         case 1: color2 = 255;
-                         case 2: color3 = 255;
-                         }
-                     }
-                 }
-
-             cv::Scalar color(color1, color2, color3);
-            //cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-            cv::line(resultImage, line.getStart(), line.getEnd(), color);
-=======
-            //cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+            for(auto line : latestResult.first)
+            {
+                //cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
 
 
-            //randomfunction
+                //randomfunction
 
-            cv::line(resultImage, line.getStart(), line.getEnd(), randomcolor(linecolor,linerandstate));
->>>>>>> Stashed changes
+                cv::line(resultImage, line.getStart(), line.getEnd(), randomcolor(linecolor,linerandstate));
+            }
         }
-    }
 
     if(ui->showObjectsCheckBox->isChecked())
     {
         for(auto object : latestResult.second)
         {
-<<<<<<< Updated upstream
-           double color1, color2, color3;
-
-                color1 = rng.uniform(0, 255);
-                color2 = rng.uniform(0, 255);
-                color3 = rng.uniform(0, 255);
-
-                if(abs(color1-color2)<50 && abs(color1-color3)<50 && abs(color2-color3)<50)
-                {
-                    if((color1+color2+color3) > 382)
-                    {
-                        switch(rng.uniform(0, 2))
-                        {
-                        case 0: color1 = 0;
-                        case 1: color2 = 0;
-                        case 2: color3 = 0;
-                        }
-                    }
-                    else
-                    {
-                        switch(rng.uniform(0, 2))
-                        {
-                        case 0: color1 = 255;
-                        case 1: color2 = 255;
-                        case 2: color3 = 255;
-                        }
-                    }
-                }
-
-            cv::Scalar color(color1, color2, color3);
-            //cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-=======
             //cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
 
 
             //randomfunction
 
->>>>>>> Stashed changes
             // Draw bounding box
             cv::rectangle(resultImage,object.getBoundingBox(), randomcolor(objectcolor,objectrandstate));
             // Draw lines of object
