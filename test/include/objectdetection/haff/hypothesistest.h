@@ -206,8 +206,6 @@ private slots:
         h2.addLineMatch(&ol3, &ml3);
         h2.calculateScale();
 
-        qDebug() << h2.scaleFactor;
-
         QVERIFY(h2.scaleFactor == 0.5);
     }
 };
