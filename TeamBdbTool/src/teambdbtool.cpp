@@ -70,12 +70,6 @@ TeamBdbTool::TeamBdbTool(QWidget *parent) :
 
 TeamBdbTool::~TeamBdbTool()
 {
-    delete allLinesModel;
-    delete selectedLinesModel;
-    delete scene;
-    delete image;
-    delete allLinesItem;
-    delete selectedLinesItem;
     delete ui;
 }
 
@@ -241,7 +235,6 @@ void TeamBdbTool::updateSelectedLinesView()
         painter->drawPoint(line.p1());
         painter->drawPoint(line.p2());
         painter->drawLine(line);
-        line.translate();
     }
     delete painter;
     selectedLinesItem->setPixmap(pix);
