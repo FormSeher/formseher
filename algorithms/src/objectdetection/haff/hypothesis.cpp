@@ -109,16 +109,15 @@ void Hypothesis::calculateAngleRating()
 void Hypothesis::calculateCoverageRating()
 {
     double coverageError = 0.0;
+    double scaledModelLength = 0.0;
 
     for(auto lineMatch : lineMatchMap)
-        coverageError += 1.0 - fabs(lineMatch.first->getLength() / (lineMatch.second->getLength() * scaleFactor));
+    {
+        scaledModelLength = lineMatch.second->getLength() * scaleFactor;
+        coverageError += fabs( (lineMatch.first->getLength() - scaledModelLength) ) / scaledModelLength;
+    }
 
     coverageError = coverageError / (double)lineMatchMap.size();
-
-    if(coverageError < 0 || coverageError > 2)
-        coverageError = 0;
-    if(coverageError > 1)
-        coverageError -= 1.0;
 
     this->coverRating = 1.0 - coverageError;
 }
