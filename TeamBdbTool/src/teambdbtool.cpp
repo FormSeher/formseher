@@ -50,6 +50,7 @@ TeamBdbTool::TeamBdbTool(QWidget *parent) :
     ui->label_2->setAutoFillBackground(true);
     ui->label_4->setPalette(SelectedLinesSelectedColor);
     ui->label_4->setAutoFillBackground(true);
+    ui->lineEdit->setText("UnNamedObject");
 
     //Set up the Graphicsview
 
@@ -96,9 +97,10 @@ void TeamBdbTool::on_actionDatei_triggered()
         image->setPixmap(QPixmap(pix));
         ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
 
-        ChooseALGDialog choose(lineDeteciontAlgorithm, this);
+        ChooseALGDialog choose(this);
         choose.setModal(true);
         choose.exec();
+        lineDeteciontAlgorithm = choose.alg;
         runAlgorithm(fileName);
         updateView();
     }
@@ -152,8 +154,6 @@ void TeamBdbTool::on_showAllDetetectedLines_clicked()
 void TeamBdbTool::runAlgorithm(QString fileName)
 {
     cv::Mat input = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
-
-    lineDeteciontAlgorithm = new formseher::EDL2();
     std::vector<formseher::Line> result = lineDeteciontAlgorithm->calculate(input);
 
     QStandardItem *item;
@@ -338,7 +338,7 @@ void TeamBdbTool::on_actionDatenschreiben_triggered()
         item = selectedLinesModel->item(row);
         line = item->data().toLine();
         obj.addLine(formseher::Line(line.x1(),line.y1(),line.x2(),line.y2()));
-        obj.setName("justTesting");
+        obj.setName(ui->lineEdit->text().toStdString());
     }
     commitToDBDialog commit(obj, dbFile, this);
     commit.setModal(true);
@@ -378,4 +378,7 @@ void TeamBdbTool::on_toolButton_4_clicked()
     updateSelectedLinesView();
 }
 
+void TeamBdbTool::on_lineEdit_editingFinished()
+{
 
+}
