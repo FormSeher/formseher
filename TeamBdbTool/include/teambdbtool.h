@@ -43,6 +43,10 @@ private slots:
 
     void on_selectedLinesView_clicked(const QModelIndex &index);
 
+    void on_toolButton_4_clicked();
+
+    void on_toolButton_3_clicked();
+
 protected:
 
     void resizeEvent (QResizeEvent * event);
@@ -65,7 +69,8 @@ private:
 
     QPen allLinesPen;
     QPen selectedLinesPen;
-    QPen singleLineSelected;
+    QColor allLinesSelectedColor;
+    QColor SelectedLinesSelectedColor;
 
     //Listview
     QStandardItemModel *allLinesModel;

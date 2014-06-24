@@ -34,7 +34,8 @@ TeamBdbTool::TeamBdbTool(QWidget *parent) :
     //set up color items
     allLinesPen = QPen(Qt::black);
     selectedLinesPen = QPen(Qt::green);
-    singleLineSelected = QPen(Qt::blue);
+    allLinesSelectedColor = Qt::black;
+    SelectedLinesSelectedColor = Qt::blue;
 
     //Set up the boxes
 
@@ -43,8 +44,12 @@ TeamBdbTool::TeamBdbTool(QWidget *parent) :
     ui->showAllDetetectedLines->setChecked(true);
     ui->label->setPalette(allLinesPen.color());
     ui->label->setAutoFillBackground(true);
+    ui->label_3->setPalette(allLinesSelectedColor);
+    ui->label_3->setAutoFillBackground(true);
     ui->label_2->setPalette(selectedLinesPen.color());
     ui->label_2->setAutoFillBackground(true);
+    ui->label_4->setPalette(SelectedLinesSelectedColor);
+    ui->label_4->setAutoFillBackground(true);
 
     //Set up the Graphicsview
 
@@ -259,7 +264,7 @@ void TeamBdbTool::on_allLinesView_clicked(const QModelIndex &index)
     QPixmap pix = allLinesItem->pixmap();
     QPainter *painter = new QPainter(&pix);
 
-    QPen linePen = QPen(Qt::red);
+    QPen linePen = QPen(allLinesSelectedColor);
     linePen.setWidth(5);
 
     QPen pointPen = QPen(Qt::black);
@@ -285,7 +290,7 @@ void TeamBdbTool::on_selectedLinesView_clicked(const QModelIndex &index)
     QPixmap pix = selectedLinesItem->pixmap();
     QPainter *painter = new QPainter(&pix);
 
-    QPen linePen = QPen(Qt::red);
+    QPen linePen = QPen(SelectedLinesSelectedColor);
     linePen.setWidth(5);
 
     QPen pointPen = QPen(Qt::black);
@@ -355,11 +360,25 @@ void TeamBdbTool::on_toolButton_clicked()
     updateAllLinesView();
 }
 
+void TeamBdbTool::on_toolButton_3_clicked()
+{
+    QColor newColor = QColorDialog::getColor(allLinesSelectedColor, this, "Pick Color");
+    ui->label_3->setPalette(QPalette(newColor));
+    updateAllLinesView();
+}
+
 void TeamBdbTool::on_toolButton_2_clicked()
 {
     QColor newColor = QColorDialog::getColor(selectedLinesPen.color(), this, "Pick Color");
     ui->label_2->setPalette(QPalette(newColor));
     selectedLinesPen.setColor(newColor);
+    updateSelectedLinesView();
+}
+
+void TeamBdbTool::on_toolButton_4_clicked()
+{
+    QColor newColor = QColorDialog::getColor(SelectedLinesSelectedColor, this, "Pick Color");
+    ui->label_4->setPalette(QPalette(newColor));
     updateSelectedLinesView();
 }
 
