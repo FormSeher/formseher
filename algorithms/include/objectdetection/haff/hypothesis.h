@@ -86,6 +86,8 @@ private:
      */
     void calculateCoverageRating();
 
+    void calculatePositionRating();
+
     /**
      * @brief Calculates the scaleFactor.
      */
@@ -111,6 +113,8 @@ private:
      * @brief Rating value of the line coverage.
      */
     double coverRating = 0;
+
+    double positionRating = 0;
 
     /**
      * @brief The database model this hypothesis gets compared with.

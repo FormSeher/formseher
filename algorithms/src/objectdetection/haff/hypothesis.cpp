@@ -21,6 +21,7 @@ void Hypothesis::calculateRating()
     // Calculate cover rating
     calculateCoverageRating();
 
+    calculatePositionRating();
 }
 
 Hypothesis::Hypothesis(const Hypothesis& hypothesis)
@@ -34,8 +35,7 @@ Hypothesis::Hypothesis(const Hypothesis& hypothesis)
 
 double Hypothesis::getRating() const
 {
-    return ( angleRating * angleWeight
-           + coverRating * coverWeight ) * 100.0;
+    return ( angleRating * (1.0/3.0) + coverRating * (1.0/3.0) + positionRating * (1.0/3.0)) * 100.0;
 }
 
 bool Hypothesis::containsLine(const Line* line) const
@@ -121,13 +121,31 @@ void Hypothesis::calculateCoverageRating()
         coverageError -= 1.0;
 
     this->coverRating = 1.0 - coverageError;
+}
 
+void Hypothesis::calculatePositionRating()
+{
+    std::pair<cv::Point2d, cv::Point2d> centers = calculateCenters();
 
+    double objectDistance = 0;
+    double modelDistance = 0;
+    double distanceError = 0;
+    cv::Point2d centerPoint;
 
+    for(auto lineMatch : lineMatchMap)
+    {
+        centerPoint = lineMatch.first->getCenterPoint();
+        objectDistance = cv::norm(centerPoint - centers.first);
 
+        centerPoint = lineMatch.second->getCenterPoint();
+        modelDistance = cv::norm(centerPoint - centers.second) * scaleFactor;
 
+        distanceError += fabs(objectDistance - modelDistance) / (modelDistance);
+    }
 
+    distanceError = distanceError / (double)lineMatchMap.size();
 
+    positionRating = 1.0 - distanceError;
 }
 
 void Hypothesis::calculateScale()
