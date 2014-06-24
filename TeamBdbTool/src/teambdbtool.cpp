@@ -241,10 +241,10 @@ void TeamBdbTool::updateSelectedLinesView()
         painter->drawPoint(line.p1());
         painter->drawPoint(line.p2());
         painter->drawLine(line);
+        line.translate();
     }
     delete painter;
     selectedLinesItem->setPixmap(pix);
-    selectedLinesItem->setActive(true);
 }
 
 void TeamBdbTool::on_allLinesView_doubleClicked(const QModelIndex &index)
