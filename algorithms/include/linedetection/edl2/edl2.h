@@ -25,7 +25,7 @@ class EDL2 : public LineDetectionAlgorithm
 {
 
 public:
-    EDL2(int gaussianKernelSize = 3, int minAnchorThreshold = 30, int anchorStepping = 2, int anchorThreshold = 40, double angleTolerance = 22.5 *  M_PI / 180.0, unsigned int minLineLength = 30);
+    EDL2(int gaussianKernelSize = 3, int minAnchorThreshold = 20, int anchorStepping = 3, int anchorThreshold = 30, double angleTolerance = 22.5 *  M_PI / 180.0, unsigned int minLineLength = 30);
     ~EDL2();
 
     std::vector<Line> calculate(cv::InputArray _image);
