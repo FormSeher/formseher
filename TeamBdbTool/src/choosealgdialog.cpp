@@ -2,7 +2,7 @@
 #include "ui_choosealgdialog.h"
 
 ChooseALGDialog::ChooseALGDialog(formseher::LineDetectionAlgorithm *lineDeteciontAlgorithm, QWidget *parent) :
-    lineDeteciontAlgorithm(lineDeteciontAlgorithm),
+    lineDetecionAlgorithm(lineDeteciontAlgorithm),
     QDialog(parent),
     ui(new Ui::ChooseALGDialog)
 {
@@ -17,15 +17,15 @@ ChooseALGDialog::~ChooseALGDialog()
 
 void ChooseALGDialog::on_radioButton_clicked()
 {
-    lineDeteciontAlgorithm = new formseher::EDL();
+    lineDetecionAlgorithm = new formseher::EDL();
 }
 
 void ChooseALGDialog::on_radioButton_3_clicked()
 {
-    lineDeteciontAlgorithm = new formseher::EDL2();
+    lineDetecionAlgorithm = new formseher::EDL2();
 }
 
 void ChooseALGDialog::on_radioButton_2_clicked()
 {
-    lineDeteciontAlgorithm = new formseher::Hough();
+    lineDetecionAlgorithm = new formseher::Hough();
 }

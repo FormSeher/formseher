@@ -17,10 +17,10 @@ class ChooseALGDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ChooseALGDialog(formseher::LineDetectionAlgorithm* lineDeteciontAlgorithm ,QWidget *parent = 0);
+    explicit ChooseALGDialog(formseher::LineDetectionAlgorithm* lineDetecionAlgorithm ,QWidget *parent = 0);
     ~ChooseALGDialog();
 
-    formseher::LineDetectionAlgorithm* lineDeteciontAlgorithm;
+    formseher::LineDetectionAlgorithm* lineDetecionAlgorithm;
 
 private slots:
     void on_radioButton_clicked();

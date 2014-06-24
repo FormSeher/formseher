@@ -7,7 +7,6 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QStandardItemModel>
-#include "mypoint.h"
 #include <line.h>
 #include <linedetection/linedetectionalgorithm.h>
 #include <linedetection/edl/edl.h>
@@ -33,12 +32,24 @@ private slots:
     void on_showAllFoundLines_clicked();
     void on_showAllDetetectedLines_clicked();
     void on_allLinesView_doubleClicked(const QModelIndex &index);
-
     void on_selectedLinesView_doubleClicked(const QModelIndex &index);
-
     void on_action_ffnen_Erstellen_triggered();
-
     void on_actionDatenschreiben_triggered();
+    void on_toolButton_clicked();
+
+    void on_toolButton_2_clicked();
+
+    void on_allLinesView_clicked(const QModelIndex &index);
+
+    void on_selectedLinesView_clicked(const QModelIndex &index);
+
+    void on_toolButton_4_clicked();
+
+    void on_toolButton_3_clicked();
+
+protected:
+
+    void resizeEvent (QResizeEvent * event);
 
 private:
 
@@ -55,11 +66,11 @@ private:
     QGraphicsPixmapItem *image;
     QGraphicsPixmapItem *allLinesItem;
     QGraphicsPixmapItem *selectedLinesItem;
-    QGraphicsPixmapItem *pixAllFoundLines;
-    QGraphicsPixmapItem *pixAllSelectedLines;
 
     QPen allLinesPen;
     QPen selectedLinesPen;
+    QColor allLinesSelectedColor;
+    QColor SelectedLinesSelectedColor;
 
     //Listview
     QStandardItemModel *allLinesModel;
@@ -68,8 +79,6 @@ private:
     formseher::LineDetectionAlgorithm* lineDeteciontAlgorithm;
 
     QString dbFile;
-
-    myPoint *aPoint;
 
 
 };
