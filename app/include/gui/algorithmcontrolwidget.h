@@ -78,6 +78,8 @@ private:
     ObjectDetectionAlgorithmConfigDialog* selectedObjectAlgorithmConfigDialog;
     AlgorithmController controller;
 
+    std::vector<Model> models;
+
     algorithmworker_result latestResult;
 
     cv::Mat image;

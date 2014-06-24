@@ -280,7 +280,7 @@ void AlgorithmControlWidget::on_openDatabaseButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open database"), QDir::homePath(), tr("Database file (*.json)"));
     DatabaseUtils dbu(fileName.toStdString());
-    std::vector<Model> models = dbu.read();
+    models = dbu.read();
     controller.setDatabaseModels(models);
 
     ui->databaseLabel->setText(fileName.left(5) + "..." + fileName.right(20));
@@ -339,6 +339,7 @@ void formseher::AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
     ObjectDetectionAlgorithm* algorithm = selectedObjectAlgorithmConfigDialog->createAlgorithm();
     std::vector<formseher::Line> line = lines->calculate(image.clone());
 
+    algorithm->setModels(models);
     double startTime;
     double endTime;
     int executionCount = 100;
