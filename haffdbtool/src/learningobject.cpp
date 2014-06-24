@@ -158,4 +158,5 @@ void LearningObject::saveToDatabase(QString name)
 
     databaseUtils->read();
     databaseUtils->addObject(obj);
+    databaseUtils->write();
 }

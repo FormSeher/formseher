@@ -3,6 +3,7 @@
 #include "learningobject.h"
 #include "settings.h"
 #include "opencvdrawing.h"
+#include "saveobjectdialog.h"
 
 #include <QDir>
 #include <QMessageBox>
@@ -27,7 +28,6 @@ HDBMainWindow::HDBMainWindow(QWidget *parent) :
     connect(this, SIGNAL(signal_statusChange(QString)), ui->statusBar, SLOT(showMessage(QString)));
     connect(this, SIGNAL(signal_windowResize()), ui->widgetImage, SLOT(slot_configurationChanged()));
     connect(ui->actionDraw, SIGNAL(triggered()), this, SLOT(slot_actionDraw_clicked()));
-    connect(ui->actionSaveObject, SIGNAL(triggered()), this, SLOT(slot_actionSaveObject_clicked()));
 }
 
 HDBMainWindow::~HDBMainWindow()
@@ -107,7 +107,21 @@ void HDBMainWindow::slot_actionSaveObject_clicked()
     {
         if(learningObject->getDatabasePath() != "")
         {
-            learningObject->saveToDatabase("NAME");
+            SaveObjectDialog dialog(this);
+
+            if(dialog.exec() == QDialog::Accepted)
+            {
+                if( dialog.getObjectName() != "")
+                {
+                    learningObject->saveToDatabase(dialog.getObjectName());
+
+                    emit signal_statusChange("Saved Object '" + dialog.getObjectName() + "' to database " + learningObject->getDatabasePath());
+                }
+                else
+                {
+                    QMessageBox::critical(this, "Error!", "Could not save object.\nNo object name!");
+                }
+            }
         }
         else
         {

@@ -22,7 +22,8 @@ SOURCES += \
         $${HDB_SRC_DIR}/imagewidget.cpp \
         $${HDB_SRC_DIR}/colorchooserwidget.cpp \
         $${HDB_SRC_DIR}/settings.cpp \
-        $${HDB_SRC_DIR}/opencvdrawing.cpp
+        $${HDB_SRC_DIR}/opencvdrawing.cpp \
+        $${HDB_SRC_DIR}/saveobjectdialog.cpp
 
 HEADERS  += \
         $${HDB_INCL_DIR}/hdbmainwindow.h \
@@ -31,13 +32,15 @@ HEADERS  += \
         $${HDB_INCL_DIR}/colorchooserwidget.h \
         $${HDB_INCL_DIR}/settings.h \
         $${HDB_INCL_DIR}/imagemode.h \
-        $${HDB_INCL_DIR}/opencvdrawing.h
+        $${HDB_INCL_DIR}/opencvdrawing.h \
+        $${HDB_INCL_DIR}/saveobjectdialog.h
 
 FORMS    += \
         $${HDB_FORM_DIR}/hdbmainwindow.ui \
         $${HDB_FORM_DIR}/imagewidget.ui \
         $${HDB_FORM_DIR}/colorchooserwidget.ui \
-        $${HDB_FORM_DIR}/settings.ui
+        $${HDB_FORM_DIR}/settings.ui \
+        $${HDB_FORM_DIR}/saveobjectdialog.ui
 
 RESOURCES += \
     	$${HDB_RES_DIR}/icons.qrc
