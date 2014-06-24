@@ -96,9 +96,10 @@ void TeamBdbTool::on_actionDatei_triggered()
         image->setPixmap(QPixmap(pix));
         ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
 
-        ChooseALGDialog choose(lineDeteciontAlgorithm, this);
+        ChooseALGDialog choose(this);
         choose.setModal(true);
         choose.exec();
+        lineDeteciontAlgorithm = choose.alg;
         runAlgorithm(fileName);
         updateView();
     }
@@ -152,8 +153,6 @@ void TeamBdbTool::on_showAllDetetectedLines_clicked()
 void TeamBdbTool::runAlgorithm(QString fileName)
 {
     cv::Mat input = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
-
-    lineDeteciontAlgorithm = new formseher::EDL2();
     std::vector<formseher::Line> result = lineDeteciontAlgorithm->calculate(input);
 
     QStandardItem *item;
