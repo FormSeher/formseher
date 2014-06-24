@@ -80,12 +80,17 @@ private:
     void calculateAngleRating();
 
     /**
-     * @brief Calculates the coverage rating for given scale factor.
-     * @param scaleFactor Scale factor for which the coverage is calculated.
-     * @return Rating of coverage between 0 (0%) and 1 (100%).
+     * @brief Calculates the coverage rating.
+     * The coverage rating states how good the lines of the hypothesis cover the lines in the model.
+     * This method needs the scaleFactor calculated by Hypothesis::calculateScale().
      */
     void calculateCoverageRating();
 
+    /**
+     * @brief Calculates the position rating.
+     * The position rating takes the distances of the lines to the object / model center into account
+     * to filter hypothesis in which the object lines are not at the same position as in the model.
+     */
     void calculatePositionRating();
 
     /**
