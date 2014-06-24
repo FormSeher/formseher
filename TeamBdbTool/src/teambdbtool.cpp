@@ -357,6 +357,7 @@ void TeamBdbTool::on_toolButton_clicked()
 void TeamBdbTool::on_toolButton_3_clicked()
 {
     QColor newColor = QColorDialog::getColor(allLinesSelectedColor, this, "Pick Color");
+    allLinesSelectedColor = newColor;
     ui->label_3->setPalette(QPalette(newColor));
     updateAllLinesView();
 }
@@ -372,6 +373,7 @@ void TeamBdbTool::on_toolButton_2_clicked()
 void TeamBdbTool::on_toolButton_4_clicked()
 {
     QColor newColor = QColorDialog::getColor(SelectedLinesSelectedColor, this, "Pick Color");
+    SelectedLinesSelectedColor = newColor;
     ui->label_4->setPalette(QPalette(newColor));
     updateSelectedLinesView();
 }
