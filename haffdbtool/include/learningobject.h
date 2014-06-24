@@ -51,6 +51,7 @@ signals:
     void signal_newImage(cv::Mat);
     void signal_settingsChanged();
     void signal_linesChanged(std::pair<std::vector<formseher::Line>, std::vector<formseher::Line>>);
+    void signal_newDatabase(std::vector<formseher::Model>);
 
 
 private:

@@ -24,6 +24,8 @@ void LearningObject::setDatabase(QString databasePath)
 {
     this->databasePath = databasePath;
     this->databaseUtils = new formseher::DatabaseUtils(databasePath.toStdString());
+
+    emit signal_newDatabase(this->databaseUtils->read());
 }
 
 std::vector<formseher::Model> LearningObject::getDatabaseModels() const

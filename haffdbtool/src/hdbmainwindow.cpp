@@ -61,6 +61,7 @@ void HDBMainWindow::slot_actionOpenImage_clicked()
             connect(learningObject, SIGNAL(signal_linesChanged(std::pair<std::vector<formseher::Line>,std::vector<formseher::Line> >)),
                     ui->widgetImage, SLOT(slot_setLines(std::pair<std::vector<formseher::Line>,std::vector<formseher::Line> >)));
             connect(ui->widgetImage, SIGNAL(signal_lineDoubleClicked(std::pair<int,int>)), learningObject, SLOT(slot_doubleClicked(std::pair<int,int>)));
+            connect(learningObject, SIGNAL(signal_newDatabase(std::vector<formseher::Model>)), ui->widgetDatabase, SLOT(slot_setNewDatabase(std::vector<formseher::Model>)));
 
             if(dataBase != "")
                 this->learningObject->setDatabase(dataBase);

@@ -87,13 +87,13 @@ void ImageWidget::slot_setLines(std::pair<std::vector<formseher::Line>, std::vec
     for(formseher::Line possibleLine : lines.first)
     {
         std::stringstream listtext;
-        listtext << "Line " << possibleLine.getStart() << " → " << possibleLine.getEnd();
+        listtext << std::endl << "Line " << possibleLine.getStart() << " → " << possibleLine.getEnd() << std::endl;
         ui->listWidgetPossibleLines->addItem(new QListWidgetItem(tr(listtext.str().c_str())));
     }
     for(formseher::Line chosenLine : lines.second)
     {
         std::stringstream listtext;
-        listtext << "Line " << chosenLine.getStart() << " → " << chosenLine.getEnd();
+        listtext << std::endl << "Line " << chosenLine.getStart() << " → " << chosenLine.getEnd() << std::endl;
         ui->listWidgetChosenLines->addItem(new QListWidgetItem(tr(listtext.str().c_str())));
     }
 }
