@@ -32,8 +32,9 @@ TeamBdbTool::TeamBdbTool(QWidget *parent) :
     ui->selectedLinesView->show();
 
     //set up color items
-    allLinesPen = QPen(Qt::red);
+    allLinesPen = QPen(Qt::black);
     selectedLinesPen = QPen(Qt::green);
+    singleLineSelected = QPen(Qt::blue);
 
     //Set up the boxes
 
@@ -251,6 +252,59 @@ void TeamBdbTool::on_selectedLinesView_doubleClicked(const QModelIndex &index)
     allLinesModel->appendRow(selectedLinesModel->takeRow(index.row()));
     updateView();
 }
+
+void TeamBdbTool::on_allLinesView_clicked(const QModelIndex &index)
+{
+    updateAllLinesView();
+    QPixmap pix = allLinesItem->pixmap();
+    QPainter *painter = new QPainter(&pix);
+
+    QPen linePen = QPen(Qt::red);
+    linePen.setWidth(5);
+
+    QPen pointPen = QPen(Qt::black);
+    pointPen.setWidth(15);
+
+    QStandardItem *item = allLinesModel->item(index.row());
+    QLine line = item->data().toLine();
+
+    painter->setPen(pointPen);
+    painter->drawPoint(line.p1());
+    painter->drawPoint(line.p2());
+
+    painter->setPen(linePen);
+    painter->drawLine(line);
+
+    delete painter;
+    allLinesItem->setPixmap(pix);
+}
+
+void TeamBdbTool::on_selectedLinesView_clicked(const QModelIndex &index)
+{
+    updateSelectedLinesView();
+    QPixmap pix = selectedLinesItem->pixmap();
+    QPainter *painter = new QPainter(&pix);
+
+    QPen linePen = QPen(Qt::red);
+    linePen.setWidth(5);
+
+    QPen pointPen = QPen(Qt::black);
+    pointPen.setWidth(15);
+
+    QStandardItem *item = selectedLinesModel->item(index.row());
+    QLine line = item->data().toLine();
+
+    painter->setPen(pointPen);
+    painter->drawPoint(line.p1());
+    painter->drawPoint(line.p2());
+
+    painter->setPen(linePen);
+    painter->drawLine(line);
+
+    delete painter;
+    selectedLinesItem->setPixmap(pix);
+}
+
 void TeamBdbTool::on_action_ffnen_Erstellen_triggered()
 {
     dbFile = QFileDialog::getOpenFileName(
@@ -287,7 +341,6 @@ void TeamBdbTool::on_actionDatenschreiben_triggered()
         obj.addLine(formseher::Line(line.x1(),line.y1(),line.x2(),line.y2()));
         obj.setName("justTesting");
     }
-
     commitToDBDialog commit(obj, dbFile, this);
     commit.setModal(true);
     commit.exec();
@@ -309,3 +362,5 @@ void TeamBdbTool::on_toolButton_2_clicked()
     selectedLinesPen.setColor(newColor);
     updateSelectedLinesView();
 }
+
+

@@ -39,6 +39,10 @@ private slots:
 
     void on_toolButton_2_clicked();
 
+    void on_allLinesView_clicked(const QModelIndex &index);
+
+    void on_selectedLinesView_clicked(const QModelIndex &index);
+
 protected:
 
     void resizeEvent (QResizeEvent * event);
@@ -58,11 +62,10 @@ private:
     QGraphicsPixmapItem *image;
     QGraphicsPixmapItem *allLinesItem;
     QGraphicsPixmapItem *selectedLinesItem;
-    QGraphicsPixmapItem *pixAllFoundLines;
-    QGraphicsPixmapItem *pixAllSelectedLines;
 
     QPen allLinesPen;
     QPen selectedLinesPen;
+    QPen singleLineSelected;
 
     //Listview
     QStandardItemModel *allLinesModel;
