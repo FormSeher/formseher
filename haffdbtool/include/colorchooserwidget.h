@@ -15,25 +15,18 @@ public:
     explicit ColorChooserWidget(QWidget *parent = 0);
     ~ColorChooserWidget();
 
-    void setDefaultColor(QColor color);
-    void setSelectedColor(QColor color);
-    QColor getDefaultColor() const;
-    QColor getSelectedColor() const;
+    void setColors(std::pair<QColor, QColor> colors);
 
-signals:
-    void colorUpdated();
+    std::pair<QColor, QColor> getColors() const;
 
 private slots:
-    void changeDefaultColor();
-    void changeSelectedColor();
+    void changePossibleColor();
+    void changeChosenColor();
 
 private:
     Ui::colorChooserWidget *ui;
 
-    QColor defaultColor = QColor();
-    QColor selectedColor = QColor();
-
-    void updateColorButtons();
+    std::pair<QColor, QColor> colors;
 };
 
 #endif // COLORCHOOSERWIDGET_H

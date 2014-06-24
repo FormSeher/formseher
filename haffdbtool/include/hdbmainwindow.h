@@ -2,10 +2,9 @@
 #define HDBMAINWINDOW_H
 
 #include <QMainWindow>
-#include <linelistwidget.h>
-#include <imagewidget.h>
-#include <ui_hdbmainwindow.h>
-#include <QColorDialog>
+
+#include "learningobject.h"
+#include "settings.h"
 
 namespace Ui {
 class HDBMainWindow;
@@ -19,26 +18,24 @@ public:
     explicit HDBMainWindow(QWidget *parent = 0);
     ~HDBMainWindow();
 
-public slots:
-    void openImage_clicked();
-    void repaintImage();
-    void repaintImage(int i, bool firstList);
-    void allLineSelection(int i);
-    void selectedLineSelection(int i);
+signals:
+    void signal_statusChange(QString);
+    void signal_windowResize();
 
-public slots:
-    void doubleClickedFoundLines(int i);
-    void doubleClickedSelectedLines(int i);
+
+private slots:
+    void slot_actionOpenImage_clicked();
+    void slot_actionOpenDatabase_clicked();
+    void slot_actionSaveObject_clicked();
+    void slot_actionSettings_clicked();
+    void slot_actionDraw_clicked();
 
 private:
-    Ui::HDBMainWindow *ui;
+    Ui::HDBMainWindow* ui;
 
-    void connectMySlots();
-    void doAlgorithmWork();
+    LearningObject *learningObject = nullptr;
+    Settings* settings = nullptr;
 
-    cv::Mat image;
-    std::vector<formseher::Line> foundLines;
-    std::vector<formseher::Line> selectedLines;
+    virtual void resizeEvent (QResizeEvent *event);
 };
-
 #endif // HDBMAINWINDOW_H

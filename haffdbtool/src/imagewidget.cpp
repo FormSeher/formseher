@@ -1,14 +1,7 @@
 #include "include/imagewidget.h"
 #include "ui_imagewidget.h"
-#include "linedetection/edl/edl.h"
 
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-
-#include <iostream>
-
-#include <QFile>
-#include <QMessageBox>
+#include "line.h"
 
 ImageWidget::ImageWidget(QWidget *parent) :
     QWidget(parent),
@@ -16,15 +9,19 @@ ImageWidget::ImageWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->imageModeBox->addItem(QString::fromStdString(MODE_GREY_LINES));
-    ui->imageModeBox->addItem(QString::fromStdString(MODE_IMG_LINES));
-    ui->imageModeBox->addItem(QString::fromStdString(MODE_LINES));
-    ui->imageModeBox->addItem(QString::fromStdString(MODE_GREY));
-    ui->imageModeBox->addItem(QString::fromStdString(MODE_IMG));
+    // Slot connection
+    connect(ui->radioImageOriginal, SIGNAL(clicked()), this, SLOT(slot_configurationChanged()));
+    connect(ui->radioImageGreyscale, SIGNAL(clicked()), this, SLOT(slot_configurationChanged()));
+    connect(ui->radioImageNone, SIGNAL(clicked()), this, SLOT(slot_configurationChanged()));
+    connect(ui->checkBoxLines, SIGNAL(clicked()), this, SLOT(slot_configurationChanged()));
 
-    connect(this, SIGNAL(imageChanged()), this, SLOT(imageChangedActions()));
-    connect(ui->reloadButton, SIGNAL(clicked()), this, SLOT(imageChangedActions()));
-    connect(ui->imageModeBox, SIGNAL(currentTextChanged(QString)), this, SLOT(imageChangedActions()));
+    connect(ui->listWidgetPossibleLines, SIGNAL(currentRowChanged(int)), ui->listWidgetChosenLines, SLOT(clearSelection()));
+    connect(ui->listWidgetChosenLines, SIGNAL(currentRowChanged(int)), ui->listWidgetPossibleLines, SLOT(clearSelection()));
+    connect(ui->listWidgetPossibleLines, SIGNAL(currentRowChanged(int)), this, SLOT(slot_configurationChanged()));
+    connect(ui->listWidgetChosenLines, SIGNAL(currentRowChanged(int)), this, SLOT(slot_configurationChanged()));
+
+    connect(ui->listWidgetPossibleLines, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slot_doubleClicked()));
+    connect(ui->listWidgetChosenLines, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slot_doubleClicked()));
 }
 
 ImageWidget::~ImageWidget()
@@ -32,97 +29,79 @@ ImageWidget::~ImageWidget()
     delete ui;
 }
 
-void ImageWidget::setImage(QString imagePath, cv::Mat& image)
+void ImageWidget::slot_configurationChanged()
 {
-    image.copyTo(originalImage);
-    ui->imagePathLabel->setText(imagePath);
-    emit imageChanged();
-}
+    ImageMode mode = ImageMode::MODE_IMG;
 
-void ImageWidget::imageChangedActions()
-{
-    QFile file( ui->imagePathLabel->text() );
-    if( file.exists() )
+    if(ui->radioImageOriginal->isChecked())
     {
-        cv::cvtColor(originalImage, greyImage, CV_BGR2GRAY);
-        ui->reloadButton->setEnabled(true);
-        emit imageModeChanged();
-    }
-    else
-    {
-        //QMessageBox::StandardButton msg;
-        QMessageBox::critical(this, "Error!", "No valid image loaded!");
-    }
-}
-
-
-void ImageWidget::setImageToLabel()
-{
-
-    cv::Mat converted;
-    if( ui->imageModeBox->currentText().toStdString() == MODE_GREY || ui->imageModeBox->currentText().toStdString() == MODE_GREY_LINES)
-    {
-        converted = cv::Mat(greyImage.rows, greyImage.cols, greyImage.type());
-        cv::cvtColor(greyImage, converted, CV_GRAY2RGB);
-    }
-    else if( ui->imageModeBox->currentText().toStdString() == MODE_IMG || ui->imageModeBox->currentText().toStdString() == MODE_IMG_LINES)
-    {
-        converted = cv::Mat(originalImage.rows, originalImage.cols, originalImage.type());
-        cv::cvtColor(originalImage, converted, CV_BGR2RGB);
-    }
-    else
-    {
-        converted = cv::Mat::zeros(originalImage.rows, originalImage.cols, originalImage.type());
-        //cv::Mat::zeros(cv::cvtColor(converted, converted, CV_BGR2RGB);
-    }
-
-    QImage qImage = QImage(converted.data, converted.cols, converted.rows, converted.step, QImage::Format_RGB888).copy();
-
-    QSize imageSize = qImage.size();
-    imageSize.scale(ui->imageLabel->size(), Qt::KeepAspectRatio);
-    QImage scaledImage = qImage.scaled(imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-    ui->imageLabel->setPixmap(QPixmap::fromImage(scaledImage));
-}
-
-void ImageWidget::repaintImage(std::vector<formseher::Line> selectedLines, formseher::Line selectedLine,
-                  QColor defaultColor, QColor selectedColor)
-{
-
-    cv::Mat converted;
-    if( ui->imageModeBox->currentText().toStdString() == MODE_GREY || ui->imageModeBox->currentText().toStdString() == MODE_GREY_LINES)
-    {
-        converted = cv::Mat(greyImage.rows, greyImage.cols, greyImage.type());
-        cv::cvtColor(greyImage, converted, CV_GRAY2RGB);
-    }
-    else if( ui->imageModeBox->currentText().toStdString() == MODE_IMG || ui->imageModeBox->currentText().toStdString() == MODE_IMG_LINES)
-    {
-        converted = cv::Mat(originalImage.rows, originalImage.cols, originalImage.type());
-        cv::cvtColor(originalImage, converted, CV_BGR2RGB);
-    }
-    else
-    {
-        converted = cv::Mat::zeros(originalImage.rows, originalImage.cols, originalImage.type());
-        //cv::Mat::zeros(cv::cvtColor(converted, converted, CV_BGR2RGB);
-    }
-
-    if( ui->imageModeBox->currentText().toStdString() == MODE_LINES       ||
-        ui->imageModeBox->currentText().toStdString() == MODE_IMG_LINES   ||
-        ui->imageModeBox->currentText().toStdString() == MODE_GREY_LINES  )
-    {
-        for(auto line: selectedLines)
+        ui->checkBoxLines->setEnabled(true);
+        if(ui->checkBoxLines->isChecked())
         {
-            cv::line(converted, line.getStart(), line.getEnd(), cv::Scalar(defaultColor.red(), defaultColor.green(), defaultColor.blue()));
+            mode = ImageMode::MODE_IMG_LINES;
         }
-
-        cv::line(converted, selectedLine.getStart(), selectedLine.getEnd(), cv::Scalar(selectedColor.red(), selectedColor.green(), selectedColor.blue()));
+        else
+        {
+            mode = ImageMode::MODE_IMG;
+        }
+    }
+    else if(ui->radioImageGreyscale->isChecked())
+    {
+        ui->checkBoxLines->setEnabled(true);
+        if(ui->checkBoxLines->isChecked())
+        {
+            mode = ImageMode::MODE_GREY_LINES;
+        }
+        else
+        {
+            mode = ImageMode::MODE_GREY;
+        }
+    }
+    else if(ui->radioImageNone->isChecked())
+    {
+        ui->checkBoxLines->setEnabled(false);
+        mode = ImageMode::MODE_LINES;
     }
 
-    QImage qImage = QImage(converted.data, converted.cols, converted.rows, converted.step, QImage::Format_RGB888).copy();
+    emit signal_configurationChanged(mode,
+                                     ui->listWidgetPossibleLines->currentRow(),
+                                     ui->listWidgetChosenLines->currentRow());
+}
+
+void ImageWidget::slot_repaint(cv::Mat image)
+{
+    QImage qImage = QImage(image.data, image.cols, image.rows, image.step, QImage::Format_RGB888).copy();
 
     QSize imageSize = qImage.size();
-    imageSize.scale(ui->imageLabel->size(), Qt::KeepAspectRatio);
+    imageSize.scale(ui->lableImage->size(), Qt::KeepAspectRatio);
     QImage scaledImage = qImage.scaled(imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-    ui->imageLabel->setPixmap(QPixmap::fromImage(scaledImage));
+    ui->lableImage->setPixmap(QPixmap::fromImage(scaledImage));
+}
+
+void ImageWidget::slot_setLines(std::pair<std::vector<formseher::Line>, std::vector<formseher::Line>> lines)
+{
+    ui->listWidgetPossibleLines->clear();
+    ui->listWidgetChosenLines->clear();
+
+    for(formseher::Line possibleLine : lines.first)
+    {
+        std::stringstream listtext;
+        listtext << "Line " << possibleLine.getStart() << " → " << possibleLine.getEnd();
+        ui->listWidgetPossibleLines->addItem(new QListWidgetItem(tr(listtext.str().c_str())));
+    }
+    for(formseher::Line chosenLine : lines.second)
+    {
+        std::stringstream listtext;
+        listtext << "Line " << chosenLine.getStart() << " → " << chosenLine.getEnd();
+        ui->listWidgetChosenLines->addItem(new QListWidgetItem(tr(listtext.str().c_str())));
+    }
+}
+
+
+void ImageWidget::slot_doubleClicked()
+{
+    emit signal_lineDoubleClicked(std::pair<int, int>(
+                                      ui->listWidgetPossibleLines->currentRow(),
+                                      ui->listWidgetChosenLines->currentRow()));
 }

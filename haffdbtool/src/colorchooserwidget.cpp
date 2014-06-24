@@ -1,6 +1,7 @@
-#include "include/colorchooserwidget.h"
+#include "colorchooserwidget.h"
 #include "ui_colorchooserwidget.h"
 
+#include <QColor>
 #include <QColorDialog>
 
 ColorChooserWidget::ColorChooserWidget(QWidget *parent) :
@@ -9,8 +10,18 @@ ColorChooserWidget::ColorChooserWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->defaultColorButton, SIGNAL(clicked()), this, SLOT(changeDefaultColor()));
-    connect(ui->selectedColorButton, SIGNAL(clicked()), this, SLOT(changeSelectedColor()));
+    this->colors.first = Qt::magenta;
+    this->colors.second = Qt::green;
+
+    ui->buttonPossibleColor->setText(this->colors.first.name());
+    ui->buttonPossibleColor->setPalette(QPalette(this->colors.first));
+    ui->buttonPossibleColor->setAutoFillBackground(true);
+    ui->buttonChosenColor->setText(this->colors.second.name());
+    ui->buttonChosenColor->setPalette(QPalette(this->colors.second));
+    ui->buttonChosenColor->setAutoFillBackground(true);
+
+    connect(ui->buttonPossibleColor, SIGNAL(clicked()), this, SLOT(changePossibleColor()));
+    connect(ui->buttonChosenColor, SIGNAL(clicked()), this, SLOT(changeChosenColor()));
 }
 
 ColorChooserWidget::~ColorChooserWidget()
@@ -18,61 +29,36 @@ ColorChooserWidget::~ColorChooserWidget()
     delete ui;
 }
 
-void ColorChooserWidget::changeDefaultColor()
+void ColorChooserWidget::changePossibleColor()
 {
-    QColor color = QColorDialog::getColor(defaultColor, this);
-       if (color.isValid())
-       {
-           defaultColor = color;
-       }
-       updateColorButtons();
-
+    QColor color = QColorDialog::getColor(this->colors.first, this);
+    if (color.isValid())
+    {
+        this->colors.first = color;
+        ui->buttonPossibleColor->setText(this->colors.first.name());
+        ui->buttonPossibleColor->setPalette(QPalette(this->colors.first));
+        ui->buttonPossibleColor->setAutoFillBackground(true);
+    }
 }
 
-void ColorChooserWidget::changeSelectedColor()
+void ColorChooserWidget::changeChosenColor()
 {
-    QColor color = QColorDialog::getColor(selectedColor, this);
-       if (color.isValid())
-       {
-           selectedColor = color;
-       }
-       updateColorButtons();
+    QColor color = QColorDialog::getColor(this->colors.second, this);
+    if (color.isValid())
+    {
+        this->colors.second = color;
+        ui->buttonChosenColor->setText(this->colors.second.name());
+        ui->buttonChosenColor->setPalette(QPalette(this->colors.second));
+        ui->buttonChosenColor->setAutoFillBackground(true);
+    }
 }
 
-void ColorChooserWidget::setDefaultColor(QColor color)
+std::pair<QColor, QColor> ColorChooserWidget::getColors() const
 {
-    defaultColor = color;
-    emit updateColorButtons();
+    return this->colors;
 }
 
-void ColorChooserWidget::setSelectedColor(QColor color)
+void ColorChooserWidget::setColors(std::pair<QColor, QColor> colors)
 {
-    selectedColor = color;
-    updateColorButtons();
-}
-
-void ColorChooserWidget::updateColorButtons()
-{
-    // Default Color Button
-    ui->defaultColorButton->setText(defaultColor.name());
-    ui->defaultColorButton->setPalette(QPalette(defaultColor));
-    ui->defaultColorButton->setAutoFillBackground(true);
-
-    // Selected Color Button
-    ui->selectedColorButton->setText(selectedColor.name());
-    ui->selectedColorButton->setPalette(QPalette(selectedColor));
-    ui->selectedColorButton->setAutoFillBackground(true);
-
-    emit colorUpdated();
-}
-
-
-QColor ColorChooserWidget::getDefaultColor() const
-{
-    return defaultColor;
-}
-
-QColor ColorChooserWidget::getSelectedColor() const
-{
-    return selectedColor;
+    this->colors = colors;
 }

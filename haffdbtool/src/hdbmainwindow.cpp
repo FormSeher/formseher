@@ -1,19 +1,15 @@
-#include <QDir>
-#include <QFileDialog>
-#include <QString>
-#include <QColorDialog>
-
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
-
-#include <iostream>
-
 #include "hdbmainwindow.h"
 #include "ui_hdbmainwindow.h"
-#include "ui_linelistwidget.h"
-#include "linedetection/edl/edl.h"
-#include "linedetection/hough/hough.h"
+#include "learningobject.h"
+#include "settings.h"
+#include "opencvdrawing.h"
+
+#include <QDir>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QProcess>
+
+#include <iostream>
 
 HDBMainWindow::HDBMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,13 +17,17 @@ HDBMainWindow::HDBMainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->allLineListWidget->findChild<QLabel*>("lineListLabel")->setText("Picturelines");
-    ui->selectedLineListWidget->findChild<QLabel*>("lineListLabel")->setText("Objectlines");
+    settings = new Settings();
 
-    ui->colorChooserWidget->setDefaultColor(QColor(Qt::red));
-    ui->colorChooserWidget->setSelectedColor(QColor(Qt::green));
-
-    connectMySlots();
+    // Slot connection
+    connect(ui->actionOpenImage, SIGNAL(triggered()), this, SLOT(slot_actionOpenImage_clicked()));
+    connect(ui->actionOpenDatabase, SIGNAL(triggered()), this, SLOT(slot_actionOpenDatabase_clicked()));
+    connect(ui->actionSaveObject, SIGNAL(triggered()), this, SLOT(slot_actionSaveObject_clicked()));
+    connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(slot_actionSettings_clicked()));
+    connect(this, SIGNAL(signal_statusChange(QString)), ui->statusBar, SLOT(showMessage(QString)));
+    connect(this, SIGNAL(signal_windowResize()), ui->widgetImage, SLOT(slot_configurationChanged()));
+    connect(ui->actionDraw, SIGNAL(triggered()), this, SLOT(slot_actionDraw_clicked()));
+    connect(ui->actionSaveObject, SIGNAL(triggered()), this, SLOT(slot_actionSaveObject_clicked()));
 }
 
 HDBMainWindow::~HDBMainWindow()
@@ -35,100 +35,103 @@ HDBMainWindow::~HDBMainWindow()
     delete ui;
 }
 
-void HDBMainWindow::openImage_clicked()
+void HDBMainWindow::slot_actionOpenImage_clicked()
 {
     try
     {
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open"), QDir::homePath(), tr("Image files (*.png *.jpg *.bmp)"));
 
-        image = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_COLOR);
-        if( ! image.data )
+        if( QFile(fileName).exists() )
         {
-            std::cerr << "Unable to load image!" << std::endl;
-        }
-        ui->imageWidget->setImage(fileName, image);
+            QString dataBase = "";
+            if(this->learningObject != nullptr)
+            {
+                dataBase = this->learningObject->getDatabasePath();
+                learningObject->~LearningObject();
+            }
 
-        doAlgorithmWork();
+            this->learningObject = new LearningObject(fileName);
+
+            //Connect every new learning object
+            connect(ui->widgetImage, SIGNAL(signal_configurationChanged(ImageMode,int,int)), learningObject, SLOT(slot_getImage(ImageMode,int,int)));
+            connect(learningObject, SIGNAL(signal_newImage(cv::Mat)), ui->widgetImage, SLOT(slot_repaint(cv::Mat)));
+            connect(learningObject, SIGNAL(signal_settingsChanged()), ui->widgetImage, SLOT(slot_configurationChanged()));
+            connect(settings, SIGNAL(signal_newSettings(formseher::LineDetectionAlgorithm*,std::pair<QColor,QColor>,int)),
+                    learningObject, SLOT(slot_setSettings(formseher::LineDetectionAlgorithm*,std::pair<QColor,QColor>,int)));
+            connect(learningObject, SIGNAL(signal_linesChanged(std::pair<std::vector<formseher::Line>,std::vector<formseher::Line> >)),
+                    ui->widgetImage, SLOT(slot_setLines(std::pair<std::vector<formseher::Line>,std::vector<formseher::Line> >)));
+            connect(ui->widgetImage, SIGNAL(signal_lineDoubleClicked(std::pair<int,int>)), learningObject, SLOT(slot_doubleClicked(std::pair<int,int>)));
+
+            if(dataBase != "")
+                this->learningObject->setDatabase(dataBase);
+
+            ui->widgetImage->slot_configurationChanged();
+            settings->slot_settingsChanged();
+
+            signal_statusChange(QString("Loaded Image..." + fileName));
+        }
     }
     catch(int e)
     {
-        std::cout << "Error: Could not open picture." << std::endl;
+        QMessageBox::critical(this, "Error!", "Could not open image.");
     }
 }
 
-void HDBMainWindow::connectMySlots()
+void HDBMainWindow::slot_actionOpenDatabase_clicked()
 {
-    connect(ui->openImageAction, SIGNAL(triggered()), this, SLOT(openImage_clicked()));
-    connect(ui->colorChooserWidget, SIGNAL(colorUpdated()), this, SLOT(repaintImage()));
-    connect(ui->imageWidget, SIGNAL(imageModeChanged()), this, SLOT(repaintImage()));
-
-    connect(ui->allLineListWidget, SIGNAL(itemSelected(int)), this, SLOT(allLineSelection(int)));
-    connect(ui->selectedLineListWidget, SIGNAL(itemSelected(int)), this, SLOT(selectedLineSelection(int)));
-
-    connect(ui->allLineListWidget, SIGNAL(myItemDoubleClicked(int)), this, SLOT(doubleClickedFoundLines(int)));
-    connect(ui->selectedLineListWidget, SIGNAL(myItemDoubleClicked(int)), this, SLOT(doubleClickedSelectedLines(int)));
-}
-
-void HDBMainWindow::allLineSelection(int i)
-{
-    repaintImage(i, true);
-}
-
-void HDBMainWindow::selectedLineSelection(int i)
-{
-    repaintImage(i, false);
-}
-
-void HDBMainWindow::doAlgorithmWork()
-{
-    // TODO: Change to EDL newest version. Used hough for better results.
-    formseher::Hough edl = formseher::Hough();
-    foundLines = edl.calculate(image);
-    selectedLines.clear();
-    ui->allLineListWidget->clearLineList();
-    ui->selectedLineListWidget->clearLineList();
-    ui->allLineListWidget->setLineList(foundLines);
-    repaintImage(0,true);
-}
-
-void HDBMainWindow::repaintImage()
-{
-    if(foundLines.size() > 0)
+    try
     {
-        ui->imageWidget->repaintImage(selectedLines, formseher::Line(0,0,0,0),
-                                  ui->colorChooserWidget->getDefaultColor(),ui->colorChooserWidget->getSelectedColor());
-    }
-}
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open database"), QDir::homePath(), tr("Database file (*.json)"));
 
-void HDBMainWindow::repaintImage(int i=0, bool firstList=true)
-{
-    if(foundLines.size() > 0)
-    {
-        if(firstList)
+        if( QFile(fileName).exists() )
         {
-            ui->imageWidget->repaintImage(selectedLines, foundLines[i],
-                                  ui->colorChooserWidget->getDefaultColor(),ui->colorChooserWidget->getSelectedColor());
-        } else {
-            ui->imageWidget->repaintImage(selectedLines, selectedLines[i],
-                                      ui->colorChooserWidget->getDefaultColor(),ui->colorChooserWidget->getSelectedColor());
+            if(this->learningObject == nullptr)
+            {
+                learningObject = new LearningObject(QString(""));
+            }
+
+            this->learningObject->setDatabase(fileName);
+
+            signal_statusChange(QString("Loaded Database..." + fileName));
         }
     }
+    catch(int e)
+    {
+        QMessageBox::critical(this, "Error!", "Could not open database.");
+    }
 }
 
-void HDBMainWindow::doubleClickedFoundLines(int i)
+void HDBMainWindow::slot_actionSaveObject_clicked()
 {
-    selectedLines.push_back(foundLines[i]);
-    foundLines.erase(foundLines.begin()+i);
-
-    ui->allLineListWidget->setLineList(foundLines);
-    ui->selectedLineListWidget->setLineList(selectedLines);
+    if(learningObject != nullptr)
+    {
+        if(learningObject->getDatabasePath() != "")
+        {
+            learningObject->saveToDatabase("NAME");
+        }
+        else
+        {
+            QMessageBox::critical(this, "Error!", "Could not save object.\nNo database loaded!");
+        }
+    }
+    else
+    {
+        QMessageBox::critical(this, "Error!", "Could not save object.\nNo image loaded.");
+    }
 }
 
-void HDBMainWindow::doubleClickedSelectedLines(int i)
+void HDBMainWindow::slot_actionSettings_clicked()
 {
-    foundLines.push_back(selectedLines[i]);
-    selectedLines.erase(selectedLines.begin()+i);
+    settings->move(this->rect().center() - settings->rect().center());
+    settings->show();
+}
 
-    ui->allLineListWidget->setLineList(foundLines);
-    ui->selectedLineListWidget->setLineList(selectedLines);
+void HDBMainWindow::resizeEvent (QResizeEvent *event)
+{
+    emit signal_windowResize();
+}
+
+void HDBMainWindow::slot_actionDraw_clicked()
+{
+    //OpencvDrawing::drawLines(learningObject->getOriginalImage());
 }

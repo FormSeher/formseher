@@ -18,21 +18,29 @@ DESTDIR = bin
 SOURCES += \
         $${HDB_SRC_DIR}/main.cpp \
         $${HDB_SRC_DIR}/hdbmainwindow.cpp \
+    	$${HDB_SRC_DIR}/learningobject.cpp \
         $${HDB_SRC_DIR}/imagewidget.cpp \
-        $${HDB_SRC_DIR}/linelistwidget.cpp \
-    src/colorchooserwidget.cpp
+        $${HDB_SRC_DIR}/colorchooserwidget.cpp \
+        $${HDB_SRC_DIR}/settings.cpp \
+        $${HDB_SRC_DIR}/opencvdrawing.cpp
 
 HEADERS  += \
         $${HDB_INCL_DIR}/hdbmainwindow.h \
+    	$${HDB_INCL_DIR}/learningobject.h \
         $${HDB_INCL_DIR}/imagewidget.h \
-        $${HDB_INCL_DIR}/linelistwidget.h \
-    include/colorchooserwidget.h
+        $${HDB_INCL_DIR}/colorchooserwidget.h \
+        $${HDB_INCL_DIR}/settings.h \
+        $${HDB_INCL_DIR}/imagemode.h \
+        $${HDB_INCL_DIR}/opencvdrawing.h
 
 FORMS    += \
         $${HDB_FORM_DIR}/hdbmainwindow.ui \
         $${HDB_FORM_DIR}/imagewidget.ui \
-        $${HDB_FORM_DIR}/linelistwidget.ui \
-    form/colorchooserwidget.ui
+        $${HDB_FORM_DIR}/colorchooserwidget.ui \
+        $${HDB_FORM_DIR}/settings.ui
+
+RESOURCES += \
+    	$${HDB_RES_DIR}/icons.qrc
 
 INCLUDEPATH += \
         $${HDB_INCL_DIR} \

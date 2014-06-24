@@ -24,9 +24,12 @@ TEST_INCL_DIR = $${TEST_DIR}/include
 # output path for algorithms library
 ALG_BIN_DIR = $${ALG_DIR}/lib
 
-#form dir directories
+# form dir directories
 APP_FORM_DIR = $${APP_DIR}/form
 HDB_FORM_DIR = $${HDB_DIR}/form
+
+# resource directories
+HDB_RES_DIR = $${HDB_DIR}/res
 
 #build directories
 #BUILD_DIR = $${ROOT_DIR}/build

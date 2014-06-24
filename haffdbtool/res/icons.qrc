@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>application-exit.png</file>
+        <file>document-save.svg</file>
+        <file>help-about.svg</file>
+        <file>insert-image.png</file>
+        <file>ooo-base.svg</file>
+        <file>x-office-drawing.svg</file>
+        <file>preferences-system.png</file>
+        <file>layer-shape-line.png</file>
+    </qresource>
+</RCC>

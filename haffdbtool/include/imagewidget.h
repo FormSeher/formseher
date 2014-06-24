@@ -1,15 +1,10 @@
 #ifndef IMAGEWIDGET_H
 #define IMAGEWIDGET_H
 
-#include <QWidget>
-#include <opencv2/core/core.hpp>
 #include "line.h"
+#include "imagemode.h"
 
-#define MODE_IMG "Original"
-#define MODE_GREY "Greyscale"
-#define MODE_LINES "Lines"
-#define MODE_GREY_LINES "Greyscale / Lines"
-#define MODE_IMG_LINES "Original / Lines"
+#include <QWidget>
 
 namespace Ui {
 class ImageWidget;
@@ -23,26 +18,19 @@ public:
     explicit ImageWidget(QWidget *parent = 0);
     ~ImageWidget();
 
-    void setImage(QString imagePath, cv::Mat& image);
-    void repaintImage(std::vector<formseher::Line> selectedLines, formseher::Line selectedLine,
-                      QColor defaultColor, QColor selectedColor);
+public slots:
+    void slot_configurationChanged();
+    void slot_repaint(cv::Mat image);
+    void slot_setLines(std::pair<std::vector<formseher::Line>, std::vector<formseher::Line> > lines);
+    void slot_doubleClicked();
 
 signals:
-    void imageChanged();
-    void imageModeChanged();
+    void signal_configurationChanged(ImageMode, int, int);
+    void signal_lineDoubleClicked(std::pair<int, int>);
 
-private slots:
-    void imageChangedActions();
 
 private:
     Ui::ImageWidget *ui;
-
-    cv::Mat originalImage;
-    cv::Mat greyImage;
-    cv::Mat paintingImage;
-
-    void setImageToLabel();
-
 };
 
 #endif // IMAGEWIDGET_H
