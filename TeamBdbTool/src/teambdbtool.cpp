@@ -244,6 +244,7 @@ void TeamBdbTool::updateSelectedLinesView()
     }
     delete painter;
     selectedLinesItem->setPixmap(pix);
+    selectedLinesItem->setActive(true);
 }
 
 void TeamBdbTool::on_allLinesView_doubleClicked(const QModelIndex &index)
