@@ -454,12 +454,16 @@ void formseher::AlgorithmControlWidget::on_linecolorButton_clicked()
 {
         linecolor = QColorDialog::getColor(Qt::gray, this);
         ui->linecolorLabel->setPalette(linecolor);
+        if(linerandstate == 0)
+        AlgorithmControlWidget::updateResultImage();
 }
 
 void formseher::AlgorithmControlWidget::on_objectcolorButton_clicked()
 {
         objectcolor = QColorDialog::getColor(Qt::gray, this);
         ui->objectcolorLabel->setPalette(objectcolor);
+        if(objectrandstate == 0)
+        AlgorithmControlWidget::updateResultImage();
 }
 
 
@@ -470,11 +474,13 @@ void formseher::AlgorithmControlWidget::on_linecolorrandomcheckBox_clicked(bool 
     {
         ui->linecolorLabel->setText("random");
         linerandstate = 1;
+        AlgorithmControlWidget::updateResultImage();
     }
     else
     {
         ui->linecolorLabel->setText("");
         linerandstate = 0;
+        AlgorithmControlWidget::updateResultImage();
     }
 }
 
@@ -484,11 +490,13 @@ void formseher::AlgorithmControlWidget::on_objectcolorrandomcheckBox_clicked(boo
     {
         ui->objectcolorLabel->setText("random");
         objectrandstate = 1;
+        AlgorithmControlWidget::updateResultImage();
     }
     else
     {
         ui->objectcolorLabel->setText("");
         objectrandstate = 0;
+        AlgorithmControlWidget::updateResultImage();
     }
 }
 
