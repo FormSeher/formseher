@@ -8,12 +8,13 @@
 namespace formseher {
 
 Haff::Haff(int numberOfBestHypotheses, int numberOfDetectedObjects,
-           double minimalObjectRating, double coverageWeight, double angleWeight)
+           double minimalObjectRating, double coverageWeight, double angleWeight, double positionWeight)
     : numberOfBestHypotheses(numberOfBestHypotheses),
       numberOfDetectedObjects(numberOfDetectedObjects),
       minimalObjectRating(minimalObjectRating),
       coverageWeight(coverageWeight),
-      angleWeight(angleWeight)
+      angleWeight(angleWeight),
+      positionWeight(positionWeight)
 {
 }
 

@@ -3,10 +3,11 @@
 namespace formseher
 {
 
-Hypothesis::Hypothesis(const Model *model, double angleWeight, double coverWeight)
+Hypothesis::Hypothesis(const Model *model, double angleWeight, double coverWeight, double positionWeight)
     : model(model),
       angleWeight(angleWeight),
-      coverWeight(coverWeight)
+      coverWeight(coverWeight),
+      positionWeight(positionWeight)
 {
 }
 
@@ -28,6 +29,7 @@ Hypothesis::Hypothesis(const Hypothesis& hypothesis)
     : model(hypothesis.model),
       angleWeight(hypothesis.angleWeight),
       coverWeight(hypothesis.coverWeight),
+      positionWeight(hypothesis.positionWeight),
       lineMatchMap(hypothesis.lineMatchMap),
       notMatchingLines(hypothesis.notMatchingLines)
 {
@@ -35,7 +37,7 @@ Hypothesis::Hypothesis(const Hypothesis& hypothesis)
 
 double Hypothesis::getRating() const
 {
-    return ( angleRating * (1.0/3.0) + coverRating * (1.0/3.0) + positionRating * (1.0/3.0)) * 100.0;
+    return ( angleRating * angleWeight + coverRating * coverWeight + positionRating * positionWeight) * 100.0;
 }
 
 bool Hypothesis::containsLine(const Line* line) const

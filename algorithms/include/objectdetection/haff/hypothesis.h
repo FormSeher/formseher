@@ -14,7 +14,7 @@ public:
      * @param angleWeight Weight factor for angleRating.
      * @param coverWeight Weight factor for coverRating.
      */
-    Hypothesis(const Model *model, double angleWeight = 1.0, double coverWeight = 1.0);
+    Hypothesis(const Model *model, double angleWeight = 1.0 / 3.0, double coverWeight = 1.0 / 3.0, double positionWeight = 1.0 / 3.0);
 
     /**
      * @brief Hypothesis copy constructor
@@ -135,6 +135,8 @@ private:
      * @brief Factor with which the coverRating is weighted.
      */
     const double coverWeight;
+
+    const double positionWeight;
 
     /**
      * @brief Contains hypothetical matching line pairs (<PictureLine, DB-Line>)
