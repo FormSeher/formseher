@@ -32,12 +32,12 @@ private slots:
     void on_showAllFoundLines_clicked();
     void on_showAllDetetectedLines_clicked();
     void on_allLinesView_doubleClicked(const QModelIndex &index);
-
     void on_selectedLinesView_doubleClicked(const QModelIndex &index);
-
     void on_action_ffnen_Erstellen_triggered();
-
     void on_actionDatenschreiben_triggered();
+    void on_toolButton_clicked();
+
+    void on_toolButton_2_clicked();
 
 protected:
 

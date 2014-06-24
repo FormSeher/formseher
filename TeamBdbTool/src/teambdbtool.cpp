@@ -8,6 +8,7 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QGraphicsItem>
+#include <QColorDialog>
 
 #include <line.h>
 #include <objectdetection/databaseutils.h>
@@ -34,11 +35,15 @@ TeamBdbTool::TeamBdbTool(QWidget *parent) :
     allLinesPen = QPen(Qt::red);
     selectedLinesPen = QPen(Qt::green);
 
-    //Set up the checkboxes
+    //Set up the boxes
 
     ui->showImage->setChecked(true);
     ui->showAllFoundLines->setChecked(true);
     ui->showAllDetetectedLines->setChecked(true);
+    ui->label->setPalette(allLinesPen.color());
+    ui->label->setAutoFillBackground(true);
+    ui->label_2->setPalette(selectedLinesPen.color());
+    ui->label_2->setAutoFillBackground(true);
 
     //Set up the Graphicsview
 
@@ -158,6 +163,9 @@ void TeamBdbTool::runAlgorithm(QString fileName)
     cv::Point2i previousEnd;
     cv::Point2i prepreviousStart;
     cv::Point2i prepreviousEnd;
+
+    allLinesModel->clear();
+    selectedLinesModel->clear();
 
     for(auto line : result)
     {
@@ -283,4 +291,21 @@ void TeamBdbTool::on_actionDatenschreiben_triggered()
     commitToDBDialog commit(obj, dbFile, this);
     commit.setModal(true);
     commit.exec();
+}
+
+
+void TeamBdbTool::on_toolButton_clicked()
+{
+    QColor newColor = QColorDialog::getColor(allLinesPen.color(), this, "Pick Color");
+    ui->label->setPalette(QPalette(newColor));
+    allLinesPen.setColor(newColor);
+    updateAllLinesView();
+}
+
+void TeamBdbTool::on_toolButton_2_clicked()
+{
+    QColor newColor = QColorDialog::getColor(selectedLinesPen.color(), this, "Pick Color");
+    ui->label_2->setPalette(QPalette(newColor));
+    selectedLinesPen.setColor(newColor);
+    updateSelectedLinesView();
 }
