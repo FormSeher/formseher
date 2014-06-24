@@ -47,6 +47,8 @@ private slots:
 
     void on_toolButton_3_clicked();
 
+    void on_lineEdit_editingFinished();
+
 protected:
 
     void resizeEvent (QResizeEvent * event);
@@ -79,6 +81,7 @@ private:
     formseher::LineDetectionAlgorithm* lineDeteciontAlgorithm;
 
     QString dbFile;
+    QString objName;
 
 
 };

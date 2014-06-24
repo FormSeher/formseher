@@ -50,6 +50,7 @@ TeamBdbTool::TeamBdbTool(QWidget *parent) :
     ui->label_2->setAutoFillBackground(true);
     ui->label_4->setPalette(SelectedLinesSelectedColor);
     ui->label_4->setAutoFillBackground(true);
+    ui->lineEdit->setText("UnNamedObject");
 
     //Set up the Graphicsview
 
@@ -337,7 +338,7 @@ void TeamBdbTool::on_actionDatenschreiben_triggered()
         item = selectedLinesModel->item(row);
         line = item->data().toLine();
         obj.addLine(formseher::Line(line.x1(),line.y1(),line.x2(),line.y2()));
-        obj.setName("justTesting");
+        obj.setName(ui->lineEdit->text().toStdString());
     }
     commitToDBDialog commit(obj, dbFile, this);
     commit.setModal(true);
@@ -377,4 +378,7 @@ void TeamBdbTool::on_toolButton_4_clicked()
     updateSelectedLinesView();
 }
 
+void TeamBdbTool::on_lineEdit_editingFinished()
+{
 
+}
