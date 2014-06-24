@@ -348,6 +348,7 @@ void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfin
 
 std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> lines){
 
+    std::cout << "object detection teamB started..." << std::endl;
     std::vector<Object> foundObjects;
     std::vector<Object> newUnfinishedObjects;
     std::vector<Object> unfinishedObjects;
@@ -411,6 +412,10 @@ std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> l
             }
         }
         getBestRatedObject(unfinishedObjects, &foundObjects, model.getName());
+    }
+    std::cout << "object detection teamB finished!" << std::endl;
+    for(auto obj:foundObjects){
+        std::cout << "found object: " << obj.getName() << " with rating: " << obj.getRating() << std::endl;
     }
     return foundObjects;
 }
