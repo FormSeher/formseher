@@ -23,6 +23,8 @@ private:
     double minimalObjectRating;
     double coverageWeight;
     double angleWeight;
+
+    void symmetricReplacement(std::vector<Object> &detectedObjects, Object &object);
 };
 }   //  namespace formseher
 
