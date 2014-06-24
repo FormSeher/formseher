@@ -152,17 +152,33 @@ void TeamBdbTool::runAlgorithm(QString fileName)
     std::vector<formseher::Line> result = lineDeteciontAlgorithm->calculate(input);
 
     QStandardItem *item;
+    cv::Point2i start;
+    cv::Point2i end;
+    cv::Point2i previousStart;
+    cv::Point2i previousEnd;
+    cv::Point2i prepreviousStart;
+    cv::Point2i prepreviousEnd;
 
     for(auto line : result)
     {
-        cv::Point2i start = line.getStart();
-        cv::Point2i end = line.getEnd();
-        QString str = "";
-        QTextStream (&str) << "(" << start.x << "," << start.y << ") (" << end.x << "," << end.y << ")";
+        start = line.getStart();
+        end = line.getEnd();
+        if (start != previousStart && end != previousEnd)
+        {
+            if (start != prepreviousStart || end != prepreviousEnd)
+            {
+                QString str = "";
+                QTextStream (&str) << "(" << start.x << "," << start.y << ") (" << end.x << "," << end.y << ")";
 
-        item = new QStandardItem(str);
-        item->setData(QVariant(QLine(start.x, start.y, end.x, end.y)));
-        allLinesModel->appendRow(item);
+                item = new QStandardItem(str);
+                item->setData(QVariant(QLine(start.x, start.y, end.x, end.y)));
+                allLinesModel->appendRow(item);
+            }
+        }
+        prepreviousStart = previousStart;
+        prepreviousEnd = previousEnd;
+        previousStart = start;
+        previousEnd = end;
     }
 }
 void TeamBdbTool::resizeEvent (QResizeEvent * event)
