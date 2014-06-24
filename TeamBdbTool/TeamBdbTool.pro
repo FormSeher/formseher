@@ -16,13 +16,11 @@ TEMPLATE = app
 SOURCES += \
             $${BDB_SRC_DIR}/main.cpp \
             $${BDB_SRC_DIR}/teambdbtool.cpp \
-            $${BDB_SRC_DIR}/mypoint.cpp \
             $${BDB_SRC_DIR}/choosealgdialog.cpp \
             $${BDB_SRC_DIR}/committodbdialog.cpp
 
 HEADERS  += \
             $${BDB_INCL_DIR}/teambdbtool.h \
-            $${BDB_INCL_DIR}/mypoint.h \
             $${BDB_INCL_DIR}/choosealgdialog.h \
             $${BDB_INCL_DIR}/committodbdialog.h
 
