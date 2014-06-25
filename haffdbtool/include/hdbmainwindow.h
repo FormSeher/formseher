@@ -36,6 +36,9 @@ private:
     LearningObject *learningObject = nullptr;
     Settings* settings = nullptr;
 
-    virtual void resizeEvent (QResizeEvent *event);
+protected:
+    void resizeEvent(QResizeEvent *event);
+    void closeEvent(QCloseEvent *event);
+
 };
 #endif // HDBMAINWINDOW_H

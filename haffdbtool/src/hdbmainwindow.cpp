@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QProcess>
+#include <QCloseEvent>
 
 #include <iostream>
 
@@ -149,4 +150,17 @@ void HDBMainWindow::resizeEvent (QResizeEvent *event)
 void HDBMainWindow::slot_actionDraw_clicked()
 {
     //OpencvDrawing::drawLines(learningObject->getOriginalImage());
+}
+
+void HDBMainWindow::closeEvent (QCloseEvent *event)
+{
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Close",
+                                                                tr("Are you sure?\n"),
+                                                                QMessageBox::No | QMessageBox::Yes,
+                                                                QMessageBox::Yes);
+    if (resBtn == QMessageBox::Yes) {
+        event->accept();
+    } else {
+        event->ignore();
+    }
 }
