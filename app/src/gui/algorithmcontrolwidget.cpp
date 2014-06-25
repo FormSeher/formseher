@@ -413,41 +413,34 @@ void formseher::AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
     if(resultImage.empty())
             return;
 
-    LineDetectionAlgorithm* lines = selectedLineAlgorithmConfigDialog->createAlgorithm();
-    ObjectDetectionAlgorithm* algorithm = selectedObjectAlgorithmConfigDialog->createAlgorithm();
-    std::vector<formseher::Line> line = lines->calculate(image.clone());
+    LineDetectionAlgorithm* lineAlgorithm = nullptr;
+    ObjectDetectionAlgorithm* objectAlgorithm = nullptr;
+    std::vector<formseher::Line> lines;
 
-    algorithm->setModels(models);
-    double startTime;
-    double endTime;
+    double startTime = 0;
+    double elapsedTime = 0;
     int executionCount = 100;
 
-    // Open Dialog if Benchmarking starts
-    QDialog benchmarkDialog;
-    benchmarkDialog.setWindowTitle("Benchmarking..");
-    benchmarkDialog.autoFillBackground();
-    benchmarkDialog.resize(300,0);
-    benchmarkDialog.setWindowFlags(Qt::WindowStaysOnTopHint);
-    benchmarkDialog.show();
-
-    // Begin time measurement and execute algorithm n-times
-
-    startTime = getTime();
-
-/*    for(int i = 0; i < executionCount; ++i)
-        algorithm->calculate(lines->calculate(image.clone()));
-*/
-
+    // Benchmark loop
     for(int i = 0; i < executionCount; ++i)
-        algorithm->calculate(line);
+    {
+        lineAlgorithm = selectedLineAlgorithmConfigDialog->createAlgorithm();
+        objectAlgorithm = selectedObjectAlgorithmConfigDialog->createAlgorithm();
+        objectAlgorithm->setModels(models);
 
-    endTime = getTime();
-    // End of time measurement
+        // Measure runtime
+        startTime = getTime();
 
-    double elapsedTime = endTime - startTime;
+        lines = lineAlgorithm->calculate(image.clone());
+        objectAlgorithm->calculate(lines);
+
+        elapsedTime += getTime() - startTime;
+
+        delete lineAlgorithm;
+        delete objectAlgorithm;
+    }
 
     ui->objectBenchmarkResult->setText(QString::number(elapsedTime / executionCount) + " s");
-    benchmarkDialog.close();
 }
 
 
