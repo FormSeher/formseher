@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <opencv2/core/core.hpp>
 #include <map>
+#include <QColorDialog>
 
 #include "linedetection/linedetectionalgorithm.h"
 #include "linedetectionalgorithmconfigdialog.h"
@@ -61,6 +62,14 @@ private slots:
 
     void on_objectBenchmarkButton_clicked();
 
+    void on_linecolorButton_clicked();
+
+    void on_objectcolorButton_clicked();
+
+    void on_linecolorrandomcheckBox_clicked(bool checked);
+
+    void on_objectcolorrandomcheckBox_clicked(bool checked);
+
 signals:
     void statusUpdate(QString statusString);
 
@@ -69,6 +78,7 @@ private:
     void updateResultImage();
 
     double getTime();
+    cv::Scalar randomcolor(QColor colorimput, int opt);
 
     Ui::AlgorithmControlWidget *ui;
 
@@ -87,6 +97,7 @@ private:
     std::string cvWindowName;
 
     VideoInput* webcam;
+
 };
 
 } // namespace formseher
