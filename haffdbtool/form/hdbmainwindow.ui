@@ -58,6 +58,11 @@
        <attribute name="title">
         <string>Database</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="DatabaseWidget" name="widgetDatabase" native="true"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -217,6 +222,12 @@
    <class>ImageWidget</class>
    <extends>QWidget</extends>
    <header>imagewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DatabaseWidget</class>
+   <extends>QWidget</extends>
+   <header>databasewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
