@@ -168,6 +168,7 @@ void LearningObject::slot_deleteFromDataBase(QString name)
     formseher::Object obj;
     obj.fromString(name.toStdString());
     databaseUtils->removeObject(obj);
+    databaseUtils->write();
 
     emit signal_newDatabase(this->databaseUtils->read());
 }
