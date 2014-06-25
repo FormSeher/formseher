@@ -111,16 +111,20 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             ++counter;
         }
 
+        // Trim likleyHypothesis to numberOfDetectedObjects.
         int trimCounter = 0;
-        for(auto itr = likelyHypotheses.begin();
-            itr != likelyHypotheses.end();
-            ++itr)
+        auto itr = likelyHypotheses.begin();
+
+        while(itr != likelyHypotheses.end())
         {
             if(trimCounter >= numberOfDetectedObjects)
             {
-                likelyHypotheses.erase(itr);
                 delete *itr;
+                itr = likelyHypotheses.erase(itr);
             }
+            else
+                ++itr;
+
             trimCounter++;
         }
     } // FOREACH model
