@@ -54,16 +54,7 @@ void HDBMainWindow::slot_actionOpenImage_clicked()
             this->learningObject = new LearningObject(fileName);
 
             //Connect every new learning object
-            connect(ui->widgetImage, SIGNAL(signal_configurationChanged(ImageMode,int,int)), learningObject, SLOT(slot_getImage(ImageMode,int,int)));
-            connect(learningObject, SIGNAL(signal_newImage(cv::Mat)), ui->widgetImage, SLOT(slot_repaint(cv::Mat)));
-            connect(learningObject, SIGNAL(signal_settingsChanged()), ui->widgetImage, SLOT(slot_configurationChanged()));
-            connect(settings, SIGNAL(signal_newSettings(formseher::LineDetectionAlgorithm*,std::pair<QColor,QColor>,int)),
-                    learningObject, SLOT(slot_setSettings(formseher::LineDetectionAlgorithm*,std::pair<QColor,QColor>,int)));
-            connect(learningObject, SIGNAL(signal_linesChanged(std::pair<std::vector<formseher::Line>,std::vector<formseher::Line> >)),
-                    ui->widgetImage, SLOT(slot_setLines(std::pair<std::vector<formseher::Line>,std::vector<formseher::Line> >)));
-            connect(ui->widgetImage, SIGNAL(signal_lineDoubleClicked(std::pair<int,int>)), learningObject, SLOT(slot_doubleClicked(std::pair<int,int>)));
-            connect(learningObject, SIGNAL(signal_newDatabase(std::vector<formseher::Model>)), ui->widgetDatabase, SLOT(slot_setNewDatabase(std::vector<formseher::Model>)));
-            connect(ui->widgetDatabase, SIGNAL(signal_deleteDatabaseModel(QString)), learningObject, SLOT(slot_deleteFromDataBase(QString)));
+            connect_learningObjectSlots();
 
             if(dataBase != "")
                 this->learningObject->setDatabase(dataBase);
@@ -91,6 +82,7 @@ void HDBMainWindow::slot_actionOpenDatabase_clicked()
             if(this->learningObject == nullptr)
             {
                 learningObject = new LearningObject(QString(""));
+                connect_learningObjectSlots();
             }
 
             this->learningObject->setDatabase(fileName);
@@ -164,4 +156,18 @@ void HDBMainWindow::closeEvent (QCloseEvent *event)
     } else {
         event->ignore();
     }
+}
+
+void HDBMainWindow::connect_learningObjectSlots()
+{
+    connect(ui->widgetImage, SIGNAL(signal_configurationChanged(ImageMode,int,int)), learningObject, SLOT(slot_getImage(ImageMode,int,int)));
+    connect(learningObject, SIGNAL(signal_newImage(cv::Mat)), ui->widgetImage, SLOT(slot_repaint(cv::Mat)));
+    connect(learningObject, SIGNAL(signal_settingsChanged()), ui->widgetImage, SLOT(slot_configurationChanged()));
+    connect(settings, SIGNAL(signal_newSettings(formseher::LineDetectionAlgorithm*,std::pair<QColor,QColor>,int)),
+            learningObject, SLOT(slot_setSettings(formseher::LineDetectionAlgorithm*,std::pair<QColor,QColor>,int)));
+    connect(learningObject, SIGNAL(signal_linesChanged(std::pair<std::vector<formseher::Line>,std::vector<formseher::Line> >)),
+            ui->widgetImage, SLOT(slot_setLines(std::pair<std::vector<formseher::Line>,std::vector<formseher::Line> >)));
+    connect(ui->widgetImage, SIGNAL(signal_lineDoubleClicked(std::pair<int,int>)), learningObject, SLOT(slot_doubleClicked(std::pair<int,int>)));
+    connect(learningObject, SIGNAL(signal_newDatabase(std::vector<formseher::Model>)), ui->widgetDatabase, SLOT(slot_setNewDatabase(std::vector<formseher::Model>)));
+    connect(ui->widgetDatabase, SIGNAL(signal_deleteDatabaseModel(QString)), learningObject, SLOT(slot_deleteFromDataBase(QString)));
 }

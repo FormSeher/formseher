@@ -36,6 +36,8 @@ private:
     LearningObject *learningObject = nullptr;
     Settings* settings = nullptr;
 
+    void connect_learningObjectSlots();
+
 protected:
     void resizeEvent(QResizeEvent *event);
     void closeEvent(QCloseEvent *event);
