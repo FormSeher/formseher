@@ -16,6 +16,7 @@ public:
 
     virtual ~Model();
 
+    Model& operator=(const Model& rhs);
 
     void addLine(const Line line);
     const std::vector<const Line*>& getLines() const;
@@ -53,6 +54,8 @@ public:
     std::string toString();
 
 private:
+    void copy(const Model& rhs);
+
     void updateBoundingBox(const cv::Point2i& point);
     cv::Point2i boundingBoxCorners[2];
 
