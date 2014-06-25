@@ -8,8 +8,6 @@ LearningObject::LearningObject(QString imagePath)
 {
     if(QFile(imagePath).exists())
         this->image = cv::imread(imagePath.toStdString(), CV_LOAD_IMAGE_COLOR);
-    else
-        std::cerr << "Image Path: \"" << imagePath.toStdString() << "\"" << std::endl;
 }
 
 LearningObject::~LearningObject()
