@@ -25,7 +25,7 @@ void databaseWidget::slot_setNewDatabase(std::vector<formseher::Model> models)
 
     for(formseher::Model model : models)
     {
-        QListWidgetObject* obj = new QListWidgetObject;
+        QListWidgetItem* obj = new QListWidgetItem;
 
         std::stringstream listtext;
         listtext << std::endl << "Model: " << model.getName() << std::endl;
