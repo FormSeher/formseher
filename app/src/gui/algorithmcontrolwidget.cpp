@@ -406,16 +406,14 @@ void AlgorithmControlWidget::on_imageRadioButton_clicked()
     }
 }
 
-} // namespace formseher
-
-void formseher::AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
+void AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
 {
     if(resultImage.empty())
             return;
 
     LineDetectionAlgorithm* lineAlgorithm = nullptr;
     ObjectDetectionAlgorithm* objectAlgorithm = nullptr;
-    std::vector<formseher::Line> lines;
+    std::vector<Line> lines;
 
     double startTime = 0;
     double elapsedTime = 0;
@@ -443,8 +441,7 @@ void formseher::AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
     ui->objectBenchmarkResult->setText(QString::number(elapsedTime / executionCount) + " s");
 }
 
-
-void formseher::AlgorithmControlWidget::on_linecolorButton_clicked()
+void AlgorithmControlWidget::on_linecolorButton_clicked()
 {
         linecolor = QColorDialog::getColor(Qt::gray, this);
         ui->linecolorLabel->setPalette(linecolor);
@@ -452,7 +449,7 @@ void formseher::AlgorithmControlWidget::on_linecolorButton_clicked()
         AlgorithmControlWidget::updateResultImage();
 }
 
-void formseher::AlgorithmControlWidget::on_objectcolorButton_clicked()
+void AlgorithmControlWidget::on_objectcolorButton_clicked()
 {
         objectcolor = QColorDialog::getColor(Qt::gray, this);
         ui->objectcolorLabel->setPalette(objectcolor);
@@ -460,9 +457,7 @@ void formseher::AlgorithmControlWidget::on_objectcolorButton_clicked()
         AlgorithmControlWidget::updateResultImage();
 }
 
-
-
-void formseher::AlgorithmControlWidget::on_linecolorrandomcheckBox_clicked(bool checked)
+void AlgorithmControlWidget::on_linecolorrandomcheckBox_clicked(bool checked)
 {
     if(checked)
     {
@@ -478,7 +473,7 @@ void formseher::AlgorithmControlWidget::on_linecolorrandomcheckBox_clicked(bool 
     }
 }
 
-void formseher::AlgorithmControlWidget::on_objectcolorrandomcheckBox_clicked(bool checked)
+void AlgorithmControlWidget::on_objectcolorrandomcheckBox_clicked(bool checked)
 {
     if(checked)
     {
@@ -493,4 +488,6 @@ void formseher::AlgorithmControlWidget::on_objectcolorrandomcheckBox_clicked(boo
         AlgorithmControlWidget::updateResultImage();
     }
 }
+
+} // namespace formseher
 
