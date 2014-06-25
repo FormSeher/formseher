@@ -39,6 +39,29 @@ private slots:
         QVERIFY(l1->getEnd() == l2->getEnd());
     }
 
+    void assignmentOperatorTest()
+    {
+        Model m1;
+        m1.setName("m1");
+        m1.addLine(Line(1, 1, 2, 2));
+
+        Model m2 = m1;
+
+        QVERIFY(m1.getName() == m2.getName());
+        QVERIFY(m1.getBoundingBox() == m2.getBoundingBox());
+
+        QVERIFY(m1.getLines().size() == m2.getLines().size());
+
+        const Line* l1 = m1.getLines().at(0);
+        const Line* l2 = m2.getLines().at(0);
+
+        // Check if pointers are different
+        QVERIFY(l1 != l2);
+        // Check if line objects are equal
+        QVERIFY(l1->getStart() == l2->getStart());
+        QVERIFY(l1->getEnd() == l2->getEnd());
+    }
+
     void nameTest()
     {
         Model m;
