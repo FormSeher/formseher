@@ -161,4 +161,15 @@ void LearningObject::saveToDatabase(QString name)
     databaseUtils->read();
     databaseUtils->addObject(obj);
     databaseUtils->write();
+
+    emit signal_newDatabase(this->databaseUtils->read());
+}
+
+void LearningObject::slot_deleteFromDataBase(QString name)
+{
+    formseher::Object obj;
+    obj.fromString(name.toStdString());
+    databaseUtils->removeObject(obj);
+
+    emit signal_newDatabase(this->databaseUtils->read());
 }

@@ -1,23 +1,30 @@
 #include "include/databasewidget.h"
 #include "ui_databasewidget.h"
 #include "objectdetection/model.h"
-#include "qlistwidgetobject.h"
+
+#include <opencv2/highgui/highgui.hpp>
 
 #include <iostream>
 
-databaseWidget::databaseWidget(QWidget *parent) :
+#include <QVariant>
+
+DatabaseWidget::DatabaseWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::databaseWidget)
 {
     ui->setupUi(this);
+
+    // Slot connection
+    connect(ui->pushButtonDelete, SIGNAL(clicked()), this, SLOT(slot_deleteModel()));
+    connect(ui->pushButtonDraw, SIGNAL(clicked()), this, SLOT(slot_drawModel()));
 }
 
-databaseWidget::~databaseWidget()
+DatabaseWidget::~DatabaseWidget()
 {
     delete ui;
 }
 
-void databaseWidget::slot_setNewDatabase(std::vector<formseher::Model> models)
+void DatabaseWidget::slot_setNewDatabase(std::vector<formseher::Model> models)
 {
 
     ui->listWidgetObjects->clear();
@@ -36,15 +43,40 @@ void databaseWidget::slot_setNewDatabase(std::vector<formseher::Model> models)
 
         listtext << std::endl;
 
-        obj->setModel(model);
+        QString objectString = QString::fromStdString(model.toString());
+        QVariant objectStringData(objectString);
+        obj->setData(Qt::UserRole, objectStringData);
+
         obj->setText(tr(listtext.str().c_str()));
 
         ui->listWidgetObjects->addItem(obj);
+
     }
 
 }
 
-//void databaseWidget::slot_deleteModel()
-//{
-//    //emit signal_deleteDatabaseModel(QString(ui->listWidgetObjects->))
-//}
+void DatabaseWidget::slot_deleteModel()
+{
+   QVariant data = ui->listWidgetObjects->currentItem()->data(Qt::UserRole);
+   emit signal_deleteDatabaseModel(data.toString());
+}
+
+void DatabaseWidget::slot_drawModel()
+{
+    formseher::Model model;
+    model.fromString( ui->listWidgetObjects->currentItem()->data(Qt::UserRole).toString().toStdString());
+
+    cv::Mat img = cv::Mat::zeros(model.getBoundingBox().size().height, model.getBoundingBox().size().width, CV_8UC3);
+
+    for(const formseher::Line* line : model.getLines())
+    {
+        cv::Point2i myStart (line->getStart().x - model.getBoundingBox().x, line->getStart().y - model.getBoundingBox().y);
+        cv::Point2i myEnd   (line->getEnd().x - model.getBoundingBox().x, line->getEnd().y - model.getBoundingBox().y);
+
+        cv::line(img, myStart, myEnd, cv::Scalar(255, 200, 155));
+    }
+
+    cv::imshow(model.getName(), img);
+
+    cv::waitKey(0);
+}

@@ -46,6 +46,7 @@ public slots:
     void slot_getImage(ImageMode mode, int possibleIndex = -1, int chosenIndex = -1);
     void slot_setSettings(formseher::LineDetectionAlgorithm* lineDetectionAlgorithm, std::pair<QColor, QColor> lineColors, int thickness);
     void slot_doubleClicked(std::pair<int, int> clickedLines);
+    void slot_deleteFromDataBase(QString name);
 
 signals:
     void signal_newImage(cv::Mat);
