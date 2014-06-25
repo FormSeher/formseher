@@ -62,6 +62,8 @@ void HDBMainWindow::slot_actionOpenImage_clicked()
             ui->widgetImage->slot_configurationChanged();
             settings->slot_settingsChanged();
 
+            ui->tabWidget->setCurrentIndex(0);
+
             signal_statusChange(QString("Loaded Image..." + fileName));
         }
     }
@@ -83,6 +85,7 @@ void HDBMainWindow::slot_actionOpenDatabase_clicked()
             {
                 learningObject = new LearningObject(QString(""));
                 connect_learningObjectSlots();
+                ui->tabWidget->setCurrentIndex(1);
             }
 
             this->learningObject->setDatabase(fileName);
