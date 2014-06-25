@@ -21,8 +21,9 @@ Model::Model(const Model &object)
 
 Model::~Model()
 {
-    for(auto line : lines)
+    for(const Line* line : lines)
         delete line;
+    lines.clear();
 }
 
 const std::vector<const Line*> &Model::getLines() const

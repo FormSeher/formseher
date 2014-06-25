@@ -14,7 +14,7 @@ public:
     Model();
     Model(const Model& object);
 
-    ~Model();
+    virtual ~Model();
 
 
     void addLine(const Line line);
