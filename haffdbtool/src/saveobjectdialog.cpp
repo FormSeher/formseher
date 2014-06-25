@@ -6,6 +6,7 @@ SaveObjectDialog::SaveObjectDialog(QWidget *parent) :
     ui(new Ui::SaveObjectDialog)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Save object");
 }
 
 SaveObjectDialog::~SaveObjectDialog()
