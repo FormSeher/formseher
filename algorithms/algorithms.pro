@@ -14,6 +14,8 @@ DESTDIR = $${ALG_BIN_DIR}
 
 DEFINES += ALGORITHMS_LIBRARY
 
+QMAKE_CXXFLAGS += -Wconversion
+
 SOURCES += \
     # common
     $${ALG_SRC_DIR}/picprepare.cpp \
@@ -24,6 +26,7 @@ SOURCES += \
     $${ALG_SRC_DIR}/linedetection/edl/edl.cpp \
     $${ALG_SRC_DIR}/linedetection/edl2/edl2.cpp \
     $${ALG_SRC_DIR}/linedetection/hough/hough.cpp \
+    $${ALG_SRC_DIR}/linedetection/lineutils.cpp \
     # object detection - common
     $${ALG_SRC_DIR}/objectdetection/model.cpp \
     $${ALG_SRC_DIR}/objectdetection/object.cpp \
@@ -54,6 +57,7 @@ HEADERS += \
     $${ALG_INCL_DIR}/linedetection/edl/edl.h \
     $${ALG_INCL_DIR}/linedetection/edl2/edl2.h \
     $${ALG_INCL_DIR}/linedetection/hough/hough.h \
+    $${ALG_INCL_DIR}/linedetection/lineutils.h \
     # object detection - common
     $${ALG_INCL_DIR}/objectdetection/model.h \
     $${ALG_INCL_DIR}/objectdetection/object.h \
@@ -71,7 +75,7 @@ HEADERS += \
     # object detection - teamB
     $${ALG_INCL_DIR}/objectdetection/teamb/objectdetectionalgorithmteamb.h\
     #database utils
-    $${ALG_INCL_DIR}/objectdetection/databaseutils.h
+    $${ALG_INCL_DIR}/objectdetection/databaseutils.h \
 
     #utils include - fu cpp :<
     $${ALG_INCL_DIR}/utils/rapidjson/document.h

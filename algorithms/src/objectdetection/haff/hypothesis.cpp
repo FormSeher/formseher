@@ -3,26 +3,39 @@
 namespace formseher
 {
 
-Hypothesis::Hypothesis(double angleWeight, double coverWeight)
-    : angleWeight(angleWeight),
+Hypothesis::Hypothesis(const Model *model, double angleWeight, double coverWeight)
+    : model(model),
+      angleWeight(angleWeight),
       coverWeight(coverWeight)
 {
-
 }
 
 void Hypothesis::calculateRating()
 {
-    // Calculate angle rating
+    // Calculate scale for Ratings
+    calculateScale();
 
-    // Calculate scale factor and cover rating
-    calculateScaleAndCoverage();
+    // Calculate angle rating
+    calculateAngleRating();
+
+    // Calculate cover rating
+    calculateCoverageRating();
+
+}
+
+Hypothesis::Hypothesis(const Hypothesis& hypothesis)
+    : model(hypothesis.model),
+      angleWeight(hypothesis.angleWeight),
+      coverWeight(hypothesis.coverWeight),
+      lineMatchMap(hypothesis.lineMatchMap),
+      notMatchingLines(hypothesis.notMatchingLines)
+{
 }
 
 double Hypothesis::getRating() const
 {
     return ( angleRating * angleWeight
-           + coverRating * coverWeight
-    );
+           + coverRating * coverWeight ) * 100.0;
 }
 
 bool Hypothesis::containsLine(const Line* line) const
@@ -32,7 +45,14 @@ bool Hypothesis::containsLine(const Line* line) const
 
 void Hypothesis::addLineMatch(const Line* pictureLine, const Line* databaseLine)
 {
-    lineMatchMap.insert( std::pair<Line*, Line*>((Line*)pictureLine, (Line*)databaseLine) );
+    if (pictureLine == nullptr)
+    {
+        notMatchingLines.push_back(databaseLine);
+    }
+    else
+    {
+        lineMatchMap.insert( std::pair<Line*, Line*>((Line*)pictureLine, (Line*)databaseLine) );
+    }
 }
 
 bool Hypothesis::operator<(const Hypothesis& hypo) const
@@ -47,10 +67,13 @@ bool Hypothesis::operator<(const Hypothesis& hypo) const
     else return false;
 }
 
-double Hypothesis::calculateAngleRating()
+void Hypothesis::calculateAngleRating()
 {
     if(lineMatchMap.size() < 2)
-        return 1.0;
+    {
+        angleRating = 1.0;
+        return;
+    }
 
     double totalError = 0.0;
     // prevIter is last element of lines to get a cyclic match:
@@ -80,53 +103,139 @@ double Hypothesis::calculateAngleRating()
     }
 
     // match = 100% - error
-    return 1.0d - (totalError / lineMatchMap.size());
+    angleRating = 1.0d - (totalError / (double)lineMatchMap.size());
 }
 
-double Hypothesis::calculateCoverageRating(double scaleFactor)
+void Hypothesis::calculateCoverageRating()
 {
     double coverageRaiting = 0.0;
     double endPointCoverageRaiting = 0.0;
     double startPointCoverageRaiting = 0.0;
-    int counter = 0;
+
+    std::pair<cv::Point2d, cv::Point2d> centers = calculateCenters();
 
     for(auto lineMatch : lineMatchMap)
     {
-        startPointCoverageRaiting = lineMatch.second->getPerpendicularDistanceToStart() * scaleFactor
-                                    / lineMatch.first->getPerpendicularDistanceToStart();
 
-        endPointCoverageRaiting = lineMatch.second->getPerpendicularDistanceToEnd() * scaleFactor
-                                  / lineMatch.first->getPerpendicularDistanceToEnd();
+        //vektor von modelmittelpunkt zum linienmittelpunk
 
-        coverageRaiting += (startPointCoverageRaiting * endPointCoverageRaiting);
-        counter++;
+        cv::Point2d vectorFromModelCenterToLineCenter = lineMatch.first->getCenterPoint() - centers.first;
+
+
+        //vector mal scale  mit dem dann vom objektMTLP
+
+        vectorFromModelCenterToLineCenter.x *= scaleFactor;
+        vectorFromModelCenterToLineCenter.y *= scaleFactor;
+
+        //von dem Punkt zum start und endpunkt
+        cv::Point2d hypotheticleObjectLineCenter = centers.second + vectorFromModelCenterToLineCenter;
+
+        cv::Vec2d ObjectDistanceToStart;
+        ObjectDistanceToStart[0] = (double)lineMatch.second->getStart().x - hypotheticleObjectLineCenter.x;
+        ObjectDistanceToStart[1] = (double)lineMatch.second->getStart().y - hypotheticleObjectLineCenter.y;
+        cv::Vec2d ObjectDistanceToEnd;
+        ObjectDistanceToEnd[0] = (double)lineMatch.second->getEnd().x - hypotheticleObjectLineCenter.x;
+        ObjectDistanceToEnd[1] = (double)lineMatch.second->getEnd().y - hypotheticleObjectLineCenter.y;
+
+        cv::Vec2d ModelDistanceToStart;
+        ModelDistanceToStart[0] = (double)lineMatch.first->getStart().x - lineMatch.first->getCenterPoint().x;
+        ModelDistanceToStart[1] = (double)lineMatch.first->getStart().y - lineMatch.first->getCenterPoint().y;
+        cv::Vec2d ModelDistanceToEnd;
+        ModelDistanceToEnd[0] = (double)lineMatch.first->getEnd().x - lineMatch.first->getCenterPoint().x;
+        ModelDistanceToEnd[1] = (double)lineMatch.first->getEnd().y - lineMatch.first->getCenterPoint().y;
+
+
+        startPointCoverageRaiting = cv::norm(ObjectDistanceToStart) * scaleFactor
+                                    / cv::norm(ModelDistanceToStart);
+
+        endPointCoverageRaiting = cv::norm(ObjectDistanceToEnd) * scaleFactor
+                                  / cv::norm(ModelDistanceToEnd);
+
+        if(startPointCoverageRaiting > 1)
+        {
+            startPointCoverageRaiting = 1;
+        }
+
+        if(endPointCoverageRaiting > 1)
+        {
+            endPointCoverageRaiting = 1;
+
+        }
+        coverageRaiting += ((startPointCoverageRaiting + endPointCoverageRaiting) / 2.0);
     }
 
-    return coverageRaiting/(counter * 2);
+    this->coverRating =  coverageRaiting / (double)lineMatchMap.size();
 }
 
-void Hypothesis::calculateScaleAndCoverage()
+void Hypothesis::calculateScale()
 {
-    double bestScale = -1;
-    double bestCoverage = -1;
+    double scale = 0;
 
-    double currentScale = -1;
-    double currentCoverage = -1;
+    std::pair<cv::Point2d, cv::Point2d> centers = calculateCenters();
+
+    if(lineMatchMap.size() == 1){
+        this->scaleFactor = (*lineMatchMap.begin()).first->getLength() / (*lineMatchMap.begin()).second->getLength();
+        return;
+    }
 
     for(auto lineMatch : lineMatchMap)
     {
-        currentScale = lineMatch.first->getPerpendicularDistanceToOrigin() / lineMatch.second->getPerpendicularDistanceToOrigin();
-        currentCoverage = calculateCoverageRating(currentScale);
+            cv::Point2d LineCenterToObjectCenter = centers.first - lineMatch.first->getCenterPoint();
+            double objectDistanceToCenter = cv::norm(LineCenterToObjectCenter);
 
-        if(currentCoverage > bestCoverage)
-        {
-            bestScale = currentScale;
-            bestCoverage = currentCoverage;
-        }
+            cv::Point2d LineCenterToModelCenter = centers.second - lineMatch.second->getCenterPoint();
+            double modelDistanceToCenter = cv::norm(LineCenterToModelCenter);
+
+           scale += objectDistanceToCenter / modelDistanceToCenter;
     }
 
-    this->scaleFactor = bestScale;
-    this->coverRating = bestCoverage;
+    this->scaleFactor = scale / (double)lineMatchMap.size();
+}
+
+std::pair<cv::Point2d, cv::Point2d> Hypothesis::calculateCenters()
+{
+    unsigned int lineCount = 0;
+
+    cv::Point2d objectLineSum;
+    cv::Point2d modelLineSum;
+
+    for(auto iter : lineMatchMap)
+    {
+        objectLineSum += iter.first->getCenterPoint();
+        modelLineSum += iter.second->getCenterPoint();
+        ++lineCount;
+    }
+
+    cv::Point2d objectCenter;
+    objectCenter.x = objectLineSum.x / (double)lineCount;
+    objectCenter.y = objectLineSum.y / (double)lineCount;
+
+    for(auto line : notMatchingLines)
+    {
+        modelLineSum += line->getCenterPoint();
+        ++lineCount;
+    }
+
+    cv::Point2d modelCenter;
+    modelCenter.x = modelLineSum.x / (double)lineCount;
+    modelCenter.y = modelLineSum.y / (double)lineCount;
+
+    return std::make_pair(objectCenter, modelCenter);
+}
+
+const Model* Hypothesis::getModel() const
+{
+    return model;
+}
+
+const std::map<Line*, Line*> Hypothesis::getLineMatchMap() const
+{
+    return lineMatchMap;
+}
+
+void Hypothesis::addNotMatchingLines(const Line* line)
+{
+    notMatchingLines.push_back(line);
 }
 
 } // namespace formseher
