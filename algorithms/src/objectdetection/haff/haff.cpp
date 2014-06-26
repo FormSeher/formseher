@@ -76,8 +76,11 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             } // FOREACH detectedline
 
             // Clear old hypotheses witch are no longer required
-            for(auto oldHypothesis : oldHypotheses)
+            for(Hypothesis* oldHypothesis : oldHypotheses)
+            {
                 delete oldHypothesis;
+                oldHypothesis = nullptr;
+            }
             oldHypotheses.clear();
             // Copy best rated new hypotheses to oldHyptoheses
             int counter = 0;
@@ -108,6 +111,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
                 break;
 
             likelyHypotheses.insert(*itr);
+            oldHypotheses.erase(--itr.base());
             ++counter;
         }
     } // FOREACH model
