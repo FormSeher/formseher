@@ -70,6 +70,8 @@ private slots:
 
     void on_objectcolorrandomcheckBox_clicked(bool checked);
 
+    void on_statusUpdate(QString status);
+
 signals:
     void statusUpdate(QString statusString);
 

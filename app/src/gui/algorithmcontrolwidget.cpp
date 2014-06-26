@@ -31,6 +31,7 @@ AlgorithmControlWidget::AlgorithmControlWidget(QWidget *parent) :
     ui->setupUi(this);
 
     connect(&controller, &AlgorithmController::newResultAvailable, this, &AlgorithmControlWidget::on_controller_newResultAvailable);
+    connect(this, &AlgorithmControlWidget::statusUpdate, this, &AlgorithmControlWidget::on_statusUpdate);
 }
 
 AlgorithmControlWidget::~AlgorithmControlWidget()
@@ -473,6 +474,11 @@ void AlgorithmControlWidget::on_objectcolorrandomcheckBox_clicked(bool checked)
         objectrandstate = 0;
         AlgorithmControlWidget::updateResultImage();
     }
+}
+
+void AlgorithmControlWidget::on_statusUpdate(QString status)
+{
+    ui->statusLabel->setText(QString("Status: ") + status);
 }
 
 } // namespace formseher
