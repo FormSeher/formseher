@@ -2115,13 +2115,13 @@
    <item>
     <widget class="QLabel" name="statusLabel">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
      <property name="text">
-      <string/>
+      <string>Status: Idle</string>
      </property>
     </widget>
    </item>

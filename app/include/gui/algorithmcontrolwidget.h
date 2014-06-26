@@ -37,6 +37,7 @@ public:
 private slots:
     void on_saveResult_clicked();
     void on_openPicture_clicked();
+    void on_controller_startedCalculation();
     void on_controller_newResultAvailable();
     void on_lineAlgorithmSelectBox_currentIndexChanged(const QString &algorithmId);
     void on_configureLineAlgorithm_clicked();
