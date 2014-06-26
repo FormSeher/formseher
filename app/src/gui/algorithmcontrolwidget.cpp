@@ -80,11 +80,6 @@ void AlgorithmControlWidget::updateImageLabel()
 
 void AlgorithmControlWidget::updateResultImage()
 {
-    /*
-    // Random number generator for colorful lines
-    cv::RNG rng(0xFFFFFFFF);
-    */
-
     if(!ui->showOriginalCheckBox->isChecked())
         resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
     else
@@ -94,32 +89,23 @@ void AlgorithmControlWidget::updateResultImage()
     if(ui->showLinesCheckBox->isChecked())
         {
             for(auto line : latestResult.first)
-            {
-                //cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-
-
-                //randomfunction
-
                 cv::line(resultImage, line.getStart(), line.getEnd(), randomcolor(linecolor,linerandstate));
-            }
         }
 
     if(ui->showObjectsCheckBox->isChecked())
     {
         for(auto object : latestResult.second)
         {
-            //cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-
-
-            //randomfunction
-
+            cv::Scalar color = randomcolor(objectcolor,objectrandstate);
             // Draw bounding box
-            cv::rectangle(resultImage,object.getBoundingBox(), randomcolor(objectcolor,objectrandstate));
+            cv::rectangle(resultImage,object.getBoundingBox(), color);
             // Draw lines of object
             for(auto line : object.getLines())
-            {
-                cv::line(resultImage, line->getStart(), line->getEnd(),randomcolor(linecolor,objectrandstate));
-            }
+                cv::line(resultImage, line->getStart(), line->getEnd(), color);
+            // Draw name and rating
+            std::string objectCaption =  object.getName() + " (" + QString::number(object.getRating()).toStdString() + "%)";
+            cv::Point textPosition(object.getBoundingBox().x, object.getBoundingBox().y + object.getBoundingBox().height + 40);
+            cv::putText(resultImage, objectCaption, textPosition, 1, 4, color, 4);
         }
     }
 
