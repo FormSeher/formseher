@@ -116,7 +116,10 @@ void Hypothesis::calculateCoverageRating()
     for(auto lineMatch : lineMatchMap)
     {
         scaledModelLength = lineMatch.second->getLength() * scaleFactor;
-        coverageError += fabs( (lineMatch.first->getLength() - scaledModelLength) ) / scaledModelLength;
+
+        // Prevent division by zero
+        if(scaledModelLength != 0)
+            coverageError += fabs( (lineMatch.first->getLength() - scaledModelLength) ) / scaledModelLength;
     }
 
     coverageError = coverageError / (double)lineMatchMap.size();
@@ -144,7 +147,9 @@ void Hypothesis::calculatePositionRating()
         centerPoint = lineMatch.second->getCenterPoint();
         modelDistance = cv::norm(centerPoint - centers.second) * scaleFactor;
 
-        distanceError += fabs(objectDistance - modelDistance) / (modelDistance);
+        // Prevent division by zero
+        if(modelDistance != 0)
+            distanceError += fabs(objectDistance - modelDistance) / (modelDistance);
     }
 
     distanceError = distanceError / (double)lineMatchMap.size();
