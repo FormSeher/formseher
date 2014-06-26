@@ -80,6 +80,11 @@ signals:
      */
     void newResultAvailable();
 
+    /**
+     * @brief Emitted if a schedule took place and algorithms are executed.
+     */
+    void startedCalculation();
+
 public slots:
     /**
      * @brief Called if line detection config changed.

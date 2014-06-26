@@ -29,9 +29,6 @@ public:
     bool registerLineAlgorithmConfigDialog(int slot, std::string id, LineDetectionAlgorithmConfigDialog* dialog);
     bool registerObjectAlgorithmConfigDialog(int slot, std::string id, ObjectDetectionAlgorithmConfigDialog* dialog);
 
-private slots:
-    void updateStatusBar(QString statusString);
-
 private:
     Ui::MainWindow *ui;
 
