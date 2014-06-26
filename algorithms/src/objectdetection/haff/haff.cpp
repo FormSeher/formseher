@@ -146,8 +146,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             tmp.addLine(*lineMatch.first);
         }
 
-        detectedObjects.push_back(tmp); // ↓ Use symmetric replacement instead if tested!
-        //symmetricReplacement(detectedObjects, tmp);
+        symmetricReplacement(detectedObjects, tmp);
     }
 
     return detectedObjects;
