@@ -122,6 +122,9 @@ void Hypothesis::calculateCoverageRating()
     coverageError = coverageError / (double)lineMatchMap.size();
 
     this->coverRating = 1.0 - coverageError;
+
+    if(this->coverRating < 0)
+        this->coverRating = 0;
 }
 
 void Hypothesis::calculatePositionRating()
