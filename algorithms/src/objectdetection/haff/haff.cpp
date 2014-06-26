@@ -145,10 +145,45 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
         {
             tmp.addLine(*lineMatch.first);
         }
-        detectedObjects.push_back(tmp);
+
+        detectedObjects.push_back(tmp); // ↓ Use symmetric replacement instead if tested!
+        //symmetricReplacement(detectedObjects, tmp);
     }
 
     return detectedObjects;
+}
+
+void Haff::symmetricReplacement(std::vector<Object>& detectedObjects, Object& object)
+{
+    // Environment is 2^environmentExponent. 2^x can be better optimized with shifting.
+    short environmentExponent = 3;
+
+    cv::Rect objectBoundingBox = object.getBoundingBox();
+    cv::Point2i objectCenter;
+    objectCenter.x = (objectBoundingBox.x + ( objectBoundingBox.width >> 1)) >> environmentExponent;
+    objectCenter.y = (objectBoundingBox.y + ( objectBoundingBox.width >> 1)) >> environmentExponent;
+
+    // Check if there is an object with the same Center (in the environment range).
+    // If there is, then compare the ratings. If it's lower than discard the object otherwise replace the saved object.
+    for(size_t counter = 0; counter < detectedObjects.size(); counter++)
+    {
+        cv::Rect detectedBoundingBox = detectedObjects.at(counter).getBoundingBox();
+        cv::Point2i detectedCenter;
+        detectedCenter.x = (detectedBoundingBox.x + ( detectedBoundingBox.width >> 1)) >> environmentExponent;
+        detectedCenter.y = (detectedBoundingBox.y + ( detectedBoundingBox.width >> 1)) >> environmentExponent;
+
+        if(objectCenter == detectedCenter)
+        {
+            if( object.getRating() >= detectedObjects.at(counter).getRating() )
+            {
+                detectedObjects.at(counter) = object;
+                return;
+            }
+            else
+                return;
+        }
+    }
+    detectedObjects.push_back(object);
 }
 
 } // namespace formseher

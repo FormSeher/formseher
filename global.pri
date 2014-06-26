@@ -1,6 +1,8 @@
 # set config needed by all subprojects
 CONFIG += c++11
 
+QMAKE_CXXFLAGS_DEBUG += -O0
+
 #projekt root directories
 ROOT_DIR = $$PWD
 ALG_DIR = $${ROOT_DIR}/algorithms
