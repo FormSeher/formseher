@@ -114,6 +114,11 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             oldHypotheses.erase(--itr.base());
             ++counter;
         }
+
+        // Clear oldHypotheses
+        for(Hypothesis* oldHypothesis : oldHypotheses)
+            delete oldHypothesis;
+        oldHypotheses.clear();
     } // FOREACH model
 
 
@@ -134,7 +139,11 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
         }
 
         symmetricReplacement(detectedObjects, tmp);
+
+        // Delete hypothesis
+        delete *itr;
     }
+    likelyHypotheses.clear();
 
     return detectedObjects;
 }
