@@ -24,7 +24,8 @@ SOURCES += \
         $${HDB_SRC_DIR}/settings.cpp \
         $${HDB_SRC_DIR}/opencvdrawing.cpp \
         $${HDB_SRC_DIR}/saveobjectdialog.cpp \
-        $${HDB_SRC_DIR}/databasewidget.cpp
+        $${HDB_SRC_DIR}/databasewidget.cpp \
+        $${HDB_SRC_DIR}/addlinedialog.cpp
 
 HEADERS  += \
         $${HDB_INCL_DIR}/hdbmainwindow.h \
@@ -35,7 +36,8 @@ HEADERS  += \
         $${HDB_INCL_DIR}/imagemode.h \
         $${HDB_INCL_DIR}/opencvdrawing.h \
         $${HDB_INCL_DIR}/saveobjectdialog.h \
-        $${HDB_INCL_DIR}/databasewidget.h
+        $${HDB_INCL_DIR}/databasewidget.h \
+        $${HDB_INCL_DIR}/addlinedialog.h
 
 FORMS    += \
         $${HDB_FORM_DIR}/hdbmainwindow.ui \
@@ -43,7 +45,8 @@ FORMS    += \
         $${HDB_FORM_DIR}/colorchooserwidget.ui \
         $${HDB_FORM_DIR}/settings.ui \
         $${HDB_FORM_DIR}/saveobjectdialog.ui \
-        $${HDB_FORM_DIR}/databasewidget.ui
+        $${HDB_FORM_DIR}/databasewidget.ui \
+        $${HDB_FORM_DIR}/addlinedialog.ui
 
 RESOURCES += \
     	$${HDB_RES_DIR}/icons.qrc

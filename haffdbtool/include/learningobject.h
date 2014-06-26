@@ -42,6 +42,8 @@ public:
 
     void saveToDatabase(QString name);
 
+    void addChosenLine(formseher::Line line);
+
 public slots:
     void slot_getImage(ImageMode mode, int possibleIndex = -1, int chosenIndex = -1);
     void slot_setSettings(formseher::LineDetectionAlgorithm* lineDetectionAlgorithm, std::pair<QColor, QColor> lineColors, int thickness);

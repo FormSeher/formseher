@@ -8,5 +8,6 @@
         <file>x-office-drawing.svg</file>
         <file>preferences-system.png</file>
         <file>layer-shape-line.png</file>
+        <file>layer-shape-line-add.png</file>
     </qresource>
 </RCC>

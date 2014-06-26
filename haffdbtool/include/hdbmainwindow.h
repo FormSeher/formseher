@@ -29,6 +29,7 @@ private slots:
     void slot_actionSaveObject_clicked();
     void slot_actionSettings_clicked();
     void slot_actionDraw_clicked();
+    void slot_actionAddLine_clicked();
 
 private:
     Ui::HDBMainWindow* ui;

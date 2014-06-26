@@ -4,6 +4,7 @@
 #include "settings.h"
 #include "opencvdrawing.h"
 #include "saveobjectdialog.h"
+#include "addlinedialog.h"
 
 #include <QDir>
 #include <QMessageBox>
@@ -29,6 +30,7 @@ HDBMainWindow::HDBMainWindow(QWidget *parent) :
     connect(this, SIGNAL(signal_statusChange(QString)), ui->statusBar, SLOT(showMessage(QString)));
     connect(this, SIGNAL(signal_windowResize()), ui->widgetImage, SLOT(slot_configurationChanged()));
     connect(ui->actionDraw, SIGNAL(triggered()), this, SLOT(slot_actionDraw_clicked()));
+    connect(ui->actionAddLine, SIGNAL(triggered()), this, SLOT(slot_actionAddLine_clicked()));
 }
 
 HDBMainWindow::~HDBMainWindow()
@@ -148,10 +150,22 @@ void HDBMainWindow::slot_actionDraw_clicked()
     //OpencvDrawing::drawLines(learningObject->getOriginalImage());
 }
 
+void HDBMainWindow::slot_actionAddLine_clicked()
+{
+    AddLineDialog dialog(this);
+
+    if(dialog.exec() == QDialog::Accepted)
+    {
+        if(learningObject != nullptr)
+            learningObject->addChosenLine(dialog.getLine());
+        else
+            QMessageBox::critical(this, "Error!", "Could not save line.\nNo image loaded.");
+    }
+}
+
 void HDBMainWindow::closeEvent (QCloseEvent *event)
 {
-    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Close",
-                                                                tr("Are you sure?\n"),
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Close", tr("Are you sure?\n"),
                                                                 QMessageBox::No | QMessageBox::Yes,
                                                                 QMessageBox::Yes);
     if (resBtn == QMessageBox::Yes) {

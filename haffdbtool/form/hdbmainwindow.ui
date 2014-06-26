@@ -86,7 +86,9 @@
    <addaction name="separator"/>
    <addaction name="actionSaveObject"/>
    <addaction name="separator"/>
+   <addaction name="actionAddLine"/>
    <addaction name="actionDraw"/>
+   <addaction name="separator"/>
    <addaction name="actionSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusBar">
@@ -185,7 +187,7 @@
      <normaloff>:/icons/layer-shape-line.png</normaloff>:/icons/layer-shape-line.png</iconset>
    </property>
    <property name="text">
-    <string>Draw</string>
+    <string>Draw Lines</string>
    </property>
    <property name="toolTip">
     <string>Draw Lines...</string>
@@ -213,6 +215,18 @@
    </property>
    <property name="menuRole">
     <enum>QAction::AboutQtRole</enum>
+   </property>
+  </action>
+  <action name="actionAddLine">
+   <property name="icon">
+    <iconset resource="../res/icons.qrc">
+     <normaloff>:/icons/layer-shape-line-add.png</normaloff>:/icons/layer-shape-line-add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Line</string>
+   </property>
+   <property name="toolTip">
+    <string>Add a line</string>
    </property>
   </action>
  </widget>

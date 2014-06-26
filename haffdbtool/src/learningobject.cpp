@@ -172,3 +172,12 @@ void LearningObject::slot_deleteFromDataBase(QString name)
 
     emit signal_newDatabase(this->databaseUtils->read());
 }
+
+void LearningObject::addChosenLine(formseher::Line line)
+{
+    if(imagePath != "")
+    {
+        chosenLines.push_back(line);
+        emit signal_linesChanged(std::pair<std::vector<formseher::Line>, std::vector<formseher::Line>>(possibleLines, chosenLines));
+    }
+}
