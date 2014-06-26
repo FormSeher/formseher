@@ -7,6 +7,8 @@
 #include <iostream>
 
 #include <QVariant>
+#include <QLabel>
+#include <QDialog>
 
 DatabaseWidget::DatabaseWidget(QWidget *parent) :
     QWidget(parent),
@@ -63,6 +65,9 @@ void DatabaseWidget::slot_deleteModel()
 
 void DatabaseWidget::slot_drawModel()
 {
+    if( ui->listWidgetObjects->currentRow() < 0)
+        return;
+
     formseher::Model model;
     model.fromString( ui->listWidgetObjects->currentItem()->data(Qt::UserRole).toString().toStdString());
 
@@ -76,7 +81,23 @@ void DatabaseWidget::slot_drawModel()
         cv::line(img, myStart, myEnd, cv::Scalar(255, 200, 155));
     }
 
-    cv::imshow(model.getName(), img);
+    QImage qImg = QImage((uchar*) img.data, img.cols, img.rows, img.step, QImage::Format_RGB888);
 
-    cv::waitKey(0);
+    QDialog* dialog = new QDialog();
+    QGridLayout* layout = new QGridLayout();
+    QLabel* imgLabel = new QLabel("");
+
+    imgLabel->setPixmap(QPixmap::fromImage(qImg));
+    imgLabel->adjustSize();
+
+    layout->addWidget(imgLabel,0,0);
+    layout->setSizeConstraint(QLayout::SetFixedSize);
+
+    dialog->setLayout(layout);
+    dialog->setWindowTitle(QString::fromStdString(model.getName()));
+    dialog->setWindowFlags(Qt::WindowCloseButtonHint);
+    dialog->setAttribute( Qt::WA_DeleteOnClose, true );
+    dialog->setModal(true);
+
+    dialog->show();
 }
