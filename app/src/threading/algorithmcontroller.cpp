@@ -118,7 +118,10 @@ void AlgorithmController::enqueueAlgorithm(bool lineConfigChanged)
 
 void AlgorithmController::setDatabaseModels(const std::vector<Model>& models)
 {
+    queueMutex.lock();
     databaseModels = models;
+    queueMutex.unlock();
+
     objectDetectionChanged();
 }
 
