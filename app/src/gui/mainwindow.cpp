@@ -23,11 +23,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     algorithmControlWidgets[0]->setCvWindowName("Algorithm 1");
     algorithmControlWidgets[1]->setCvWindowName("Algorithm 2");
-
-    connect(algorithmControlWidgets[0], &AlgorithmControlWidget::statusUpdate,
-            this, &MainWindow::updateStatusBar);
-    connect(algorithmControlWidgets[1], &AlgorithmControlWidget::statusUpdate,
-            this, &MainWindow::updateStatusBar);
 }
 
 MainWindow::~MainWindow()
@@ -62,11 +57,6 @@ bool MainWindow::registerObjectAlgorithmConfigDialog(int slot, std::string id, O
         return false;
 
     return algorithmControlWidgets[slot - 1]->registerObjectAlgorithmConfigDialog(id, dialog);
-}
-
-void MainWindow::updateStatusBar(QString statusString)
-{
-    statusBar()->showMessage(statusString);
 }
 
 } // namespace formseher
