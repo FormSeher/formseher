@@ -4,18 +4,20 @@
 namespace formseher
 {
 
-std::vector<Line> LineUtils::combineLines(std::vector<Line> lineList)
+void LineUtils::combineLines(std::vector<Line>& lineList)
 {
-std::vector<Line> result;
-
 double perpendicularDistanceThreshold = 10.0;
 double directionVectorAngleThreshold = 0.85;
 double maximumDistanceThreshold = 20.0;
 
-for(auto line1 : lineList)
+for(auto lineIter1 = lineList.begin(); lineIter1 != lineList.end(); ++lineIter1)
 {
-    for(auto line2: lineList)
+    Line& line1 = *lineIter1;
+
+    for(auto lineIter2 = lineIter1 + 1; lineIter2 != lineList.end(); ++lineIter2)
     {
+        Line& line2 = *lineIter2;
+
         //Schritt 1 lotfußpunkt länge vergleichen (muss im treshold liegen)
         //Schritt 2 Vergleich der Richtungsvektoren über das Skalarprodukt (muss nahe 1 liegen)
         //Schritt zwei meine Vektoren vergleichen
@@ -87,8 +89,10 @@ for(auto line1 : lineList)
                         newEnd = line2.getEnd();
                     }
 
-                    Line combinedLine = Line(newStart,newEnd);
-                    result.push_back(combinedLine);
+                    // Replace line1 with new combined line
+                    *lineIter1 = Line(newStart,newEnd);
+                    // Erase now merged line2 (use lineIter2 - 1 so we do not break the for-loop increment)
+                    lineIter2 = lineList.erase(lineIter2);
                 }
 
                 else if(SS.dot(ES) <= 0 || SE.dot(EE) <= 0)
@@ -134,15 +138,15 @@ for(auto line1 : lineList)
                         newEnd = line2.getEnd();
                     }
 
-                    Line combinedLine = Line(newStart,newEnd);
-                    result.push_back(combinedLine);
-
+                    // Replace line1 with new combined line
+                    *lineIter1 = Line(newStart,newEnd);
+                    // Erase now merged line2 (use lineIter2 - 1 so we do not break the for-loop increment)
+                    lineIter2 = lineList.erase(lineIter2);
                 }
             }
         }
 
     } //for line2
-
 } //for line1
 }
 
