@@ -11,18 +11,20 @@ Model::Model()
 
 Model::Model(const Model &object)
 {
-    boundingBoxCorners[0] = object.boundingBoxCorners[0];
-    boundingBoxCorners[1] = object.boundingBoxCorners[1];
-    name = object.name;
-
-    for(auto rhsLine : object.lines)
-        lines.push_back(new Line(*rhsLine));
+    copy(object);
 }
 
 Model::~Model()
 {
-    for(auto line : lines)
+    for(const Line* line : lines)
         delete line;
+    lines.clear();
+}
+
+Model& Model::operator=(const Model& rhs)
+{
+    copy(rhs);
+    return *this;
 }
 
 const std::vector<const Line*> &Model::getLines() const
@@ -129,6 +131,16 @@ std::string Model::toString()
     }
 
     return serialized.str();
+}
+
+void Model::copy(const Model& rhs)
+{
+    boundingBoxCorners[0] = rhs.boundingBoxCorners[0];
+    boundingBoxCorners[1] = rhs.boundingBoxCorners[1];
+    name = rhs.name;
+
+    for(const Line* rhsLine : rhs.lines)
+        lines.push_back(new Line(*rhsLine));
 }
 
 void Model::updateBoundingBox(const cv::Point2i& point)

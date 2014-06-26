@@ -20,6 +20,9 @@
 namespace formseher
 {
 
+int linerandstate = 1, objectrandstate = 1;
+QColor linecolor = Qt::gray, objectcolor = Qt::gray;
+
 AlgorithmControlWidget::AlgorithmControlWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AlgorithmControlWidget),
@@ -77,8 +80,10 @@ void AlgorithmControlWidget::updateImageLabel()
 
 void AlgorithmControlWidget::updateResultImage()
 {
+    /*
     // Random number generator for colorful lines
     cv::RNG rng(0xFFFFFFFF);
+    */
 
     if(!ui->showOriginalCheckBox->isChecked())
         resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
@@ -87,25 +92,33 @@ void AlgorithmControlWidget::updateResultImage()
 
 
     if(ui->showLinesCheckBox->isChecked())
-    {
-        for(auto line : latestResult.first)
         {
-            cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-            cv::line(resultImage, line.getStart(), line.getEnd(), color);
+            for(auto line : latestResult.first)
+            {
+                //cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+
+
+                //randomfunction
+
+                cv::line(resultImage, line.getStart(), line.getEnd(), randomcolor(linecolor,linerandstate));
+            }
         }
-    }
 
     if(ui->showObjectsCheckBox->isChecked())
     {
         for(auto object : latestResult.second)
         {
-            cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+            //cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+
+
+            //randomfunction
+
             // Draw bounding box
-            cv::rectangle(resultImage,object.getBoundingBox(), color);
+            cv::rectangle(resultImage,object.getBoundingBox(), randomcolor(objectcolor,objectrandstate));
             // Draw lines of object
             for(auto line : object.getLines())
             {
-                cv::line(resultImage, line->getStart(), line->getEnd(), color);
+                cv::line(resultImage, line->getStart(), line->getEnd(),randomcolor(linecolor,objectrandstate));
             }
         }
     }
@@ -224,6 +237,71 @@ double AlgorithmControlWidget::getTime()
     return (double) ts.tv_sec + (double) ts.tv_nsec * 1e-9;
 }
 
+
+cv::Scalar AlgorithmControlWidget::randomcolor(QColor colorimput, int opt)
+{
+    QColor color;
+
+    if(opt == 0)
+    {
+        color = colorimput;
+    }
+    else
+    {
+        switch(rand() % 44)
+        {
+            case 0: color.setRgb(170,0,0);break;
+            case 1: color.setRgb(0,85,0);break;
+            case 2: color.setRgb(170,85,0);break;
+            case 3: color.setRgb(0,170,0);break;
+            case 4: color.setRgb(170,170,0);break;
+            case 5: color.setRgb(0,255,0);break;
+            case 6: color.setRgb(170,255,0);break;
+            case 7: color.setRgb(0,0,127);break;
+            case 8: color.setRgb(170,0,127);break;
+            case 9: color.setRgb(0,85,127);break;
+            case 10: color.setRgb(170,85,127);break;
+            case 11: color.setRgb(0,170,127);break;
+            case 12: color.setRgb(0,255,127);break;
+            case 13: color.setRgb(170,255,127);break;
+            case 14: color.setRgb(0,0,255);break;
+            case 15: color.setRgb(170,0,255);break;
+            case 16: color.setRgb(0,85,255);break;
+            case 17: color.setRgb(170,85,255);break;
+            case 18: color.setRgb(0,170,255);break;
+            case 19: color.setRgb(170,170,255);break;
+            case 20: color.setRgb(0,255,255);break;
+            case 21: color.setRgb(170,255,255);break;
+            case 22: color.setRgb(85,0,0);break;
+            case 23: color.setRgb(255,0,0);break;
+            case 24: color.setRgb(85,85,0);break;
+            case 25: color.setRgb(255,85,0);break;
+            case 26: color.setRgb(85,170,0);break;
+            case 27: color.setRgb(255,170,0);break;
+            case 28: color.setRgb(85,255,0);break;
+            case 29: color.setRgb(255,255,0);break;
+            case 30: color.setRgb(85,0,127);break;
+            case 31: color.setRgb(255,0,127);break;
+            case 32: color.setRgb(85,85,127);break;
+            case 33: color.setRgb(255,85,127);break;
+            case 34: color.setRgb(85,170,127);break;
+            case 35: color.setRgb(255,170,127);break;
+            case 36: color.setRgb(85,255,127);break;
+            case 37: color.setRgb(255,255,127);break;
+            case 38: color.setRgb(85,0,255);break;
+            case 39: color.setRgb(255,0,255);break;
+            case 40: color.setRgb(85,85,255);break;
+            case 41: color.setRgb(255,85,255);break;
+            case 42: color.setRgb(85,170,255);break;
+            case 43: color.setRgb(255,170,255);break;
+            case 44: color.setRgb(85,255,255);break;
+        }
+ }
+    cv::Scalar scalarcolor(color.blue(),color.green(),color.red());
+    return scalarcolor;
+}
+
+
 void AlgorithmControlWidget::on_lineBenchmarkButton_clicked()
 {
     if(resultImage.empty())
@@ -280,7 +358,7 @@ void AlgorithmControlWidget::on_openDatabaseButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open database"), QDir::homePath(), tr("Database file (*.json)"));
     DatabaseUtils dbu(fileName.toStdString());
-    std::vector<Model> models = dbu.read();
+    models = dbu.read();
     controller.setDatabaseModels(models);
 
     ui->databaseLabel->setText(fileName.left(5) + "..." + fileName.right(20));
@@ -328,45 +406,88 @@ void AlgorithmControlWidget::on_imageRadioButton_clicked()
     }
 }
 
-} // namespace formseher
-
-void formseher::AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
+void AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
 {
     if(resultImage.empty())
             return;
 
-    LineDetectionAlgorithm* lines = selectedLineAlgorithmConfigDialog->createAlgorithm();
-    ObjectDetectionAlgorithm* algorithm = selectedObjectAlgorithmConfigDialog->createAlgorithm();
-    std::vector<formseher::Line> line = lines->calculate(image.clone());
+    LineDetectionAlgorithm* lineAlgorithm = nullptr;
+    ObjectDetectionAlgorithm* objectAlgorithm = nullptr;
+    std::vector<Line> lines;
 
-    double startTime;
-    double endTime;
+    double startTime = 0;
+    double elapsedTime = 0;
     int executionCount = 100;
 
-    // Open Dialog if Benchmarking starts
-    QDialog benchmarkDialog;
-    benchmarkDialog.setWindowTitle("Benchmarking..");
-    benchmarkDialog.autoFillBackground();
-    benchmarkDialog.resize(300,0);
-    benchmarkDialog.setWindowFlags(Qt::WindowStaysOnTopHint);
-    benchmarkDialog.show();
-
-    // Begin time measurement and execute algorithm n-times
-
-    startTime = getTime();
-
-/*    for(int i = 0; i < executionCount; ++i)
-        algorithm->calculate(lines->calculate(image.clone()));
-*/
-
+    // Benchmark loop
     for(int i = 0; i < executionCount; ++i)
-        algorithm->calculate(line);
+    {
+        lineAlgorithm = selectedLineAlgorithmConfigDialog->createAlgorithm();
+        objectAlgorithm = selectedObjectAlgorithmConfigDialog->createAlgorithm();
+        objectAlgorithm->setModels(models);
 
-    endTime = getTime();
-    // End of time measurement
+        // Measure runtime
+        startTime = getTime();
 
-    double elapsedTime = endTime - startTime;
+        lines = lineAlgorithm->calculate(image.clone());
+        objectAlgorithm->calculate(lines);
+
+        elapsedTime += getTime() - startTime;
+
+        delete lineAlgorithm;
+        delete objectAlgorithm;
+    }
 
     ui->objectBenchmarkResult->setText(QString::number(elapsedTime / executionCount) + " s");
-    benchmarkDialog.close();
 }
+
+void AlgorithmControlWidget::on_linecolorButton_clicked()
+{
+        linecolor = QColorDialog::getColor(Qt::gray, this);
+        ui->linecolorLabel->setPalette(linecolor);
+        if(linerandstate == 0)
+        AlgorithmControlWidget::updateResultImage();
+}
+
+void AlgorithmControlWidget::on_objectcolorButton_clicked()
+{
+        objectcolor = QColorDialog::getColor(Qt::gray, this);
+        ui->objectcolorLabel->setPalette(objectcolor);
+        if(objectrandstate == 0)
+        AlgorithmControlWidget::updateResultImage();
+}
+
+void AlgorithmControlWidget::on_linecolorrandomcheckBox_clicked(bool checked)
+{
+    if(checked)
+    {
+        ui->linecolorLabel->setText("random");
+        linerandstate = 1;
+        AlgorithmControlWidget::updateResultImage();
+    }
+    else
+    {
+        ui->linecolorLabel->setText("");
+        linerandstate = 0;
+        AlgorithmControlWidget::updateResultImage();
+    }
+}
+
+void AlgorithmControlWidget::on_objectcolorrandomcheckBox_clicked(bool checked)
+{
+    if(checked)
+    {
+        ui->objectcolorLabel->setText("random");
+        objectrandstate = 1;
+        AlgorithmControlWidget::updateResultImage();
+    }
+    else
+    {
+        ui->objectcolorLabel->setText("");
+        objectrandstate = 0;
+        AlgorithmControlWidget::updateResultImage();
+    }
+}
+
+} // namespace formseher
+
