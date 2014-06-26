@@ -8,12 +8,13 @@
 namespace formseher {
 
 Haff::Haff(int numberOfBestHypotheses, int numberOfDetectedObjects,
-           double minimalObjectRating, double coverageWeight, double angleWeight)
+           double minimalObjectRating, double coverageWeight, double angleWeight, double positionWeight)
     : numberOfBestHypotheses(numberOfBestHypotheses),
       numberOfDetectedObjects(numberOfDetectedObjects),
       minimalObjectRating(minimalObjectRating),
       coverageWeight(coverageWeight),
-      angleWeight(angleWeight)
+      angleWeight(angleWeight),
+      positionWeight(positionWeight)
 {
 }
 
@@ -75,8 +76,11 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             } // FOREACH detectedline
 
             // Clear old hypotheses witch are no longer required
-            for(auto oldHypothesis : oldHypotheses)
+            for(Hypothesis* oldHypothesis : oldHypotheses)
+            {
                 delete oldHypothesis;
+                oldHypothesis = nullptr;
+            }
             oldHypotheses.clear();
             // Copy best rated new hypotheses to oldHyptoheses
             int counter = 0;
@@ -107,20 +111,8 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
                 break;
 
             likelyHypotheses.insert(*itr);
+            oldHypotheses.erase(--itr.base());
             ++counter;
-        }
-
-        int trimCounter = 0;
-        for(auto itr = likelyHypotheses.begin();
-            itr != likelyHypotheses.end();
-            ++itr)
-        {
-            if(trimCounter >= numberOfDetectedObjects)
-            {
-                likelyHypotheses.erase(itr);
-                delete *itr;
-            }
-            trimCounter++;
         }
     } // FOREACH model
 
@@ -141,8 +133,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             tmp.addLine(*lineMatch.first);
         }
 
-        detectedObjects.push_back(tmp); // ↓ Use symmetric replacement instead if tested!
-        //symmetricReplacement(detectedObjects, tmp);
+        symmetricReplacement(detectedObjects, tmp);
     }
 
     return detectedObjects;

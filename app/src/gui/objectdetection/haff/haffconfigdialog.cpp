@@ -20,8 +20,13 @@ HaffConfigDialog::~HaffConfigDialog()
 
 ObjectDetectionAlgorithm* HaffConfigDialog::createAlgorithm()
 {
-    return new Haff(ui->numberOfBestHypotheses->value(), ui->numberOfDetectedObjects->value(),
-                    ui->minimalObjectRating->value(), ui->coverWeight->value(), ui->angleWeight->value());
+    return new Haff(ui->numberOfBestHypotheses->value(),
+                    ui->numberOfDetectedObjects->value(),
+                    ui->minimalObjectRating->value(),
+                    ui->coverWeight->value(),
+                    ui->angleWeight->value(),
+                    ui->positionWeight->value()
+    );
 }
 
 void HaffConfigDialog::on_numberOfBestHypotheses_valueChanged(int)
@@ -49,4 +54,10 @@ void HaffConfigDialog::on_angleWeight_valueChanged(double)
     emit configChanged();
 }
 
+void HaffConfigDialog::on_positionWeight_valueChanged(double)
+{
+    emit configChanged();
+}
+
 } // namespace formseher
+

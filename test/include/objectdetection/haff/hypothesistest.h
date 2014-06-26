@@ -116,22 +116,19 @@ private slots:
     void calculateCoverageRatingPerfectMatch()
     {
         Line objectLine1(3,1,7,1);
-
         Line modelLine1(3,1,7,1);
 
         Hypothesis h(0);
         h.addLineMatch(&objectLine1,&modelLine1);
-
         h.scaleFactor = 1;
         h.calculateCoverageRating();
 
         QCOMPARE(h.coverRating,1.0);
     }
 
-    void calculateCoverageRatingHalfMatch()
+    void calculateCoverageRatingWorstMatch()
     {
         Line objectLine1(1,1,9,1);
-
         Line modelLine1(3,1,7,1);
 
         Hypothesis h(0);
@@ -140,7 +137,124 @@ private slots:
         h.scaleFactor = 1;
         h.calculateCoverageRating();
 
+        QCOMPARE(h.coverRating, 0.0);
+    }
+
+    // Test what happens if object line length greatly exceeds model line length
+    void calculateCoverageRatingBigErrors()
+    {
+        // Object line longer than model line
+        Line objectLine(1, 1, 13, 1);
+        Line modelLine(0, 0, 4, 0);
+
+        Hypothesis h(0);
+        h.addLineMatch(&objectLine, &modelLine);
+        h.scaleFactor = 1;
+        h.calculateCoverageRating();
+
+        QCOMPARE(h.coverRating, 0.0);
+
+        // Object line shorter than model line
+        Line objectLine2(1, 1, 2, 1);
+        Line modelLine2(0, 0, 3, 0);
+
+        Hypothesis h2(0);
+        h2.addLineMatch(&objectLine2, &modelLine2);
+        h2.scaleFactor = 1;
+        h2.calculateCoverageRating();
+
+        QCOMPARE(h.coverRating, 0.0);
+    }
+
+    void calculateCoverageRatingHalfMatch()
+    {
+        // Object line longer than model line
+        Line objectLine(0, 0, 6, 0);
+        Line modelLine(0, 0, 4, 0);
+
+        Hypothesis h(0);
+        h.addLineMatch(&objectLine, &modelLine);
+        h.scaleFactor = 1;
+        h.calculateCoverageRating();
+
         QCOMPARE(h.coverRating, 0.5);
+
+        // Object line shorter than model line
+        Line objectLine2(0, 0, 2, 0);
+
+        Hypothesis h2(0);
+        h2.addLineMatch(&objectLine2, &modelLine);
+        h2.scaleFactor = 1;
+        h.calculateCoverageRating();
+
+        QCOMPARE(h.coverRating, 0.5);
+    }
+
+    void calcCoverageRatingZeroLength()
+    {
+        Line objectLine(0, 0, 1, 0);
+        Line modelLine(0, 0, 0, 0);
+
+        Hypothesis h(0);
+        h.addLineMatch(&objectLine, &modelLine);
+        h.scaleFactor = 1;
+        h.calculateCoverageRating();
+
+        QCOMPARE(h.coverRating, 1.0);
+    }
+
+    void calculateCoverageRatingComplexCase()
+    {
+        Line objectLine1(1, 1, 4, 1); // length = 3
+        Line objectLine2(1, 2, 1, 6); // length = 4
+        Line modelLine1(3, 3, 3, 6); // length = 3
+        Line modelLine2(4, 4, 6, 4); // length = 2
+
+        Hypothesis h(0);
+        h.addLineMatch(&objectLine1, &modelLine1);
+        h.addLineMatch(&objectLine2, &modelLine2);
+        h.scaleFactor = 1.5;
+        h.calculateCoverageRating();
+
+        // Result has to be 2.0 / 3.0 = 0.66666....
+        QCOMPARE(h.coverRating, 2.0 / 3.0);
+    }
+
+    void calcPositionRatingComplexCase()
+    {
+        Line objectLine1(1, 1, 1, 4);
+        Line objectLine2(2, 4, 6, 4);
+        Line objectLine3(2, 2, 5, 3);
+
+        Line modelLine1(1, 6, 1, 9);
+        Line modelLine2(2, 10, 5, 10);
+        Line modelLine3(3, 6, 6, 8);
+
+        Hypothesis h(0);
+        h.addLineMatch(&objectLine1, &modelLine1);
+        h.addLineMatch(&objectLine2, &modelLine2);
+        h.addLineMatch(&objectLine3, &modelLine3);
+        h.scaleFactor = 1.5;
+        h.calculatePositionRating();
+
+//        printf("%.16f\n", h.positionRating);
+        QCOMPARE(h.positionRating, 0.4774498596849225);
+    }
+
+    void calcPositionRatingZeroDistance()
+    {
+        Line line1(1, 1, 4, 1);
+        Line line2(1, 3, 4, 3);
+        Line line3(1, 2, 4, 2);
+
+        Hypothesis h(0);
+        h.addLineMatch(&line1, &line1);
+        h.addLineMatch(&line2, &line2);
+        h.addLineMatch(&line3, &line3);
+        h.scaleFactor = 1;
+        h.calculatePositionRating();
+
+        QCOMPARE(h.positionRating, 1.0);
     }
 
     void copyConstructorTest()
@@ -205,6 +319,8 @@ private slots:
         h2.addLineMatch(&ol2, &ml2);
         h2.addLineMatch(&ol3, &ml3);
         h2.calculateScale();
+
+//        qDebug() << h2.scaleFactor;
 
         QVERIFY(h2.scaleFactor == 0.5);
     }
