@@ -31,6 +31,8 @@ AlgorithmControlWidget::AlgorithmControlWidget(QWidget *parent) :
     ui->setupUi(this);
 
     connect(&controller, &AlgorithmController::newResultAvailable, this, &AlgorithmControlWidget::on_controller_newResultAvailable);
+    connect(&controller, &AlgorithmController::startedCalculation, this, &AlgorithmControlWidget::on_controller_startedCalculation);
+    connect(this, &AlgorithmControlWidget::statusUpdate, this, &AlgorithmControlWidget::on_statusUpdate);
 }
 
 AlgorithmControlWidget::~AlgorithmControlWidget()
@@ -80,11 +82,6 @@ void AlgorithmControlWidget::updateImageLabel()
 
 void AlgorithmControlWidget::updateResultImage()
 {
-    /*
-    // Random number generator for colorful lines
-    cv::RNG rng(0xFFFFFFFF);
-    */
-
     if(!ui->showOriginalCheckBox->isChecked())
         resultImage = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
     else
@@ -94,32 +91,23 @@ void AlgorithmControlWidget::updateResultImage()
     if(ui->showLinesCheckBox->isChecked())
         {
             for(auto line : latestResult.first)
-            {
-                //cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-
-
-                //randomfunction
-
                 cv::line(resultImage, line.getStart(), line.getEnd(), randomcolor(linecolor,linerandstate));
-            }
         }
 
     if(ui->showObjectsCheckBox->isChecked())
     {
         for(auto object : latestResult.second)
         {
-            //cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-
-
-            //randomfunction
-
+            cv::Scalar color = randomcolor(objectcolor,objectrandstate);
             // Draw bounding box
-            cv::rectangle(resultImage,object.getBoundingBox(), randomcolor(objectcolor,objectrandstate));
+            cv::rectangle(resultImage,object.getBoundingBox(), color);
             // Draw lines of object
             for(auto line : object.getLines())
-            {
-                cv::line(resultImage, line->getStart(), line->getEnd(),randomcolor(linecolor,objectrandstate));
-            }
+                cv::line(resultImage, line->getStart(), line->getEnd(), color);
+            // Draw name and rating
+            std::string objectCaption =  object.getName() + " (" + QString::number(object.getRating()).toStdString() + "%)";
+            cv::Point textPosition(object.getBoundingBox().x, object.getBoundingBox().y + object.getBoundingBox().height + 40);
+            cv::putText(resultImage, objectCaption, textPosition, 1, 4, color, 4);
         }
     }
 
@@ -163,6 +151,11 @@ void AlgorithmControlWidget::on_openPicture_clicked()
     {
         std::cout << "Error: Could not open picture." << std::endl;
     }
+}
+
+void AlgorithmControlWidget::on_controller_startedCalculation()
+{
+    emit statusUpdate("Calculating...");
 }
 
 void AlgorithmControlWidget::on_controller_newResultAvailable()
@@ -307,19 +300,15 @@ void AlgorithmControlWidget::on_lineBenchmarkButton_clicked()
     if(resultImage.empty())
             return;
 
+    // Set status directly because benchmark blocks signal processing
+    ui->statusLabel->setText("Status: Benchmarking line detection...");
+    repaint();
+
     LineDetectionAlgorithm* algorithm = selectedLineAlgorithmConfigDialog->createAlgorithm();
 
     double startTime;
     double endTime;
     int executionCount = 100;
-
-    // Open Dialog if Benchmarking starts
-    QDialog benchmarkDialog;
-    benchmarkDialog.setWindowTitle("Benchmarking..");
-    benchmarkDialog.autoFillBackground();
-    benchmarkDialog.resize(300,0);
-    benchmarkDialog.setWindowFlags(Qt::WindowStaysOnTopHint);
-    benchmarkDialog.show();
 
     // Begin time measurement and execute algorithm n-times
 
@@ -334,7 +323,8 @@ void AlgorithmControlWidget::on_lineBenchmarkButton_clicked()
     double elapsedTime = endTime - startTime;
 
     ui->lineBenchmarkResult->setText(QString::number(elapsedTime / executionCount) + " s");
-    benchmarkDialog.close();
+
+    emit statusUpdate("Line benchmark finished");
 }
 
 void AlgorithmControlWidget::on_showOriginalCheckBox_clicked()
@@ -411,6 +401,9 @@ void AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
     if(resultImage.empty())
             return;
 
+    ui->statusLabel->setText("Status: Benchmarking object detection...");
+    repaint();
+
     LineDetectionAlgorithm* lineAlgorithm = nullptr;
     ObjectDetectionAlgorithm* objectAlgorithm = nullptr;
     std::vector<Line> lines;
@@ -439,6 +432,8 @@ void AlgorithmControlWidget::on_objectBenchmarkButton_clicked()
     }
 
     ui->objectBenchmarkResult->setText(QString::number(elapsedTime / executionCount) + " s");
+
+    emit statusUpdate("Object benchmark finished");
 }
 
 void AlgorithmControlWidget::on_linecolorButton_clicked()
@@ -487,6 +482,11 @@ void AlgorithmControlWidget::on_objectcolorrandomcheckBox_clicked(bool checked)
         objectrandstate = 0;
         AlgorithmControlWidget::updateResultImage();
     }
+}
+
+void AlgorithmControlWidget::on_statusUpdate(QString status)
+{
+    ui->statusLabel->setText(QString("Status: ") + status);
 }
 
 } // namespace formseher

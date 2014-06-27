@@ -37,6 +37,7 @@ public:
 private slots:
     void on_saveResult_clicked();
     void on_openPicture_clicked();
+    void on_controller_startedCalculation();
     void on_controller_newResultAvailable();
     void on_lineAlgorithmSelectBox_currentIndexChanged(const QString &algorithmId);
     void on_configureLineAlgorithm_clicked();
@@ -69,6 +70,8 @@ private slots:
     void on_linecolorrandomcheckBox_clicked(bool checked);
 
     void on_objectcolorrandomcheckBox_clicked(bool checked);
+
+    void on_statusUpdate(QString status);
 
 signals:
     void statusUpdate(QString statusString);

@@ -163,6 +163,8 @@ void AlgorithmController::scheduleAlgorithm()
     worker->start();
 
     queueMutex.unlock();
+
+    emit startedCalculation();
 }
 
 void AlgorithmController::handleResult()
