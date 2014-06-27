@@ -16,9 +16,10 @@ public:
     explicit DrawInfoDialog(QWidget *parent = 0);
     ~DrawInfoDialog();
 
+    virtual int exec();
+
 private slots:
     void slot_toggleShow(bool value);
-    virtual int exec();
 
 private:
     Ui::DrawInfoDialog *ui;
