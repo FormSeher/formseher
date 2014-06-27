@@ -1,3 +1,4 @@
+// Database tool
 #include "include/saveobjectdialog.h"
 #include "ui_saveobjectdialog.h"
 

@@ -1,8 +1,11 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <QMainWindow>
+// Formseher project
 #include "linedetection/linedetectionalgorithm.h"
+
+// Qt
+#include <QMainWindow>
 
 namespace Ui {
 class Settings;

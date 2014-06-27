@@ -1,7 +1,8 @@
+// Database tool
 #include "learningobject.h"
 
+// Qt
 #include <QFile>
-#include <iostream>
 
 LearningObject::LearningObject(QString imagePath)
     : imagePath(imagePath)

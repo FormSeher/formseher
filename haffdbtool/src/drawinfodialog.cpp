@@ -1,3 +1,4 @@
+// Database tool
 #include "include/drawinfodialog.h"
 #include "ui_drawinfodialog.h"
 

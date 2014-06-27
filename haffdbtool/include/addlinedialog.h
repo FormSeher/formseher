@@ -1,9 +1,11 @@
 #ifndef ADDLINEDIALOG_H
 #define ADDLINEDIALOG_H
 
-#include <QDialog>
-
+// Formseher project
 #include "line.h"
+
+// Qt
+#include <QDialog>
 
 namespace Ui {
 class AddLineDialog;

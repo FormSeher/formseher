@@ -1,6 +1,8 @@
+// Database tool
 #include "include/imagewidget.h"
 #include "ui_imagewidget.h"
 
+// Formseher project
 #include "line.h"
 
 ImageWidget::ImageWidget(QWidget *parent) :

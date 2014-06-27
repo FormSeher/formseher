@@ -1,14 +1,16 @@
+// Database tool
 #include "include/databasewidget.h"
 #include "ui_databasewidget.h"
+
+// Formseher project
 #include "objectdetection/model.h"
 
+// OpenCV
 #include <opencv2/highgui/highgui.hpp>
 
-#include <iostream>
-
-#include <QVariant>
-#include <QLabel>
+// Qt
 #include <QDialog>
+#include <QLabel>
 
 DatabaseWidget::DatabaseWidget(QWidget *parent) :
     QWidget(parent),

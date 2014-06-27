@@ -1,6 +1,7 @@
 #ifndef COLORCHOOSERWIDGET_H
 #define COLORCHOOSERWIDGET_H
 
+// Qt
 #include <QWidget>
 
 namespace Ui {

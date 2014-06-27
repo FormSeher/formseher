@@ -1,8 +1,8 @@
-#include "include/opencvdrawing.h"
-#include <opencv2/highgui/highgui.hpp>
+// Database tool
+#include "opencvdrawing.h"
 
-#include <iostream>
-using namespace std;
+// OpenCV
+#include <opencv2/highgui/highgui.hpp>
 
 cv::Point2i OpencvDrawing::startPoint;
 std::vector<formseher::Line> OpencvDrawing::lineVector;

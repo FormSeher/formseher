@@ -1,9 +1,11 @@
+// Database tool
 #include "include/settings.h"
 #include "ui_settings.h"
 
-#include "linedetection/linedetectionalgorithm.h"
-#include "linedetection/hough/hough.h"
+// Formseher project
 #include "linedetection/edl/edl.h"
+#include "linedetection/hough/hough.h"
+#include "linedetection/linedetectionalgorithm.h"
 
 Settings::Settings(QWidget *parent) :
     QMainWindow(parent),

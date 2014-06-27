@@ -1,19 +1,19 @@
-#include "hdbmainwindow.h"
-#include "ui_hdbmainwindow.h"
-#include "learningobject.h"
-#include "settings.h"
-#include "opencvdrawing.h"
-#include "saveobjectdialog.h"
+// Database tool
 #include "addlinedialog.h"
 #include "drawinfodialog.h"
+#include "hdbmainwindow.h"
+#include "learningobject.h"
+#include "opencvdrawing.h"
+#include "saveobjectdialog.h"
+#include "settings.h"
+#include "ui_hdbmainwindow.h"
 
-#include <QDir>
-#include <QMessageBox>
-#include <QFileDialog>
-#include <QProcess>
+// Qt
 #include <QCloseEvent>
-
-#include <iostream>
+#include <QDir>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QProcess>
 
 HDBMainWindow::HDBMainWindow(QWidget *parent) :
     QMainWindow(parent),

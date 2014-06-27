@@ -1,6 +1,8 @@
+// Database tool
 #include "include/addlinedialog.h"
 #include "ui_addlinedialog.h"
 
+// Formseher project
 #include "line.h"
 
 AddLineDialog::AddLineDialog(QWidget *parent) :

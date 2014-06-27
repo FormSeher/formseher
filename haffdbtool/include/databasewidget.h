@@ -1,8 +1,11 @@
 #ifndef DATABASEWIDGET_H
 #define DATABASEWIDGET_H
 
-#include <QWidget>
+// Formseher project
 #include "objectdetection/model.h"
+
+// Qt
+#include <QWidget>
 
 namespace Ui {
 class databaseWidget;

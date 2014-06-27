@@ -1,9 +1,13 @@
 #ifndef IMAGEWIDGET_H
 #define IMAGEWIDGET_H
 
-#include "line.h"
+// Database tool
 #include "imagemode.h"
 
+// Formseher project
+#include "line.h"
+
+// Qt
 #include <QWidget>
 
 namespace Ui {

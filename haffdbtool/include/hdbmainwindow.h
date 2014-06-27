@@ -1,10 +1,12 @@
 #ifndef HDBMAINWINDOW_H
 #define HDBMAINWINDOW_H
 
-#include <QMainWindow>
-
+// Database tool
 #include "learningobject.h"
 #include "settings.h"
+
+// Qt
+#include <QMainWindow>
 
 namespace Ui {
 class HDBMainWindow;

@@ -1,20 +1,22 @@
 #ifndef LEARNINGOBJECT_H
 #define LEARNINGOBJECT_H
 
-// Qt Includes
-#include <QColor>
-#include <QString>
-#include <QObject>
+// Database tool
+#include "imagemode.h"
 
-// OpenCV Includes
+// Formseher project
+#include "line.h"
+#include "linedetection/linedetectionalgorithm.h"
+#include "objectdetection/databaseutils.h"
+
+// OpenCV
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-// Formseher Includes
-#include "line.h"
-#include "imagemode.h"
-#include "objectdetection/databaseutils.h"
-#include "linedetection/linedetectionalgorithm.h"
+// Qt
+#include <QColor>
+#include <QObject>
+#include <QString>
 
 class LearningObject : public QObject
 {

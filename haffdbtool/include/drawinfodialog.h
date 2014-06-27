@@ -1,6 +1,7 @@
 #ifndef DRAWINFODIALOG_H
 #define DRAWINFODIALOG_H
 
+// Qt
 #include <QDialog>
 
 namespace Ui {

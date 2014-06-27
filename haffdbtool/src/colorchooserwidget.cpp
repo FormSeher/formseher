@@ -1,6 +1,8 @@
+// Database tool
 #include "colorchooserwidget.h"
 #include "ui_colorchooserwidget.h"
 
+// Qt
 #include <QColor>
 #include <QColorDialog>
 
