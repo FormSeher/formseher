@@ -8,19 +8,23 @@
 namespace formseher {
 
 Haff::Haff(int numberOfBestHypotheses, int numberOfDetectedObjects,
-           double minimalObjectRating, double coverageWeight, double angleWeight)
+           double minimalObjectRating, double coverageWeight, double angleWeight, double positionWeight)
     : numberOfBestHypotheses(numberOfBestHypotheses),
       numberOfDetectedObjects(numberOfDetectedObjects),
       minimalObjectRating(minimalObjectRating),
       coverageWeight(coverageWeight),
-      angleWeight(angleWeight)
+      angleWeight(angleWeight),
+      positionWeight(positionWeight)
 {
 }
 
 std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
 {
-    std::multiset<Hypothesis*, PointerCompare<Hypothesis>> oldHypotheses;
-    std::multiset<Hypothesis*, PointerCompare<Hypothesis>> newHypotheses;
+    std::multiset<Hypothesis*, PointerCompare<Hypothesis>> hypothesesVector1;
+    std::multiset<Hypothesis*, PointerCompare<Hypothesis>> hypothesesVector2;
+    auto oldHypotheses = &hypothesesVector1;
+    auto newHypotheses = &hypothesesVector2;
+
     std::multiset<Hypothesis*, PointerCompare<Hypothesis>> likelyHypotheses;
 
     for(auto modelIter = databaseModels.begin(); modelIter != databaseModels.end(); ++modelIter)
@@ -37,14 +41,13 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             {
                 Hypothesis* newHypothesis = new Hypothesis(model, angleWeight, coverageWeight);
                 newHypothesis->addNotMatchingLines(*modelLineIter);
-                oldHypotheses.insert(newHypothesis);
+                oldHypotheses->insert(newHypothesis);
             }
 
             Hypothesis* newHypothesis = new Hypothesis(model, angleWeight, coverageWeight);
             newHypothesis->addLineMatch(detectedLine, *modelLineIter);
             newHypothesis->calculateRating();
-            oldHypotheses.insert(newHypothesis);
-
+            oldHypotheses->insert(newHypothesis);
         }
 
          // Run iterations
@@ -55,7 +58,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             {
                 Line* detectedLine = &(*detectedLinesIter);
 
-                for(auto oldHypothesis : oldHypotheses)
+                for(auto oldHypothesis : *oldHypotheses)
                 {
                     if ( ! oldHypothesis->containsLine( detectedLine ) )
                     {
@@ -63,65 +66,57 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
                         {
                             Hypothesis* newHypothesis = new Hypothesis(*oldHypothesis);
                             newHypothesis->addNotMatchingLines(*modelLineIter);
-                            newHypotheses.insert(newHypothesis);
+                            newHypotheses->insert(newHypothesis);
                         }
 
                         Hypothesis* newHypothesis = new Hypothesis(*oldHypothesis);
                         newHypothesis->addLineMatch(detectedLine, *modelLineIter);
                         newHypothesis->calculateRating();
-                        newHypotheses.insert(newHypothesis);
+                        newHypotheses->insert(newHypothesis);
                     }
                 }
             } // FOREACH detectedline
 
             // Clear old hypotheses witch are no longer required
-            for(auto oldHypothesis : oldHypotheses)
-                delete oldHypothesis;
-            oldHypotheses.clear();
-            // Copy best rated new hypotheses to oldHyptoheses
-            int counter = 0;
-
-            std::multiset<Hypothesis*>::reverse_iterator itr;
-            for(itr = newHypotheses.rbegin();
-                itr != newHypotheses.rend() && counter < numberOfBestHypotheses;
-                ++itr)
+            for(Hypothesis* oldHypothesis : *oldHypotheses)
             {
-                oldHypotheses.insert(*itr);
-                ++counter;
+                delete oldHypothesis;
+                oldHypothesis = nullptr;
+            }
+            oldHypotheses->clear();
 
+            // Delete hypotheses no longer needed (number of hypotheses to delete == deletionCounter)
+            size_t deletionCounter = newHypotheses->size() - numberOfBestHypotheses;
+            auto itr = newHypotheses->begin();
+
+            for(; deletionCounter > 0; --deletionCounter)
+            {
+                delete *itr;
+                itr = newHypotheses->erase(itr);
             }
 
-            // Delete rest of newHypotheses which is no longer needed
-            for(; itr != newHypotheses.rend(); ++itr)
-                delete *itr;
-            newHypotheses.clear();
+            // Swap pointers to hypothesis vectors
+            std::swap(newHypotheses, oldHypotheses);
 
         } // FOREACH modelline
 
         int counter = 0;
-        for(auto itr = oldHypotheses.rbegin();
-            itr != oldHypotheses.rend() && counter < numberOfDetectedObjects;
+        for(auto itr = oldHypotheses->rbegin();
+            itr != oldHypotheses->rend() && counter < numberOfDetectedObjects;
             ++itr)
         {
             if ( (*itr)->getRating() < minimalObjectRating)
                 break;
 
             likelyHypotheses.insert(*itr);
+            oldHypotheses->erase(--itr.base());
             ++counter;
         }
 
-        int trimCounter = 0;
-        for(auto itr = likelyHypotheses.begin();
-            itr != likelyHypotheses.end();
-            ++itr)
-        {
-            if(trimCounter >= numberOfDetectedObjects)
-            {
-                likelyHypotheses.erase(itr);
-                delete *itr;
-            }
-            trimCounter++;
-        }
+        // Clear oldHypotheses
+        for(Hypothesis* oldHypothesis : *oldHypotheses)
+            delete oldHypothesis;
+        oldHypotheses->clear();
     } // FOREACH model
 
 
@@ -141,9 +136,12 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             tmp.addLine(*lineMatch.first);
         }
 
-        detectedObjects.push_back(tmp); // ↓ Use symmetric replacement instead if tested!
-        //symmetricReplacement(detectedObjects, tmp);
+        symmetricReplacement(detectedObjects, tmp);
+
+        // Delete hypothesis
+        delete *itr;
     }
+    likelyHypotheses.clear();
 
     return detectedObjects;
 }

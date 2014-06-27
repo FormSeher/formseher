@@ -31,6 +31,7 @@ private slots:
     void on_minimalObjectRating_valueChanged(double);
     void on_coverWeight_valueChanged(double);
     void on_angleWeight_valueChanged(double);
+    void on_positionWeight_valueChanged(double);
 
 private:
     Ui::HaffConfigDialog *ui;
