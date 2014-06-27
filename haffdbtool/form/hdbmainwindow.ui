@@ -122,7 +122,6 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionExit"/>
-   <addaction name="actionAbout"/>
   </widget>
   <action name="actionExit">
    <property name="icon">
@@ -203,18 +202,6 @@
    </property>
    <property name="toolTip">
     <string>Save Object...</string>
-   </property>
-  </action>
-  <action name="actionAbout">
-   <property name="icon">
-    <iconset resource="../res/icons.qrc">
-     <normaloff>:/icons/help-about.svg</normaloff>:/icons/help-about.svg</iconset>
-   </property>
-   <property name="text">
-    <string>About</string>
-   </property>
-   <property name="menuRole">
-    <enum>QAction::AboutQtRole</enum>
    </property>
   </action>
   <action name="actionAddLine">
