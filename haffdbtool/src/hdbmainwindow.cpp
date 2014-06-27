@@ -5,6 +5,7 @@
 #include "opencvdrawing.h"
 #include "saveobjectdialog.h"
 #include "addlinedialog.h"
+#include "drawinfodialog.h"
 
 #include <QDir>
 #include <QMessageBox>
@@ -147,7 +148,16 @@ void HDBMainWindow::resizeEvent (QResizeEvent *event)
 
 void HDBMainWindow::slot_actionDraw_clicked()
 {
-    //OpencvDrawing::drawLines(learningObject->getOriginalImage());
+    if( learningObject != nullptr && learningObject->getImagePath() != "")
+    {
+        DrawInfoDialog dialog(this);
+
+        if(dialog.exec() == QDialog::Accepted)
+        {
+            learningObject->addChosenLines(OpencvDrawing::drawLines(learningObject->getOriginalImage()));
+            cv::destroyWindow("Image");
+        }
+    }
 }
 
 void HDBMainWindow::slot_actionAddLine_clicked()

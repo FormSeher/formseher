@@ -1,25 +1,23 @@
-//#ifndef OPENCVDRAWING_H
-//#define OPENCVDRAWING_H
+#ifndef OPENCVDRAWING_H
+#define OPENCVDRAWING_H
 
-//#include "line.h"
+#include "line.h"
 
-//class OpencvDrawing
-//{
-//public:
-//    OpencvDrawing();
+class OpencvDrawing
+{
+public:
+    OpencvDrawing();
 
-//    static std::vector<formseher::Line> drawLines(cv::Mat image);
+    static std::vector<formseher::Line> drawLines(cv::Mat image);
 
-//    //static cv::Point2i startPoint;
-//    static int x = -1;
-//    static int y = -1;
+private:
+    static cv::Point2i startPoint;
 
-//    static std::vector<formseher::Line> lineVector;
+    static std::vector<formseher::Line> lineVector;
 
-//private:
-//    void test();
-//};
+    static cv::Mat resultImage;
 
-//static void CallBackFunc(int event, int x, int y, int flags, void* userdata);
+    static void CallBackFunc(int event, int x, int y, int flags, void* image);
+};
 
-//#endif // OPENCVDRAWING_H
+#endif // OPENCVDRAWING_H

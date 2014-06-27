@@ -129,8 +129,6 @@ cv::Mat LearningObject::getOriginalImage() const
 
 void LearningObject::slot_doubleClicked(std::pair<int, int> clickedLines)
 {
-    //selectedLines.push_back(foundLines[i]);
-    //foundLines.erase(foundLines.begin()+i);
     if(clickedLines.first >= 0)
     {
         chosenLines.push_back(possibleLines[clickedLines.first]);
@@ -178,6 +176,16 @@ void LearningObject::addChosenLine(formseher::Line line)
     if(imagePath != "")
     {
         chosenLines.push_back(line);
+        emit signal_linesChanged(std::pair<std::vector<formseher::Line>, std::vector<formseher::Line>>(possibleLines, chosenLines));
+    }
+}
+
+void LearningObject::addChosenLines(std::vector<formseher::Line> lines)
+{
+    if(imagePath != "")
+    {
+        for(formseher::Line line : lines)
+            chosenLines.push_back(line);
         emit signal_linesChanged(std::pair<std::vector<formseher::Line>, std::vector<formseher::Line>>(possibleLines, chosenLines));
     }
 }
