@@ -45,7 +45,10 @@ private slots:
         m1.setName("m1");
         m1.addLine(Line(1, 1, 2, 2));
 
-        Model m2 = m1;
+        Model m2;
+        m2.setName("m2");
+        m2.addLine(Line(50, 60, 70, 80));
+        m2 = m1;
 
         QVERIFY(m1.getName() == m2.getName());
         QVERIFY(m1.getBoundingBox() == m2.getBoundingBox());
