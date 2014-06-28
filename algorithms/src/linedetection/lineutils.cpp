@@ -4,6 +4,10 @@
 namespace formseher
 {
 
+LineUtils::LineUtils()
+{
+}
+
 void LineUtils::combineLines(std::vector<Line>& lineList)
 {
 double perpendicularDistanceThreshold = 10.0;
@@ -34,18 +38,19 @@ for(auto lineIter1 = lineList.begin(); lineIter1 != lineList.end(); ++lineIter1)
                 SS[1] = line1.getStart().y - line2.getStart().y;
 
                 cv::Vec2i SE; // from Start to End
-                SS[0] = line1.getStart().x - line2.getEnd().x;
-                SS[1] = line1.getStart().y - line2.getEnd().y;
+                SE[0] = line1.getStart().x - line2.getEnd().x;
+                SE[1] = line1.getStart().y - line2.getEnd().y;
 
                 cv::Vec2i ES; // from End to Start
-                SS[0] = line1.getEnd().x - line2.getStart().x;
-                SS[1] = line1.getEnd().y - line2.getStart().y;
+                ES[0] = line1.getEnd().x - line2.getStart().x;
+                ES[1] = line1.getEnd().y - line2.getStart().y;
 
                 cv::Vec2i EE; // from End to End
-                SS[0] = line1.getEnd().x - line2.getEnd().x;
-                SS[1] = line1.getEnd().y - line2.getEnd().y;
+                EE[0] = line1.getEnd().x - line2.getEnd().x;
+                EE[1] = line1.getEnd().y - line2.getEnd().y;
                 if(norm(SS) <= maximumDistanceThreshold || norm(SE) <= maximumDistanceThreshold ||
-                   norm(ES) <= maximumDistanceThreshold || norm(EE) <= maximumDistanceThreshold)
+                   norm(ES) <= maximumDistanceThreshold || norm(EE) <= maximumDistanceThreshold ||
+                        SS.dot(ES) <= 0 || SE.dot(EE) <= 0)
                 {
 
                     cv::Point2i newStart;
@@ -58,32 +63,32 @@ for(auto lineIter1 = lineList.begin(); lineIter1 != lineList.end(); ++lineIter1)
                     double length1 = line1.getLength();
                     double length2 = line2.getLength();
 
-                    if(normSS > normSE && normSS > normES && normSS > normEE && normSS > length1 && normSS > length2)
+                    if(normSS >= normSE && normSS >= normES && normSS >= normEE && normSS >= length1 && normSS >= length2)
                     {
                         newStart = line1.getStart();
                         newEnd = line2.getStart();
                     }
-                    else if(normSE > normSS && normSE > normES && normSE > normSE && normEE > length1 && normSE > length2)
+                    else if(normSE >= normSS && normSE >= normES && normSE >= normEE && normSE >= length1 && normSE >= length2)
                     {
                         newStart = line1.getStart();
                         newEnd = line2.getEnd();
                     }
-                    else if(normES > normSS && normES > normSE && normES > normEE && normES > length1 && normES > length2)
+                    else if(normES >= normSS && normES >= normSE && normES >= normEE && normES >= length1 && normES >= length2)
                     {
                         newStart = line1.getEnd();
                         newEnd = line2.getStart();
                     }
-                    else if(normEE > normSS && normEE > normSE && normEE > normES && normEE > length1 && normEE > length2)
+                    else if(normEE >= normSS && normEE >= normSE && normEE >= normES && normEE >= length1 && normEE >= length2)
                     {
                         newStart = line1.getEnd();
                         newEnd = line2.getEnd();
                     }
-                    else if(length1 > normSS && length1 > normSE && length1 > normES && length1 > normEE && length1 > length2)
+                    else if(length1 >= normSS && length1 >= normSE && length1 >= normES && length1 >= normEE && length1 >= length2)
                     {
                         newStart = line1.getStart();
                         newEnd = line1.getEnd();
                     }
-                    else if(length2 > normSS && length2 > normSE && length2 > normES && length2 > normEE && length2 > length1)
+                    else if(length2 >= normSS && length2 >= normSE && length2 >= normES && length2 >= normEE && length2 >= length1)
                     {
                         newStart = line2.getStart();
                         newEnd = line2.getEnd();
@@ -93,55 +98,7 @@ for(auto lineIter1 = lineList.begin(); lineIter1 != lineList.end(); ++lineIter1)
                     *lineIter1 = Line(newStart,newEnd);
                     // Erase now merged line2 (use lineIter2 - 1 so we do not break the for-loop increment)
                     lineIter2 = lineList.erase(lineIter2);
-                }
-
-                else if(SS.dot(ES) <= 0 || SE.dot(EE) <= 0)
-                {
-                    cv::Point2i newStart;
-                    cv::Point2i newEnd;
-
-                    double normSS = norm(SS);
-                    double normSE = norm(SE);
-                    double normES = norm(ES);
-                    double normEE = norm(EE);
-                    double length1 = line1.getLength();
-                    double length2 = line2.getLength();
-
-                    if(normSS > normSE && normSS > normES && normSS > normEE && normSS > length1 && normSS > length2)
-                    {
-                        newStart = line1.getStart();
-                        newEnd = line2.getStart();
-                    }
-                    else if(normSE > normSS && normSE > normES && normSE > normSE && normEE > length1 && normSE > length2)
-                    {
-                        newStart = line1.getStart();
-                        newEnd = line2.getEnd();
-                    }
-                    else if(normES > normSS && normES > normSE && normES > normEE && normES > length1 && normES > length2)
-                    {
-                        newStart = line1.getEnd();
-                        newEnd = line2.getStart();
-                    }
-                    else if(normEE > normSS && normEE > normSE && normEE > normES && normEE > length1 && normEE > length2)
-                    {
-                        newStart = line1.getEnd();
-                        newEnd = line2.getEnd();
-                    }
-                    else if(length1 > normSS && length1 > normSE && length1 > normES && length1 > normEE && length1 > length2)
-                    {
-                        newStart = line1.getStart();
-                        newEnd = line1.getEnd();
-                    }
-                    else if(length2 > normSS && length2 > normSE && length2 > normES && length2 > normEE && length2 > length1)
-                    {
-                        newStart = line2.getStart();
-                        newEnd = line2.getEnd();
-                    }
-
-                    // Replace line1 with new combined line
-                    *lineIter1 = Line(newStart,newEnd);
-                    // Erase now merged line2 (use lineIter2 - 1 so we do not break the for-loop increment)
-                    lineIter2 = lineList.erase(lineIter2);
+                    lineIter2--;
                 }
             }
         }
