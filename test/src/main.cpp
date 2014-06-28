@@ -8,6 +8,8 @@
 #include "linedetection/edl/edltest.h"
 #include "linedetection/edl2/edl2test.h"
 
+#include "linedetection/lineutilstest.h"
+
 #include "objectdetection/olga/objectgraphedgetest.h"
 #include "objectdetection/olga/objectgraphnodetest.h"
 #include "objectdetection/olga/objectgraphtest.h"
@@ -26,6 +28,8 @@ int main(int argc, char** argv) {
 
     LineTest lineTest;
     PointerCompareTest pointerCompareTest;
+
+    LineUtilsTest lineUtilsTest;
 
     EDLTest edlTest;
     EDL2Test edl2Test;
@@ -57,7 +61,8 @@ int main(int argc, char** argv) {
            | QTest::qExec(&haffTest, argc, argv)
            | QTest::qExec(&modelTest, argc, argv)
            | QTest::qExec(&objectTest, argc, argv)
-           | QTest::qExec(&databaseUtilsTest, argc, argv);
+           | QTest::qExec(&databaseUtilsTest, argc, argv)
+           | QTest::qExec(&lineUtilsTest, argc, argv);
 
     if(testsFailed)
         std::cerr << "Some tests failed. Fix them! ò.Ó" << std::endl;
