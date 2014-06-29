@@ -73,6 +73,9 @@ private slots:
 
     void on_statusUpdate(QString status);
 
+    void on_lineThicknessBox_valueChanged(int);
+    void on_objectLineThicknessBox_valueChanged(int);
+
 signals:
     void statusUpdate(QString statusString);
 

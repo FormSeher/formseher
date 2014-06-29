@@ -89,13 +89,17 @@ void AlgorithmControlWidget::updateResultImage()
 
 
     if(ui->showLinesCheckBox->isChecked())
-        {
-            for(auto line : latestResult.first)
-                cv::line(resultImage, line.getStart(), line.getEnd(), randomcolor(linecolor,linerandstate));
-        }
+    {
+        int lineThickness = ui->lineThicknessBox->value();
+
+        for(auto line : latestResult.first)
+            cv::line(resultImage, line.getStart(), line.getEnd(), randomcolor(linecolor,linerandstate), lineThickness);
+    }
 
     if(ui->showObjectsCheckBox->isChecked())
     {
+        int lineThickness = ui->objectLineThicknessBox->value();
+
         for(auto object : latestResult.second)
         {
             cv::Scalar color = randomcolor(objectcolor,objectrandstate);
@@ -107,7 +111,7 @@ void AlgorithmControlWidget::updateResultImage()
             // Draw name and rating
             std::string objectCaption =  object.getName() + " (" + QString::number(object.getRating()).toStdString() + "%)";
             cv::Point textPosition(object.getBoundingBox().x, object.getBoundingBox().y + object.getBoundingBox().height + 40);
-            cv::putText(resultImage, objectCaption, textPosition, 1, 4, color, 4);
+            cv::putText(resultImage, objectCaption, textPosition, 1, lineThickness, color, lineThickness);
         }
     }
 
@@ -489,5 +493,14 @@ void AlgorithmControlWidget::on_statusUpdate(QString status)
     ui->statusLabel->setText(QString("Status: ") + status);
 }
 
-} // namespace formseher
+void AlgorithmControlWidget::on_lineThicknessBox_valueChanged(int)
+{
+    updateResultImage();
+}
 
+void AlgorithmControlWidget::on_objectLineThicknessBox_valueChanged(int)
+{
+    updateResultImage();
+}
+
+} // namespace formseher
