@@ -2,10 +2,10 @@
 #include "ui_committodbdialog.h"
 
 commitToDBDialog::commitToDBDialog(formseher::Object obj, QString dbFile, QWidget *parent) :
-    obj(obj),
-    dbFile(dbFile),
     QDialog(parent),
-    ui(new Ui::commitToDBDialog)
+    ui(new Ui::commitToDBDialog),
+    obj(obj),
+    dbFile(dbFile)
 {
     ui->setupUi(this);
 
