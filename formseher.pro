@@ -9,7 +9,7 @@
 #-------------------------------------------------
 include(global.pri)
 TEMPLATE = subdirs
-SUBDIRS += algorithms app test
+SUBDIRS += algorithms app TeamBdbTool test
 CONFIG += ordered
 OTHER_FILES += .gitignore
 

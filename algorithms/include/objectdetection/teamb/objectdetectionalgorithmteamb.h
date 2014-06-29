@@ -11,22 +11,28 @@ typedef unsigned int uint;
 namespace formseher
 {
 
-class ObjectDetectionAlgorithmTeamB : public ObjectDetectionAlgorithm
-{
+    class ObjectDetectionAlgorithmTeamB : public ObjectDetectionAlgorithm
+    {
 
-public:
-    ObjectDetectionAlgorithmTeamB();
+    public:
 
-    std::vector<Object> calculate(std::vector<Line> lines) = 0;
+        ObjectDetectionAlgorithmTeamB(int minRating, double maxAngleThreshold, double maxDistanceThreshold, int midPointEnvironment, bool fastMode);
 
-private:
-    int databaseSize;
-    std::vector<Model> databaseObjects;
+        std::vector<Object> calculate(std::vector<Line> lines);
 
-    void getAllDatabaseObjects();
-    void rateObject(Object& consideredObject, Line lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine);
-    void getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>& foundObjects, std::string objectName);
+    private:
 
-};   //  namespace formseher
-}
+        double rateObject(Object& consideredObject, Line& lineToCheck, Model databaseObject, int currentLineNumber, float maxRatingPerLine);
+        void getBestRatedObject(std::vector<Object> unfinishedObjects, std::vector<Object>* foundObjects, std::string objectName);
+        double getLineLength(int x, int y);
+        double getAngleOfLines(cv::Point2i vectorCurrentPoint, cv::Point2i vectorCurrentPointLast);
+
+        int minRating = 60;
+        double maxAngleThreshold = 0.2;
+        double maxDistanceThreshold = 0.2;
+        int midPointEnvironment = 10;
+        bool fastMode = true;
+    };
+
+} //  namespace formseher
 #endif // OBJECTDETECTIONALGORITHMTEAMB_H

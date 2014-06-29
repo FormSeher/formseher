@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/Folder-Open-icon.png</file>
+        <file>icons/My-Documents-icon.png</file>
+        <file>icons/My-Pictures-icon.png</file>
+        <file>icons/Pen-icon.png</file>
+        <file>icons/database-add-icon.png</file>
+        <file>icons/database-arrow-down-icon.png</file>
+    </qresource>
+</RCC>

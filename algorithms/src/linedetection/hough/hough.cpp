@@ -273,7 +273,7 @@ void Hough::getCannyImage(cv::Mat& outputCannyImage, cv::Mat& inputGrayLevelImag
 {
     double cannyEdgePixelDensity;
     double edgePixelCounter=0;
-    int lowThreshValue = 60;
+    int lowThreshValue = 80;
     // pre preperation for auto parameter adjusting
     // if canny images is very dense then blur the picture and repeat canny
     do{
@@ -291,8 +291,8 @@ void Hough::getCannyImage(cv::Mat& outputCannyImage, cv::Mat& inputGrayLevelImag
         cannyEdgePixelDensity = (inputGrayLevelImage.rows * inputGrayLevelImage.cols) / edgePixelCounter;
 
         if(cannyEdgePixelDensity <= 15){
-            blur(inputGrayLevelImage,inputGrayLevelImage, Size(5,5), Point(-1,-1));
-            lowThreshValue += 20;
+            blur(inputGrayLevelImage,inputGrayLevelImage, Size(3,3), Point(-1,-1));
+//            lowThreshValue += 20;
             edgePixelCounter = 0;
         }
     }while(cannyEdgePixelDensity <= 15);

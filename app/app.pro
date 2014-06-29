@@ -33,7 +33,9 @@ SOURCES += \
         $${APP_SRC_DIR}/gui/objectdetection/stub/stubconfigdialog.cpp \
         # threading
         $${APP_SRC_DIR}/threading/algorithmcontroller.cpp \
-        $${APP_SRC_DIR}/threading/algorithmworker.cpp
+        $${APP_SRC_DIR}/threading/algorithmworker.cpp \
+        # teamb dialog
+        $${APP_SRC_DIR}/gui/objectdetection/teamb/objectdetectionalgorithmteambdialog.cpp
 
 HEADERS  += \
         $${APP_INCL_DIR}/videoinput.h \
@@ -51,7 +53,9 @@ HEADERS  += \
         $${APP_INCL_DIR}/gui/objectdetection/stub/stubconfigdialog.h \
         # threading
         $${APP_INCL_DIR}/threading/algorithmcontroller.hpp \
-        $${APP_INCL_DIR}/threading/algorithmworker.h
+        $${APP_INCL_DIR}/threading/algorithmworker.h \
+        # teamb dialog
+        $${APP_INCL_DIR}/gui/objectdetection/teamb/objectdetectionalgorithmteambdialog.h
 
 FORMS    += \
         # common forms
@@ -60,7 +64,8 @@ FORMS    += \
         # linedetection forms
         $${APP_FORM_DIR}/edl/edlconfigdialog.ui \
         $${APP_FORM_DIR}/edl2/edl2configdialog.ui \
-        $${APP_FORM_DIR}/hough/houghconfigdialog.ui
+        $${APP_FORM_DIR}/hough/houghconfigdialog.ui \
+        $${APP_FORM_DIR}/teamb/objectdetectionalgorithmteambdialog.ui
 
 INCLUDEPATH += $${APP_INCL_DIR}\
              $${ALG_INCL_DIR}
@@ -84,3 +89,5 @@ LIBS += -llibopencv_core248 -llibopencv_imgproc248 -llibopencv_highgui248
 unix{
 LIBS += -lopencv_core -lopencv_imgproc -lopencv_highgui
 }
+
+OTHER_FILES +=

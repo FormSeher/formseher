@@ -60,6 +60,8 @@ private:
     cv::Point2i boundingBoxCorners[2];
 
     std::string name;
+
+protected:
     std::vector<const Line*> lines;
 };
 

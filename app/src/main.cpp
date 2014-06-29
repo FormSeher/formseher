@@ -10,6 +10,8 @@
 
 #include "gui/objectdetection/stub/stubconfigdialog.h"
 
+#include "gui/objectdetection/teamb/objectdetectionalgorithmteambdialog.h"
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -26,6 +28,9 @@ int main(int argc, char *argv[])
     formseher::StubConfigDialog stubDialog1;
     formseher::StubConfigDialog stubDialog2;
 
+    formseher::ObjectDetectionAlgorithmTeamBDialog objDetTeambDialog1;
+    formseher::ObjectDetectionAlgorithmTeamBDialog objDetTeambDialog2;
+
     formseher::MainWindow w;
 
     w.registerLineAlgorithmConfigDialog(1, "EDL2", static_cast<formseher::LineDetectionAlgorithmConfigDialog*>(&edl2Dialog1));
@@ -37,6 +42,9 @@ int main(int argc, char *argv[])
 
     w.registerObjectAlgorithmConfigDialog(1, "Stub", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&stubDialog1));
     w.registerObjectAlgorithmConfigDialog(2, "Stub", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&stubDialog2));
+
+    w.registerObjectAlgorithmConfigDialog(1, "ObjDetTeamB", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&objDetTeambDialog1));
+    w.registerObjectAlgorithmConfigDialog(2, "ObjDetTeamB", static_cast<formseher::ObjectDetectionAlgorithmConfigDialog*>(&objDetTeambDialog2));
 
     w.show();
 

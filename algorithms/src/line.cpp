@@ -52,6 +52,15 @@ double Line::getLength() const
     return length;
 }
 
+void Line::switchStartAndEnd()
+{
+    cv::Point2i newEnd = start;
+    start = end;
+    end = newEnd;
+
+    directionVector[0] = -directionVector[0];
+    directionVector[1] = -directionVector[1];
+}
 
 double Line::getPerpendicularDistanceToOrigin()
 {
