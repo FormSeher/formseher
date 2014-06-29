@@ -110,7 +110,7 @@ void AlgorithmControlWidget::updateResultImage()
                 cv::line(resultImage, line->getStart(), line->getEnd(), color);
             // Draw name and rating
             std::string objectCaption =  object.getName() + " (" + QString::number(object.getRating()).toStdString() + "%)";
-            cv::Point textPosition(object.getBoundingBox().x, object.getBoundingBox().y + object.getBoundingBox().height + 40);
+            cv::Point textPosition(object.getBoundingBox().x, object.getBoundingBox().y + object.getBoundingBox().height - 40);
             cv::putText(resultImage, objectCaption, textPosition, 1, lineThickness, color, lineThickness);
         }
     }
