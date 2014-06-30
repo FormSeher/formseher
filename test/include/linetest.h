@@ -36,6 +36,7 @@ private slots:
         QVERIFY(4 == line.getEnd().y);
     }
 
+
     void positionVectorTest()
     {
         Line line(1, 2, 3, 4);
@@ -69,6 +70,18 @@ private slots:
         Line line3(3, 7, 0, 10);
         QVERIFY ( 5 == line3.getPerpendicularPoint().x );
         QVERIFY ( 5 == line3.getPerpendicularPoint().y );
+    }
+
+    void centerPointTest()
+    {
+        Line line1(0, 0, 2, 2);
+        QCOMPARE(line1.getCenterPoint(), cv::Point2d(1, 1));
+
+        Line line2(-1, 1, 1, -1);
+        QCOMPARE(line2.getCenterPoint(), cv::Point2d(0, 0));
+
+        Line line3(1, 1, 4, 1);
+        QCOMPARE(line3.getCenterPoint(), cv::Point2d(2.5, 1));
     }
 
     void getPerpendicularDistanceToOriginTest()

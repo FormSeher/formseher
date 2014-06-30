@@ -23,6 +23,12 @@ Model::~Model()
 
 Model& Model::operator=(const Model& rhs)
 {
+    // Clear the lines
+    for(const Line* line : lines)
+        delete line;
+    lines.clear();
+
+    // Copy from rhs
     copy(rhs);
     return *this;
 }

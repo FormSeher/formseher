@@ -31,6 +31,7 @@ SOURCES += \
         $${APP_SRC_DIR}/gui/objectdetection/objectdetectionalgorithmconfigdialog.cpp \
         $${APP_SRC_DIR}/gui/objectdetection/olga/objectgraphvisualizer.cpp \
         $${APP_SRC_DIR}/gui/objectdetection/stub/stubconfigdialog.cpp \
+        $${APP_SRC_DIR}/gui/objectdetection/haff/haffconfigdialog.cpp \
         # threading
         $${APP_SRC_DIR}/threading/algorithmcontroller.cpp \
         $${APP_SRC_DIR}/threading/algorithmworker.cpp \
@@ -51,6 +52,7 @@ HEADERS  += \
         $${APP_INCL_DIR}/gui/objectdetection/objectdetectionalgorithmconfigdialog.h \
         $${APP_INCL_DIR}/gui/objectdetection/olga/objectgraphvisualizer.h \
         $${APP_INCL_DIR}/gui/objectdetection/stub/stubconfigdialog.h \
+        $${APP_INCL_DIR}/gui/objectdetection/haff/haffconfigdialog.h \
         # threading
         $${APP_INCL_DIR}/threading/algorithmcontroller.hpp \
         $${APP_INCL_DIR}/threading/algorithmworker.h \
@@ -65,7 +67,9 @@ FORMS    += \
         $${APP_FORM_DIR}/edl/edlconfigdialog.ui \
         $${APP_FORM_DIR}/edl2/edl2configdialog.ui \
         $${APP_FORM_DIR}/hough/houghconfigdialog.ui \
-        $${APP_FORM_DIR}/teamb/objectdetectionalgorithmteambdialog.ui
+        # objectdetection forms
+        $${APP_FORM_DIR}/teamb/objectdetectionalgorithmteambdialog.ui \
+        $${APP_FORM_DIR}/objectdetection/haff/haffconfigdialog.ui
 
 INCLUDEPATH += $${APP_INCL_DIR}\
              $${ALG_INCL_DIR}

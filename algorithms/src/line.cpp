@@ -16,6 +16,10 @@ Line::Line(int x1, int y1, int x2, int y2)
 
     //Normalize line to length 1
     directionVector = cv::normalize(directionVector);
+
+    // Calculate center point
+    centerPoint.x = (x1 + x2) / 2.0;
+    centerPoint.y = (y1 + y2) / 2.0;
 }
 
 Line::Line(const cv::Point2i& start, const cv::Point2i& end)
@@ -86,12 +90,17 @@ double Line::getPerpendicularDistanceToEnd()
     return perpendicularDistanceToEnd;
 }
 
-const cv::Point2i& Line::getPerpendicularPoint()
+const cv::Point2i& Line::getPerpendicularPoint() const
 {
     if( ! perpendicularAlreadyDone )
-        calculatePerpendicular();
+        ((Line*)this)->calculatePerpendicular();
 
     return perpendicularPoint;
+}
+
+const cv::Point2d &Line::getCenterPoint() const
+{
+    return centerPoint;
 }
 
 void Line::setPerpendicular(double perpendicularDistance, cv::Point2i& perpendicularPoint)
@@ -120,6 +129,13 @@ void Line::calculatePerpendicular()
 
     perpendicularAlreadyDone = true;
 }
+
+bool Line::operator==(const Line& line) const
+{
+    return (this->start == line.getStart() && this->end == line.getEnd()) ||
+           (this->start == line.getEnd() && this->end == line.getStart()) ;
+}
+
 
 } // namespace formseher
 

@@ -21,6 +21,7 @@ HEADERS += $${TEST_INCL_DIR}/linetest.h \
            $${TEST_INCL_DIR}/pointercomparetest.h \
            $${TEST_INCL_DIR}/linedetection/edl/edltest.h \
            $${TEST_INCL_DIR}/linedetection/edl2/edl2test.h \
+           $${TEST_INCL_DIR}/linedetection/lineutilstest.h \
            $${TEST_INCL_DIR}/objectdetection/olga/objectgraphedgetest.h \
            $${TEST_INCL_DIR}/objectdetection/olga/objectgraphtest.h \
            $${TEST_INCL_DIR}/objectdetection/olga/objectgraphnodetest.h \
@@ -29,7 +30,8 @@ HEADERS += $${TEST_INCL_DIR}/linetest.h \
            $${TEST_INCL_DIR}/objectdetection/modeltest.h \
            $${TEST_INCL_DIR}/objectdetection/objecttest.h \
            $${TEST_INCL_DIR}/objectdetection/databaseutilstest.h \
-           $${TEST_INCL_DIR}/objectdetection/teamb/objectdetectionteambtest.h
+           $${TEST_INCL_DIR}/objectdetection/teamb/objectdetectionteambtest.h \
+           $${TEST_INCL_DIR}/objectdetection/haff/hafftest.h
 
 OTHER_FILES += $${TEST_INCL_DIR}/../../res/test/hafftestdatabase
 

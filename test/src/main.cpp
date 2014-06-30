@@ -1,10 +1,14 @@
 #include <QtTest>
 
+#include <iostream>
+
 #include "linetest.h"
 #include "pointercomparetest.h"
 
 #include "linedetection/edl/edltest.h"
 #include "linedetection/edl2/edl2test.h"
+
+#include "linedetection/lineutilstest.h"
 
 #include "objectdetection/olga/objectgraphedgetest.h"
 #include "objectdetection/olga/objectgraphnodetest.h"
@@ -15,6 +19,7 @@
 
 #include "objectdetection/haff/haffdatabasetest.h"
 #include "objectdetection/haff/hypothesistest.h"
+#include "objectdetection/haff/hafftest.h"
 
 #include "objectdetection/databaseutilstest.h"
 
@@ -25,6 +30,8 @@ int main(int argc, char** argv) {
 
     LineTest lineTest;
     PointerCompareTest pointerCompareTest;
+
+    LineUtilsTest lineUtilsTest;
 
     EDLTest edlTest;
     EDL2Test edl2Test;
@@ -38,12 +45,14 @@ int main(int argc, char** argv) {
 
     HaffDatabaseTest haffDatabaseTest;
     HypothesisTest hypothesisTest;
+    HaffTest haffTest;
 
     DatabaseUtilsTest databaseUtilsTest;
 
     ObjectDetectionTeamBTest objectDetectionTeamBTest;
 
-    return   QTest::qExec(&lineTest, argc, argv)
+    bool testsFailed =
+             QTest::qExec(&lineTest, argc, argv)
            | QTest::qExec(&pointerCompareTest, argc, argv)
            | QTest::qExec(&edlTest, argc, argv)
            | QTest::qExec(&edl2Test, argc, argv)
@@ -53,8 +62,17 @@ int main(int argc, char** argv) {
            | QTest::qExec(&objectTest, argc, argv)
            | QTest::qExec(&haffDatabaseTest, argc, argv)
            | QTest::qExec(&hypothesisTest, argc, argv)
+           | QTest::qExec(&haffTest, argc, argv)
            | QTest::qExec(&modelTest, argc, argv)
            | QTest::qExec(&objectTest, argc, argv)
            | QTest::qExec(&databaseUtilsTest, argc, argv)
-           | QTest::qExec(&objectDetectionTeamBTest, argc, argv);
+           | QTest::qExec(&objectDetectionTeamBTest, argc, argv)
+           | QTest::qExec(&lineUtilsTest, argc, argv);
+
+    if(testsFailed)
+        std::cerr << "Some tests failed. Fix them! ò.Ó" << std::endl;
+    else
+        std::cout << "All tests successful." << std::endl;
+
+    return testsFailed;
 }

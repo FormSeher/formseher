@@ -17,7 +17,8 @@ public:
 
     const cv::Point2i& getStart() const;
     const cv::Point2i& getEnd() const;
-    const cv::Point2i& getPerpendicularPoint();
+    const cv::Point2i& getPerpendicularPoint() const;
+    const cv::Point2d& getCenterPoint() const;
 
     const cv::Vec2i getPositionVector() const;
     const cv::Vec2d &getDirectionVector() const;
@@ -27,6 +28,7 @@ public:
     double getPerpendicularDistanceToStart();
     double getPerpendicularDistanceToEnd();
 
+    bool operator==(const Line& line) const;
 
     void setPerpendicular(double perpendicularDistanceToOrigin, cv::Point2i& perpendicularPoint);
 
@@ -36,6 +38,7 @@ private:
     cv::Point2i start;
     cv::Point2i end;
     cv::Point2i perpendicularPoint;
+    cv::Point2d centerPoint;
 
     cv::Vec2d directionVector;
 
