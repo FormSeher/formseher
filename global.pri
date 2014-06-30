@@ -7,24 +7,31 @@ QMAKE_CXXFLAGS_DEBUG += -O0
 ROOT_DIR = $$PWD
 ALG_DIR = $${ROOT_DIR}/algorithms
 APP_DIR = $${ROOT_DIR}/app
+HDB_DIR = $${ROOT_DIR}/haffdbtool
 TEST_DIR = $${ROOT_DIR}/test
 
 #src directories
 SRC_DIR = $${ROOT_DIR}/src
 ALG_SRC_DIR = $${ALG_DIR}/src
 APP_SRC_DIR = $${APP_DIR}/src
+HDB_SRC_DIR = $${HDB_DIR}/src
 TEST_SRC_DIR = $${TEST_DIR}/src
 
 #include directories for headers
 ALG_INCL_DIR = $${ALG_DIR}/include
 APP_INCL_DIR = $${APP_DIR}/include
+HDB_INCL_DIR = $${HDB_DIR}/include
 TEST_INCL_DIR = $${TEST_DIR}/include
 
 # output path for algorithms library
 ALG_BIN_DIR = $${ALG_DIR}/lib
 
-#form dir directories
+# form dir directories
 APP_FORM_DIR = $${APP_DIR}/form
+HDB_FORM_DIR = $${HDB_DIR}/form
+
+# resource directories
+HDB_RES_DIR = $${HDB_DIR}/res
 
 #build directories
 #BUILD_DIR = $${ROOT_DIR}/build
