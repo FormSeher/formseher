@@ -1,6 +1,7 @@
 #include "threading/algorithmworker.h"
 
 #include "linedetection/linedetectionalgorithm.h"
+#include "linedetection/lineutils.h"
 #include "objectdetection/objectdetectionalgorithm.h"
 
 #include "line.h"
@@ -28,6 +29,9 @@ void AlgorithmWorker::run()
 {
     if(lineAlgorithm)
         result.first = lineAlgorithm->calculate(image);
+
+    LineUtils::combineLines(result.first);
+
     if(objectAlgorithm)
         result.second = objectAlgorithm->calculate(result.first);
     emit resultReady();

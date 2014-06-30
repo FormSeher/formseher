@@ -15,7 +15,7 @@ public:
      * @param lineList Lines from linedetection algorithm.
      * @return Vector that contains just the combined lines.
      */
-    static std::vector<Line> combineLines(std::vector<Line> lineList);
+    static void combineLines(std::vector<Line>& lineList);
 };
 
 } // namesspace formseher
