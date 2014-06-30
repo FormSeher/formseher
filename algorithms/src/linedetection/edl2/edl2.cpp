@@ -367,10 +367,10 @@ bool EDL2::isOutOfBounds(cv::Point &point)
     return isOutOfBounds(point.x, point.y);
 }
 
-bool EDL2::isOutOfBounds(int x, int y)
+bool EDL2::isOutOfBounds(int row, int col)
 {
-    return (x < 0) || (x > gradientMagnitudes.rows)
-            || (y < 0) || (y > gradientMagnitudes.cols);
+    return (col < 0) || (col > gradientMagnitudes.cols)
+            || (row < 0) || (row > gradientMagnitudes.rows);
 }
 
 cv::Vec2s EDL2::getSobelVector(cv::Point &point)

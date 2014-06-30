@@ -136,12 +136,10 @@ private slots:
         // Points which should be found
 
         cv::Point a1 = cv::Point(1, 1);
-        cv::Point a2 = cv::Point(3, 1);
 
         // check the found anchors
 
         QVERIFY(a1 == anchors[0]);
-        QVERIFY(a2 == anchors[1]);
      }
 
     void getOrientationTest()
@@ -317,16 +315,16 @@ private slots:
         QVERIFY(false == edl->isOutOfBounds(2,2 ));
 
         point = cv::Point(2, 3);
-        QVERIFY(true == edl->isOutOfBounds(point));
-        QVERIFY(true == edl->isOutOfBounds(2, 3));
+        QVERIFY(false == edl->isOutOfBounds(point));
+        QVERIFY(false == edl->isOutOfBounds(2, 3));
 
         point = cv::Point(3, 2);
-        QVERIFY(false == edl->isOutOfBounds(point));
-        QVERIFY(false == edl->isOutOfBounds(3, 2));
+        QVERIFY(true == edl->isOutOfBounds(point));
+        QVERIFY(true == edl->isOutOfBounds(3, 2));
 
         point= cv::Point(1, -1);
         QVERIFY(true == edl->isOutOfBounds(point));
-        QVERIFY(true == edl->isOutOfBounds(1, -1));
+        QVERIFY(true == edl->isOutOfBounds(1,-1));
     }
 
     void getSobelVectorTest()

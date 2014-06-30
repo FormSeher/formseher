@@ -95,7 +95,7 @@ private:
     * @return bool value
     */
 
-    bool isOutOfBounds(int x, int y);
+    bool isOutOfBounds(int row, int col);
 
     /**
     * @brief helper method to get the the vector from the sobel image
