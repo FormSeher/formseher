@@ -14,8 +14,6 @@ DESTDIR = $${ALG_BIN_DIR}
 
 DEFINES += ALGORITHMS_LIBRARY
 
-QMAKE_CXXFLAGS += -Wconversion
-
 SOURCES += \
     # common
     $${ALG_SRC_DIR}/picprepare.cpp \
