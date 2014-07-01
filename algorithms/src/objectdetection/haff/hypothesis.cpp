@@ -159,14 +159,14 @@ void Hypothesis::calculatePositionRating()
 
 void Hypothesis::calculateScale()
 {
-    double scale = 0;
-
-    std::pair<cv::Point2d, cv::Point2d> centers = calculateCenters();
-
     if(lineMatchMap.size() == 1){
         this->scaleFactor = (*lineMatchMap.begin()).first->getLength() / (*lineMatchMap.begin()).second->getLength();
         return;
     }
+
+    double scale = 0;
+
+    std::pair<cv::Point2d, cv::Point2d> centers = calculateCenters();
 
     for(auto lineMatch : lineMatchMap)
     {
