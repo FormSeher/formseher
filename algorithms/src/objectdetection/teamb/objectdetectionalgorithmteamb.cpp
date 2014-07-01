@@ -216,15 +216,15 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line&
         }
 
         // check length of currLine/lastLine compared to db lines
-        if((lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) > -distanceThreshold2 &&
-                (lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) < distanceThreshold2)
+        if((lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) > -distanceThreshold2/5 &&
+                (lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) < distanceThreshold2/5)
         {
-            lengthAndPosiRating += tenPointRating ;
+            lengthAndPosiRating += tenPointRating * 2;
 
-            if((lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) > -distanceThreshold3 &&
-                    (lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) < distanceThreshold3)
+            if((lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) > -distanceThreshold3/5 &&
+                    (lengthDbCurrentLine / lengthDbLineLast) - (lengthCurrentLine / lengthCurrentLineLast) < distanceThreshold3/5)
             {
-                lengthAndPosiRating += tenPointRating * 2;
+                lengthAndPosiRating += tenPointRating*2;
             }
         }
 
@@ -246,15 +246,15 @@ double ObjectDetectionAlgorithmTeamB::rateObject(Object& consideredObject, Line&
 
     if((relPosAngleVal <= angleThreshold3 && relPosAngleVal >= -angleThreshold3) || (relNegAngleVal <= angleThreshold3 && relNegAngleVal >= -angleThreshold3))
     {
-        angleRating = tenPointRating * 3;
+        angleRating = tenPointRating ;
 
        if((relPosAngleVal <= angleThreshold2 && relPosAngleVal >= -angleThreshold2) || (relNegAngleVal <= angleThreshold2 && relNegAngleVal >= -angleThreshold2))
         {
-             angleRating = tenPointRating * 4;
+             angleRating = tenPointRating * 2;
 
              if((relPosAngleVal <= angleThreshold1 && relPosAngleVal >= -angleThreshold1) || (relNegAngleVal <= angleThreshold1 && relNegAngleVal >= -angleThreshold1))
              {
-                 angleRating = tenPointRating * 5;
+                 angleRating = tenPointRating * 3;
              }
         }
     }
@@ -348,7 +348,6 @@ void ObjectDetectionAlgorithmTeamB::getBestRatedObject(std::vector<Object> unfin
 
 std::vector<Object> ObjectDetectionAlgorithmTeamB::calculate(std::vector<Line> lines){
 
-    std::cout << "object detection teamB started..." << std::endl;
     std::vector<Object> foundObjects;
     std::vector<Object> newUnfinishedObjects;
     std::vector<Object> unfinishedObjects;
