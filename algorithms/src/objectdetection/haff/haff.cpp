@@ -149,12 +149,12 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
 void Haff::symmetricReplacement(std::vector<Object>& detectedObjects, Object& object)
 {
     // Environment is 2^environmentExponent. 2^x can be better optimized with shifting.
-    short environmentExponent = 3;
+    short environmentExponent = 4;
 
     cv::Rect objectBoundingBox = object.getBoundingBox();
     cv::Point2i objectCenter;
     objectCenter.x = (objectBoundingBox.x + ( objectBoundingBox.width >> 1)) >> environmentExponent;
-    objectCenter.y = (objectBoundingBox.y + ( objectBoundingBox.width >> 1)) >> environmentExponent;
+    objectCenter.y = (objectBoundingBox.y + ( objectBoundingBox.height >> 1)) >> environmentExponent;
 
     // Check if there is an object with the same Center (in the environment range).
     // If there is, then compare the ratings. If it's lower than discard the object otherwise replace the saved object.
@@ -163,7 +163,7 @@ void Haff::symmetricReplacement(std::vector<Object>& detectedObjects, Object& ob
         cv::Rect detectedBoundingBox = detectedObjects.at(counter).getBoundingBox();
         cv::Point2i detectedCenter;
         detectedCenter.x = (detectedBoundingBox.x + ( detectedBoundingBox.width >> 1)) >> environmentExponent;
-        detectedCenter.y = (detectedBoundingBox.y + ( detectedBoundingBox.width >> 1)) >> environmentExponent;
+        detectedCenter.y = (detectedBoundingBox.y + ( detectedBoundingBox.height >> 1)) >> environmentExponent;
 
         if(objectCenter == detectedCenter)
         {
