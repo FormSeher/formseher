@@ -59,14 +59,7 @@ void Hypothesis::addLineMatch(const Line* pictureLine, const Line* databaseLine)
 
 bool Hypothesis::operator<(const Hypothesis& hypo) const
 {
-	double ownRating = getRating();
-	double foreignRating = hypo.getRating();
-	
-    if(ownRating < foreignRating)
-	{
-		return true;
-	}
-    else return false;
+    return ( getRating() < hypo.getRating() );
 }
 
 void Hypothesis::calculateAngleRating()
