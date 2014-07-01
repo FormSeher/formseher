@@ -91,7 +91,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             oldHypotheses->clear();
 
             // Delete hypotheses no longer needed (number of hypotheses to delete == deletionCounter)
-            size_t deletionCounter = newHypotheses->size() - numberOfBestHypotheses;
+            int deletionCounter = newHypotheses->size() - numberOfBestHypotheses;
             auto itr = newHypotheses->begin();
 
             for(; deletionCounter > 0; --deletionCounter)
