@@ -165,6 +165,7 @@ void Haff::symmetricReplacement(std::vector<Object>& detectedObjects, Object& ob
         detectedCenter.x = (detectedBoundingBox.x + ( detectedBoundingBox.width >> 1)) >> environmentExponent;
         detectedCenter.y = (detectedBoundingBox.y + ( detectedBoundingBox.height >> 1)) >> environmentExponent;
 
+        // Supress objects with same center point
         if(objectCenter == detectedCenter)
         {
             if( object.getRating() >= detectedObjects.at(counter).getRating() )
@@ -175,7 +176,28 @@ void Haff::symmetricReplacement(std::vector<Object>& detectedObjects, Object& ob
             else
                 return;
         }
+        // Supress objects that would use the same lines.
+        else
+        {
+            for( const Line* detectedObjectLine : detectedObjects.at(counter).getLines())
+            {
+                for( const Line* objectLine : object.getLines() )
+                {
+                    if( detectedObjectLine == objectLine )
+                    {
+                        if( object.getRating() >= detectedObjects.at(counter).getRating() )
+                        {
+                            detectedObjects.at(counter) = object;
+                            return;
+                        }
+                        else
+                            return;
+                    }
+                }
+            }
+        }
     }
+
     detectedObjects.push_back(object);
 }
 
