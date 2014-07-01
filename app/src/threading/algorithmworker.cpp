@@ -28,9 +28,10 @@ AlgorithmWorker::~AlgorithmWorker()
 void AlgorithmWorker::run()
 {
     if(lineAlgorithm)
+    {
         result.first = lineAlgorithm->calculate(image);
-
-    LineUtils::combineLines(result.first);
+        LineUtils::combineLines(result.first);
+    }
 
     if(objectAlgorithm)
         result.second = objectAlgorithm->calculate(result.first);
