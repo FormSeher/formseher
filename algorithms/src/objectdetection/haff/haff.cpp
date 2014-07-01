@@ -61,8 +61,10 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             {
                 Line* detectedLine = &(*detectedLinesIter);
 
-                for(auto oldHypothesis : *oldHypotheses)
+                for(auto oldHypothesisIter = oldHypotheses->begin(); oldHypothesisIter != oldHypotheses->end(); ++oldHypothesisIter)
                 {
+                    Hypothesis* oldHypothesis = *oldHypothesisIter;
+
                     if ( ! oldHypothesis->containsLine( detectedLine ) )
                     {
                         if( *detectedLine == detectedLines.at(0) )
