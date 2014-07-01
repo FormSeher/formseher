@@ -176,6 +176,22 @@ void Haff::symmetricReplacement(std::vector<Object>& detectedObjects, Object& ob
             else
                 return;
         }
+
+        // Supress objects whose bounding boxes intersect
+        if( objectBoundingBox.x < (detectedBoundingBox.x + detectedBoundingBox.width)
+         && (objectBoundingBox.x + detectedBoundingBox.width) > detectedBoundingBox.x
+         && objectBoundingBox.y < (detectedBoundingBox.y + detectedBoundingBox.height)
+         && (objectBoundingBox.y + detectedBoundingBox.height) > detectedBoundingBox.y)
+        {
+            if( object.getRating() >= detectedObjects.at(counter).getRating() )
+            {
+                detectedObjects.at(counter) = object;
+                return;
+            }
+            else
+                return;
+        }
+
         // Supress objects that would use the same lines.
         else
         {
