@@ -17,8 +17,6 @@
 #include "objectdetection/object.h"
 #include "objectdetection/databaseutils.h"
 
-#include "windows.h"
-
 namespace formseher
 {
 
@@ -114,8 +112,6 @@ void AlgorithmControlWidget::updateResultImage()
             std::string objectCaption =  object.getName() + " (" + QString::number(object.getRating()).toStdString() + "%)";
             cv::Point textPosition(object.getBoundingBox().x, object.getBoundingBox().y + object.getBoundingBox().height - 40);
             cv::putText(resultImage, objectCaption, textPosition, 1, 2, color, 2);
-            if(ui->webcamRadioButton->isChecked())
-                Sleep(1000);
         }
     }
 
