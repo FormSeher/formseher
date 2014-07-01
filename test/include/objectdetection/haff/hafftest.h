@@ -77,20 +77,20 @@ private slots:
 
         QCOMPARE(objects.size(), (size_t)1);
 
-        haff.symmetricReplacement(objects, object1);
+        haff.suppressedInsertion(objects, object1);
 
         QCOMPARE(objects.size(), (size_t) 1);
         QCOMPARE(objects.at(0).getName(), (std::string)"Object 1");
 
-        haff.symmetricReplacement(objects, object2);
+        haff.suppressedInsertion(objects, object2);
         QCOMPARE(objects.size(), (size_t) 1);
         QCOMPARE(objects.at(0).getName(), (std::string)"Object 2");
 
-        haff.symmetricReplacement(objects, object1);
+        haff.suppressedInsertion(objects, object1);
         QCOMPARE(objects.size(), (size_t) 1);
         QCOMPARE(objects.at(0).getName(), (std::string)"Object 2");
 
-        haff.symmetricReplacement(objects, object3);
+        haff.suppressedInsertion(objects, object3);
         QCOMPARE(objects.size(), (size_t) 2);
         QCOMPARE(objects.at(1).getName(), (std::string)"Object 3");
     }

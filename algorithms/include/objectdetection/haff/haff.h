@@ -26,7 +26,7 @@ private:
     double angleWeight;
     double positionWeight;
 
-    void symmetricReplacement(std::vector<Object> &detectedObjects, Object &object);
+    void suppressedInsertion(std::vector<Object> &detectedObjects, Object &object);
 };
 }   //  namespace formseher
 

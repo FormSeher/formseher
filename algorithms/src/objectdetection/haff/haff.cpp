@@ -136,7 +136,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
             tmp.addLine(*lineMatch.first);
         }
 
-        symmetricReplacement(detectedObjects, tmp);
+        suppressedInsertion(detectedObjects, tmp);
 
         // Delete hypothesis
         delete *itr;
@@ -146,7 +146,7 @@ std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
     return detectedObjects;
 }
 
-void Haff::symmetricReplacement(std::vector<Object>& detectedObjects, Object& object)
+void Haff::suppressedInsertion(std::vector<Object>& detectedObjects, Object& object)
 {
     // Environment is 2^environmentExponent. 2^x can be better optimized with shifting.
     short environmentExponent = 4;
