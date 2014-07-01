@@ -104,14 +104,14 @@ void AlgorithmControlWidget::updateResultImage()
         {
             cv::Scalar color = randomcolor(objectcolor,objectrandstate);
             // Draw bounding box
-            cv::rectangle(resultImage,object.getBoundingBox(), color);
+            cv::rectangle(resultImage,object.getBoundingBox(), color, lineThickness);
             // Draw lines of object
             for(auto line : object.getLines())
-                cv::line(resultImage, line->getStart(), line->getEnd(), color);
+                cv::line(resultImage, line->getStart(), line->getEnd(), color, lineThickness);
             // Draw name and rating
             std::string objectCaption =  object.getName() + " (" + QString::number(object.getRating()).toStdString() + "%)";
             cv::Point textPosition(object.getBoundingBox().x, object.getBoundingBox().y + object.getBoundingBox().height - 40);
-            cv::putText(resultImage, objectCaption, textPosition, 1, lineThickness, color, lineThickness);
+            cv::putText(resultImage, objectCaption, textPosition, 1, 2, color, 2);
         }
     }
 
