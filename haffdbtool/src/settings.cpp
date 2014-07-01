@@ -4,6 +4,7 @@
 
 // Formseher project
 #include "linedetection/edl/edl.h"
+#include "linedetection/edl2/edl2.h"
 #include "linedetection/hough/hough.h"
 #include "linedetection/linedetectionalgorithm.h"
 
@@ -15,6 +16,7 @@ Settings::Settings(QWidget *parent) :
 
     ui->comboBoxAlgorithm->addItem("Hough");
     ui->comboBoxAlgorithm->addItem("EDL");
+    ui->comboBoxAlgorithm->addItem("EDL2");
 
     this->setWindowTitle("Settings");
 
@@ -41,6 +43,10 @@ void Settings::slot_settingsChanged()
     else if(ui->comboBoxAlgorithm->currentText() == "EDL")
     {
         algorithm = new formseher::EDL();
+    }
+    else if(ui->comboBoxAlgorithm->currentText() == "EDL2")
+    {
+        algorithm = new formseher::EDL2();
     }
 
     emit signal_newSettings(algorithm, ui->widgetColorChooser->getColors(), ui->spinBoxThickness->value());
