@@ -20,6 +20,9 @@ Haff::Haff(int numberOfBestHypotheses, int numberOfDetectedObjects,
 
 std::vector<Object> Haff::calculate(std::vector<Line> detectedLines)
 {
+    if(detectedLines.size() < 5)
+        return std::vector<Object>();
+
     std::multiset<Hypothesis*, PointerCompare<Hypothesis>> hypothesesVector1;
     std::multiset<Hypothesis*, PointerCompare<Hypothesis>> hypothesesVector2;
     auto oldHypotheses = &hypothesesVector1;
