@@ -22,12 +22,12 @@ class LineDetectionAlgorithm
 {
 public:
     /**
-     * @brief Standard ctor
+     * @brief Standard ctor.
      */
     LineDetectionAlgorithm();
 
     /**
-     * @brief Standard dtor
+     * @brief Standard dtor.
      */
     virtual ~LineDetectionAlgorithm();
 

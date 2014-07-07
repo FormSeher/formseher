@@ -136,6 +136,9 @@ private:
      */
     const double coverWeight;
 
+    /**
+     * @brief Factor with witch the positionRating is weighted.
+     */
     const double positionWeight;
 
     /**

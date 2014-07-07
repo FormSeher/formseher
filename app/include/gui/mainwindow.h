@@ -23,10 +23,33 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    /**
+     * @brief MainWindow standard constructor.
+     * @param parent Parent widget.
+     */
     explicit MainWindow(QWidget *parent = 0);
+
+    /**
+     * MainWindow destructor.
+     */
     ~MainWindow();
 
+    /**
+     * @brief Registers a LineDetectionAlgorithmConfigDialog.
+     * @param slot Specify if dialog is assigned to left (0) or right (1) AlgorithmControlWidget.
+     * @param id Id of the config dialog.
+     * @param dialog Pointer to dialog instance.
+     * @return Return if registration was successful.
+     */
     bool registerLineAlgorithmConfigDialog(int slot, std::string id, LineDetectionAlgorithmConfigDialog* dialog);
+
+    /**
+     * @brief Registers a ObjectDetectionAlgorithmConfigDialog.
+     * @param slot Specify if dialog is assigned to left (0) or right (1) AlgorithmControlWidget.
+     * @param id Id of the config dialog.
+     * @param dialog Pointer to dialog instance.
+     * @return Return if registration was successful.
+     */
     bool registerObjectAlgorithmConfigDialog(int slot, std::string id, ObjectDetectionAlgorithmConfigDialog* dialog);
 
 private:

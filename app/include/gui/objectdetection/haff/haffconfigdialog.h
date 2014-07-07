@@ -14,14 +14,27 @@ namespace formseher
 
 class ObjectDetectionAlgorithm;
 
+/**
+ * @brief The HaffConfigDialog class used to create Haff instances.
+ */
 class HaffConfigDialog : public ObjectDetectionAlgorithmConfigDialog
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief HaffConfigDialog constructor.
+     * @param parent Pointer to parent widget.
+     */
     explicit HaffConfigDialog(QWidget *parent = 0);
+
+    /**
+     * HaffConfigDialog destructor.
+     */
     ~HaffConfigDialog();
 
+    /*! @copydoc ObjectDetectionAlgorithm::calculate()
+     */
     ObjectDetectionAlgorithm* createAlgorithm();
 
 private slots:

@@ -10,7 +10,11 @@ namespace math
 // Constants
 const double m_pi = 3.14159265358979323846;
 
-// Mathematical functions
+/**
+ * @brief A fast implementation of the square root function.
+ * @param num Number of which square root is taken.
+ * @return The square root of num.
+ */
 float sqrtFast(float num);
 
 } // namespace math

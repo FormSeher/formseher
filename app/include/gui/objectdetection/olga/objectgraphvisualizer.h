@@ -11,8 +11,16 @@ class ObjectGraph;
 class ObjectGraphVisualizer
 {
 public:
+    /**
+     * @brief ObjectGraphVisualizer standard constructor.
+     */
     ObjectGraphVisualizer();
 
+    /**
+     * @brief Draws given graph to given matrix.
+     * @param graph ObjectGraph to be drawn.
+     * @param matrix Matrix graph is drawn onto.
+     */
     static void drawGraphOnMatrix(const ObjectGraph* graph, cv::OutputArray matrix);
 };
 

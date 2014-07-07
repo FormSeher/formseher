@@ -9,8 +9,13 @@ namespace formseher
 class StubConfigDialog : public ObjectDetectionAlgorithmConfigDialog
 {
 public:
+    /**
+     * @brief StubConfigDialog standard constructor
+     */
     StubConfigDialog();
 
+    /*! @copydoc ObjecDetectionAlgorithmConfigDialog::createAlgorithm()
+     */
     ObjectDetectionAlgorithm* createAlgorithm();
 };
 

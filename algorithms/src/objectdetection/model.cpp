@@ -9,9 +9,9 @@ Model::Model()
 {
 }
 
-Model::Model(const Model &object)
+Model::Model(const Model &model)
 {
-    copy(object);
+    copy(model);
 }
 
 Model::~Model()

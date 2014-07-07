@@ -26,12 +26,37 @@ class AlgorithmControlWidget : public QWidget
     Q_OBJECT
 
 public:
+    /**
+     * @brief AlgorithmControlWidget standard constructor.
+     * @param parent Parent widget.
+     */
     explicit AlgorithmControlWidget(QWidget *parent = 0);
+
+    /**
+     * AlgorithmControlWidget destructor.
+     */
     ~AlgorithmControlWidget();
 
+    /**
+     * @brief Registers a LineDetectionAlgorithmConfigDialog.
+     * @param id Id to identify the dialog.
+     * @param dialog Pointer to instance of LineDetectionAlgorithmConfigDialog.
+     * @return True if registration was successful.
+     */
     bool registerLineAlgorithmConfigDialog(std::string id, LineDetectionAlgorithmConfigDialog* dialog);
+
+    /**
+     * @brief Registers a ObjectDetectionAlgorithmCOnfigDialog.
+     * @param id Id to identify the dialog.
+     * @param dialog Pointer to instance of ObjectDetectionAlgorithmConfigDialog.
+     * @return True if registration was successful.
+     */
     bool registerObjectAlgorithmConfigDialog(std::string id, ObjectDetectionAlgorithmConfigDialog* dialog);
 
+    /**
+     * @brief Set name of windows created by OpenCV.
+     * @param value Name of the window.
+     */
     void setCvWindowName(const std::string &value);
 
 private slots:
@@ -77,13 +102,29 @@ private slots:
     void on_objectLineThicknessBox_valueChanged(int);
 
 signals:
+    /**
+     * @brief Emited to signal a status change.
+     * @param statusString Description of the status change.
+     */
     void statusUpdate(QString statusString);
 
 private:
+    /**
+     * @brief Assigns the resultImage to the resultImageLabel.
+     */
     void updateImageLabel();
+
+    /**
+     * @brief Draws result of last algorithms run to resultImage.
+     */
     void updateResultImage();
 
+    /**
+     * @brief Returns current system time.
+     * @return Current system time in ms.
+     */
     double getTime();
+
     cv::Scalar randomcolor(QColor colorimput, int opt);
 
     Ui::AlgorithmControlWidget *ui;
@@ -103,7 +144,6 @@ private:
     std::string cvWindowName;
 
     VideoInput* webcam;
-
 };
 
 } // namespace formseher

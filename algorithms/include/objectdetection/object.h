@@ -9,8 +9,15 @@ namespace formseher
 class Object : public Model
 {
 public:
+    /**
+     * @brief Object standard constructor
+     */
     Object();
 
+    /**
+     * @brief Object copy constructor
+     * @param object Object that is copied.
+     */
     Object(const Object& object);
 
     /**
@@ -25,6 +32,9 @@ public:
      */
     float getRating();
 
+    /**
+     * @brief Clears the list of lines.
+     */
     void clearLines();
 
 private:
