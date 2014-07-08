@@ -6,6 +6,8 @@
 
 #include "pointercompare.h"
 
+using namespace formseher;
+
 class PointerCompareTest : public QObject
 {
 Q_OBJECT

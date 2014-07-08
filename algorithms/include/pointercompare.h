@@ -1,5 +1,8 @@
-#ifndef POINTERCOMPARE_H
-#define POINTERCOMPARE_H
+#ifndef FS_POINTERCOMPARE_H
+#define FS_POINTERCOMPARE_H
+
+namespace formseher
+{
 
 /**
  * @brief Class which provides less operator for pointer types.
@@ -23,4 +26,6 @@ public:
     }
 };
 
-#endif // POINTERCOMPARE_H
+} // namespace formseher
+
+#endif // FS_POINTERCOMPARE_H
