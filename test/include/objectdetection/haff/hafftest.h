@@ -91,8 +91,8 @@ private slots:
         QCOMPARE(objects.at(0).getName(), (std::string)"Object 2");
 
         haff.suppressedInsertion(objects, object3);
-        QCOMPARE(objects.size(), (size_t) 2);
-        QCOMPARE(objects.at(1).getName(), (std::string)"Object 3");
+        QCOMPARE(objects.size(), (size_t) 1);
+        QCOMPARE(objects.at(0).getName(), (std::string)"Object 2");
     }
 
 
