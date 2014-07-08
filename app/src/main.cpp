@@ -4,9 +4,9 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include "gui/edl/edlconfigdialog.h"
-#include "gui/edl2/edl2configdialog.h"
-#include "gui/hough/houghconfigdialog.h"
+#include "gui/linedetection/edl/edlconfigdialog.h"
+#include "gui/linedetection/edl2/edl2configdialog.h"
+#include "gui/linedetection/hough/houghconfigdialog.h"
 
 #include "gui/objectdetection/stub/stubconfigdialog.h"
 #include "gui/objectdetection/haff/haffconfigdialog.h"

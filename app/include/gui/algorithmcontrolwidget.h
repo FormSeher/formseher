@@ -8,7 +8,7 @@
 #include <QColorDialog>
 
 #include "linedetection/linedetectionalgorithm.h"
-#include "linedetectionalgorithmconfigdialog.h"
+#include "linedetection/linedetectionalgorithmconfigdialog.h"
 #include "objectdetection/objectdetectionalgorithm.h"
 #include "gui/objectdetection/objectdetectionalgorithmconfigdialog.h"
 #include "threading/algorithmcontroller.hpp"

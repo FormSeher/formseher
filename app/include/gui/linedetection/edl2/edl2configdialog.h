@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-#include "gui/linedetectionalgorithmconfigdialog.h"
+#include "gui/linedetection/linedetectionalgorithmconfigdialog.h"
 #include "linedetection/edl2/edl2.h"
 
 namespace Ui {

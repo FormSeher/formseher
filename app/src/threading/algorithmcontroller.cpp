@@ -2,7 +2,7 @@
 
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include "gui/linedetectionalgorithmconfigdialog.h"
+#include "gui/linedetection/linedetectionalgorithmconfigdialog.h"
 #include "gui/objectdetection/objectdetectionalgorithmconfigdialog.h"
 
 #include "threading/algorithmworker.h"

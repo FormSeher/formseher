@@ -1,4 +1,4 @@
-#include "gui/hough/houghconfigdialog.h"
+#include "gui/linedetection/hough/houghconfigdialog.h"
 #include "ui_houghconfigdialog.h"
 
 namespace formseher
