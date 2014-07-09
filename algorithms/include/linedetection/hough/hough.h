@@ -48,21 +48,60 @@ namespace formseher
 class Hough : public LineDetectionAlgorithm
 {
 public:
+
+    /**
+     * @brief hough line detection constructor
+     * @param checkEnvironmentSize : size of environment around points to be searched for start and end of lines
+     * @param maximalLineGap : maximum gap between two lines in order to be considered as one line
+     * @param minimumLineSize : minimum line length -> smaller lines will not be returned
+     */
     Hough(u_int16_t checkEnvironmentSize = 2, u_int16_t maximalLineGap = 9, u_int16_t minimumLineSize = 30);
     ~Hough();
 
+    /*! @copydoc LineDetectionAlgorithm::calculate()
+     */
     std::vector<Line> calculate(cv::InputArray _image);
 
 private:
 
+    /**
+     * @brief check environment of one point in order to know if there is a possible start- or endpoint or linepoint
+     * @param inputMatrix : canny edge picture
+     * @param currX : x value of point to check
+     * @param currY : y value of point to check
+     * @return true if in environment of checked point is a canny edge
+     */
     bool checkEnvironmentInRightAngle(cv::Mat& inputMatrix, double currX, double currY);
 
+    /**
+     * @brief calculate minVotes for hough transformation automatically
+     * @param inputCannyEdgePixelDensity : factor of all pixels / edge pixels
+     * @param inputEdgePixelCounter : number of edge pixels
+     * @return minVotes for hough transformation
+     */
     u_int16_t calculateMinimalVotes(u_int16_t inputCannyEdgePixelDensity, u_int16_t inputEdgePixelCounter);
 
+    /**
+     * @brief calculate greatest common divisor of two numbers
+     * @param a : number1
+     * @param b : number2
+     * @return return gcd
+     */
     u_int32_t calculateGreatestCommonDivisor(u_int32_t a, u_int32_t b);
 
+    /**
+     * @brief compare hough line with canny edge picture in order to receive start and endpoint of hough line
+     * @param outputLines : vector that new lines with start and endpoints are stored in
+     * @param inputLines : lines received from hough transformation
+     * @param inputCannyImage
+     */
     void compareHoughLinesWithCannyEdges(std::vector<Line>& outputLines, std::vector<cv::Vec2f>& inputLines, cv::Mat& inputCannyImage);
 
+    /**
+     * @brief create a canny edge image. This method also autoadjusts canny parameters in order to receive a propper result.
+     * @param outputCannyImage : image canny result is stored in
+     * @param inputGrayLevelImage : graylevel input image
+     */
     void getCannyImage(cv::Mat& outputCannyImage, cv::Mat& inputGrayLevelImage);
 
     cv::Vec2i lineDirection;
