@@ -16,8 +16,16 @@ class ObjectDetectionAlgorithmTeamBDialog : public ObjectDetectionAlgorithmConfi
     Q_OBJECT
 
 public:
+
+    /**
+     * @brief ObjectDetectionAlgorithmTeamBDialog constructor.
+     * @param parent Pointer to parent widget.
+     */
     explicit ObjectDetectionAlgorithmTeamBDialog(QWidget *parent = 0);
     ~ObjectDetectionAlgorithmTeamBDialog();
+
+    /*! @copydoc ObjectDetectionAlgorithm::calculate()
+     */
     ObjectDetectionAlgorithm* createAlgorithm();
 
 private slots:
