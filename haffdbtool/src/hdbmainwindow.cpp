@@ -179,6 +179,7 @@ void HDBMainWindow::slot_actionSettings_clicked()
 
 void HDBMainWindow::resizeEvent (QResizeEvent *event)
 {
+    (void) event;
     emit signal_windowResize();
 }
 
