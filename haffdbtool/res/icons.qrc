@@ -1,11 +1,12 @@
 <RCC>
     <qresource prefix="/icons">
         <file>application-exit.png</file>
-        <file>document-save.svg</file>
+        <file>document-save.png</file>
         <file>insert-image.png</file>
-        <file>ooo-base.svg</file>
-        <file>preferences-system.png</file>
-        <file>layer-shape-line.png</file>
         <file>layer-shape-line-add.png</file>
+        <file>layer-shape-line.png</file>
+        <file>ooo-base.png</file>
+        <file>ooo-base-add.png</file>
+        <file>preferences-system.png</file>
     </qresource>
 </RCC>
