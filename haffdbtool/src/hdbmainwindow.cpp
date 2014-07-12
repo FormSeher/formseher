@@ -14,6 +14,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QProcess>
+#include <QTextStream>
 
 HDBMainWindow::HDBMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -26,6 +27,7 @@ HDBMainWindow::HDBMainWindow(QWidget *parent) :
     // Slot connection
     connect(ui->actionOpenImage, SIGNAL(triggered()), this, SLOT(slot_actionOpenImage_clicked()));
     connect(ui->actionOpenDatabase, SIGNAL(triggered()), this, SLOT(slot_actionOpenDatabase_clicked()));
+    connect(ui->actionCreateDatabase, SIGNAL(triggered()), this, SLOT(slot_actionCreateDatabase_clicked()));
     connect(ui->actionSaveObject, SIGNAL(triggered()), this, SLOT(slot_actionSaveObject_clicked()));
     connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(slot_actionSettings_clicked()));
     connect(this, SIGNAL(signal_statusChange(QString)), ui->statusBar, SLOT(showMessage(QString)));
@@ -99,6 +101,40 @@ void HDBMainWindow::slot_actionOpenDatabase_clicked()
     catch(int e)
     {
         QMessageBox::critical(this, "Error!", "Could not open database.");
+    }
+}
+
+void HDBMainWindow::slot_actionCreateDatabase_clicked()
+{
+    try
+    {
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Create database"), QDir::homePath(), tr("Database file (*.json)"));
+
+        fileName += ".json";
+
+        if( ! QFile(fileName).exists() )
+        {
+            QFile file(fileName);
+            if(file.open(QIODevice::ReadWrite)){
+                QTextStream stream( &file );
+                stream << "";
+            }
+            file.close();
+
+            if(this->learningObject == nullptr)
+            {
+                learningObject = new LearningObject(QString(""));
+                connect_learningObjectSlots();
+            }
+
+            this->learningObject->setDatabase(fileName);
+
+            signal_statusChange(QString("Created Database..." + fileName));
+        }
+    }
+    catch(int e)
+    {
+        QMessageBox::critical(this, "Error!", "File already exists.");
     }
 }
 

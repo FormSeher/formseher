@@ -27,6 +27,7 @@ signals:
 
 private slots:
     void slot_actionOpenImage_clicked();
+    void slot_actionCreateDatabase_clicked();
     void slot_actionOpenDatabase_clicked();
     void slot_actionSaveObject_clicked();
     void slot_actionSettings_clicked();
