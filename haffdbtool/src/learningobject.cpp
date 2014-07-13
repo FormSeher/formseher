@@ -42,11 +42,6 @@ std::pair<std::vector<formseher::Line>, std::vector<formseher::Line> > LearningO
     return std::pair<std::vector<formseher::Line>, std::vector<formseher::Line>>(this->possibleLines, this->chosenLines);
 }
 
-QString LearningObject::getName() const
-{
-    return this->objectName;
-}
-
 QString LearningObject::getImagePath() const
 {
     return this->imagePath;
